@@ -10,9 +10,9 @@ relative_permalinks: true
 
 # Setup
 title:               Adi Reddy Mora
-tagline:             ''
+tagline:             '@adireddy'
 description:         ''
-url:                 http://lanyon.getpoole.com
+url:                 http://www.arm.rocks
 baseurl:             /
 paginate:            5
 
