@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
  <title>Adi Reddy Mora</title>
- <link href="http://lanyon.getpoole.com/atom.xml" rel="self"/>
- <link href="http://lanyon.getpoole.com/"/>
- <updated>2014-10-31T11:59:56+00:00</updated>
- <id>http://lanyon.getpoole.com</id>
+ <link href="http://www.arm.rocks/atom.xml" rel="self"/>
+ <link href="http://www.arm.rocks/"/>
+ <updated>2014-10-31T16:53:39+00:00</updated>
+ <id>http://www.arm.rocks</id>
  <author>
    <name>Adi Reddy Mora</name>
    <email>adiinteractive@gmail.com</email>
@@ -14,9 +14,9 @@
  
  <entry>
    <title>The Benefits of Transpiling to JavaScript?</title>
-   <link href="http://lanyon.getpoole.com/2014/10/31/benefits-of-transpiling-to-js/"/>
+   <link href="http://www.arm.rocks/2014/10/31/benefits-of-transpiling-to-js/"/>
    <updated>2014-10-31T00:00:00+00:00</updated>
-   <id>http://lanyon.getpoole.com/2014/10/31/benefits-of-transpiling-to-js</id>
+   <id>http://www.arm.rocks/2014/10/31/benefits-of-transpiling-to-js</id>
    <content type="html">&lt;p&gt;A beautiful article about “&lt;a href=&quot;http://io.pellucid.com/blog/the-benefits-of-transpiling-to-javascript&quot;&gt;The benefits of transpiling to JavaScript&lt;/a&gt;” by Franco Ponticelli.&lt;/p&gt;
 
 &lt;blockquote&gt;

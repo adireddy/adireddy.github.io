@@ -11,7 +11,7 @@ relative_permalinks: true
 # Setup
 title:               Adi Reddy Mora
 tagline:             '@adireddy'
-description:         ''
+description:         '"A Problem Is a Chance for You to Do Your Best" -- Duke Ellington'
 url:                 http://www.arm.rocks
 baseurl:             /
 paginate:            5
