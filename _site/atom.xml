@@ -4,13 +4,26 @@
  <title>Adi Reddy Mora</title>
  <link href="http://www.arm.rocks/atom.xml" rel="self"/>
  <link href="http://www.arm.rocks/"/>
- <updated>2014-10-31T16:53:39+00:00</updated>
+ <updated>2014-11-02T09:57:45+00:00</updated>
  <id>http://www.arm.rocks</id>
  <author>
    <name>Adi Reddy Mora</name>
    <email>adiinteractive@gmail.com</email>
  </author>
 
+ 
+ <entry>
+   <title>Haxe/OpenFL will soon be integrated with Flash CC IDE.</title>
+   <link href="http://www.arm.rocks/2014/11/02/openfl-in-flash-cc/"/>
+   <updated>2014-11-02T00:00:00+00:00</updated>
+   <id>http://www.arm.rocks/2014/11/02/openfl-in-flash-cc</id>
+   <content type="html">&lt;p&gt;With the new “&lt;a href=&quot;http://www.adobe.com/uk/products/flash/features.html&quot;&gt;Custom platform support&lt;/a&gt;” in Flash Professional CC, Haxe/OpenFL will soon be available in Flash IDE which is a great news for Haxe developers.&lt;/p&gt;
+
+&lt;p&gt;Look at Joshua Granick &lt;a href=&quot;http://max.adobe.com/sessions/max-online/#/video/567&quot;&gt;quick demo&lt;/a&gt; showing how it works.&lt;/p&gt;
+
+&lt;p&gt;You can skip to Haxe/OpenFL demo which starts at around 25:00.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>The Benefits of Transpiling to JavaScript?</title>
