@@ -45,17 +45,3 @@ As per the official documentation,
   > It is not always easy to judge if a function is ideal for inline. Short functions that have no writing expressions (such as a = value) are usually a good choice, but even more complex functions can be candidates. However, in some cases inlining can actually be detrimental to performance, e.g. because the compiler has to create temporary variables for complex expressions.
 
 Note that “inline” can be totally disabled by passing compiler argument _--no-inline_.
-
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'adireddy';
-    var disqus_url = 'http://adireddy.github.io{{ page.url }}';
-
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>

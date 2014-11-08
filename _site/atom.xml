@@ -4,7 +4,7 @@
  <title>Adi Reddy Mora</title>
  <link href="http://www.arm.rocks/atom.xml" rel="self"/>
  <link href="http://www.arm.rocks/"/>
- <updated>2014-11-08T20:50:36+00:00</updated>
+ <updated>2014-11-08T21:26:56+00:00</updated>
  <id>http://www.arm.rocks</id>
  <author>
    <name>Adi Reddy Mora</name>
@@ -47,26 +47,6 @@
 &lt;/blockquote&gt;
 
 &lt;p&gt;Note that “inline” can be totally disabled by passing compiler argument &lt;em&gt;--no-inline&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://twitter.com/share&quot; class=&quot;twitter-share-button&quot; data-via=&quot;adireddy&quot;&gt;Tweet&lt;/a&gt;
-&lt;script&gt;!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=&amp;quot;//platform.twitter.com/widgets.js&amp;quot;;fjs.parentNode.insertBefore(js,fjs);}}(document,&amp;quot;script&amp;quot;,&amp;quot;twitter-wjs&amp;quot;);&lt;/script&gt;&lt;/p&gt;
-
-&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
-
-&lt;script type=&quot;text/javascript&quot;&gt;
-    var disqus_shortname = &#39;adireddy&#39;;
-    var disqus_url = &#39;http://adireddy.github.io/2014/11/08/never-keyword/&#39;;
-
-    (function() {
-        var dsq = document.createElement(&#39;script&#39;); dsq.type = &#39;text/javascript&#39;; dsq.async = true;
-        dsq.src = &#39;http://&#39; + disqus_shortname + &#39;.disqus.com/embed.js&#39;;
-        (document.getElementsByTagName(&#39;head&#39;)[0] || document.getElementsByTagName(&#39;body&#39;)[0]).appendChild(dsq);
-    })();
-&lt;/script&gt;
-
-&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;http://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://disqus.com&quot; class=&quot;dsq-brlink&quot;&gt;blog comments powered by &lt;span class=&quot;logo-disqus&quot;&gt;Disqus&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 </content>
  </entry>
  
@@ -80,26 +60,6 @@
 &lt;p&gt;Look at Joshua Granick &lt;a href=&quot;http://max.adobe.com/sessions/max-online/#/video/567&quot;&gt;quick demo&lt;/a&gt; showing how it works.&lt;/p&gt;
 
 &lt;p&gt;You can skip to Haxe/OpenFL demo which starts at around 25:00.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://twitter.com/share&quot; class=&quot;twitter-share-button&quot; data-via=&quot;adireddy&quot;&gt;Tweet&lt;/a&gt;
-&lt;script&gt;!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=&amp;quot;//platform.twitter.com/widgets.js&amp;quot;;fjs.parentNode.insertBefore(js,fjs);}}(document,&amp;quot;script&amp;quot;,&amp;quot;twitter-wjs&amp;quot;);&lt;/script&gt;&lt;/p&gt;
-
-&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
-
-&lt;script type=&quot;text/javascript&quot;&gt;
-    var disqus_shortname = &#39;adireddy&#39;;
-    var disqus_url = &#39;http://adireddy.github.io/2014/11/02/openfl-in-flash-cc/&#39;;
-
-    (function() {
-        var dsq = document.createElement(&#39;script&#39;); dsq.type = &#39;text/javascript&#39;; dsq.async = true;
-        dsq.src = &#39;http://&#39; + disqus_shortname + &#39;.disqus.com/embed.js&#39;;
-        (document.getElementsByTagName(&#39;head&#39;)[0] || document.getElementsByTagName(&#39;body&#39;)[0]).appendChild(dsq);
-    })();
-&lt;/script&gt;
-
-&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;http://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://disqus.com&quot; class=&quot;dsq-brlink&quot;&gt;blog comments powered by &lt;span class=&quot;logo-disqus&quot;&gt;Disqus&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 </content>
  </entry>
  
@@ -113,26 +73,6 @@
 &lt;blockquote&gt;
 &lt;p&gt;A transpiler is a type of compiler that takes the source code of a programming language as its input and outputs the source code of another programming language.&lt;/p&gt;
 &lt;/blockquote&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://twitter.com/share&quot; class=&quot;twitter-share-button&quot; data-via=&quot;adireddy&quot;&gt;Tweet&lt;/a&gt;
-&lt;script&gt;!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=&amp;quot;//platform.twitter.com/widgets.js&amp;quot;;fjs.parentNode.insertBefore(js,fjs);}}(document,&amp;quot;script&amp;quot;,&amp;quot;twitter-wjs&amp;quot;);&lt;/script&gt;&lt;/p&gt;
-
-&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
-
-&lt;script type=&quot;text/javascript&quot;&gt;
-    var disqus_shortname = &#39;adireddy&#39;;
-    var disqus_url = &#39;http://adireddy.github.io/2014/10/31/benefits-of-transpiling-to-js/&#39;;
-
-    (function() {
-        var dsq = document.createElement(&#39;script&#39;); dsq.type = &#39;text/javascript&#39;; dsq.async = true;
-        dsq.src = &#39;http://&#39; + disqus_shortname + &#39;.disqus.com/embed.js&#39;;
-        (document.getElementsByTagName(&#39;head&#39;)[0] || document.getElementsByTagName(&#39;body&#39;)[0]).appendChild(dsq);
-    })();
-&lt;/script&gt;
-
-&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;http://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://disqus.com&quot; class=&quot;dsq-brlink&quot;&gt;blog comments powered by &lt;span class=&quot;logo-disqus&quot;&gt;Disqus&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 </content>
  </entry>
  
