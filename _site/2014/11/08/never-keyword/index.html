@@ -11,7 +11,7 @@
 
   <title>
     
-      The Benefits of Transpiling to JavaScript? &middot; Adi Reddy Mora
+      Haxe "never" and "inline" keywords. &middot; Adi Reddy Mora
     
   </title>
 
@@ -87,13 +87,38 @@
 
       <div class="container content">
         <div class="post">
-  <h1 class="post-title">The Benefits of Transpiling to JavaScript?</h1>
-  <span class="post-date">31 Oct 2014</span>
-  <p>A beautiful article about “<a href="http://io.pellucid.com/blog/the-benefits-of-transpiling-to-javascript">The benefits of transpiling to JavaScript</a>” by Franco Ponticelli.</p>
+  <h1 class="post-title">Haxe "never" and "inline" keywords.</h1>
+  <span class="post-date">08 Nov 2014</span>
+  <p>There is no “const” keyword in Haxe to define constants like in ActionScript.</p>
+
+<p>So “never” keyword can be used to define constants/read-only variables as shown below.</p>
+<div class="highlight"><pre><code class="language-haxe" data-lang="haxe"><span class="kd">public</span> <span class="kd">var</span> MAX_COUNT<span class="p">(</span><span class="k">default</span><span class="p">,</span> <span class="k">never</span><span class="p">):</span><span class="n">Int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+</code></pre></div>
+<p>If you try to set the value of MAX<em>COUNT, compiler will throw an error saying “</em>Cannot access field or identifier MAX<em>COUNT for writing</em>”.</p>
+
+<p>For static variables and functions “inline” keyword can be used as a powerful optimization tool.</p>
+
+<p>The following is a way to define static constant/read-only variables using “inline”.</p>
+<div class="highlight"><pre><code class="language-haxe" data-lang="haxe"><span class="kd">public</span> <span class="kd">static</span> <span class="kd">inline</span> <span class="kd">var</span> MAX_COUNT<span class="p">:</span><span class="n">Int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+</code></pre></div>
+<p>“inline” should be carefully used with functions as not all functions will be ideal candidates for optimization.</p>
+<div class="highlight"><pre><code class="language-haxe" data-lang="haxe"><span class="kd">public</span> <span class="kd">static</span> <span class="kd">inline</span> <span class="kd">function</span> <span class="nf">stageCenter</span><span class="p">(</span><span class="n">sw</span><span class="p">:</span><span class="n">Float</span><span class="p">,</span> <span class="n">iw</span><span class="p">:</span><span class="n">Float</span><span class="p">):</span><span class="n">Float</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">sw</span> <span class="o">-</span> <span class="n">iw</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>At run-time the function call</p>
+<div class="highlight"><pre><code class="language-haxe" data-lang="haxe"><span class="kd">var</span> pos <span class="o">=</span> <span class="n">stageCenter</span><span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
+</code></pre></div>
+<p>will be translated to the following by eliminating the function call.</p>
+<div class="highlight"><pre><code class="language-haxe" data-lang="haxe"><span class="kd">var</span> pos <span class="o">=</span> <span class="p">(</span><span class="mi">800</span> <span class="o">-</span> <span class="mi">100</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+</code></pre></div>
+<p>As per the official documentation,</p>
 
 <blockquote>
-<p>A transpiler is a type of compiler that takes the source code of a programming language as its input and outputs the source code of another programming language.</p>
+<p>It is not always easy to judge if a function is ideal for inline. Short functions that have no writing expressions (such as a = value) are usually a good choice, but even more complex functions can be candidates. However, in some cases inlining can actually be detrimental to performance, e.g. because the compiler has to create temporary variables for complex expressions.</p>
 </blockquote>
+
+<p>Note that “inline” can be totally disabled by passing compiler argument <em>--no-inline</em>.</p>
 
 <p><a href="https://twitter.com/share" class="twitter-share-button" data-via="adireddy">Tweet</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=&quot;//platform.twitter.com/widgets.js&quot;;fjs.parentNode.insertBefore(js,fjs);}}(document,&quot;script&quot;,&quot;twitter-wjs&quot;);</script></p>
@@ -102,7 +127,7 @@
 
 <script type="text/javascript">
     var disqus_shortname = 'adireddy';
-    var disqus_url = 'http://adireddy.github.io/2014/10/31/benefits-of-transpiling-to-js/';
+    var disqus_url = 'http://adireddy.github.io/2014/11/08/never-keyword/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -123,18 +148,18 @@
     
       <li>
         <h3>
-          <a href="//2014/11/08/never-keyword/">
-            Haxe "never" and "inline" keywords.
-            <small>08 Nov 2014</small>
+          <a href="//2014/11/02/openfl-in-flash-cc/">
+            Haxe/OpenFL will soon be integrated with Flash CC IDE.
+            <small>02 Nov 2014</small>
           </a>
         </h3>
       </li>
     
       <li>
         <h3>
-          <a href="//2014/11/02/openfl-in-flash-cc/">
-            Haxe/OpenFL will soon be integrated with Flash CC IDE.
-            <small>02 Nov 2014</small>
+          <a href="//2014/10/31/benefits-of-transpiling-to-js/">
+            The Benefits of Transpiling to JavaScript?
+            <small>31 Oct 2014</small>
           </a>
         </h3>
       </li>
