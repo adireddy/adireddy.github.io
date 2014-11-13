@@ -3,7 +3,7 @@ layout: post
 title: Haxe at work?
 ---
 
-Over the last 2-3 years I have been exploring Haxe and OpenFL personally but now I am really happy and excited to be able to officially code in Haxe at work.
+Over the last 2-3 years I have been exploring Haxe and OpenFL personally but now I am on cloud nine because I can officially code in Haxe at work.
 
 I should thank my company [Gamesys](http://www.gamesyscorporate.com) for giving the opportunity to showcase what Haxe can do.
 
