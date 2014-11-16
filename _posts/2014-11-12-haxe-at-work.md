@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Haxe at Work
+title: Haxe at Work.
 ---
 
 Over the last 2-3 years I have been exploring Haxe and OpenFL personally but now I am on cloud nine because I can officially use Haxe at work.
