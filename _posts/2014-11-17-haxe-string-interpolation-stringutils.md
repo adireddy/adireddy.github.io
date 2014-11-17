@@ -3,7 +3,7 @@ layout: post
 title: Haxe String Interpolation and StringTools.
 ---
 
-String interpolation is common in many programming languages including modern languages like Dart, Swift, etc and I am glad it is also available in Haxe.
+String interpolation is common in many programming languages including modern languages like [Dart](https://www.dartlang.org/articles/idiomatic-dart/#strings-and-interpolation), [Swift](https://developer.apple.com/library/ios/documentation/swift/conceptual/Swift_Programming_Language/StringsAndCharacters.html), etc and I am glad it is also available in Haxe.
 
 String interpolation provides an intuitive way of formatting strings in place of string concatenation. It is a compile-time feature and has no impact on the runtime in Haxe. 
 

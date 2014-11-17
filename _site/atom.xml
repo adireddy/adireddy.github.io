@@ -4,7 +4,7 @@
  <title>Adi Reddy Mora</title>
  <link href="http://www.arm.rocks/atom.xml" rel="self"/>
  <link href="http://www.arm.rocks/"/>
- <updated>2014-11-17T00:12:12+00:00</updated>
+ <updated>2014-11-17T00:18:52+00:00</updated>
  <id>http://www.arm.rocks</id>
  <author>
    <name>Adi Reddy Mora</name>
@@ -17,7 +17,7 @@
    <link href="http://www.arm.rocks/2014/11/17/haxe-string-interpolation-stringutils/"/>
    <updated>2014-11-17T00:00:00+00:00</updated>
    <id>http://www.arm.rocks/2014/11/17/haxe-string-interpolation-stringutils</id>
-   <content type="html">&lt;p&gt;String interpolation is common in many programming languages including modern languages like Dart, Swift, etc and I am glad it is also available in Haxe.&lt;/p&gt;
+   <content type="html">&lt;p&gt;String interpolation is common in many programming languages including modern languages like &lt;a href=&quot;https://www.dartlang.org/articles/idiomatic-dart/#strings-and-interpolation&quot;&gt;Dart&lt;/a&gt;, &lt;a href=&quot;https://developer.apple.com/library/ios/documentation/swift/conceptual/Swift_Programming_Language/StringsAndCharacters.html&quot;&gt;Swift&lt;/a&gt;, etc and I am glad it is also available in Haxe.&lt;/p&gt;
 
 &lt;p&gt;String interpolation provides an intuitive way of formatting strings in place of string concatenation. It is a compile-time feature and has no impact on the runtime in Haxe. &lt;/p&gt;
 
