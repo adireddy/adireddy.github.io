@@ -4,13 +4,93 @@
  <title>Adi Reddy Mora</title>
  <link href="http://www.arm.rocks/atom.xml" rel="self"/>
  <link href="http://www.arm.rocks/"/>
- <updated>2014-11-08T21:30:02+00:00</updated>
+ <updated>2014-11-17T00:12:12+00:00</updated>
  <id>http://www.arm.rocks</id>
  <author>
    <name>Adi Reddy Mora</name>
    <email>adiinteractive@gmail.com</email>
  </author>
 
+ 
+ <entry>
+   <title>Haxe String Interpolation and StringTools.</title>
+   <link href="http://www.arm.rocks/2014/11/17/haxe-string-interpolation-stringutils/"/>
+   <updated>2014-11-17T00:00:00+00:00</updated>
+   <id>http://www.arm.rocks/2014/11/17/haxe-string-interpolation-stringutils</id>
+   <content type="html">&lt;p&gt;String interpolation is common in many programming languages including modern languages like Dart, Swift, etc and I am glad it is also available in Haxe.&lt;/p&gt;
+
+&lt;p&gt;String interpolation provides an intuitive way of formatting strings in place of string concatenation. It is a compile-time feature and has no impact on the runtime in Haxe. &lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;$&lt;/code&gt; sign should be used for placeholders and string should be enclosed in single-quote &lt;code&gt;&amp;#39;&lt;/code&gt; character as shown in the example below.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; winnings&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Float&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; bonus&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Float&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;trace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Player won £&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;winnings&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//Player won £10&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;trace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Player won £&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;winnings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bonus&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt; including bonus&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//Player won £12 including bonus&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Next, StringTools is another useful class for advanced string manipulation and formatting. It&amp;#39;s kept seperate to keep the core String class light and this class can be used based on the application needs.&lt;/p&gt;
+
+&lt;p&gt;StringTools should be used as a static extension to the String class with &lt;code&gt;using&lt;/code&gt; keyword as shown below.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;&lt;span class=&quot;kn&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;StringTools&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Main&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; str &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;apples and bananas&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; newStr &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;bananas&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;grapes&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;trace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;newStr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//apples and grapes&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;trace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;newStr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;endsWith&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;grapes&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//true&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Definition of Static Extension as per the official documentation:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;A static extension allows pseudo-extending existing types without modifying their source. In Haxe this is achieved by declaring a static method with a first argument of the extending type and then bringing the defining class into context through &lt;code&gt;using&lt;/code&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Haxe at Work.</title>
+   <link href="http://www.arm.rocks/2014/11/12/haxe-at-work/"/>
+   <updated>2014-11-12T00:00:00+00:00</updated>
+   <id>http://www.arm.rocks/2014/11/12/haxe-at-work</id>
+   <content type="html">&lt;p&gt;Over the last 2-3 years I have been exploring Haxe and OpenFL personally but now I am on cloud nine because I can officially use Haxe at work.&lt;/p&gt;
+
+&lt;p&gt;I should thank my company &lt;a href=&quot;http://www.gamesyscorporate.com&quot;&gt;Gamesys&lt;/a&gt; for giving the opportunity to showcase the power of Haxe and how it can benefit the company and the developers.&lt;/p&gt;
+
+&lt;p&gt;I managed to convince the team and got them excited as well, so looking forward to develop cool stuff using Haxe :)&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;“The idea of waiting for something makes it more exciting” ― Andy Warhol&lt;/p&gt;
+&lt;/blockquote&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Why Haxe?</title>
+   <link href="http://www.arm.rocks/2014/11/11/why-haxe/"/>
+   <updated>2014-11-11T00:00:00+00:00</updated>
+   <id>http://www.arm.rocks/2014/11/11/why-haxe</id>
+   <content type="html">&lt;p&gt;Haxe is simple, lightweight, easy to learn, yet a very powerful strictly typed language with lightning fast compiler.&lt;/p&gt;
+
+&lt;p&gt;If your main target is JavaScript like me, Haxe can be a better coding option than coding in JavaScript directly. Haxe will transpile your code to clean and efficient JavaScript.&lt;/p&gt;
+
+&lt;p&gt;There are a lot of useful libraries readily available at &lt;a href=&quot;http://lib.haxe.org&quot;&gt;lib.haxe.org&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I have created haxe externs for some popular JavaScript libraries and there are few libraries available from others listed below together.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://adireddy.github.io/haxe-pixi&quot;&gt;haxe-pixi&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://adireddy.github.io/haxe-howler&quot;&gt;haxe-howler&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://adireddy.github.io/haxe-buzz&quot;&gt;haxe-buzz&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/adireddy/haxe-p2&quot;&gt;haxe-p2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/luizbills/stats.js.hx&quot;&gt;stats.js.hx&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/Blank101/haxe-phaser&quot;&gt;haxe-phaser&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/adireddy/haxe-threejs&quot;&gt;haxe-threejs&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Haxe "never" and "inline" keywords.</title>
@@ -64,7 +144,7 @@
  </entry>
  
  <entry>
-   <title>The Benefits of Transpiling to JavaScript?</title>
+   <title>The Benefits of Transpiling to JavaScript.</title>
    <link href="http://www.arm.rocks/2014/10/31/benefits-of-transpiling-to-js/"/>
    <updated>2014-10-31T00:00:00+00:00</updated>
    <id>http://www.arm.rocks/2014/10/31/benefits-of-transpiling-to-js</id>

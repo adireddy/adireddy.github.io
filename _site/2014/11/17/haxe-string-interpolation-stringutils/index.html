@@ -11,7 +11,7 @@
 
   <title>
     
-      The Benefits of Transpiling to JavaScript. &middot; Adi Reddy Mora
+      Haxe String Interpolation and StringTools. &middot; Adi Reddy Mora
     
   </title>
 
@@ -95,12 +95,37 @@
 
       <div class="container content">
         <div class="post">
-  <h1 class="post-title">The Benefits of Transpiling to JavaScript.</h1>
-  <span class="post-date">31 Oct 2014</span>
-  <p>A beautiful article about “<a href="http://io.pellucid.com/blog/the-benefits-of-transpiling-to-javascript">The benefits of transpiling to JavaScript</a>” by Franco Ponticelli.</p>
+  <h1 class="post-title">Haxe String Interpolation and StringTools.</h1>
+  <span class="post-date">17 Nov 2014</span>
+  <p>String interpolation is common in many programming languages including modern languages like Dart, Swift, etc and I am glad it is also available in Haxe.</p>
+
+<p>String interpolation provides an intuitive way of formatting strings in place of string concatenation. It is a compile-time feature and has no impact on the runtime in Haxe. </p>
+
+<p><code>$</code> sign should be used for placeholders and string should be enclosed in single-quote <code>&#39;</code> character as shown in the example below.</p>
+<div class="highlight"><pre><code class="language-haxe" data-lang="haxe"><span class="kd">var</span> winnings<span class="p">:</span><span class="n">Float</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="kd">var</span> bonus<span class="p">:</span><span class="n">Float</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="n">trace</span><span class="p">(</span><span class="s1">&#39;Player won £</span><span class="si">$</span><span class="n">winnings</span><span class="s1">&#39;</span><span class="p">);</span> <span class="c1">//Player won £10</span>
+<span class="n">trace</span><span class="p">(</span><span class="s1">&#39;Player won £</span><span class="si">${</span><span class="n">winnings</span> <span class="o">+</span> <span class="n">bonus</span><span class="si">}</span><span class="s1"> including bonus&#39;</span><span class="p">);</span>
+<span class="c1">//Player won £12 including bonus</span>
+</code></pre></div>
+<p>Next, StringTools is another useful class for advanced string manipulation and formatting. It&#39;s kept seperate to keep the core String class light and this class can be used based on the application needs.</p>
+
+<p>StringTools should be used as a static extension to the String class with <code>using</code> keyword as shown below.</p>
+<div class="highlight"><pre><code class="language-haxe" data-lang="haxe"><span class="kn">using</span> <span class="nn">StringTools</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="n">Main</span> <span class="p">{</span>
+    <span class="kd">static</span> <span class="kd">public</span> <span class="kd">function</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> str <span class="o">=</span> <span class="s2">&quot;apples and bananas&quot;</span><span class="p">;</span>
+        <span class="kd">var</span> newStr <span class="o">=</span> <span class="n">str</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;bananas&quot;</span><span class="p">,</span> <span class="s2">&quot;grapes&quot;</span><span class="p">);</span>
+        <span class="n">trace</span><span class="p">(</span><span class="n">newStr</span><span class="p">);</span> <span class="c1">//apples and grapes</span>
+        <span class="n">trace</span><span class="p">(</span><span class="n">newStr</span><span class="p">.</span><span class="n">endsWith</span><span class="p">(</span><span class="s2">&quot;grapes&quot;</span><span class="p">));</span> <span class="c1">//true</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Definition of Static Extension as per the official documentation:</p>
 
 <blockquote>
-<p>A transpiler is a type of compiler that takes the source code of a programming language as its input and outputs the source code of another programming language.</p>
+<p>A static extension allows pseudo-extending existing types without modifying their source. In Haxe this is achieved by declaring a static method with a first argument of the extending type and then bringing the defining class into context through <code>using</code>.</p>
 </blockquote>
 
 </div>
@@ -110,7 +135,7 @@
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'adireddy';
-    var disqus_url = 'http://adireddy.github.io/2014/10/31/benefits-of-transpiling-to-js/';
+    var disqus_url = 'http://adireddy.github.io/2014/11/17/haxe-string-interpolation-stringutils/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -127,15 +152,6 @@
         
         <li>
             <h3>
-                <a href="http://adireddy.github.io/2014/11/17/haxe-string-interpolation-stringutils/">
-                    Haxe String Interpolation and StringTools.
-                    <small>17 Nov 2014</small>
-                </a>
-            </h3>
-        </li>
-        
-        <li>
-            <h3>
                 <a href="http://adireddy.github.io/2014/11/12/haxe-at-work/">
                     Haxe at Work.
                     <small>12 Nov 2014</small>
@@ -148,6 +164,15 @@
                 <a href="http://adireddy.github.io/2014/11/11/why-haxe/">
                     Why Haxe?
                     <small>11 Nov 2014</small>
+                </a>
+            </h3>
+        </li>
+        
+        <li>
+            <h3>
+                <a href="http://adireddy.github.io/2014/11/08/never-inline-keywords/">
+                    Haxe "never" and "inline" keywords.
+                    <small>08 Nov 2014</small>
                 </a>
             </h3>
         </li>
