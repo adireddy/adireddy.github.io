@@ -27,8 +27,28 @@
 
   <!-- RSS -->
   <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
-</head>
 
+  <!-- shareaholic -->
+  <script type="text/javascript">
+  //<![CDATA[
+    (function() {
+      var shr = document.createElement('script');
+      shr.setAttribute('data-cfasync', 'false');
+      shr.src = '//dsms0mj1bbhn4.cloudfront.net/assets/pub/shareaholic.js';
+      shr.type = 'text/javascript'; shr.async = 'true';
+      shr.onload = shr.onreadystatechange = function() {
+        var rs = this.readyState;
+        if (rs && rs != 'complete' && rs != 'loaded') return;
+        var site_id = '564a1c0907e119d5f3d2aa9543f54721';
+        try { Shareaholic.init(site_id); } catch (e) {}
+      };
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(shr, s);
+    })();
+  //]]>
+  </script>
+
+</head>
 
   <body>
 
@@ -88,7 +108,7 @@
         <div class="container">
           <h3 class="masthead-title">
             <a href="/" title="Home">Adi Reddy Mora</a>
-            <small>@adireddy</small>
+            <small>@adireddy - arm.rocks</small>
           </h3>
         </div>
       </div>
@@ -130,7 +150,7 @@
 
 </div>
 
-<a href="https://twitter.com/share" class="twitter-share-button" data-via="adireddy">Tweet</a>
+<div class='shareaholic-canvas' data-app='share_buttons' data-app-id='12477381'></div>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
