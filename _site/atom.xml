@@ -4,13 +4,74 @@
  <title>Adi Reddy Mora</title>
  <link href="http://www.arm.rocks/atom.xml" rel="self"/>
  <link href="http://www.arm.rocks/"/>
- <updated>2014-11-18T10:36:36+00:00</updated>
+ <updated>2014-11-19T18:00:00+00:00</updated>
  <id>http://www.arm.rocks</id>
  <author>
    <name>Adi Reddy Mora</name>
    <email>adiinteractive@gmail.com</email>
  </author>
 
+ 
+ <entry>
+   <title>Haxe default Access Modifiers and Return Types.</title>
+   <link href="http://www.arm.rocks/2014/11/20/haxe-access-modifiers-return-types/"/>
+   <updated>2014-11-20T00:00:00+00:00</updated>
+   <id>http://www.arm.rocks/2014/11/20/haxe-access-modifiers-return-types</id>
+   <content type="html">&lt;p&gt;A quick look at default access modifiers and return types in classes, interfaces and externs.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Classes:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Default access modifier is &lt;code&gt;private&lt;/code&gt; if none specified.&lt;/li&gt;
+&lt;li&gt;Default return type is &lt;code&gt;Void&lt;/code&gt; if none specified.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Test&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;//private variable&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; _count&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;//constructor&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;//private function and return type is Void&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;_increaseCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;_count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Interfaces and Externs:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Default access modifier is &lt;code&gt;public&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Return type is compulsory for functions. Failing so will result in compile time error &lt;code&gt;Type required for extern classes and interfaces&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ITest&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;//public variable&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; count&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;//public function&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;increaseCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;When implementing the above interface you need to specify &lt;code&gt;public&lt;/code&gt; access modifier to variable &lt;code&gt;count&lt;/code&gt; and function &lt;code&gt;increaseCount&lt;/code&gt;. Failing so will result in the following compile time errors.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Field count should be public as requested by ITest&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Field increaseCount should be public as requested by ITest&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Interesting fact from the official documentation:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Haxe has no &lt;code&gt;protected&lt;/code&gt; keyword like in ActionScript, Java, etc. However, its &lt;code&gt;private&lt;/code&gt; behavior is equal to those language&amp;#39;s &lt;code&gt;protected&lt;/code&gt; behavior, so in reality Haxe lacks in &lt;code&gt;private&lt;/code&gt; behavior.&lt;/p&gt;
+&lt;/blockquote&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Haxe String Interpolation and StringTools.</title>
@@ -28,7 +89,7 @@
 &lt;span class=&quot;n&quot;&gt;trace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Player won £&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;winnings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bonus&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt; including bonus&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;span class=&quot;c1&quot;&gt;//Player won £12 including bonus&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Next, StringTools is another useful class for advanced string manipulation and formatting. It&amp;#39;s kept seperate to keep the core String class light and this class can be used based on the application needs.&lt;/p&gt;
+&lt;p&gt;Next, StringTools is another useful class for advanced string manipulation and formatting. It&amp;#39;s kept separate to keep the core String class light and this class can be used based on the application needs.&lt;/p&gt;
 
 &lt;p&gt;StringTools should be used as a static extension to the String class with &lt;code&gt;using&lt;/code&gt; keyword as shown below.&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;&lt;span class=&quot;kn&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;StringTools&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
@@ -137,7 +198,7 @@
    <id>http://www.arm.rocks/2014/11/02/openfl-in-flash-cc</id>
    <content type="html">&lt;p&gt;With the new “&lt;a href=&quot;http://www.adobe.com/uk/products/flash/features.html&quot;&gt;Custom platform support&lt;/a&gt;” in Flash Professional CC, Haxe/OpenFL will soon be available in Flash IDE which is a great news for Haxe developers.&lt;/p&gt;
 
-&lt;p&gt;Look at Joshua Granick &lt;a href=&quot;http://max.adobe.com/sessions/max-online/#/video/567&quot;&gt;quick demo&lt;/a&gt; showing how it works.&lt;/p&gt;
+&lt;p&gt;Look at Joshua Granick&amp;#39;s &lt;a href=&quot;http://max.adobe.com/sessions/max-online/#/video/567&quot;&gt;quick demo&lt;/a&gt; showing how it works.&lt;/p&gt;
 
 &lt;p&gt;You can skip to Haxe/OpenFL demo which starts at around 25:00.&lt;/p&gt;
 </content>

@@ -118,6 +118,71 @@
   
   <div class="post">
     <h1 class="post-title">
+      <a href="/2014/11/20/haxe-access-modifiers-return-types/">
+        Haxe default Access Modifiers and Return Types.
+      </a>
+    </h1>
+
+    <span class="post-date">20 Nov 2014</span>
+
+    <p>A quick look at default access modifiers and return types in classes, interfaces and externs.</p>
+
+<p><strong>Classes:</strong></p>
+
+<ul>
+<li>Default access modifier is <code>private</code> if none specified.</li>
+<li>Default return type is <code>Void</code> if none specified.</li>
+</ul>
+<div class="highlight"><pre><code class="language-haxe" data-lang="haxe"><span class="kn">package</span> <span class="p">;</span>
+<span class="kd">class</span> <span class="n">Test</span> <span class="p">{</span>
+
+    <span class="c1">//private variable</span>
+    <span class="kd">var</span> _count<span class="p">:</span><span class="n">Int</span><span class="p">;</span>
+
+    <span class="c1">//constructor</span>
+    <span class="kd">public</span> <span class="kd">function</span> <span class="nf">new</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="p">}</span>
+
+    <span class="c1">//private function and return type is Void</span>
+    <span class="kd">function</span> <span class="nf">_increaseCount</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">_count</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Interfaces and Externs:</strong></p>
+
+<ul>
+<li>Default access modifier is <code>public</code>.</li>
+<li>Return type is compulsory for functions. Failing so will result in compile time error <code>Type required for extern classes and interfaces</code></li>
+</ul>
+<div class="highlight"><pre><code class="language-haxe" data-lang="haxe"><span class="kn">package</span> <span class="p">;</span>
+<span class="kd">interface</span> <span class="n">ITest</span> <span class="p">{</span>
+
+    <span class="c1">//public variable</span>
+    <span class="kd">var</span> count<span class="p">:</span><span class="n">Int</span><span class="p">;</span>
+
+    <span class="c1">//public function</span>
+    <span class="kd">function</span> <span class="nf">increaseCount</span><span class="p">():</span><span class="n">Void</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>When implementing the above interface you need to specify <code>public</code> access modifier to variable <code>count</code> and function <code>increaseCount</code>. Failing so will result in the following compile time errors.</p>
+
+<ul>
+<li><code>Field count should be public as requested by ITest</code></li>
+<li><code>Field increaseCount should be public as requested by ITest</code>.</li>
+</ul>
+
+<p>Interesting fact from the official documentation:</p>
+
+<blockquote>
+<p>Haxe has no <code>protected</code> keyword like in ActionScript, Java, etc. However, its <code>private</code> behavior is equal to those language&#39;s <code>protected</code> behavior, so in reality Haxe lacks in <code>private</code> behavior.</p>
+</blockquote>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
       <a href="/2014/11/17/haxe-string-interpolation-stringutils/">
         Haxe String Interpolation and StringTools.
       </a>
@@ -136,7 +201,7 @@
 <span class="n">trace</span><span class="p">(</span><span class="s1">&#39;Player won £</span><span class="si">${</span><span class="n">winnings</span> <span class="o">+</span> <span class="n">bonus</span><span class="si">}</span><span class="s1"> including bonus&#39;</span><span class="p">);</span>
 <span class="c1">//Player won £12 including bonus</span>
 </code></pre></div>
-<p>Next, StringTools is another useful class for advanced string manipulation and formatting. It&#39;s kept seperate to keep the core String class light and this class can be used based on the application needs.</p>
+<p>Next, StringTools is another useful class for advanced string manipulation and formatting. It&#39;s kept separate to keep the core String class light and this class can be used based on the application needs.</p>
 
 <p>StringTools should be used as a static extension to the String class with <code>using</code> keyword as shown below.</p>
 <div class="highlight"><pre><code class="language-haxe" data-lang="haxe"><span class="kn">using</span> <span class="nn">StringTools</span><span class="p">;</span>
@@ -247,23 +312,6 @@
 </blockquote>
 
 <p>Note that “inline” can be totally disabled by passing compiler argument <em>--no-inline</em>.</p>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2014/11/02/openfl-in-flash-cc/">
-        Haxe/OpenFL will soon be integrated with Flash CC IDE.
-      </a>
-    </h1>
-
-    <span class="post-date">02 Nov 2014</span>
-
-    <p>With the new “<a href="http://www.adobe.com/uk/products/flash/features.html">Custom platform support</a>” in Flash Professional CC, Haxe/OpenFL will soon be available in Flash IDE which is a great news for Haxe developers.</p>
-
-<p>Look at Joshua Granick <a href="http://max.adobe.com/sessions/max-online/#/video/567">quick demo</a> showing how it works.</p>
-
-<p>You can skip to Haxe/OpenFL demo which starts at around 25:00.</p>
 
   </div>
   

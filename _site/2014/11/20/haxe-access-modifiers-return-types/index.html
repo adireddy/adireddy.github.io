@@ -11,7 +11,7 @@
 
   <title>
     
-      Haxe at Work. &middot; Adi Reddy Mora
+      Haxe default Access Modifiers and Return Types. &middot; Adi Reddy Mora
     
   </title>
 
@@ -115,16 +115,60 @@
 
       <div class="container content">
         <div class="post">
-  <h1 class="post-title">Haxe at Work.</h1>
-  <span class="post-date">12 Nov 2014</span>
-  <p>Over the last 2-3 years I have been exploring Haxe and OpenFL personally but now I am on cloud nine because I can officially use Haxe at work.</p>
+  <h1 class="post-title">Haxe default Access Modifiers and Return Types.</h1>
+  <span class="post-date">20 Nov 2014</span>
+  <p>A quick look at default access modifiers and return types in classes, interfaces and externs.</p>
 
-<p>I should thank my company <a href="http://www.gamesyscorporate.com">Gamesys</a> for giving the opportunity to showcase the power of Haxe and how it can benefit the company and the developers.</p>
+<p><strong>Classes:</strong></p>
 
-<p>I managed to convince the team and got them excited as well, so looking forward to develop cool stuff using Haxe :)</p>
+<ul>
+<li>Default access modifier is <code>private</code> if none specified.</li>
+<li>Default return type is <code>Void</code> if none specified.</li>
+</ul>
+<div class="highlight"><pre><code class="language-haxe" data-lang="haxe"><span class="kn">package</span> <span class="p">;</span>
+<span class="kd">class</span> <span class="n">Test</span> <span class="p">{</span>
+
+    <span class="c1">//private variable</span>
+    <span class="kd">var</span> _count<span class="p">:</span><span class="n">Int</span><span class="p">;</span>
+
+    <span class="c1">//constructor</span>
+    <span class="kd">public</span> <span class="kd">function</span> <span class="nf">new</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="p">}</span>
+
+    <span class="c1">//private function and return type is Void</span>
+    <span class="kd">function</span> <span class="nf">_increaseCount</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">_count</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Interfaces and Externs:</strong></p>
+
+<ul>
+<li>Default access modifier is <code>public</code>.</li>
+<li>Return type is compulsory for functions. Failing so will result in compile time error <code>Type required for extern classes and interfaces</code></li>
+</ul>
+<div class="highlight"><pre><code class="language-haxe" data-lang="haxe"><span class="kn">package</span> <span class="p">;</span>
+<span class="kd">interface</span> <span class="n">ITest</span> <span class="p">{</span>
+
+    <span class="c1">//public variable</span>
+    <span class="kd">var</span> count<span class="p">:</span><span class="n">Int</span><span class="p">;</span>
+
+    <span class="c1">//public function</span>
+    <span class="kd">function</span> <span class="nf">increaseCount</span><span class="p">():</span><span class="n">Void</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>When implementing the above interface you need to specify <code>public</code> access modifier to variable <code>count</code> and function <code>increaseCount</code>. Failing so will result in the following compile time errors.</p>
+
+<ul>
+<li><code>Field count should be public as requested by ITest</code></li>
+<li><code>Field increaseCount should be public as requested by ITest</code>.</li>
+</ul>
+
+<p>Interesting fact from the official documentation:</p>
 
 <blockquote>
-<p>“The idea of waiting for something makes it more exciting” ― Andy Warhol</p>
+<p>Haxe has no <code>protected</code> keyword like in ActionScript, Java, etc. However, its <code>private</code> behavior is equal to those language&#39;s <code>protected</code> behavior, so in reality Haxe lacks in <code>private</code> behavior.</p>
 </blockquote>
 
 </div>
@@ -134,7 +178,7 @@
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'adireddy';
-    var disqus_url = 'http://adireddy.github.io/2014/11/12/haxe-at-work/';
+    var disqus_url = 'http://adireddy.github.io/2014/11/20/haxe-access-modifiers-return-types/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -151,18 +195,18 @@
         
         <li>
             <h3>
-                <a href="http://adireddy.github.io/2014/11/20/haxe-access-modifiers-return-types/">
-                    Haxe default Access Modifiers and Return Types.
-                    <small>20 Nov 2014</small>
+                <a href="http://adireddy.github.io/2014/11/17/haxe-string-interpolation-stringutils/">
+                    Haxe String Interpolation and StringTools.
+                    <small>17 Nov 2014</small>
                 </a>
             </h3>
         </li>
         
         <li>
             <h3>
-                <a href="http://adireddy.github.io/2014/11/17/haxe-string-interpolation-stringutils/">
-                    Haxe String Interpolation and StringTools.
-                    <small>17 Nov 2014</small>
+                <a href="http://adireddy.github.io/2014/11/12/haxe-at-work/">
+                    Haxe at Work.
+                    <small>12 Nov 2014</small>
                 </a>
             </h3>
         </li>
