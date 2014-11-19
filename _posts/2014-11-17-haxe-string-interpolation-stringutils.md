@@ -17,7 +17,7 @@ trace('Player won £${winnings + bonus} including bonus');
 //Player won £12 including bonus
 ```
 
-Next, StringTools is another useful class for advanced string manipulation and formatting. It's kept seperate to keep the core String class light and this class can be used based on the application needs.
+Next, StringTools is another useful class for advanced string manipulation and formatting. It's kept separate to keep the core String class light and this class can be used based on the application needs.
 
 StringTools should be used as a static extension to the String class with `using` keyword as shown below.
 
