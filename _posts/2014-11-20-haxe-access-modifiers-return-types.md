@@ -1,0 +1,68 @@
+---
+layout: post
+title: Haxe default Access Modifiers and Return Types.
+---
+
+Any developers out there coming from ActionScript or Java background like me, the default access modifiers and return types in Haxe are a bit different. So let's have a quick look at them in classes, interfaces and externs.
+
+**Classes:**
+
+- Default access modifier is `private` if none specified.
+- Default return type is `Void` if none specified.
+
+```haxe
+package ;
+class Test {
+
+	//private variable
+	var _count:Int;
+	
+	//constructor
+	public function new() {
+	
+	}
+	
+	//private function and return type is Void
+	function _increaseCount() {
+		_count++;
+	}
+}
+```
+
+**Interfaces and Externs:**
+
+- Default access modifier is `public`.
+- Return type is compulsory for functions. Failing so will result in compile time error `Type required for extern classes and interfaces`
+
+```haxe
+package ;
+interface ITest {
+
+	//public variable
+	var count:Int;
+	
+	//public function
+	function increaseCount():Void;
+}
+```
+
+When implementing the above interface you need to specify `public` access modifier to variable `count` and function `increaseCount` as shown below. Failing so will result in the following compile time errors.
+
+- `Field count should be public as requested by ITest`
+- `Field increaseCount should be public as requested by ITest`.
+
+```haxe
+package ;
+class Test implements ITest {
+
+	public var count:Int = 10;
+	
+	public function increaseCount():Void {
+		count++;
+	}
+}
+```
+
+Interesting fact from the official documentation about `protected`:
+
+> Haxe has no `protected` keyword like in ActionScript, Java, etc. However, its `private` behavior is equal to those language's `protected` behavior, so in reality Haxe lacks in `private` behavior.

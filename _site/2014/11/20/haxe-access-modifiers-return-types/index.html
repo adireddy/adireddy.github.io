@@ -120,7 +120,7 @@
         <div class="post">
   <h1 class="post-title">Haxe default Access Modifiers and Return Types.</h1>
   <span class="post-date">20 Nov 2014</span>
-  <p>A quick look at default access modifiers and return types in classes, interfaces and externs.</p>
+  <p>Any developers out there coming from ActionScript or Java background like me, the default access modifiers and return types in Haxe are a bit different. So let&#39;s have a quick look at them in classes, interfaces and externs.</p>
 
 <p><strong>Classes:</strong></p>
 
@@ -161,14 +161,23 @@
     <span class="kd">function</span> <span class="nf">increaseCount</span><span class="p">():</span><span class="n">Void</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>When implementing the above interface you need to specify <code>public</code> access modifier to variable <code>count</code> and function <code>increaseCount</code>. Failing so will result in the following compile time errors.</p>
+<p>When implementing the above interface you need to specify <code>public</code> access modifier to variable <code>count</code> and function <code>increaseCount</code> as shown below. Failing so will result in the following compile time errors.</p>
 
 <ul>
 <li><code>Field count should be public as requested by ITest</code></li>
 <li><code>Field increaseCount should be public as requested by ITest</code>.</li>
 </ul>
+<div class="highlight"><pre><code class="language-haxe" data-lang="haxe"><span class="kn">package</span> <span class="p">;</span>
+<span class="kd">class</span> <span class="n">Test</span> <span class="kd">implements</span> <span class="n">ITest</span> <span class="p">{</span>
 
-<p>Interesting fact from the official documentation:</p>
+    <span class="kd">public</span> <span class="kd">var</span> count<span class="p">:</span><span class="n">Int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+    <span class="kd">public</span> <span class="kd">function</span> <span class="nf">increaseCount</span><span class="p">():</span><span class="n">Void</span> <span class="p">{</span>
+        <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Interesting fact from the official documentation about <code>protected</code>:</p>
 
 <blockquote>
 <p>Haxe has no <code>protected</code> keyword like in ActionScript, Java, etc. However, its <code>private</code> behavior is equal to those language&#39;s <code>protected</code> behavior, so in reality Haxe lacks in <code>private</code> behavior.</p>

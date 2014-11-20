@@ -128,7 +128,7 @@
 
     <span class="post-date">20 Nov 2014</span>
 
-    <p>A quick look at default access modifiers and return types in classes, interfaces and externs.</p>
+    <p>Any developers out there coming from ActionScript or Java background like me, the default access modifiers and return types in Haxe are a bit different. So let&#39;s have a quick look at them in classes, interfaces and externs.</p>
 
 <p><strong>Classes:</strong></p>
 
@@ -169,14 +169,23 @@
     <span class="kd">function</span> <span class="nf">increaseCount</span><span class="p">():</span><span class="n">Void</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>When implementing the above interface you need to specify <code>public</code> access modifier to variable <code>count</code> and function <code>increaseCount</code>. Failing so will result in the following compile time errors.</p>
+<p>When implementing the above interface you need to specify <code>public</code> access modifier to variable <code>count</code> and function <code>increaseCount</code> as shown below. Failing so will result in the following compile time errors.</p>
 
 <ul>
 <li><code>Field count should be public as requested by ITest</code></li>
 <li><code>Field increaseCount should be public as requested by ITest</code>.</li>
 </ul>
+<div class="highlight"><pre><code class="language-haxe" data-lang="haxe"><span class="kn">package</span> <span class="p">;</span>
+<span class="kd">class</span> <span class="n">Test</span> <span class="kd">implements</span> <span class="n">ITest</span> <span class="p">{</span>
 
-<p>Interesting fact from the official documentation:</p>
+    <span class="kd">public</span> <span class="kd">var</span> count<span class="p">:</span><span class="n">Int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+    <span class="kd">public</span> <span class="kd">function</span> <span class="nf">increaseCount</span><span class="p">():</span><span class="n">Void</span> <span class="p">{</span>
+        <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Interesting fact from the official documentation about <code>protected</code>:</p>
 
 <blockquote>
 <p>Haxe has no <code>protected</code> keyword like in ActionScript, Java, etc. However, its <code>private</code> behavior is equal to those language&#39;s <code>protected</code> behavior, so in reality Haxe lacks in <code>private</code> behavior.</p>
@@ -204,7 +213,7 @@
 <span class="n">trace</span><span class="p">(</span><span class="s1">&#39;Player won £</span><span class="si">${</span><span class="n">winnings</span> <span class="o">+</span> <span class="n">bonus</span><span class="si">}</span><span class="s1"> including bonus&#39;</span><span class="p">);</span>
 <span class="c1">//Player won £12 including bonus</span>
 </code></pre></div>
-<p>Next, StringTools is another useful class for advanced string manipulation and formatting. It&#39;s kept separate to keep the core String class light and this class can be used based on the application needs.</p>
+<p>Next, <strong>StringTools</strong> is another useful class for advanced string manipulation and formatting. It&#39;s kept separate to keep the core String class light and this class can be used based on the application needs.</p>
 
 <p>StringTools should be used as a static extension to the String class with <code>using</code> keyword as shown below.</p>
 <div class="highlight"><pre><code class="language-haxe" data-lang="haxe"><span class="kn">using</span> <span class="nn">StringTools</span><span class="p">;</span>
