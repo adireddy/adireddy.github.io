@@ -32,7 +32,7 @@ class Test {
 **Interfaces and Externs:**
 
 - Default access modifier is `public`.
-- Return type is compulsory for functions. Failing so will result in compile time error `Type required for extern classes and interfaces`
+- Specifying return value type is compulsory for functions. Failing so will result in compile time error `Type required for extern classes and interfaces`
 
 ```haxe
 package ;
