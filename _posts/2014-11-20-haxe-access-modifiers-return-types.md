@@ -3,7 +3,7 @@ layout: post
 title: Haxe default Access Modifiers and Return Value Type.
 ---
 
-Any developers out there coming from ActionScript or Java background like me, the default access modifiers and return types in Haxe are a bit different. So let's have a quick look at them in classes, interfaces and externs.
+Any developers out there coming from ActionScript or Java background like me, the default access modifiers and return type in Haxe are a bit different. So let's have a quick look at them in classes, interfaces and externs.
 
 **Classes:**
 
