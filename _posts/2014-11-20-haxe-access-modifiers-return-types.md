@@ -8,7 +8,7 @@ Any developers out there coming from ActionScript or Java background like me, th
 **Classes:**
 
 - Default access modifier is `private` if none specified.
-- Default function return value type is `Void` if none specified.
+- Default function return value type is `Void` if there is no return expression or if the return expression has no argument.
 
 ```haxe
 package ;
@@ -22,9 +22,17 @@ class Test {
 	
 	}
 	
-	//private function and return value type is Void
+	//private function
+	//no return expression, so return value type is Void
 	function _increaseCount() {
 		_count++;
+	}
+	
+	//private function
+	//return expression has no argument, so return value type is Void
+	function _resetCount() {
+		if (_count < 10) return;
+		_count = 0;
 	}
 }
 ```
