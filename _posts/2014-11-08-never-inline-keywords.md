@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Haxe "never" and "inline" keywords.
+title: Haxe "never" and "inline" keywords
 ---
 
 There is no “const” keyword in Haxe to define constants like in ActionScript.
