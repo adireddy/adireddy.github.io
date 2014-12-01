@@ -1026,7 +1026,7 @@ function windowTitle()
 					<div class="header">
 		<h3>
 			<a name="generateTexture()"></a>
-	<span class="name">generateTexture</span>(renderer : Dynamic) : Void
+	<span class="name">generateTexture</span>(resolution : Float, scaleMode : Int, ?renderer : <a href="../../pixi/renderers/webgl/WebGLRenderer.html" class="type">pixi.renderers.webgl.WebGLRenderer</a>) : <a href="../../pixi/textures/Texture.html" class="type">pixi.textures.Texture</a>
 		</h3>
 
 				<div class="inherited">inherited from <a href="../../pixi/display/DisplayObject.html#generateTexture()">pixi.display.DisplayObject</a></div>
@@ -1036,8 +1036,14 @@ function windowTitle()
 				<!-- deprecated -->
 				<!-- type params -->
 				<!-- method call parameters -->
-				<!-- method return types comments -->
-				<!-- method throws -->
+					<dt>parameters</dt>
+					<dd><code>resolution</code> {Number} The resolution of the texture being generated</dd>
+									<dd><code>scaleMode</code> {Number} Should be one of the PIXI.scaleMode consts</dd>
+									<dd><code>renderer</code> {CanvasRenderer|WebGLRenderer} The renderer used to generate the texture.</dd>
+											<!-- method return types comments -->
+					<dt>returns</dt>
+					<dd>{Texture} a texture of the graphics object</dd>
+											<!-- method throws -->
 				<!-- requires -->
 				<!-- see -->
 				<!-- todo -->
@@ -1047,7 +1053,10 @@ function windowTitle()
 			<!-- platforms -->
 					</dl>
 			<!-- Comment block -->
-	</div>
+		<div class="comment"> Useful function that returns a texture of the displayObject object that can then be used to create sprites
+      This can be quite useful if your displayObject is static / complicated and needs to be reused multiple times.
+</div>
+		</div>
 				</div>
 			</span>
 					<span class="hideInheritedMethod">
