@@ -69,18 +69,18 @@ ul.types, ul.packages, #packages-header ul{
 }
 
 #types-frame h1, #packages-frame h1 {
-	font-size: 77%;
-	font-weight: bold;
-	padding: 2px;
+	font-size: 85%;
+	padding: 6px;
 	color: #ffffff;
-	background-color: #666666;
+	background-color: #205081;
 	text-align: center;
 }
 
 #packages-frame h2 {
-	font-size: 77%;
+	font-size: 85%;
 	padding: 2px;
-	border-bottom: 1px solid #666666;
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #819FF7;
 	text-align: center;
 	margin-bottom: 0.75em;
 }
@@ -261,16 +261,17 @@ div.inherited, div.overrides {
 #todo h1, #overview h1 {
 	font-size: 113%;
 	font-weight: bold;
-	padding: 2px;
+	padding: 6px;
 	color: #ffffff;
-	background-color: #666666;
+	background-color: #205081;
 	text-align: center;
 }
 
 #todo h2, #overview h2 {
 	font-size: 100%;
 	padding: 2px;
-	border-bottom: 1px solid #666666;
+    background-color: #FFFFFF;
+	border-bottom: 1px solid #819FF7;
 	text-align: center;
 	margin-bottom: 0.75em;
 }

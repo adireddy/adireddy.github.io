@@ -17,13 +17,13 @@ Std.random = function(x) {
 var demos = {};
 demos.nape = {};
 demos.nape.Main = function() {
-	this._stage = new PIXI.Stage(13158);
+	this._stage = new PIXI.Stage(65535);
 	this._renderer = PIXI.autoDetectRenderer(800,600);
 	window.document.body.appendChild(this._renderer.view);
 	this._balls = [];
 	this._pballs = [];
 	this._setUpPhysics();
-	var timer = new haxe.Timer(500);
+	var timer = new haxe.Timer(1000);
 	timer.run = $bind(this,this._addBall);
 	window.requestAnimationFrame($bind(this,this.animate));
 };
@@ -48,7 +48,7 @@ demos.nape.Main.prototype = {
 			return $r;
 		}(this)));
 		this._floor.setShapeMaterials(nape.phys.Material.wood());
-		this._floor.zpp_inner.wrap_shapes.add(new nape.shape.Polygon(nape.shape.Polygon.rect(0,595,800,1)));
+		this._floor.zpp_inner.wrap_shapes.add(new nape.shape.Polygon(nape.shape.Polygon.rect(0,59,800,1)));
 		this._floor.set_space(this._space);
 	}
 	,_addBall: function() {
