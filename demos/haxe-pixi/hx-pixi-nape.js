@@ -48,7 +48,7 @@ demos.nape.Main.prototype = {
 			return $r;
 		}(this)));
 		this._floor.setShapeMaterials(nape.phys.Material.wood());
-		this._floor.zpp_inner.wrap_shapes.add(new nape.shape.Polygon(nape.shape.Polygon.rect(0,59,800,1)));
+		this._floor.zpp_inner.wrap_shapes.add(new nape.shape.Polygon(nape.shape.Polygon.rect(0,595,800,1)));
 		this._floor.set_space(this._space);
 	}
 	,_addBall: function() {
