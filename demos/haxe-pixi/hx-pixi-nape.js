@@ -35,8 +35,6 @@ demos.nape.Main.prototype = {
 	_setUpPhysics: function() {
 		var gravity = nape.geom.Vec2.get(0,600,true);
 		this._space = new nape.space.Space(gravity);
-		var w = 800;
-		var h = 600;
 		this._floor = new nape.phys.Body((function($this) {
 			var $r;
 			if(zpp_nape.util.ZPP_Flags.BodyType_STATIC == null) {
