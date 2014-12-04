@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Haxe pixi.js externs API
+title: Haxe pixi.js externs API (using chxdoc)
 ---
 
 I was playing with documentation generator library [chxdoc](https://github.com/ibilon/chxdoc) this week and amazingly it covered all the basics I needed for generating API documentation.
