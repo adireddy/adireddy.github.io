@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>pixi/textures/RenderTexture.hx - haxe-pixi</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="haxe-pixi"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 2.1.9</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AbstractFilter.html">AbstractFilter</a></li>
+                                <li><a href="../classes/AlphaMaskFilter.html">AlphaMaskFilter</a></li>
+                                <li><a href="../classes/AsciiFilter.html">AsciiFilter</a></li>
+                                <li><a href="../classes/AssetLoader.html">AssetLoader</a></li>
+                                <li><a href="../classes/AtlasLoader.html">AtlasLoader</a></li>
+                                <li><a href="../classes/BaseTexture.html">BaseTexture</a></li>
+                                <li><a href="../classes/BitmapFontLoader.html">BitmapFontLoader</a></li>
+                                <li><a href="../classes/BitmapText.html">BitmapText</a></li>
+                                <li><a href="../classes/BlurFilter.html">BlurFilter</a></li>
+                                <li><a href="../classes/BlurXFilter.html">BlurXFilter</a></li>
+                                <li><a href="../classes/BlurYFilter.html">BlurYFilter</a></li>
+                                <li><a href="../classes/CanvasBuffer.html">CanvasBuffer</a></li>
+                                <li><a href="../classes/CanvasGraphics.html">CanvasGraphics</a></li>
+                                <li><a href="../classes/CanvasMaskManager.html">CanvasMaskManager</a></li>
+                                <li><a href="../classes/CanvasRenderer.html">CanvasRenderer</a></li>
+                                <li><a href="../classes/Circle.html">Circle</a></li>
+                                <li><a href="../classes/ColorMatrixFilter.html">ColorMatrixFilter</a></li>
+                                <li><a href="../classes/ColorStepFilter.html">ColorStepFilter</a></li>
+                                <li><a href="../classes/ComplexPrimitiveShader.html">ComplexPrimitiveShader</a></li>
+                                <li><a href="../classes/ConvolutionFilter.html">ConvolutionFilter</a></li>
+                                <li><a href="../classes/CrossHatchFilter.html">CrossHatchFilter</a></li>
+                                <li><a href="../classes/Detector.html">Detector</a></li>
+                                <li><a href="../classes/DisplacementFilter.html">DisplacementFilter</a></li>
+                                <li><a href="../classes/DisplayObject.html">DisplayObject</a></li>
+                                <li><a href="../classes/DisplayObjectContainer.html">DisplayObjectContainer</a></li>
+                                <li><a href="../classes/DotScreenFilter.html">DotScreenFilter</a></li>
+                                <li><a href="../classes/Ellipse.html">Ellipse</a></li>
+                                <li><a href="../classes/Event.html">Event</a></li>
+                                <li><a href="../classes/EventTarget.html">EventTarget</a></li>
+                                <li><a href="../classes/FilterBlock.html">FilterBlock</a></li>
+                                <li><a href="../classes/FilterTexture.html">FilterTexture</a></li>
+                                <li><a href="../classes/Graphics.html">Graphics</a></li>
+                                <li><a href="../classes/GrayFilter.html">GrayFilter</a></li>
+                                <li><a href="../classes/ImageLoader.html">ImageLoader</a></li>
+                                <li><a href="../classes/InteractionData.html">InteractionData</a></li>
+                                <li><a href="../classes/InteractionManager.html">InteractionManager</a></li>
+                                <li><a href="../classes/InvertFilter.html">InvertFilter</a></li>
+                                <li><a href="../classes/JsonLoader.html">JsonLoader</a></li>
+                                <li><a href="../classes/Matrix.html">Matrix</a></li>
+                                <li><a href="../classes/MovieClip.html">MovieClip</a></li>
+                                <li><a href="../classes/NoiseFilter.html">NoiseFilter</a></li>
+                                <li><a href="../classes/NormalMapFilter.html">NormalMapFilter</a></li>
+                                <li><a href="../classes/PixelateFilter.html">PixelateFilter</a></li>
+                                <li><a href="../classes/PixiFastShader.html">PixiFastShader</a></li>
+                                <li><a href="../classes/PixiShader.html">PixiShader</a></li>
+                                <li><a href="../classes/Point.html">Point</a></li>
+                                <li><a href="../classes/Polygon.html">Polygon</a></li>
+                                <li><a href="../classes/PrimitiveShader.html">PrimitiveShader</a></li>
+                                <li><a href="../classes/Rectangle.html">Rectangle</a></li>
+                                <li><a href="../classes/RenderTexture.html">RenderTexture</a></li>
+                                <li><a href="../classes/RGBSplitFilter.html">RGBSplitFilter</a></li>
+                                <li><a href="../classes/Rope.html">Rope</a></li>
+                                <li><a href="../classes/SepiaFilter.html">SepiaFilter</a></li>
+                                <li><a href="../classes/SmartBlurFilter.html">SmartBlurFilter</a></li>
+                                <li><a href="../classes/Spine.html">Spine</a></li>
+                                <li><a href="../classes/SpineLoader.html">SpineLoader</a></li>
+                                <li><a href="../classes/Sprite.html">Sprite</a></li>
+                                <li><a href="../classes/SpriteBatch.html">SpriteBatch</a></li>
+                                <li><a href="../classes/SpriteSheetLoader.html">SpriteSheetLoader</a></li>
+                                <li><a href="../classes/Stage.html">Stage</a></li>
+                                <li><a href="../classes/Strip.html">Strip</a></li>
+                                <li><a href="../classes/StripShader.html">StripShader</a></li>
+                                <li><a href="../classes/Text.html">Text</a></li>
+                                <li><a href="../classes/Texture.html">Texture</a></li>
+                                <li><a href="../classes/TilingSprite.html">TilingSprite</a></li>
+                                <li><a href="../classes/TiltShiftFilter.html">TiltShiftFilter</a></li>
+                                <li><a href="../classes/TiltShiftXFilter.html">TiltShiftXFilter</a></li>
+                                <li><a href="../classes/TiltShiftYFilter.html">TiltShiftYFilter</a></li>
+                                <li><a href="../classes/TwistFilter.html">TwistFilter</a></li>
+                                <li><a href="../classes/WebGLFastSpriteBatch.html">WebGLFastSpriteBatch</a></li>
+                                <li><a href="../classes/WebGLFilterManager.html">WebGLFilterManager</a></li>
+                                <li><a href="../classes/WebGLMaskManager.html">WebGLMaskManager</a></li>
+                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
+                                <li><a href="../classes/WebGLShaderManager.html">WebGLShaderManager</a></li>
+                                <li><a href="../classes/WebGLSpriteBatch.html">WebGLSpriteBatch</a></li>
+                                <li><a href="../classes/WebGLStencilManager.html">WebGLStencilManager</a></li>
+                            </ul>
+                
+                            <ul id="api-modules" class="apis modules">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: pixi/textures/RenderTexture.hx</h1>
+                        
+                        <div class="file">
+                            <pre class="code prettyprint linenums">
+                        package pixi.textures;
+                        
+                        import pixi.core.Matrix;
+                        import pixi.display.DisplayObject;
+                        import js.html.Image;
+                        import js.html.CanvasElement;
+                        import pixi.renderers.canvas.CanvasRenderer;
+                        import pixi.renderers.webgl.WebGLRenderer;
+                        
+                        @:native(&quot;PIXI.RenderTexture&quot;)
+                        extern class RenderTexture extends Texture {
+                        
+                        	/**
+                        	 * A RenderTexture is a special texture that allows any Pixi display object to be rendered to it.
+                        	 *
+                        	 * __Hint__: All DisplayObjects (i.e. Sprites) that render to a RenderTexture should be preloaded otherwise black rectangles will be drawn instead.
+                        	 *
+                        	 * A RenderTexture takes a snapshot of any Display Object given to its render method. The position and rotation of the given Display Objects is ignored. For example:
+                        	 *
+                        	 *    var renderTexture = new PIXI.RenderTexture(800, 600);
+                        	 *    var sprite = PIXI.Sprite.fromImage(&quot;spinObj_01.png&quot;);
+                        	 *    sprite.position.x = 800/2;
+                        	 *    sprite.position.y = 600/2;
+                        	 *    sprite.anchor.x = 0.5;
+                        	 *    sprite.anchor.y = 0.5;
+                        	 *    renderTexture.render(sprite);
+                        	 *
+                        	 * The Sprite in this case will be rendered to a position of 0,0. To render this sprite at its actual position a DisplayObjectContainer should be used:
+                        	 *
+                        	 *    var doc = new PIXI.DisplayObjectContainer();
+                        	 *    doc.addChild(sprite);
+                        	 *    renderTexture.render(doc);  // Renders to center of renderTexture
+                        	 *
+                        	 * @class RenderTexture
+                        	 * @extends Texture
+                        	 * @constructor
+                        	 * @param [width] {Float} The width of the render texture
+                        	 * @param [height] {Float} The height of the render texture
+                        	 * @param [renderer] {CanvasRenderer|WebGLRenderer} The renderer used for this RenderTexture
+                        	 * @param [scaleMode] {Int} Should be one of the PIXI.scaleMode consts
+                        	 * @param [resolution] {Float} The resolution of the texture being generated
+                        	 */
+                        	@:overload(function(?width:Float, ?height:Float, ?renderer:CanvasRenderer, ?scaleMode:Int, ?resolution:Float):Void {})
+                        	function new(?width:Float, ?height:Float, ?renderer:WebGLRenderer, ?scaleMode:Int, ?resolution:Float);
+                        
+                        	/**
+                        	 * This function will draw the display object to the texture.
+                        	 *
+                        	 * @method renderWebGL/renderCanvas
+                        	 * @param displayObject {DisplayObject} The display object to render this texture on
+                        	 * @param [matrix] {Matrix} Optional matrix to apply to the display object before rendering.
+                        	 * @param [clear] {Bool} If true the texture will be cleared before the displayObject is drawn
+                        	 */
+                        	var render:DisplayObject -&gt; Matrix -&gt; Bool -&gt; Void;
+                        
+                        	/**
+                        	 * Resize the RenderTexture.
+                        	 *
+                        	 * @method resize
+                        	 * @param width {Float} The width to resize to.
+                        	 * @param height {Float} The height to resize to.
+                        	 * @param [updateBase] {Bool} Should the baseTexture.width and height values be resized as well?
+                        	 */
+                        	function resize(width:Float, height:Float, ?updateBase:Bool):Void;
+                        
+                        	/**
+                        	 * Clears the RenderTexture.
+                        	 *
+                        	 * @method clear
+                        	 */
+                        	function clear():Void;
+                        
+                        	/**
+                        	 * Will return a a base64 encoded string of this texture. It works by calling RenderTexture.getCanvas and then running toDataURL on that.
+                        	 *
+                        	 * @method getBase64
+                        	 * @return {String} A base64 encoded string of the texture.
+                        	 */
+                        	function getBase64():String;
+                        
+                        	/**
+                        	 * Creates a Canvas element, renders this RenderTexture to it and then returns it.
+                        	 *
+                        	 * @method getCanvas
+                        	 * @return {CanvasElement} A Canvas element with the texture rendered on.
+                        	 */
+                        	function getCanvas():CanvasElement;
+                        
+                        	/**
+                        	 * Will return a HTML Image of the texture
+                        	 *
+                        	 * @method getImage
+                        	 * @return {HTMLImage}
+                        	 */
+                        	function getImage():Image;
+                        
+                        	/**
+                        	 * The renderer this RenderTexture uses. A RenderTexture can only belong to one renderer at the moment if its webGL.
+                        	 *
+                        	 * @property renderer
+                        	 * @type CanvasRenderer|WebGLRenderer
+                        	 */
+                        	var renderer:Dynamic;
+                        
+                        	/**
+                        	 * The Resolution of the texture.
+                        	 *
+                        	 * @property resolution
+                        	 * @type Number
+                        	 */
+                        	var resolution:Float;
+                        }
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
