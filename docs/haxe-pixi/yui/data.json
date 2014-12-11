@@ -950,7 +950,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "pixi/display/Sprite.hx",
-            "line": 13,
+            "line": 11,
             "description": "The Sprite object is the base for all textured objects that are rendered to the screen",
             "extends": "DisplayObjectContainer",
             "is_constructor": 1,
@@ -3039,7 +3039,8 @@
                 {
                     "name": "matrix",
                     "description": "",
-                    "type": "Matrix"
+                    "type": "Matrix",
+                    "optional": true
                 }
             ],
             "return": {
@@ -3107,7 +3108,7 @@
                     "type": "Point"
                 },
                 {
-                    "name": "from",
+                    "name": "frm",
                     "description": "The DisplayObject to calculate the global position from",
                     "type": "DisplayObject",
                     "optional": true
@@ -3605,7 +3606,7 @@
         },
         {
             "file": "pixi/display/DisplayObjectContainer.hx",
-            "line": 52,
+            "line": 51,
             "description": "Adds a child to the container at a specified index. If the index is out of bounds an error will be thrown",
             "itemtype": "method",
             "name": "addChildAt",
@@ -3625,13 +3626,13 @@
         },
         {
             "file": "pixi/display/DisplayObjectContainer.hx",
-            "line": 62,
+            "line": 60,
             "description": "Swaps the position of 2 Display Objects within this container.",
             "itemtype": "method",
             "name": "swapChildren",
             "params": [
                 {
-                    "name": "child",
+                    "name": "child1",
                     "description": "",
                     "type": "DisplayObject"
                 },
@@ -3645,7 +3646,7 @@
         },
         {
             "file": "pixi/display/DisplayObjectContainer.hx",
-            "line": 74,
+            "line": 69,
             "description": "Returns the child at the specified index",
             "itemtype": "method",
             "name": "getChildAt",
@@ -3656,11 +3657,15 @@
                     "type": "Int"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "DisplayObject"
+            },
             "class": "DisplayObjectContainer"
         },
         {
             "file": "pixi/display/DisplayObjectContainer.hx",
-            "line": 83,
+            "line": 78,
             "description": "Removes a child from the container.",
             "itemtype": "method",
             "name": "removeChild",
@@ -3675,7 +3680,7 @@
         },
         {
             "file": "pixi/display/DisplayObjectContainer.hx",
-            "line": 92,
+            "line": 86,
             "description": "Removes a child from the specified index position in the child list of the container.",
             "itemtype": "method",
             "name": "removeChildAt",
@@ -3690,7 +3695,7 @@
         },
         {
             "file": "pixi/display/DisplayObjectContainer.hx",
-            "line": 100,
+            "line": 94,
             "description": "Removes all child instances from the child list of the container.",
             "itemtype": "method",
             "name": "removeChildren",
@@ -3703,14 +3708,15 @@
                 {
                     "name": "endIndex",
                     "description": "The ending position. Predefined value is children's array length.",
-                    "type": "Int"
+                    "type": "Int",
+                    "optional": true
                 }
             ],
             "class": "DisplayObjectContainer"
         },
         {
             "file": "pixi/display/DisplayObjectContainer.hx",
-            "line": 109,
+            "line": 103,
             "description": "Changes the position of an existing child in the display object container",
             "itemtype": "method",
             "name": "setChildIndex",
@@ -3730,7 +3736,7 @@
         },
         {
             "file": "pixi/display/DisplayObjectContainer.hx",
-            "line": 118,
+            "line": 112,
             "description": "Returns the index position of a child DisplayObject instance",
             "itemtype": "method",
             "name": "getChildIndex",
@@ -3749,7 +3755,7 @@
         },
         {
             "file": "pixi/display/DisplayObjectContainer.hx",
-            "line": 127,
+            "line": 121,
             "description": "Removes the current stage reference from the container and all of its children.",
             "itemtype": "method",
             "name": "removeStageReference",
@@ -3885,11 +3891,15 @@
                     "type": "Array<String>"
                 }
             ],
+            "return": {
+                "description": "returns the created MovieClip",
+                "type": "MovieClip"
+            },
             "class": "MovieClip"
         },
         {
             "file": "pixi/display/MovieClip.hx",
-            "line": 121,
+            "line": 122,
             "description": "A short hand way of creating a movieclip from an array of image ids",
             "static": 1,
             "itemtype": "method",
@@ -3901,11 +3911,15 @@
                     "type": "Array<String>"
                 }
             ],
+            "return": {
+                "description": "returns the created MovieClip",
+                "type": "MovieClip"
+            },
             "class": "MovieClip"
         },
         {
             "file": "pixi/display/Sprite.hx",
-            "line": 29,
+            "line": 27,
             "description": "The anchor sets the origin point of the texture.\nThe default is 0,0 this means the texture's origin is the top left\nSetting than anchor to 0.5,0.5 means the textures origin is centered\nSetting the anchor to 1,1 would mean the textures origin points will be the bottom right corner",
             "itemtype": "property",
             "name": "anchor",
@@ -3914,7 +3928,7 @@
         },
         {
             "file": "pixi/display/Sprite.hx",
-            "line": 40,
+            "line": 38,
             "description": "The texture that the sprite is using",
             "itemtype": "property",
             "name": "texture",
@@ -3923,7 +3937,7 @@
         },
         {
             "file": "pixi/display/Sprite.hx",
-            "line": 48,
+            "line": 46,
             "description": "The tint applied to the sprite. This is a hex value. A value of 0xFFFFFF will remove any tint effect.",
             "itemtype": "property",
             "name": "tint",
@@ -3933,7 +3947,7 @@
         },
         {
             "file": "pixi/display/Sprite.hx",
-            "line": 57,
+            "line": 55,
             "description": "The blend mode to be applied to the sprite. Set to PIXI.blendModes.NORMAL to remove any blend mode.",
             "itemtype": "property",
             "name": "blendMode",
@@ -3943,7 +3957,7 @@
         },
         {
             "file": "pixi/display/Sprite.hx",
-            "line": 66,
+            "line": 64,
             "description": "The shader that will be used to render the texture to the stage. Set to null to remove a current shader.",
             "itemtype": "property",
             "name": "shader",
@@ -3953,7 +3967,7 @@
         },
         {
             "file": "pixi/display/Sprite.hx",
-            "line": 75,
+            "line": 73,
             "description": "Sets the texture of the sprite",
             "itemtype": "method",
             "name": "setTexture",
@@ -3968,7 +3982,7 @@
         },
         {
             "file": "pixi/display/Sprite.hx",
-            "line": 83,
+            "line": 81,
             "description": "Helper function that creates a sprite that will contain a texture from the TextureCache based on the frameId\n The frame ids are created when a Texture packer file has been loaded",
             "itemtype": "method",
             "name": "fromFrame",
@@ -3988,7 +4002,7 @@
         },
         {
             "file": "pixi/display/Sprite.hx",
-            "line": 95,
+            "line": 93,
             "description": "A short hand way of creating a movieclip from an array of image ids",
             "static": 1,
             "itemtype": "method",
@@ -4055,7 +4069,7 @@
                 {
                     "name": "domElement",
                     "description": "This new domElement which will receive mouse/touch events",
-                    "type": "DOMElement"
+                    "type": "Element"
                 }
             ],
             "class": "Stage"

@@ -193,10 +193,10 @@
                         	 * Retrieves the bounds of the displayObject as a rectangle object
                         	 *
                         	 * @method getBounds
-                        	 * @param matrix {Matrix}
+                        	 * @param [matrix] {Matrix}
                         	 * @return {Rectangle} the rectangular bounding area
                         	 */
-                        	function getBounds(matrix:Matrix):Rectangle;
+                        	function getBounds(?matrix:Matrix):Rectangle;
                         
                         	/**
                         	 * Retrieves the local bounds of the displayObject as a rectangle object
@@ -228,7 +228,7 @@
                         	 *
                         	 * @method toLocal
                         	 * @param position {Point} The world origin to calculate from
-                        	 * @param [from] {DisplayObject} The DisplayObject to calculate the global position from
+                        	 * @param [frm] {DisplayObject} The DisplayObject to calculate the global position from
                         	 * @return {Point} A point object representing the position of this object
                         	 */
                         	function toLocal(position:Point, ?frm:DisplayObject):Point;
