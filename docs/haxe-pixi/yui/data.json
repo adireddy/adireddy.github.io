@@ -2,7 +2,7 @@
     "project": {
         "name": "haxe-pixi",
         "description": "Haxe Pixi Externs",
-        "version": "2.1.9",
+        "version": "2.2.0",
         "url": "https://github.com/adireddy/haxe-pixi"
     },
     "files": {
@@ -2012,7 +2012,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "pixi/renderers/webgl/WebGLRenderer.hx",
-            "line": 13,
+            "line": 20,
             "description": "The WebGLRenderer draws the stage and all its content onto a webGL enabled canvas. This renderer\nshould be used for browsers that support webGL. This Render works by automatically managing webGLBatchs.\nSo no need for Sprite Batches or Sprite Clouds.\nDon't forget to add the view to your DOM or you will not see anything :)",
             "is_constructor": 1,
             "params": [
@@ -5668,6 +5668,24 @@
         {
             "file": "pixi/renderers/canvas/CanvasRenderer.hx",
             "line": 28,
+            "itemtype": "property",
+            "name": "type",
+            "type": "Int",
+            "class": "CanvasRenderer"
+        },
+        {
+            "file": "pixi/renderers/canvas/CanvasRenderer.hx",
+            "line": 34,
+            "description": "The resolution of the canvas",
+            "itemtype": "property",
+            "name": "resolution",
+            "type": "Float",
+            "default": "1",
+            "class": "CanvasRenderer"
+        },
+        {
+            "file": "pixi/renderers/canvas/CanvasRenderer.hx",
+            "line": 43,
             "description": "This sets if the CanvasRenderer will clear the canvas or not before the new render pass.\nIf the Stage is NOT transparent Pixi will use a canvas sized fillRect operation every frame to set the canvas background color.\nIf the Stage is transparent Pixi will use clearRect to clear the canvas every frame.\nDisable this by setting this to false. For example if your game has a canvas filling background image you often don't need this set.",
             "itemtype": "property",
             "name": "clearBeforeRender",
@@ -5677,7 +5695,7 @@
         },
         {
             "file": "pixi/renderers/canvas/CanvasRenderer.hx",
-            "line": 40,
+            "line": 55,
             "description": "Whether the render view is transparent",
             "itemtype": "property",
             "name": "transparent",
@@ -5686,7 +5704,7 @@
         },
         {
             "file": "pixi/renderers/canvas/CanvasRenderer.hx",
-            "line": 48,
+            "line": 63,
             "description": "The width of the canvas view",
             "itemtype": "property",
             "name": "width",
@@ -5696,7 +5714,7 @@
         },
         {
             "file": "pixi/renderers/canvas/CanvasRenderer.hx",
-            "line": 57,
+            "line": 72,
             "description": "The height of the canvas view",
             "itemtype": "property",
             "name": "height",
@@ -5706,25 +5724,34 @@
         },
         {
             "file": "pixi/renderers/canvas/CanvasRenderer.hx",
-            "line": 66,
+            "line": 81,
             "description": "The canvas element that everything is drawn to",
             "itemtype": "property",
             "name": "view",
-            "type": "HTMLCanvasElement",
+            "type": "CanvasElement",
             "class": "CanvasRenderer"
         },
         {
             "file": "pixi/renderers/canvas/CanvasRenderer.hx",
-            "line": 74,
+            "line": 89,
             "description": "The canvas 2d context that everything is drawn with",
             "itemtype": "property",
             "name": "context",
-            "type": "HTMLCanvasElement 2d Context",
+            "type": "CanvasRenderingContext2D 2d Context",
             "class": "CanvasRenderer"
         },
         {
             "file": "pixi/renderers/canvas/CanvasRenderer.hx",
-            "line": 81,
+            "line": 96,
+            "description": "Boolean flag controlling canvas refresh.",
+            "itemtype": "property",
+            "name": "refresh",
+            "type": "Bool",
+            "class": "CanvasRenderer"
+        },
+        {
+            "file": "pixi/renderers/canvas/CanvasRenderer.hx",
+            "line": 104,
             "description": "Instance of a PIXI.CanvasMaskManager, handles masking when using the canvas renderer",
             "itemtype": "property",
             "name": "maskManager",
@@ -5733,16 +5760,16 @@
         },
         {
             "file": "pixi/renderers/canvas/CanvasRenderer.hx",
-            "line": 88,
+            "line": 111,
             "description": "The render session is just a bunch of parameter used for rendering",
             "itemtype": "property",
             "name": "renderSession",
-            "type": "Object",
+            "type": "Dynamic",
             "class": "CanvasRenderer"
         },
         {
             "file": "pixi/renderers/canvas/CanvasRenderer.hx",
-            "line": 95,
+            "line": 118,
             "description": "Renders the stage to its canvas view",
             "itemtype": "method",
             "name": "render",
@@ -5757,7 +5784,7 @@
         },
         {
             "file": "pixi/renderers/canvas/CanvasRenderer.hx",
-            "line": 103,
+            "line": 126,
             "description": "Resizes the canvas view to the specified width and height",
             "itemtype": "method",
             "name": "resize",
@@ -5771,23 +5798,6 @@
                     "name": "height",
                     "description": "the new height of the canvas view",
                     "type": "Float"
-                }
-            ],
-            "class": "CanvasRenderer"
-        },
-        {
-            "file": "pixi/renderers/canvas/CanvasRenderer.hx",
-            "line": 112,
-            "description": "Removes everything from the renderer and optionally removes the Canvas DOM element.",
-            "itemtype": "method",
-            "name": "destroy",
-            "params": [
-                {
-                    "name": "removeView",
-                    "description": "Removes the Canvas element from the DOM.",
-                    "type": "Bool",
-                    "optional": true,
-                    "optdefault": "true"
                 }
             ],
             "class": "CanvasRenderer"
@@ -6986,7 +6996,25 @@
         },
         {
             "file": "pixi/renderers/webgl/WebGLRenderer.hx",
-            "line": 32,
+            "line": 39,
+            "itemtype": "property",
+            "name": "type",
+            "type": "Int",
+            "class": "WebGLRenderer"
+        },
+        {
+            "file": "pixi/renderers/webgl/WebGLRenderer.hx",
+            "line": 45,
+            "description": "The resolution of the renderer",
+            "itemtype": "property",
+            "name": "resolution",
+            "type": "Float",
+            "default": "1",
+            "class": "WebGLRenderer"
+        },
+        {
+            "file": "pixi/renderers/webgl/WebGLRenderer.hx",
+            "line": 54,
             "description": "Whether the render view is transparent",
             "itemtype": "property",
             "name": "transparent",
@@ -6995,7 +7023,7 @@
         },
         {
             "file": "pixi/renderers/webgl/WebGLRenderer.hx",
-            "line": 40,
+            "line": 62,
             "description": "The value of the preserveDrawingBuffer flag affects whether or not the contents of the stencil buffer is retained after rendering.",
             "itemtype": "property",
             "name": "preserveDrawingBuffer",
@@ -7004,7 +7032,17 @@
         },
         {
             "file": "pixi/renderers/webgl/WebGLRenderer.hx",
-            "line": 48,
+            "line": 70,
+            "description": "This sets if the WebGLRenderer will clear the context texture or not before the new render pass. If true:\nIf the Stage is NOT transparent, Pixi will clear to alpha (0, 0, 0, 0).\nIf the Stage is transparent, Pixi will clear to the target Stage's background color.\nDisable this by setting this to false. For example: if your game has a canvas filling background image, you often don't need this set.",
+            "itemtype": "property",
+            "name": "clearBeforeRender",
+            "type": "Bool",
+            "default": "",
+            "class": "WebGLRenderer"
+        },
+        {
+            "file": "pixi/renderers/webgl/WebGLRenderer.hx",
+            "line": 82,
             "description": "The width of the canvas view",
             "itemtype": "property",
             "name": "width",
@@ -7014,7 +7052,7 @@
         },
         {
             "file": "pixi/renderers/webgl/WebGLRenderer.hx",
-            "line": 57,
+            "line": 91,
             "description": "The height of the canvas view",
             "itemtype": "property",
             "name": "height",
@@ -7024,7 +7062,7 @@
         },
         {
             "file": "pixi/renderers/webgl/WebGLRenderer.hx",
-            "line": 66,
+            "line": 100,
             "description": "The canvas element that everything is drawn to",
             "itemtype": "property",
             "name": "view",
@@ -7033,7 +7071,109 @@
         },
         {
             "file": "pixi/renderers/webgl/WebGLRenderer.hx",
-            "line": 74,
+            "line": 108,
+            "itemtype": "property",
+            "name": "contextLostBound",
+            "type": "Function",
+            "class": "WebGLRenderer"
+        },
+        {
+            "file": "pixi/renderers/webgl/WebGLRenderer.hx",
+            "line": 114,
+            "itemtype": "property",
+            "name": "contextRestoredBound",
+            "type": "Function",
+            "class": "WebGLRenderer"
+        },
+        {
+            "file": "pixi/renderers/webgl/WebGLRenderer.hx",
+            "line": 120,
+            "itemtype": "property",
+            "name": "projection",
+            "type": "Point",
+            "class": "WebGLRenderer"
+        },
+        {
+            "file": "pixi/renderers/webgl/WebGLRenderer.hx",
+            "line": 126,
+            "itemtype": "property",
+            "name": "offset",
+            "type": "Point",
+            "class": "WebGLRenderer"
+        },
+        {
+            "file": "pixi/renderers/webgl/WebGLRenderer.hx",
+            "line": 132,
+            "description": "Deals with managing the shader programs and their attribs",
+            "itemtype": "property",
+            "name": "shaderManager",
+            "type": "WebGLShaderManager",
+            "class": "WebGLRenderer"
+        },
+        {
+            "file": "pixi/renderers/webgl/WebGLRenderer.hx",
+            "line": 139,
+            "description": "Manages the rendering of sprites",
+            "itemtype": "property",
+            "name": "spriteBatch",
+            "type": "WebGLSpriteBatch",
+            "class": "WebGLRenderer"
+        },
+        {
+            "file": "pixi/renderers/webgl/WebGLRenderer.hx",
+            "line": 146,
+            "description": "Manages the masks using the stencil buffer",
+            "itemtype": "property",
+            "name": "maskManager",
+            "type": "WebGLMaskManager",
+            "class": "WebGLRenderer"
+        },
+        {
+            "file": "pixi/renderers/webgl/WebGLRenderer.hx",
+            "line": 153,
+            "description": "Manages the filters",
+            "itemtype": "property",
+            "name": "filterManager",
+            "type": "WebGLFilterManager",
+            "class": "WebGLRenderer"
+        },
+        {
+            "file": "pixi/renderers/webgl/WebGLRenderer.hx",
+            "line": 160,
+            "description": "Manages the stencil buffer",
+            "itemtype": "property",
+            "name": "stencilManager",
+            "type": "WebGLStencilManager",
+            "class": "WebGLRenderer"
+        },
+        {
+            "file": "pixi/renderers/webgl/WebGLRenderer.hx",
+            "line": 167,
+            "description": "Manages the blendModes",
+            "itemtype": "property",
+            "name": "blendModeManager",
+            "type": "WebGLBlendModeManager",
+            "class": "WebGLRenderer"
+        },
+        {
+            "file": "pixi/renderers/webgl/WebGLRenderer.hx",
+            "line": 174,
+            "description": "TODO remove",
+            "itemtype": "property",
+            "name": "renderSession",
+            "type": "Dynamic",
+            "class": "WebGLRenderer"
+        },
+        {
+            "file": "pixi/renderers/webgl/WebGLRenderer.hx",
+            "line": 181,
+            "itemtype": "method",
+            "name": "initContext",
+            "class": "WebGLRenderer"
+        },
+        {
+            "file": "pixi/renderers/webgl/WebGLRenderer.hx",
+            "line": 186,
             "description": "Renders the stage to its webGL view",
             "itemtype": "method",
             "name": "render",
@@ -7048,7 +7188,7 @@
         },
         {
             "file": "pixi/renderers/webgl/WebGLRenderer.hx",
-            "line": 82,
+            "line": 194,
             "description": "Renders a Display Object.",
             "itemtype": "method",
             "name": "renderDisplayObject",
@@ -7073,7 +7213,7 @@
         },
         {
             "file": "pixi/renderers/webgl/WebGLRenderer.hx",
-            "line": 92,
+            "line": 204,
             "description": "resizes the webGL view to the specified width and height",
             "itemtype": "method",
             "name": "resize",
@@ -7093,7 +7233,7 @@
         },
         {
             "file": "pixi/renderers/webgl/WebGLRenderer.hx",
-            "line": 101,
+            "line": 213,
             "description": "Updates and Creates a WebGL texture for the renderers context.",
             "itemtype": "method",
             "name": "updateTexture",
@@ -7108,7 +7248,7 @@
         },
         {
             "file": "pixi/renderers/webgl/WebGLRenderer.hx",
-            "line": 109,
+            "line": 221,
             "description": "Removes everything from the renderer (event listeners, spritebatch, etc...)",
             "itemtype": "method",
             "name": "destroy",
@@ -7116,7 +7256,7 @@
         },
         {
             "file": "pixi/renderers/webgl/WebGLRenderer.hx",
-            "line": 116,
+            "line": 228,
             "description": "Maps Pixi blend modes to WebGL blend modes.",
             "itemtype": "method",
             "name": "mapBlendModes",

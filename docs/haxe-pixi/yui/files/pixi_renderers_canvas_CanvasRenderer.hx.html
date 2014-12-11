@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="haxe-pixi"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.1.9</em>
+            <em>API Docs for: 2.2.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -163,7 +163,7 @@
                         import pixi.renderers.canvas.utils.CanvasMaskManager;
                         
                         @:native(&quot;PIXI.CanvasRenderer&quot;)
-                        extern class CanvasRenderer {
+                        extern class CanvasRenderer implements IRenderer {
                         
                         	/**
                         	 * The CanvasRenderer draws the Stage and all its content onto a 2d canvas. This renderer should be used for browsers that do not support webGL.
@@ -180,6 +180,21 @@
                         	 * @param [options.clearBeforeRender=true] {Bool} This sets if the CanvasRenderer will clear the canvas or not before the new render pass.
                         	 */
                         	function new(width:Float, height:Float, ?options:RenderingOptions);
+                        
+                        	/**
+                             * @property type
+                             * @type Int
+                             */
+                        	var type:Int;
+                        
+                        	/**
+                             * The resolution of the canvas
+                             *
+                             * @property resolution
+                             * @type Float
+                             * @default 1
+                             */
+                        	var resolution:Float;
                         
                         	/**
                         	 * This sets if the CanvasRenderer will clear the canvas or not before the new render pass.
@@ -223,16 +238,24 @@
                         	 * The canvas element that everything is drawn to
                         	 *
                         	 * @property view
-                        	 * @type HTMLCanvasElement
+                        	 * @type CanvasElement
                         	 */
                         	var view:CanvasElement;
                         
                         	/**
                         	 * The canvas 2d context that everything is drawn with
                         	 * @property context
-                        	 * @type HTMLCanvasElement 2d Context
+                        	 * @type CanvasRenderingContext2D 2d Context
                         	 */
                         	var context:CanvasRenderingContext2D;
+                        
+                        	/**
+                             * Boolean flag controlling canvas refresh.
+                             *
+                             * @property refresh
+                             * @type Bool
+                             */
+                        	var refresh:Bool;
                         
                         	/**
                         	 * Instance of a PIXI.CanvasMaskManager, handles masking when using the canvas renderer
@@ -244,7 +267,7 @@
                         	/**
                         	 * The render session is just a bunch of parameter used for rendering
                         	 * @property renderSession
-                        	 * @type Object
+                        	 * @type Dynamic
                         	 */
                         	var renderSession:Dynamic;
                         
@@ -264,14 +287,6 @@
                         	 * @param height {Float} the new height of the canvas view
                         	 */
                         	function resize(width:Float, height:Float):Void;
-                        
-                        	/**
-                        	 * Removes everything from the renderer and optionally removes the Canvas DOM element.
-                        	 *
-                        	 * @method destroy
-                        	 * @param [removeView=true] {Bool} Removes the Canvas element from the DOM.
-                        	 */
-                        	function destroy(?removeView:Bool = true):Void;
                         }
                             </pre>
                         </div>

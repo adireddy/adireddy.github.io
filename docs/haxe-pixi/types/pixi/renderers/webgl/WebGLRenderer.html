@@ -24,7 +24,9 @@ function windowTitle()
 	<dl>
 		<dt>type</dt>
 		<dd>class</dd>
-		<dt>metadata</dt>
+		<dt>implements</dt>
+		<dd><a href="../../../pixi/renderers/IRenderer.html" class="type">pixi.renderers.IRenderer</a></dd>
+			<dt>metadata</dt>
 		<dd><dl>
 		<dt>:native</dt><dd>&quot;PIXI.WebGLRenderer&quot;</dd>
 			</dl></dd>
@@ -85,6 +87,100 @@ function windowTitle()
 				<div class="member">
 					<div class="header">
 		<h3>
+			<a name="blendModeManager"></a>
+	<span class="name">blendModeManager</span> : <a href="../../../pixi/renderers/webgl/utils/WebGLBlendModeManager.html" class="type">pixi.renderers.webgl.utils.WebGLBlendModeManager</a>
+		</h3>
+	</div>
+					<div class="body">
+		<!-- platforms -->
+			<dl>
+			</dl>
+			<!-- meta -->
+		<!-- Comment block -->
+		<div class="comment"> Manages the blendModes</div>
+		</div>
+				</div>
+			</span>
+					<span class="showVar">
+				<div class="member">
+					<div class="header">
+		<h3>
+			<a name="clearBeforeRender"></a>
+	<span class="name">clearBeforeRender</span> : Bool
+		</h3>
+	</div>
+					<div class="body">
+		<!-- platforms -->
+			<dl>
+			</dl>
+			<!-- meta -->
+		<!-- Comment block -->
+		<div class="comment"> This sets if the WebGLRenderer will clear the context texture or not before the new render pass. If true:
+      If the Stage is NOT transparent, Pixi will clear to alpha (0, 0, 0, 0).
+      If the Stage is transparent, Pixi will clear to the target Stage's background color.
+      Disable this by setting this to false. For example: if your game has a canvas filling background image, you often don't need this set.
+</div>
+		</div>
+				</div>
+			</span>
+					<span class="showVar">
+				<div class="member">
+					<div class="header">
+		<h3>
+			<a name="contextLostBound"></a>
+	<span class="name">contextLostBound</span> : <a href="../../../pixi/utils/Event.html" class="type">pixi.utils.Event</a> -> Void
+		</h3>
+	</div>
+					<div class="body">
+		<!-- platforms -->
+			<dl>
+			</dl>
+			<!-- meta -->
+		<!-- Comment block -->
+		<div class="comment"></div>
+		</div>
+				</div>
+			</span>
+					<span class="showVar">
+				<div class="member">
+					<div class="header">
+		<h3>
+			<a name="contextRestoredBound"></a>
+	<span class="name">contextRestoredBound</span> : <a href="../../../pixi/utils/Event.html" class="type">pixi.utils.Event</a> -> Void
+		</h3>
+	</div>
+					<div class="body">
+		<!-- platforms -->
+			<dl>
+			</dl>
+			<!-- meta -->
+		<!-- Comment block -->
+		<div class="comment"></div>
+		</div>
+				</div>
+			</span>
+					<span class="showVar">
+				<div class="member">
+					<div class="header">
+		<h3>
+			<a name="filterManager"></a>
+	<span class="name">filterManager</span> : <a href="../../../pixi/renderers/webgl/utils/WebGLFilterManager.html" class="type">pixi.renderers.webgl.utils.WebGLFilterManager</a>
+		</h3>
+	</div>
+					<div class="body">
+		<!-- platforms -->
+			<dl>
+			</dl>
+			<!-- meta -->
+		<!-- Comment block -->
+		<div class="comment"> Manages the filters</div>
+		</div>
+				</div>
+			</span>
+					<span class="showVar">
+				<div class="member">
+					<div class="header">
+		<h3>
 			<a name="height"></a>
 	<span class="name">height</span> : Float
 		</h3>
@@ -97,6 +193,42 @@ function windowTitle()
 		<!-- Comment block -->
 		<div class="comment"> The height of the canvas view
 </div>
+		</div>
+				</div>
+			</span>
+					<span class="showVar">
+				<div class="member">
+					<div class="header">
+		<h3>
+			<a name="maskManager"></a>
+	<span class="name">maskManager</span> : <a href="../../../pixi/renderers/webgl/utils/WebGLMaskManager.html" class="type">pixi.renderers.webgl.utils.WebGLMaskManager</a>
+		</h3>
+	</div>
+					<div class="body">
+		<!-- platforms -->
+			<dl>
+			</dl>
+			<!-- meta -->
+		<!-- Comment block -->
+		<div class="comment"> Manages the masks using the stencil buffer</div>
+		</div>
+				</div>
+			</span>
+					<span class="showVar">
+				<div class="member">
+					<div class="header">
+		<h3>
+			<a name="offset"></a>
+	<span class="name">offset</span> : <a href="../../../pixi/core/Point.html" class="type">pixi.core.Point</a>
+		</h3>
+	</div>
+					<div class="body">
+		<!-- platforms -->
+			<dl>
+			</dl>
+			<!-- meta -->
+		<!-- Comment block -->
+		<div class="comment"></div>
 		</div>
 				</div>
 			</span>
@@ -123,6 +255,115 @@ function windowTitle()
 				<div class="member">
 					<div class="header">
 		<h3>
+			<a name="projection"></a>
+	<span class="name">projection</span> : <a href="../../../pixi/core/Point.html" class="type">pixi.core.Point</a>
+		</h3>
+	</div>
+					<div class="body">
+		<!-- platforms -->
+			<dl>
+			</dl>
+			<!-- meta -->
+		<!-- Comment block -->
+		<div class="comment"></div>
+		</div>
+				</div>
+			</span>
+					<span class="showVar">
+				<div class="member">
+					<div class="header">
+		<h3>
+			<a name="renderSession"></a>
+	<span class="name">renderSession</span> : Dynamic
+		</h3>
+	</div>
+					<div class="body">
+		<!-- platforms -->
+			<dl>
+			</dl>
+			<!-- meta -->
+		<!-- Comment block -->
+		<div class="comment"> TODO remove</div>
+		</div>
+				</div>
+			</span>
+					<span class="showVar">
+				<div class="member">
+					<div class="header">
+		<h3>
+			<a name="resolution"></a>
+	<span class="name">resolution</span> : Float
+		</h3>
+	</div>
+					<div class="body">
+		<!-- platforms -->
+			<dl>
+			</dl>
+			<!-- meta -->
+		<!-- Comment block -->
+		<div class="comment"> The resolution of the renderer
+</div>
+		</div>
+				</div>
+			</span>
+					<span class="showVar">
+				<div class="member">
+					<div class="header">
+		<h3>
+			<a name="shaderManager"></a>
+	<span class="name">shaderManager</span> : <a href="../../../pixi/renderers/webgl/utils/WebGLShaderManager.html" class="type">pixi.renderers.webgl.utils.WebGLShaderManager</a>
+		</h3>
+	</div>
+					<div class="body">
+		<!-- platforms -->
+			<dl>
+			</dl>
+			<!-- meta -->
+		<!-- Comment block -->
+		<div class="comment"> Deals with managing the shader programs and their attribs</div>
+		</div>
+				</div>
+			</span>
+					<span class="showVar">
+				<div class="member">
+					<div class="header">
+		<h3>
+			<a name="spriteBatch"></a>
+	<span class="name">spriteBatch</span> : <a href="../../../pixi/renderers/webgl/utils/WebGLSpriteBatch.html" class="type">pixi.renderers.webgl.utils.WebGLSpriteBatch</a>
+		</h3>
+	</div>
+					<div class="body">
+		<!-- platforms -->
+			<dl>
+			</dl>
+			<!-- meta -->
+		<!-- Comment block -->
+		<div class="comment"> Manages the rendering of sprites</div>
+		</div>
+				</div>
+			</span>
+					<span class="showVar">
+				<div class="member">
+					<div class="header">
+		<h3>
+			<a name="stencilManager"></a>
+	<span class="name">stencilManager</span> : <a href="../../../pixi/renderers/webgl/utils/WebGLStencilManager.html" class="type">pixi.renderers.webgl.utils.WebGLStencilManager</a>
+		</h3>
+	</div>
+					<div class="body">
+		<!-- platforms -->
+			<dl>
+			</dl>
+			<!-- meta -->
+		<!-- Comment block -->
+		<div class="comment"> Manages the stencil buffer</div>
+		</div>
+				</div>
+			</span>
+					<span class="showVar">
+				<div class="member">
+					<div class="header">
+		<h3>
 			<a name="transparent"></a>
 	<span class="name">transparent</span> : Bool
 		</h3>
@@ -135,6 +376,24 @@ function windowTitle()
 		<!-- Comment block -->
 		<div class="comment"> Whether the render view is transparent
 </div>
+		</div>
+				</div>
+			</span>
+					<span class="showVar">
+				<div class="member">
+					<div class="header">
+		<h3>
+			<a name="type"></a>
+	<span class="name">type</span> : Int
+		</h3>
+	</div>
+					<div class="body">
+		<!-- platforms -->
+			<dl>
+			</dl>
+			<!-- meta -->
+		<!-- Comment block -->
+		<div class="comment"></div>
 		</div>
 				</div>
 			</span>
@@ -209,6 +468,34 @@ function windowTitle()
 			<!-- Comment block -->
 		<div class="comment"> Removes everything from the renderer (event listeners, spritebatch, etc...)
 </div>
+		</div>
+				</div>
+			</span>
+					<span class="showMethod">
+				<div class="member">
+					<div class="header">
+		<h3>
+			<a name="initContext()"></a>
+	<span class="name">initContext</span>() : Void
+		</h3>
+	</div>
+					<div class="body">
+			<dl>
+				<!-- deprecated -->
+				<!-- type params -->
+				<!-- method call parameters -->
+				<!-- method return types comments -->
+				<!-- method throws -->
+				<!-- requires -->
+				<!-- see -->
+				<!-- todo -->
+				<!-- authors -->
+				<!-- meta -->
+		
+			<!-- platforms -->
+					</dl>
+			<!-- Comment block -->
+		<div class="comment"></div>
 		</div>
 				</div>
 			</span>

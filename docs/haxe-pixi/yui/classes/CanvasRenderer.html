@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="haxe-pixi"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.1.9</em>
+            <em>API Docs for: 2.2.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -318,10 +318,6 @@
                         
                                             <ul class="index-list methods">
                                                     <li class="index-item method">
-                                                        <a href="#method_destroy">destroy</a>
-                        
-                                                    </li>
-                                                    <li class="index-item method">
                                                         <a href="#method_render">render</a>
                         
                                                     </li>
@@ -353,11 +349,23 @@
                         
                                                     </li>
                                                     <li class="index-item property">
+                                                        <a href="#property_refresh">refresh</a>
+                        
+                                                    </li>
+                                                    <li class="index-item property">
                                                         <a href="#property_renderSession">renderSession</a>
                         
                                                     </li>
                                                     <li class="index-item property">
+                                                        <a href="#property_resolution">resolution</a>
+                        
+                                                    </li>
+                                                    <li class="index-item property">
                                                         <a href="#property_transparent">transparent</a>
+                        
+                                                    </li>
+                                                    <li class="index-item property">
+                                                        <a href="#property_type">type</a>
                         
                                                     </li>
                                                     <li class="index-item property">
@@ -377,60 +385,6 @@
                                     <div id="methods" class="api-class-tabpanel">
                                         <h2 class="off-left">Methods</h2>
                         
-                                            <div id="method_destroy" class="method item">
-                                                <h3 class="name"><code>destroy</code></h3>
-                                            
-                                                    <div class="args">
-                                                        <span class="paren">(</span><ul class="args-list inline commas">
-                                                            <li class="arg">
-                                                                    <code class="optional">[removeView=true]</code>
-                                                            </li>
-                                                        </ul><span class="paren">)</span>
-                                                    </div>
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                                <div class="meta">
-                                                            <p>
-                                                            Defined in
-                                                    <a href="../files/pixi_renderers_canvas_CanvasRenderer.hx.html#l112"><code>pixi&#x2F;renderers&#x2F;canvas&#x2F;CanvasRenderer.hx:112</code></a>
-                                                    </p>
-                                            
-                                            
-                                            
-                                                </div>
-                                            
-                                                <div class="description">
-                                                    <p>Removes everything from the renderer and optionally removes the Canvas DOM element.</p>
-                                            
-                                                </div>
-                                            
-                                                    <div class="params">
-                                                        <h4>Parameters:</h4>
-                                            
-                                                        <ul class="params-list">
-                                                            <li class="param">
-                                                                    <code class="param-name optional">[removeView=true]</code>
-                                                                    <span class="type">Bool</span>
-                                                                    <span class="flag optional" title="This parameter is optional.">optional</span>
-                                            
-                                            
-                                                                <div class="param-description">
-                                                                    <p>Removes the Canvas element from the DOM.</p>
-                                            
-                                                                </div>
-                                            
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                            
-                                            
-                                            </div>
                                             <div id="method_render" class="method item">
                                                 <h3 class="name"><code>render</code></h3>
                                             
@@ -452,7 +406,7 @@
                                                 <div class="meta">
                                                             <p>
                                                             Defined in
-                                                    <a href="../files/pixi_renderers_canvas_CanvasRenderer.hx.html#l95"><code>pixi&#x2F;renderers&#x2F;canvas&#x2F;CanvasRenderer.hx:95</code></a>
+                                                    <a href="../files/pixi_renderers_canvas_CanvasRenderer.hx.html#l118"><code>pixi&#x2F;renderers&#x2F;canvas&#x2F;CanvasRenderer.hx:118</code></a>
                                                     </p>
                                             
                                             
@@ -508,7 +462,7 @@
                                                 <div class="meta">
                                                             <p>
                                                             Defined in
-                                                    <a href="../files/pixi_renderers_canvas_CanvasRenderer.hx.html#l103"><code>pixi&#x2F;renderers&#x2F;canvas&#x2F;CanvasRenderer.hx:103</code></a>
+                                                    <a href="../files/pixi_renderers_canvas_CanvasRenderer.hx.html#l126"><code>pixi&#x2F;renderers&#x2F;canvas&#x2F;CanvasRenderer.hx:126</code></a>
                                                     </p>
                                             
                                             
@@ -567,7 +521,7 @@
                                                 <div class="meta">
                                                             <p>
                                                             Defined in
-                                                    <a href="../files/pixi_renderers_canvas_CanvasRenderer.hx.html#l28"><code>pixi&#x2F;renderers&#x2F;canvas&#x2F;CanvasRenderer.hx:28</code></a>
+                                                    <a href="../files/pixi_renderers_canvas_CanvasRenderer.hx.html#l43"><code>pixi&#x2F;renderers&#x2F;canvas&#x2F;CanvasRenderer.hx:43</code></a>
                                                     </p>
                                             
                                             
@@ -586,7 +540,7 @@
                                             </div>
                                             <div id="property_context" class="property item">
                                                 <h3 class="name"><code>context</code></h3>
-                                                <span class="type">HTMLCanvasElement 2d Context</span>
+                                                <span class="type">CanvasRenderingContext2D 2d Context</span>
                                             
                                             
                                             
@@ -595,7 +549,7 @@
                                                 <div class="meta">
                                                             <p>
                                                             Defined in
-                                                    <a href="../files/pixi_renderers_canvas_CanvasRenderer.hx.html#l74"><code>pixi&#x2F;renderers&#x2F;canvas&#x2F;CanvasRenderer.hx:74</code></a>
+                                                    <a href="../files/pixi_renderers_canvas_CanvasRenderer.hx.html#l89"><code>pixi&#x2F;renderers&#x2F;canvas&#x2F;CanvasRenderer.hx:89</code></a>
                                                     </p>
                                             
                                             
@@ -620,7 +574,7 @@
                                                 <div class="meta">
                                                             <p>
                                                             Defined in
-                                                    <a href="../files/pixi_renderers_canvas_CanvasRenderer.hx.html#l57"><code>pixi&#x2F;renderers&#x2F;canvas&#x2F;CanvasRenderer.hx:57</code></a>
+                                                    <a href="../files/pixi_renderers_canvas_CanvasRenderer.hx.html#l72"><code>pixi&#x2F;renderers&#x2F;canvas&#x2F;CanvasRenderer.hx:72</code></a>
                                                     </p>
                                             
                                             
@@ -646,7 +600,7 @@
                                                 <div class="meta">
                                                             <p>
                                                             Defined in
-                                                    <a href="../files/pixi_renderers_canvas_CanvasRenderer.hx.html#l81"><code>pixi&#x2F;renderers&#x2F;canvas&#x2F;CanvasRenderer.hx:81</code></a>
+                                                    <a href="../files/pixi_renderers_canvas_CanvasRenderer.hx.html#l104"><code>pixi&#x2F;renderers&#x2F;canvas&#x2F;CanvasRenderer.hx:104</code></a>
                                                     </p>
                                             
                                             
@@ -660,9 +614,9 @@
                                             
                                             
                                             </div>
-                                            <div id="property_renderSession" class="property item">
-                                                <h3 class="name"><code>renderSession</code></h3>
-                                                <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                                            <div id="property_refresh" class="property item">
+                                                <h3 class="name"><code>refresh</code></h3>
+                                                <span class="type">Bool</span>
                                             
                                             
                                             
@@ -671,7 +625,32 @@
                                                 <div class="meta">
                                                             <p>
                                                             Defined in
-                                                    <a href="../files/pixi_renderers_canvas_CanvasRenderer.hx.html#l88"><code>pixi&#x2F;renderers&#x2F;canvas&#x2F;CanvasRenderer.hx:88</code></a>
+                                                    <a href="../files/pixi_renderers_canvas_CanvasRenderer.hx.html#l96"><code>pixi&#x2F;renderers&#x2F;canvas&#x2F;CanvasRenderer.hx:96</code></a>
+                                                    </p>
+                                            
+                                            
+                                                </div>
+                                            
+                                                <div class="description">
+                                                    <p>Boolean flag controlling canvas refresh.</p>
+                                            
+                                                </div>
+                                            
+                                            
+                                            
+                                            </div>
+                                            <div id="property_renderSession" class="property item">
+                                                <h3 class="name"><code>renderSession</code></h3>
+                                                <span class="type">Dynamic</span>
+                                            
+                                            
+                                            
+                                            
+                                            
+                                                <div class="meta">
+                                                            <p>
+                                                            Defined in
+                                                    <a href="../files/pixi_renderers_canvas_CanvasRenderer.hx.html#l111"><code>pixi&#x2F;renderers&#x2F;canvas&#x2F;CanvasRenderer.hx:111</code></a>
                                                     </p>
                                             
                                             
@@ -682,6 +661,32 @@
                                             
                                                 </div>
                                             
+                                            
+                                            
+                                            </div>
+                                            <div id="property_resolution" class="property item">
+                                                <h3 class="name"><code>resolution</code></h3>
+                                                <span class="type">Float</span>
+                                            
+                                            
+                                            
+                                            
+                                            
+                                                <div class="meta">
+                                                            <p>
+                                                            Defined in
+                                                    <a href="../files/pixi_renderers_canvas_CanvasRenderer.hx.html#l34"><code>pixi&#x2F;renderers&#x2F;canvas&#x2F;CanvasRenderer.hx:34</code></a>
+                                                    </p>
+                                            
+                                            
+                                                </div>
+                                            
+                                                <div class="description">
+                                                    <p>The resolution of the canvas</p>
+                                            
+                                                </div>
+                                            
+                                                    <p><strong>Default:</strong> 1</p>
                                             
                                             
                                             </div>
@@ -696,7 +701,7 @@
                                                 <div class="meta">
                                                             <p>
                                                             Defined in
-                                                    <a href="../files/pixi_renderers_canvas_CanvasRenderer.hx.html#l40"><code>pixi&#x2F;renderers&#x2F;canvas&#x2F;CanvasRenderer.hx:40</code></a>
+                                                    <a href="../files/pixi_renderers_canvas_CanvasRenderer.hx.html#l55"><code>pixi&#x2F;renderers&#x2F;canvas&#x2F;CanvasRenderer.hx:55</code></a>
                                                     </p>
                                             
                                             
@@ -710,9 +715,9 @@
                                             
                                             
                                             </div>
-                                            <div id="property_view" class="property item">
-                                                <h3 class="name"><code>view</code></h3>
-                                                <span class="type">HTMLCanvasElement</span>
+                                            <div id="property_type" class="property item">
+                                                <h3 class="name"><code>type</code></h3>
+                                                <span class="type">Int</span>
                                             
                                             
                                             
@@ -721,7 +726,31 @@
                                                 <div class="meta">
                                                             <p>
                                                             Defined in
-                                                    <a href="../files/pixi_renderers_canvas_CanvasRenderer.hx.html#l66"><code>pixi&#x2F;renderers&#x2F;canvas&#x2F;CanvasRenderer.hx:66</code></a>
+                                                    <a href="../files/pixi_renderers_canvas_CanvasRenderer.hx.html#l28"><code>pixi&#x2F;renderers&#x2F;canvas&#x2F;CanvasRenderer.hx:28</code></a>
+                                                    </p>
+                                            
+                                            
+                                                </div>
+                                            
+                                                <div class="description">
+                                                    
+                                                </div>
+                                            
+                                            
+                                            
+                                            </div>
+                                            <div id="property_view" class="property item">
+                                                <h3 class="name"><code>view</code></h3>
+                                                <span class="type">CanvasElement</span>
+                                            
+                                            
+                                            
+                                            
+                                            
+                                                <div class="meta">
+                                                            <p>
+                                                            Defined in
+                                                    <a href="../files/pixi_renderers_canvas_CanvasRenderer.hx.html#l81"><code>pixi&#x2F;renderers&#x2F;canvas&#x2F;CanvasRenderer.hx:81</code></a>
                                                     </p>
                                             
                                             
@@ -746,7 +775,7 @@
                                                 <div class="meta">
                                                             <p>
                                                             Defined in
-                                                    <a href="../files/pixi_renderers_canvas_CanvasRenderer.hx.html#l48"><code>pixi&#x2F;renderers&#x2F;canvas&#x2F;CanvasRenderer.hx:48</code></a>
+                                                    <a href="../files/pixi_renderers_canvas_CanvasRenderer.hx.html#l63"><code>pixi&#x2F;renderers&#x2F;canvas&#x2F;CanvasRenderer.hx:63</code></a>
                                                     </p>
                                             
                                             
