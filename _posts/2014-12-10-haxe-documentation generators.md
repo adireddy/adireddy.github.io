@@ -23,7 +23,7 @@ When you have the xml documentation ready you can run [chxdoc](https://github.co
 `haxelib run chxdoc -o output_folder -f docs.xml --deny=haxe.*,/ --title='Externs of pixi.js for Haxe' --subtitle='<a href='http://adireddy.github.io/haxe-pixi' target='_blank'>haxe-pixi</a>'`
 
 * output_folder - The folder path where you want the documentation to be generated
-* --deny - You can specify the `,` separated list of all the packages you want to exclude from the documentation (haxe and root classes in the above sample).
+* --deny - You can specify the `,` separated list of all the packages you want to exclude from the documentation (haxe package and `/` denotes root classes in the above sample).
 
 I hope all the other options are self explanatory.
  
