@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>pixi/core/Point.hx - haxe-pixi</title>
+    <title>pixi/geom/Circle.hx - haxe-pixi</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -90,6 +90,7 @@
                                 <li><a href="../classes/RenderTexture.html">RenderTexture</a></li>
                                 <li><a href="../classes/RGBSplitFilter.html">RGBSplitFilter</a></li>
                                 <li><a href="../classes/Rope.html">Rope</a></li>
+                                <li><a href="../classes/RoundedRectangle.html">RoundedRectangle</a></li>
                                 <li><a href="../classes/SepiaFilter.html">SepiaFilter</a></li>
                                 <li><a href="../classes/SmartBlurFilter.html">SmartBlurFilter</a></li>
                                 <li><a href="../classes/Spine.html">Spine</a></li>
@@ -150,42 +151,51 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: pixi/core/Point.hx</h1>
+                        <h1 class="file-heading">File: pixi/geom/Circle.hx</h1>
                         
                         <div class="file">
                             <pre class="code prettyprint linenums">
-                        package pixi.core;
+                        package pixi.geom;
                         
-                        @:native(&quot;PIXI.Point&quot;)
-                        extern class Point {
+                        @:native(&quot;PIXI.Circle&quot;)
+                        extern class Circle {
                         
                         	/**
-                        	 * The Point object represents a location in a two-dimensional coordinate system, where x represents the horizontal axis and y represents the vertical axis.
+                        	 * The Circle object can be used to specify a hit area for displayObjects
                         	 *
-                        	 * @class Point
+                        	 * @class Circle
                         	 * @constructor
-                        	 * @param x {Float} position of the point on the x axis
-                        	 * @param y {Float} position of the point on the y axis
+                        	 * @param x {Float} The X coordinate of the center of this circle
+                        	 * @param y {Float} The Y coordinate of the center of this circle
+                        	 * @param radius {Float} The radius of the circle
                         	 */
-                        	function new(x:Float, y:Float):Void;
+                        	function new(x:Float, y:Float, radius:Float):Void;
                         
                         	/**
-                        	 * Creates a clone of this point
+                        	 * Creates a clone of this Circle instance
                         	 *
                         	 * @method clone
-                        	 * @return {Point} a copy of the point
+                        	 * @return {Circle} a copy of the circle
                         	 */
-                        	function clone():Point;
+                        	function clone():Circle;
                         
                         	/**
-                        	 * Sets the point to a new x and y position.
-                        	 * If y is ommited, both x and y will be set to x.
+                        	 * Checks whether the x, and y coordinates passed to this function are contained within this circle
                         	 *
-                        	 * @method set
-                        	 * @param [x=0] {Float} position of the point on the x axis
-                        	 * @param [y=0] {Float} position of the point on the y axis
+                        	 * @method contains
+                        	 * @param x {Float} The X coordinate of the point to test
+                        	 * @param y {Float} The Y coordinate of the point to test
+                        	 * @return {Bool} Whether the x/y coordinates are within this polygon
                         	 */
-                        	function set(x:Float, y:Float):Void;
+                        	function contains(x:Float, y:Float):Bool;
+                        
+                        	/**
+                        	 * Returns the framing rectangle of the circle as a PIXI.Rectangle object
+                        	 *
+                        	 * @method getBounds
+                        	 * @return {Rectangle} the framing rectangle
+                        	 */
+                        	function getBounds():Rectangle;
                         
                         	/**
                         	 * @property x
@@ -200,6 +210,13 @@
                         	 * @default 0
                         	 */
                         	var y:Float;
+                        
+                        	/**
+                        	 * @property radius
+                        	 * @type Float
+                        	 * @default 0
+                        	 */
+                        	var radius:Float;
                         }
                             </pre>
                         </div>

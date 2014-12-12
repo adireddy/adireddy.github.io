@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>pixi/core/Ellipse.hx - haxe-pixi</title>
+    <title>pixi/geom/RoundedRectangle.hx - haxe-pixi</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -90,6 +90,7 @@
                                 <li><a href="../classes/RenderTexture.html">RenderTexture</a></li>
                                 <li><a href="../classes/RGBSplitFilter.html">RGBSplitFilter</a></li>
                                 <li><a href="../classes/Rope.html">Rope</a></li>
+                                <li><a href="../classes/RoundedRectangle.html">RoundedRectangle</a></li>
                                 <li><a href="../classes/SepiaFilter.html">SepiaFilter</a></li>
                                 <li><a href="../classes/SmartBlurFilter.html">SmartBlurFilter</a></li>
                                 <li><a href="../classes/Spine.html">Spine</a></li>
@@ -150,52 +151,45 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: pixi/core/Ellipse.hx</h1>
+                        <h1 class="file-heading">File: pixi/geom/RoundedRectangle.hx</h1>
                         
                         <div class="file">
                             <pre class="code prettyprint linenums">
-                        package pixi.core;
+                        package pixi.geom;
                         
-                        @:native(&quot;PIXI.Ellipse&quot;)
-                        extern class Ellipse {
+                        @:native(&quot;PIXI.RoundedRectangle&quot;)
+                        extern class RoundedRectangle {
                         
                         	/**
-                        	 * The Ellipse object can be used to specify a hit area for displayObjects
+                        	 * The Rounded Rectangle object is an area defined by its position and has nice rounded corners, as indicated by its top-left corner point (x, y) and by its width and its height.
                         	 *
-                        	 * @class Ellipse
+                        	 * @class RoundedRectangle
                         	 * @constructor
-                        	 * @param x {Float} The X coordinate of the center of the ellipse
-                        	 * @param y {Float} The Y coordinate of the center of the ellipse
-                        	 * @param width {Float} The half width of this ellipse
-                        	 * @param height {Float} The half height of this ellipse
-                        	*/
-                        	function new(x:Float, y:Float, width:Float, height:Float):Void;
+                        	 * @param x {Number} The X coordinate of the upper-left corner of the rounded rectangle
+                        	 * @param y {Number} The Y coordinate of the upper-left corner of the rounded rectangle
+                        	 * @param width {Number} The overall width of this rounded rectangle
+                        	 * @param height {Number} The overall height of this rounded rectangle
+                        	 * @param radius {Number} The overall radius of this corners of this rounded rectangle
+                        	 */
+                        	function new(x:Float, y:Float, width:Float, height:Float, radius:Float):Void;
                         
                         	/**
-                        	 * Creates a clone of this Ellipse instance
+                        	 * Creates a clone of this Rounded Rectangle
                         	 *
                         	 * @method clone
-                        	 * @return {Ellipse} a copy of the ellipse
-                        	*/
-                        	function clone():Ellipse;
+                        	 * @return {RoundedRectangle} a copy of the rounded rectangle
+                        	 */
+                        	function clone():RoundedRectangle;
                         
                         	/**
-                        	 * Checks whether the x and y coordinates passed to this function are contained within this ellipse
+                        	 * Checks whether the x and y coordinates given are contained within this Rounded Rectangle
                         	 *
                         	 * @method contains
                         	 * @param x {Float} The X coordinate of the point to test
                         	 * @param y {Float} The Y coordinate of the point to test
-                        	 * @return {Bool} Whether the x/y coords are within this ellipse
-                        	*/
+                        	 * @return {Boolean} Whether the x/y coordinates are within this Rounded Rectangle
+                        	 */
                         	function contains(x:Float, y:Float):Bool;
-                        
-                        	/**
-                        	 * Returns the framing rectangle of the circle as a PIXI.Rectangle object
-                        	 *
-                        	 * @method getBounds
-                        	 * @return {Rectangle} the framing rectangle
-                        	*/
-                        	function getBounds():Rectangle;
                         
                         	/**
                         	 * @property x
@@ -224,6 +218,13 @@
                         	 * @default 0
                         	 */
                         	var height:Float;
+                        
+                        	/**
+                             * @property radius
+                             * @type Float
+                             * @default 20
+                             */
+                        	var radius:Float;
                         }
                             </pre>
                         </div>

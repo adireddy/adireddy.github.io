@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>pixi/core/Circle.hx - haxe-pixi</title>
+    <title>pixi/geom/Rectangle.hx - haxe-pixi</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -90,6 +90,7 @@
                                 <li><a href="../classes/RenderTexture.html">RenderTexture</a></li>
                                 <li><a href="../classes/RGBSplitFilter.html">RGBSplitFilter</a></li>
                                 <li><a href="../classes/Rope.html">Rope</a></li>
+                                <li><a href="../classes/RoundedRectangle.html">RoundedRectangle</a></li>
                                 <li><a href="../classes/SepiaFilter.html">SepiaFilter</a></li>
                                 <li><a href="../classes/SmartBlurFilter.html">SmartBlurFilter</a></li>
                                 <li><a href="../classes/Spine.html">Spine</a></li>
@@ -150,51 +151,44 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: pixi/core/Circle.hx</h1>
+                        <h1 class="file-heading">File: pixi/geom/Rectangle.hx</h1>
                         
                         <div class="file">
                             <pre class="code prettyprint linenums">
-                        package pixi.core;
+                        package pixi.geom;
                         
-                        @:native(&quot;PIXI.Circle&quot;)
-                        extern class Circle {
+                        @:native(&quot;PIXI.Rectangle&quot;)
+                        extern class Rectangle {
                         
                         	/**
-                        	 * The Circle object can be used to specify a hit area for displayObjects
+                        	 * the Rectangle object is an area defined by its position, as indicated by its top-left corner point (x, y) and by its width and its height.
                         	 *
-                        	 * @class Circle
+                        	 * @class Rectangle
                         	 * @constructor
-                        	 * @param x {Float} The X coordinate of the center of this circle
-                        	 * @param y {Float} The Y coordinate of the center of this circle
-                        	 * @param radius {Float} The radius of the circle
+                        	 * @param x {Float} The X coord of the upper-left corner of the rectangle
+                        	 * @param y {Float} The Y coord of the upper-left corner of the rectangle
+                        	 * @param width {Float} The overall width of this rectangle
+                        	 * @param height {Float} The overall height of this rectangle
                         	 */
-                        	function new(x:Float, y:Float, radius:Float):Void;
+                        	function new(x:Float, y:Float, width:Float, height:Float):Void;
                         
                         	/**
-                        	 * Creates a clone of this Circle instance
+                        	 * Creates a clone of this Rectangle instance
                         	 *
                         	 * @method clone
-                        	 * @return {Circle} a copy of the circle
+                        	 * @return {Rectangle} a copy of the rectangle
                         	 */
-                        	function clone():Circle;
+                        	function clone():Rectangle;
                         
                         	/**
-                        	 * Checks whether the x, and y coordinates passed to this function are contained within this circle
+                        	 * Checks whether the x and y coordinates passed to this function are contained within this Rectangle
                         	 *
                         	 * @method contains
                         	 * @param x {Float} The X coordinate of the point to test
                         	 * @param y {Float} The Y coordinate of the point to test
-                        	 * @return {Bool} Whether the x/y coordinates are within this polygon
+                        	 * @return {Bool} Whether the x/y coords are within this Rectangle
                         	 */
                         	function contains(x:Float, y:Float):Bool;
-                        
-                        	/**
-                        	 * Returns the framing rectangle of the circle as a PIXI.Rectangle object
-                        	 *
-                        	 * @method getBounds
-                        	 * @return {Rectangle} the framing rectangle
-                        	 */
-                        	function getBounds():Rectangle;
                         
                         	/**
                         	 * @property x
@@ -211,11 +205,18 @@
                         	var y:Float;
                         
                         	/**
-                        	 * @property radius
+                        	 * @property width
                         	 * @type Float
                         	 * @default 0
                         	 */
-                        	var radius:Float;
+                        	var width:Float;
+                        
+                        	/**
+                        	 * @property height
+                        	 * @type Float
+                        	 * @default 0
+                        	 */
+                        	var height:Float;
                         }
                             </pre>
                         </div>

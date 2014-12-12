@@ -6,60 +6,6 @@
         "url": "https://github.com/adireddy/haxe-pixi"
     },
     "files": {
-        "pixi/core/Circle.hx": {
-            "name": "pixi/core/Circle.hx",
-            "modules": {},
-            "classes": {
-                "Circle": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "pixi/core/Ellipse.hx": {
-            "name": "pixi/core/Ellipse.hx",
-            "modules": {},
-            "classes": {
-                "Ellipse": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "pixi/core/Matrix.hx": {
-            "name": "pixi/core/Matrix.hx",
-            "modules": {},
-            "classes": {
-                "Matrix": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "pixi/core/Point.hx": {
-            "name": "pixi/core/Point.hx",
-            "modules": {},
-            "classes": {
-                "Point": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "pixi/core/Polygon.hx": {
-            "name": "pixi/core/Polygon.hx",
-            "modules": {},
-            "classes": {
-                "Polygon": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "pixi/core/Rectangle.hx": {
-            "name": "pixi/core/Rectangle.hx",
-            "modules": {},
-            "classes": {
-                "Rectangle": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "pixi/display/DisplayObject.hx": {
             "name": "pixi/display/DisplayObject.hx",
             "modules": {},
@@ -362,6 +308,69 @@
             "modules": {},
             "classes": {
                 "TwistFilter": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "pixi/geom/Circle.hx": {
+            "name": "pixi/geom/Circle.hx",
+            "modules": {},
+            "classes": {
+                "Circle": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "pixi/geom/Ellipse.hx": {
+            "name": "pixi/geom/Ellipse.hx",
+            "modules": {},
+            "classes": {
+                "Ellipse": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "pixi/geom/Matrix.hx": {
+            "name": "pixi/geom/Matrix.hx",
+            "modules": {},
+            "classes": {
+                "Matrix": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "pixi/geom/Point.hx": {
+            "name": "pixi/geom/Point.hx",
+            "modules": {},
+            "classes": {
+                "Point": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "pixi/geom/Polygon.hx": {
+            "name": "pixi/geom/Polygon.hx",
+            "modules": {},
+            "classes": {
+                "Polygon": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "pixi/geom/Rectangle.hx": {
+            "name": "pixi/geom/Rectangle.hx",
+            "modules": {},
+            "classes": {
+                "Rectangle": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "pixi/geom/RoundedRectangle.hx": {
+            "name": "pixi/geom/RoundedRectangle.hx",
+            "modules": {},
+            "classes": {
+                "RoundedRectangle": 1
             },
             "fors": {},
             "namespaces": {}
@@ -735,164 +744,6 @@
     },
     "modules": {},
     "classes": {
-        "Circle": {
-            "name": "Circle",
-            "shortname": "Circle",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "file": "pixi/core/Circle.hx",
-            "line": 6,
-            "description": "The Circle object can be used to specify a hit area for displayObjects",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "x",
-                    "description": "The X coordinate of the center of this circle",
-                    "type": "Float"
-                },
-                {
-                    "name": "y",
-                    "description": "The Y coordinate of the center of this circle",
-                    "type": "Float"
-                },
-                {
-                    "name": "radius",
-                    "description": "The radius of the circle",
-                    "type": "Float"
-                }
-            ]
-        },
-        "Ellipse": {
-            "name": "Ellipse",
-            "shortname": "Ellipse",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "file": "pixi/core/Ellipse.hx",
-            "line": 6,
-            "description": "The Ellipse object can be used to specify a hit area for displayObjects",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "x",
-                    "description": "The X coordinate of the center of the ellipse",
-                    "type": "Float"
-                },
-                {
-                    "name": "y",
-                    "description": "The Y coordinate of the center of the ellipse",
-                    "type": "Float"
-                },
-                {
-                    "name": "width",
-                    "description": "The half width of this ellipse",
-                    "type": "Float"
-                },
-                {
-                    "name": "height",
-                    "description": "The half height of this ellipse",
-                    "type": "Float"
-                }
-            ]
-        },
-        "Matrix": {
-            "name": "Matrix",
-            "shortname": "Matrix",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "file": "pixi/core/Matrix.hx",
-            "line": 6,
-            "description": "The Matrix class is now an object, which makes it a lot faster,\nhere is a representation of it :\n| a | b | tx|\n| c | d | ty|\n| 0 | 0 | 1 |",
-            "is_constructor": 1
-        },
-        "Point": {
-            "name": "Point",
-            "shortname": "Point",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "file": "pixi/core/Point.hx",
-            "line": 6,
-            "description": "The Point object represents a location in a two-dimensional coordinate system, where x represents the horizontal axis and y represents the vertical axis.",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "x",
-                    "description": "position of the point on the x axis",
-                    "type": "Float"
-                },
-                {
-                    "name": "y",
-                    "description": "position of the point on the y axis",
-                    "type": "Float"
-                }
-            ]
-        },
-        "Polygon": {
-            "name": "Polygon",
-            "shortname": "Polygon",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "file": "pixi/core/Polygon.hx",
-            "line": 6,
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "points",
-                    "description": "This can be an array of Points that form the polygon,\n     a flat array of numbers that will be interpreted as [x,y, x,y, ...], or the arguments passed can be\n     all the points of the polygon e.g. `new PIXI.Polygon(new PIXI.Point(), new PIXI.Point(), ...)`, or the\n     arguments passed can be flat x,y values e.g. `new PIXI.Polygon(x,y, x,y, x,y, ...)` where `x` and `y` are\n     Numbers.",
-                    "type": "Array<Point>|Array<Number>|Point...|Number...",
-                    "multiple": true
-                }
-            ]
-        },
-        "Rectangle": {
-            "name": "Rectangle",
-            "shortname": "Rectangle",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "file": "pixi/core/Rectangle.hx",
-            "line": 6,
-            "description": "the Rectangle object is an area defined by its position, as indicated by its top-left corner point (x, y) and by its width and its height.",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "x",
-                    "description": "The X coord of the upper-left corner of the rectangle",
-                    "type": "Float"
-                },
-                {
-                    "name": "y",
-                    "description": "The Y coord of the upper-left corner of the rectangle",
-                    "type": "Float"
-                },
-                {
-                    "name": "width",
-                    "description": "The overall width of this rectangle",
-                    "type": "Float"
-                },
-                {
-                    "name": "height",
-                    "description": "The overall height of this rectangle",
-                    "type": "Float"
-                }
-            ]
-        },
         "DisplayObject": {
             "name": "DisplayObject",
             "shortname": "DisplayObject",
@@ -1015,14 +866,15 @@
             "file": "pixi/extras/Rope.hx",
             "line": 9,
             "is_constructor": 1,
+            "extends": "Strip",
             "params": [
                 {
                     "name": "texture",
-                    "description": "The texture to use",
+                    "description": "- The texture to use on the rope.",
                     "type": "Texture"
                 },
                 {
-                    "name": "points",
+                    "name": "points.",
                     "description": "",
                     "type": "Array<Point>"
                 }
@@ -1477,6 +1329,204 @@
             "description": "This filter applies a twist effect making display objects appear twisted in the given direction.",
             "extends": "AbstractFilter",
             "is_constructor": 1
+        },
+        "Circle": {
+            "name": "Circle",
+            "shortname": "Circle",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "pixi/geom/Circle.hx",
+            "line": 6,
+            "description": "The Circle object can be used to specify a hit area for displayObjects",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The X coordinate of the center of this circle",
+                    "type": "Float"
+                },
+                {
+                    "name": "y",
+                    "description": "The Y coordinate of the center of this circle",
+                    "type": "Float"
+                },
+                {
+                    "name": "radius",
+                    "description": "The radius of the circle",
+                    "type": "Float"
+                }
+            ]
+        },
+        "Ellipse": {
+            "name": "Ellipse",
+            "shortname": "Ellipse",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "pixi/geom/Ellipse.hx",
+            "line": 6,
+            "description": "The Ellipse object can be used to specify a hit area for displayObjects",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The X coordinate of the center of the ellipse",
+                    "type": "Float"
+                },
+                {
+                    "name": "y",
+                    "description": "The Y coordinate of the center of the ellipse",
+                    "type": "Float"
+                },
+                {
+                    "name": "width",
+                    "description": "The half width of this ellipse",
+                    "type": "Float"
+                },
+                {
+                    "name": "height",
+                    "description": "The half height of this ellipse",
+                    "type": "Float"
+                }
+            ]
+        },
+        "Matrix": {
+            "name": "Matrix",
+            "shortname": "Matrix",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "pixi/geom/Matrix.hx",
+            "line": 6,
+            "description": "The Matrix class is now an object, which makes it a lot faster,\nhere is a representation of it :\n| a | b | tx|\n| c | d | ty|\n| 0 | 0 | 1 |",
+            "is_constructor": 1
+        },
+        "Point": {
+            "name": "Point",
+            "shortname": "Point",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "pixi/geom/Point.hx",
+            "line": 6,
+            "description": "The Point object represents a location in a two-dimensional coordinate system, where x represents the horizontal axis and y represents the vertical axis.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "x",
+                    "description": "position of the point on the x axis",
+                    "type": "Float"
+                },
+                {
+                    "name": "y",
+                    "description": "position of the point on the y axis",
+                    "type": "Float"
+                }
+            ]
+        },
+        "Polygon": {
+            "name": "Polygon",
+            "shortname": "Polygon",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "pixi/geom/Polygon.hx",
+            "line": 6,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "points",
+                    "description": "This can be an array of Points that form the polygon,\n     a flat array of numbers that will be interpreted as [x,y, x,y, ...], or the arguments passed can be\n     all the points of the polygon e.g. `new PIXI.Polygon(new PIXI.Point(), new PIXI.Point(), ...)`, or the\n     arguments passed can be flat x,y values e.g. `new PIXI.Polygon(x,y, x,y, x,y, ...)` where `x` and `y` are\n     Numbers.",
+                    "type": "Array<Point>|Array<Number>|Point...|Number...",
+                    "multiple": true
+                }
+            ]
+        },
+        "Rectangle": {
+            "name": "Rectangle",
+            "shortname": "Rectangle",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "pixi/geom/Rectangle.hx",
+            "line": 6,
+            "description": "the Rectangle object is an area defined by its position, as indicated by its top-left corner point (x, y) and by its width and its height.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The X coord of the upper-left corner of the rectangle",
+                    "type": "Float"
+                },
+                {
+                    "name": "y",
+                    "description": "The Y coord of the upper-left corner of the rectangle",
+                    "type": "Float"
+                },
+                {
+                    "name": "width",
+                    "description": "The overall width of this rectangle",
+                    "type": "Float"
+                },
+                {
+                    "name": "height",
+                    "description": "The overall height of this rectangle",
+                    "type": "Float"
+                }
+            ]
+        },
+        "RoundedRectangle": {
+            "name": "RoundedRectangle",
+            "shortname": "RoundedRectangle",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "pixi/geom/RoundedRectangle.hx",
+            "line": 6,
+            "description": "The Rounded Rectangle object is an area defined by its position and has nice rounded corners, as indicated by its top-left corner point (x, y) and by its width and its height.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The X coordinate of the upper-left corner of the rounded rectangle",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "The Y coordinate of the upper-left corner of the rounded rectangle",
+                    "type": "Number"
+                },
+                {
+                    "name": "width",
+                    "description": "The overall width of this rounded rectangle",
+                    "type": "Number"
+                },
+                {
+                    "name": "height",
+                    "description": "The overall height of this rounded rectangle",
+                    "type": "Number"
+                },
+                {
+                    "name": "radius",
+                    "description": "The overall radius of this corners of this rounded rectangle",
+                    "type": "Number"
+                }
+            ]
         },
         "AssetLoader": {
             "name": "AssetLoader",
@@ -2442,563 +2492,6 @@
         }
     },
     "classitems": [
-        {
-            "file": "pixi/core/Circle.hx",
-            "line": 17,
-            "description": "Creates a clone of this Circle instance",
-            "itemtype": "method",
-            "name": "clone",
-            "return": {
-                "description": "a copy of the circle",
-                "type": "Circle"
-            },
-            "class": "Circle"
-        },
-        {
-            "file": "pixi/core/Circle.hx",
-            "line": 25,
-            "description": "Checks whether the x, and y coordinates passed to this function are contained within this circle",
-            "itemtype": "method",
-            "name": "contains",
-            "params": [
-                {
-                    "name": "x",
-                    "description": "The X coordinate of the point to test",
-                    "type": "Float"
-                },
-                {
-                    "name": "y",
-                    "description": "The Y coordinate of the point to test",
-                    "type": "Float"
-                }
-            ],
-            "return": {
-                "description": "Whether the x/y coordinates are within this polygon",
-                "type": "Bool"
-            },
-            "class": "Circle"
-        },
-        {
-            "file": "pixi/core/Circle.hx",
-            "line": 35,
-            "description": "Returns the framing rectangle of the circle as a PIXI.Rectangle object",
-            "itemtype": "method",
-            "name": "getBounds",
-            "return": {
-                "description": "the framing rectangle",
-                "type": "Rectangle"
-            },
-            "class": "Circle"
-        },
-        {
-            "file": "pixi/core/Circle.hx",
-            "line": 43,
-            "itemtype": "property",
-            "name": "x",
-            "type": "Float",
-            "default": "0",
-            "class": "Circle"
-        },
-        {
-            "file": "pixi/core/Circle.hx",
-            "line": 50,
-            "itemtype": "property",
-            "name": "y",
-            "type": "Float",
-            "default": "0",
-            "class": "Circle"
-        },
-        {
-            "file": "pixi/core/Circle.hx",
-            "line": 57,
-            "itemtype": "property",
-            "name": "radius",
-            "type": "Float",
-            "default": "0",
-            "class": "Circle"
-        },
-        {
-            "file": "pixi/core/Ellipse.hx",
-            "line": 18,
-            "description": "Creates a clone of this Ellipse instance",
-            "itemtype": "method",
-            "name": "clone",
-            "return": {
-                "description": "a copy of the ellipse",
-                "type": "Ellipse"
-            },
-            "class": "Ellipse"
-        },
-        {
-            "file": "pixi/core/Ellipse.hx",
-            "line": 26,
-            "description": "Checks whether the x and y coordinates passed to this function are contained within this ellipse",
-            "itemtype": "method",
-            "name": "contains",
-            "params": [
-                {
-                    "name": "x",
-                    "description": "The X coordinate of the point to test",
-                    "type": "Float"
-                },
-                {
-                    "name": "y",
-                    "description": "The Y coordinate of the point to test",
-                    "type": "Float"
-                }
-            ],
-            "return": {
-                "description": "Whether the x/y coords are within this ellipse",
-                "type": "Bool"
-            },
-            "class": "Ellipse"
-        },
-        {
-            "file": "pixi/core/Ellipse.hx",
-            "line": 36,
-            "description": "Returns the framing rectangle of the circle as a PIXI.Rectangle object",
-            "itemtype": "method",
-            "name": "getBounds",
-            "return": {
-                "description": "the framing rectangle",
-                "type": "Rectangle"
-            },
-            "class": "Ellipse"
-        },
-        {
-            "file": "pixi/core/Ellipse.hx",
-            "line": 44,
-            "itemtype": "property",
-            "name": "x",
-            "type": "Float",
-            "default": "0",
-            "class": "Ellipse"
-        },
-        {
-            "file": "pixi/core/Ellipse.hx",
-            "line": 51,
-            "itemtype": "property",
-            "name": "y",
-            "type": "Float",
-            "default": "0",
-            "class": "Ellipse"
-        },
-        {
-            "file": "pixi/core/Ellipse.hx",
-            "line": 58,
-            "itemtype": "property",
-            "name": "width",
-            "type": "Float",
-            "default": "0",
-            "class": "Ellipse"
-        },
-        {
-            "file": "pixi/core/Ellipse.hx",
-            "line": 65,
-            "itemtype": "property",
-            "name": "height",
-            "type": "Float",
-            "default": "0",
-            "class": "Ellipse"
-        },
-        {
-            "file": "pixi/core/Matrix.hx",
-            "line": 18,
-            "itemtype": "property",
-            "name": "a",
-            "type": "Int",
-            "default": "1",
-            "class": "Matrix"
-        },
-        {
-            "file": "pixi/core/Matrix.hx",
-            "line": 25,
-            "itemtype": "property",
-            "name": "b",
-            "type": "Int",
-            "default": "0",
-            "class": "Matrix"
-        },
-        {
-            "file": "pixi/core/Matrix.hx",
-            "line": 32,
-            "itemtype": "property",
-            "name": "c",
-            "type": "Int",
-            "default": "0",
-            "class": "Matrix"
-        },
-        {
-            "file": "pixi/core/Matrix.hx",
-            "line": 39,
-            "itemtype": "property",
-            "name": "d",
-            "type": "Number",
-            "default": "1",
-            "class": "Matrix"
-        },
-        {
-            "file": "pixi/core/Matrix.hx",
-            "line": 46,
-            "itemtype": "property",
-            "name": "tx",
-            "type": "Number",
-            "default": "0",
-            "class": "Matrix"
-        },
-        {
-            "file": "pixi/core/Matrix.hx",
-            "line": 53,
-            "itemtype": "property",
-            "name": "ty",
-            "type": "Number",
-            "default": "0",
-            "class": "Matrix"
-        },
-        {
-            "file": "pixi/core/Matrix.hx",
-            "line": 60,
-            "description": "Creates a pixi matrix object based on the array given as a parameter",
-            "itemtype": "method",
-            "name": "fromArray",
-            "params": [
-                {
-                    "name": "array",
-                    "description": "The array that the matrix will be filled with",
-                    "type": "Array"
-                }
-            ],
-            "class": "Matrix"
-        },
-        {
-            "file": "pixi/core/Matrix.hx",
-            "line": 68,
-            "description": "Creates an array from the current Matrix object",
-            "itemtype": "method",
-            "name": "toArray",
-            "params": [
-                {
-                    "name": "transpose",
-                    "description": "Whether we need to transpose the matrix or not",
-                    "type": "Bool"
-                }
-            ],
-            "return": {
-                "description": "the newly created array which contains the matrix",
-                "type": "Array"
-            },
-            "class": "Matrix"
-        },
-        {
-            "file": "pixi/core/Matrix.hx",
-            "line": 77,
-            "description": "Get a new position with the current transformation applied.\nCan be used to go from a child's coordinate space to the world coordinate space. (e.g. rendering)",
-            "itemtype": "method",
-            "name": "apply",
-            "params": [
-                {
-                    "name": "pos",
-                    "description": "The origin",
-                    "type": "Point"
-                },
-                {
-                    "name": "newPos",
-                    "description": "The point that the new position is assigned to (allowed to be same as input)",
-                    "type": "Point",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "The new point, transformed through this matrix",
-                "type": "Point"
-            },
-            "class": "Matrix"
-        },
-        {
-            "file": "pixi/core/Matrix.hx",
-            "line": 88,
-            "description": "Get a new position with the inverse of the current transformation applied.\nCan be used to go from the world coordinate space to a child's coordinate space. (e.g. input)",
-            "itemtype": "method",
-            "name": "applyInverse",
-            "params": [
-                {
-                    "name": "pos",
-                    "description": "The origin",
-                    "type": "Point"
-                },
-                {
-                    "name": "newPos",
-                    "description": "The point that the new position is assigned to (allowed to be same as input)",
-                    "type": "Point",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "The new point, inverse-transformed through this matrix",
-                "type": "Point"
-            },
-            "class": "Matrix"
-        },
-        {
-            "file": "pixi/core/Matrix.hx",
-            "line": 99,
-            "description": "Translates the matrix on the x and y.",
-            "itemtype": "method",
-            "name": "translate",
-            "params": [
-                {
-                    "name": "x",
-                    "description": "",
-                    "type": "Float"
-                },
-                {
-                    "name": "y",
-                    "description": "",
-                    "type": "Float"
-                }
-            ],
-            "return": {
-                "description": "This matrix. Good for chaining method calls.",
-                "type": "Matrix"
-            },
-            "class": "Matrix"
-        },
-        {
-            "file": "pixi/core/Matrix.hx",
-            "line": 109,
-            "description": "Applies a scale transformation to the matrix.",
-            "itemtype": "method",
-            "name": "scale",
-            "params": [
-                {
-                    "name": "x",
-                    "description": "The amount to scale horizontally",
-                    "type": "Float"
-                },
-                {
-                    "name": "y",
-                    "description": "The amount to scale vertically",
-                    "type": "Float"
-                }
-            ],
-            "return": {
-                "description": "This matrix. Good for chaining method calls.",
-                "type": "Matrix"
-            },
-            "class": "Matrix"
-        },
-        {
-            "file": "pixi/core/Matrix.hx",
-            "line": 119,
-            "description": "Applies a rotation transformation to the matrix.",
-            "itemtype": "method",
-            "name": "rotate",
-            "params": [
-                {
-                    "name": "angle",
-                    "description": "The angle in radians.",
-                    "type": "Float"
-                }
-            ],
-            "return": {
-                "description": "This matrix. Good for chaining method calls.",
-                "type": "Matrix"
-            },
-            "class": "Matrix"
-        },
-        {
-            "file": "pixi/core/Matrix.hx",
-            "line": 127,
-            "description": "Appends the given Matrix to this Matrix.",
-            "itemtype": "method",
-            "name": "append",
-            "params": [
-                {
-                    "name": "matrix",
-                    "description": "",
-                    "type": "Matrix"
-                }
-            ],
-            "return": {
-                "description": "This matrix. Good for chaining method calls.",
-                "type": "Matrix"
-            },
-            "class": "Matrix"
-        },
-        {
-            "file": "pixi/core/Matrix.hx",
-            "line": 136,
-            "description": "Resets this Matix to an identity (default) matrix.",
-            "itemtype": "method",
-            "name": "identity",
-            "return": {
-                "description": "This matrix. Good for chaining method calls.",
-                "type": "Matrix"
-            },
-            "class": "Matrix"
-        },
-        {
-            "file": "pixi/core/Point.hx",
-            "line": 16,
-            "description": "Creates a clone of this point",
-            "itemtype": "method",
-            "name": "clone",
-            "return": {
-                "description": "a copy of the point",
-                "type": "Point"
-            },
-            "class": "Point"
-        },
-        {
-            "file": "pixi/core/Point.hx",
-            "line": 24,
-            "description": "Sets the point to a new x and y position.\nIf y is ommited, both x and y will be set to x.",
-            "itemtype": "method",
-            "name": "set",
-            "params": [
-                {
-                    "name": "x",
-                    "description": "position of the point on the x axis",
-                    "type": "Float",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "y",
-                    "description": "position of the point on the y axis",
-                    "type": "Float",
-                    "optional": true,
-                    "optdefault": "0"
-                }
-            ],
-            "class": "Point"
-        },
-        {
-            "file": "pixi/core/Point.hx",
-            "line": 34,
-            "itemtype": "property",
-            "name": "x",
-            "type": "Float",
-            "default": "0",
-            "class": "Point"
-        },
-        {
-            "file": "pixi/core/Point.hx",
-            "line": 41,
-            "itemtype": "property",
-            "name": "y",
-            "type": "Float",
-            "default": "0",
-            "class": "Point"
-        },
-        {
-            "file": "pixi/core/Polygon.hx",
-            "line": 18,
-            "description": "Creates a clone of this polygon",
-            "itemtype": "method",
-            "name": "clone",
-            "return": {
-                "description": "a copy of the polygon",
-                "type": "Polygon"
-            },
-            "class": "Polygon"
-        },
-        {
-            "file": "pixi/core/Polygon.hx",
-            "line": 26,
-            "description": "Checks whether the x and y coordinates passed to this function are contained within this polygon",
-            "itemtype": "method",
-            "name": "contains",
-            "params": [
-                {
-                    "name": "x",
-                    "description": "The X coordinate of the point to test",
-                    "type": "Float"
-                },
-                {
-                    "name": "y",
-                    "description": "The Y coordinate of the point to test",
-                    "type": "Float"
-                }
-            ],
-            "return": {
-                "description": "Whether the x/y coordinates are within this polygon",
-                "type": "Bool"
-            },
-            "class": "Polygon"
-        },
-        {
-            "file": "pixi/core/Rectangle.hx",
-            "line": 18,
-            "description": "Creates a clone of this Rectangle instance",
-            "itemtype": "method",
-            "name": "clone",
-            "return": {
-                "description": "a copy of the rectangle",
-                "type": "Rectangle"
-            },
-            "class": "Rectangle"
-        },
-        {
-            "file": "pixi/core/Rectangle.hx",
-            "line": 26,
-            "description": "Checks whether the x and y coordinates passed to this function are contained within this Rectangle",
-            "itemtype": "method",
-            "name": "contains",
-            "params": [
-                {
-                    "name": "x",
-                    "description": "The X coordinate of the point to test",
-                    "type": "Float"
-                },
-                {
-                    "name": "y",
-                    "description": "The Y coordinate of the point to test",
-                    "type": "Float"
-                }
-            ],
-            "return": {
-                "description": "Whether the x/y coords are within this Rectangle",
-                "type": "Bool"
-            },
-            "class": "Rectangle"
-        },
-        {
-            "file": "pixi/core/Rectangle.hx",
-            "line": 36,
-            "itemtype": "property",
-            "name": "x",
-            "type": "Float",
-            "default": "0",
-            "class": "Rectangle"
-        },
-        {
-            "file": "pixi/core/Rectangle.hx",
-            "line": 43,
-            "itemtype": "property",
-            "name": "y",
-            "type": "Float",
-            "default": "0",
-            "class": "Rectangle"
-        },
-        {
-            "file": "pixi/core/Rectangle.hx",
-            "line": 50,
-            "itemtype": "property",
-            "name": "width",
-            "type": "Float",
-            "default": "0",
-            "class": "Rectangle"
-        },
-        {
-            "file": "pixi/core/Rectangle.hx",
-            "line": 57,
-            "itemtype": "property",
-            "name": "height",
-            "type": "Float",
-            "default": "0",
-            "class": "Rectangle"
-        },
         {
             "file": "pixi/display/DisplayObject.hx",
             "line": 23,
@@ -4102,6 +3595,25 @@
             "class": "Strip"
         },
         {
+            "file": "pixi/extras/Strip.hx",
+            "line": 41,
+            "description": "The blend mode to be applied to the sprite. Set to PIXI.blendModes.NORMAL to remove any blend mode.",
+            "itemtype": "property",
+            "name": "blendMode",
+            "type": "Int",
+            "default": "PIXI.blendModes.NORMAL;",
+            "class": "Strip"
+        },
+        {
+            "file": "pixi/extras/Strip.hx",
+            "line": 50,
+            "description": "Triangles in canvas mode are automatically antialiased, use this value to force triangles to overlap a bit with each other.",
+            "itemtype": "property",
+            "name": "canvasPadding",
+            "type": "Float",
+            "class": "Strip"
+        },
+        {
             "file": "pixi/extras/TilingSprite.hx",
             "line": 22,
             "description": "The scaling of the image that is being tiled",
@@ -4518,6 +4030,653 @@
             "line": 27,
             "description": "The radius of the twist.",
             "class": "TwistFilter"
+        },
+        {
+            "file": "pixi/geom/Circle.hx",
+            "line": 17,
+            "description": "Creates a clone of this Circle instance",
+            "itemtype": "method",
+            "name": "clone",
+            "return": {
+                "description": "a copy of the circle",
+                "type": "Circle"
+            },
+            "class": "Circle"
+        },
+        {
+            "file": "pixi/geom/Circle.hx",
+            "line": 25,
+            "description": "Checks whether the x, and y coordinates passed to this function are contained within this circle",
+            "itemtype": "method",
+            "name": "contains",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The X coordinate of the point to test",
+                    "type": "Float"
+                },
+                {
+                    "name": "y",
+                    "description": "The Y coordinate of the point to test",
+                    "type": "Float"
+                }
+            ],
+            "return": {
+                "description": "Whether the x/y coordinates are within this polygon",
+                "type": "Bool"
+            },
+            "class": "Circle"
+        },
+        {
+            "file": "pixi/geom/Circle.hx",
+            "line": 35,
+            "description": "Returns the framing rectangle of the circle as a PIXI.Rectangle object",
+            "itemtype": "method",
+            "name": "getBounds",
+            "return": {
+                "description": "the framing rectangle",
+                "type": "Rectangle"
+            },
+            "class": "Circle"
+        },
+        {
+            "file": "pixi/geom/Circle.hx",
+            "line": 43,
+            "itemtype": "property",
+            "name": "x",
+            "type": "Float",
+            "default": "0",
+            "class": "Circle"
+        },
+        {
+            "file": "pixi/geom/Circle.hx",
+            "line": 50,
+            "itemtype": "property",
+            "name": "y",
+            "type": "Float",
+            "default": "0",
+            "class": "Circle"
+        },
+        {
+            "file": "pixi/geom/Circle.hx",
+            "line": 57,
+            "itemtype": "property",
+            "name": "radius",
+            "type": "Float",
+            "default": "0",
+            "class": "Circle"
+        },
+        {
+            "file": "pixi/geom/Ellipse.hx",
+            "line": 18,
+            "description": "Creates a clone of this Ellipse instance",
+            "itemtype": "method",
+            "name": "clone",
+            "return": {
+                "description": "a copy of the ellipse",
+                "type": "Ellipse"
+            },
+            "class": "Ellipse"
+        },
+        {
+            "file": "pixi/geom/Ellipse.hx",
+            "line": 26,
+            "description": "Checks whether the x and y coordinates passed to this function are contained within this ellipse",
+            "itemtype": "method",
+            "name": "contains",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The X coordinate of the point to test",
+                    "type": "Float"
+                },
+                {
+                    "name": "y",
+                    "description": "The Y coordinate of the point to test",
+                    "type": "Float"
+                }
+            ],
+            "return": {
+                "description": "Whether the x/y coords are within this ellipse",
+                "type": "Bool"
+            },
+            "class": "Ellipse"
+        },
+        {
+            "file": "pixi/geom/Ellipse.hx",
+            "line": 36,
+            "description": "Returns the framing rectangle of the circle as a PIXI.Rectangle object",
+            "itemtype": "method",
+            "name": "getBounds",
+            "return": {
+                "description": "the framing rectangle",
+                "type": "Rectangle"
+            },
+            "class": "Ellipse"
+        },
+        {
+            "file": "pixi/geom/Ellipse.hx",
+            "line": 44,
+            "itemtype": "property",
+            "name": "x",
+            "type": "Float",
+            "default": "0",
+            "class": "Ellipse"
+        },
+        {
+            "file": "pixi/geom/Ellipse.hx",
+            "line": 51,
+            "itemtype": "property",
+            "name": "y",
+            "type": "Float",
+            "default": "0",
+            "class": "Ellipse"
+        },
+        {
+            "file": "pixi/geom/Ellipse.hx",
+            "line": 58,
+            "itemtype": "property",
+            "name": "width",
+            "type": "Float",
+            "default": "0",
+            "class": "Ellipse"
+        },
+        {
+            "file": "pixi/geom/Ellipse.hx",
+            "line": 65,
+            "itemtype": "property",
+            "name": "height",
+            "type": "Float",
+            "default": "0",
+            "class": "Ellipse"
+        },
+        {
+            "file": "pixi/geom/Matrix.hx",
+            "line": 18,
+            "itemtype": "property",
+            "name": "a",
+            "type": "Int",
+            "default": "1",
+            "class": "Matrix"
+        },
+        {
+            "file": "pixi/geom/Matrix.hx",
+            "line": 25,
+            "itemtype": "property",
+            "name": "b",
+            "type": "Int",
+            "default": "0",
+            "class": "Matrix"
+        },
+        {
+            "file": "pixi/geom/Matrix.hx",
+            "line": 32,
+            "itemtype": "property",
+            "name": "c",
+            "type": "Int",
+            "default": "0",
+            "class": "Matrix"
+        },
+        {
+            "file": "pixi/geom/Matrix.hx",
+            "line": 39,
+            "itemtype": "property",
+            "name": "d",
+            "type": "Number",
+            "default": "1",
+            "class": "Matrix"
+        },
+        {
+            "file": "pixi/geom/Matrix.hx",
+            "line": 46,
+            "itemtype": "property",
+            "name": "tx",
+            "type": "Number",
+            "default": "0",
+            "class": "Matrix"
+        },
+        {
+            "file": "pixi/geom/Matrix.hx",
+            "line": 53,
+            "itemtype": "property",
+            "name": "ty",
+            "type": "Number",
+            "default": "0",
+            "class": "Matrix"
+        },
+        {
+            "file": "pixi/geom/Matrix.hx",
+            "line": 60,
+            "description": "Creates a pixi matrix object based on the array given as a parameter",
+            "itemtype": "method",
+            "name": "fromArray",
+            "params": [
+                {
+                    "name": "array",
+                    "description": "The array that the matrix will be filled with",
+                    "type": "Array"
+                }
+            ],
+            "class": "Matrix"
+        },
+        {
+            "file": "pixi/geom/Matrix.hx",
+            "line": 68,
+            "description": "Creates an array from the current Matrix object",
+            "itemtype": "method",
+            "name": "toArray",
+            "params": [
+                {
+                    "name": "transpose",
+                    "description": "Whether we need to transpose the matrix or not",
+                    "type": "Bool"
+                }
+            ],
+            "return": {
+                "description": "the newly created array which contains the matrix",
+                "type": "Array"
+            },
+            "class": "Matrix"
+        },
+        {
+            "file": "pixi/geom/Matrix.hx",
+            "line": 77,
+            "description": "Get a new position with the current transformation applied.\nCan be used to go from a child's coordinate space to the world coordinate space. (e.g. rendering)",
+            "itemtype": "method",
+            "name": "apply",
+            "params": [
+                {
+                    "name": "pos",
+                    "description": "The origin",
+                    "type": "Point"
+                },
+                {
+                    "name": "newPos",
+                    "description": "The point that the new position is assigned to (allowed to be same as input)",
+                    "type": "Point",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "The new point, transformed through this matrix",
+                "type": "Point"
+            },
+            "class": "Matrix"
+        },
+        {
+            "file": "pixi/geom/Matrix.hx",
+            "line": 88,
+            "description": "Get a new position with the inverse of the current transformation applied.\nCan be used to go from the world coordinate space to a child's coordinate space. (e.g. input)",
+            "itemtype": "method",
+            "name": "applyInverse",
+            "params": [
+                {
+                    "name": "pos",
+                    "description": "The origin",
+                    "type": "Point"
+                },
+                {
+                    "name": "newPos",
+                    "description": "The point that the new position is assigned to (allowed to be same as input)",
+                    "type": "Point",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "The new point, inverse-transformed through this matrix",
+                "type": "Point"
+            },
+            "class": "Matrix"
+        },
+        {
+            "file": "pixi/geom/Matrix.hx",
+            "line": 99,
+            "description": "Translates the matrix on the x and y.",
+            "itemtype": "method",
+            "name": "translate",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "return": {
+                "description": "This matrix. Good for chaining method calls.",
+                "type": "Matrix"
+            },
+            "class": "Matrix"
+        },
+        {
+            "file": "pixi/geom/Matrix.hx",
+            "line": 109,
+            "description": "Applies a scale transformation to the matrix.",
+            "itemtype": "method",
+            "name": "scale",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The amount to scale horizontally",
+                    "type": "Float"
+                },
+                {
+                    "name": "y",
+                    "description": "The amount to scale vertically",
+                    "type": "Float"
+                }
+            ],
+            "return": {
+                "description": "This matrix. Good for chaining method calls.",
+                "type": "Matrix"
+            },
+            "class": "Matrix"
+        },
+        {
+            "file": "pixi/geom/Matrix.hx",
+            "line": 119,
+            "description": "Applies a rotation transformation to the matrix.",
+            "itemtype": "method",
+            "name": "rotate",
+            "params": [
+                {
+                    "name": "angle",
+                    "description": "The angle in radians.",
+                    "type": "Float"
+                }
+            ],
+            "return": {
+                "description": "This matrix. Good for chaining method calls.",
+                "type": "Matrix"
+            },
+            "class": "Matrix"
+        },
+        {
+            "file": "pixi/geom/Matrix.hx",
+            "line": 127,
+            "description": "Appends the given Matrix to this Matrix.",
+            "itemtype": "method",
+            "name": "append",
+            "params": [
+                {
+                    "name": "matrix",
+                    "description": "",
+                    "type": "Matrix"
+                }
+            ],
+            "return": {
+                "description": "This matrix. Good for chaining method calls.",
+                "type": "Matrix"
+            },
+            "class": "Matrix"
+        },
+        {
+            "file": "pixi/geom/Matrix.hx",
+            "line": 136,
+            "description": "Resets this Matix to an identity (default) matrix.",
+            "itemtype": "method",
+            "name": "identity",
+            "return": {
+                "description": "This matrix. Good for chaining method calls.",
+                "type": "Matrix"
+            },
+            "class": "Matrix"
+        },
+        {
+            "file": "pixi/geom/Point.hx",
+            "line": 16,
+            "description": "Creates a clone of this point",
+            "itemtype": "method",
+            "name": "clone",
+            "return": {
+                "description": "a copy of the point",
+                "type": "Point"
+            },
+            "class": "Point"
+        },
+        {
+            "file": "pixi/geom/Point.hx",
+            "line": 24,
+            "description": "Sets the point to a new x and y position.\nIf y is ommited, both x and y will be set to x.",
+            "itemtype": "method",
+            "name": "set",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "position of the point on the x axis",
+                    "type": "Float",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "y",
+                    "description": "position of the point on the y axis",
+                    "type": "Float",
+                    "optional": true,
+                    "optdefault": "0"
+                }
+            ],
+            "class": "Point"
+        },
+        {
+            "file": "pixi/geom/Point.hx",
+            "line": 34,
+            "itemtype": "property",
+            "name": "x",
+            "type": "Float",
+            "default": "0",
+            "class": "Point"
+        },
+        {
+            "file": "pixi/geom/Point.hx",
+            "line": 41,
+            "itemtype": "property",
+            "name": "y",
+            "type": "Float",
+            "default": "0",
+            "class": "Point"
+        },
+        {
+            "file": "pixi/geom/Polygon.hx",
+            "line": 18,
+            "description": "Creates a clone of this polygon",
+            "itemtype": "method",
+            "name": "clone",
+            "return": {
+                "description": "a copy of the polygon",
+                "type": "Polygon"
+            },
+            "class": "Polygon"
+        },
+        {
+            "file": "pixi/geom/Polygon.hx",
+            "line": 26,
+            "description": "Checks whether the x and y coordinates passed to this function are contained within this polygon",
+            "itemtype": "method",
+            "name": "contains",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The X coordinate of the point to test",
+                    "type": "Float"
+                },
+                {
+                    "name": "y",
+                    "description": "The Y coordinate of the point to test",
+                    "type": "Float"
+                }
+            ],
+            "return": {
+                "description": "Whether the x/y coordinates are within this polygon",
+                "type": "Bool"
+            },
+            "class": "Polygon"
+        },
+        {
+            "file": "pixi/geom/Polygon.hx",
+            "line": 36,
+            "description": "An array of the points of this polygon",
+            "itemtype": "property",
+            "name": "points",
+            "type": "Array<Point>",
+            "class": "Polygon"
+        },
+        {
+            "file": "pixi/geom/Rectangle.hx",
+            "line": 18,
+            "description": "Creates a clone of this Rectangle instance",
+            "itemtype": "method",
+            "name": "clone",
+            "return": {
+                "description": "a copy of the rectangle",
+                "type": "Rectangle"
+            },
+            "class": "Rectangle"
+        },
+        {
+            "file": "pixi/geom/Rectangle.hx",
+            "line": 26,
+            "description": "Checks whether the x and y coordinates passed to this function are contained within this Rectangle",
+            "itemtype": "method",
+            "name": "contains",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The X coordinate of the point to test",
+                    "type": "Float"
+                },
+                {
+                    "name": "y",
+                    "description": "The Y coordinate of the point to test",
+                    "type": "Float"
+                }
+            ],
+            "return": {
+                "description": "Whether the x/y coords are within this Rectangle",
+                "type": "Bool"
+            },
+            "class": "Rectangle"
+        },
+        {
+            "file": "pixi/geom/Rectangle.hx",
+            "line": 36,
+            "itemtype": "property",
+            "name": "x",
+            "type": "Float",
+            "default": "0",
+            "class": "Rectangle"
+        },
+        {
+            "file": "pixi/geom/Rectangle.hx",
+            "line": 43,
+            "itemtype": "property",
+            "name": "y",
+            "type": "Float",
+            "default": "0",
+            "class": "Rectangle"
+        },
+        {
+            "file": "pixi/geom/Rectangle.hx",
+            "line": 50,
+            "itemtype": "property",
+            "name": "width",
+            "type": "Float",
+            "default": "0",
+            "class": "Rectangle"
+        },
+        {
+            "file": "pixi/geom/Rectangle.hx",
+            "line": 57,
+            "itemtype": "property",
+            "name": "height",
+            "type": "Float",
+            "default": "0",
+            "class": "Rectangle"
+        },
+        {
+            "file": "pixi/geom/RoundedRectangle.hx",
+            "line": 19,
+            "description": "Creates a clone of this Rounded Rectangle",
+            "itemtype": "method",
+            "name": "clone",
+            "return": {
+                "description": "a copy of the rounded rectangle",
+                "type": "RoundedRectangle"
+            },
+            "class": "RoundedRectangle"
+        },
+        {
+            "file": "pixi/geom/RoundedRectangle.hx",
+            "line": 27,
+            "description": "Checks whether the x and y coordinates given are contained within this Rounded Rectangle",
+            "itemtype": "method",
+            "name": "contains",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The X coordinate of the point to test",
+                    "type": "Float"
+                },
+                {
+                    "name": "y",
+                    "description": "The Y coordinate of the point to test",
+                    "type": "Float"
+                }
+            ],
+            "return": {
+                "description": "Whether the x/y coordinates are within this Rounded Rectangle",
+                "type": "Boolean"
+            },
+            "class": "RoundedRectangle"
+        },
+        {
+            "file": "pixi/geom/RoundedRectangle.hx",
+            "line": 37,
+            "itemtype": "property",
+            "name": "x",
+            "type": "Float",
+            "default": "0",
+            "class": "RoundedRectangle"
+        },
+        {
+            "file": "pixi/geom/RoundedRectangle.hx",
+            "line": 44,
+            "itemtype": "property",
+            "name": "y",
+            "type": "Float",
+            "default": "0",
+            "class": "RoundedRectangle"
+        },
+        {
+            "file": "pixi/geom/RoundedRectangle.hx",
+            "line": 51,
+            "itemtype": "property",
+            "name": "width",
+            "type": "Float",
+            "default": "0",
+            "class": "RoundedRectangle"
+        },
+        {
+            "file": "pixi/geom/RoundedRectangle.hx",
+            "line": 58,
+            "itemtype": "property",
+            "name": "height",
+            "type": "Float",
+            "default": "0",
+            "class": "RoundedRectangle"
+        },
+        {
+            "file": "pixi/geom/RoundedRectangle.hx",
+            "line": 65,
+            "itemtype": "property",
+            "name": "radius",
+            "type": "Float",
+            "default": "20",
+            "class": "RoundedRectangle"
         },
         {
             "file": "pixi/loaders/AssetLoader.hx",
@@ -5093,7 +5252,7 @@
         },
         {
             "file": "pixi/primitives/Graphics.hx",
-            "line": 102,
+            "line": 101,
             "description": "The arc() method creates an arc/curve (used to create circles, or parts of circles).",
             "itemtype": "method",
             "name": "arc",
@@ -5138,7 +5297,7 @@
         },
         {
             "file": "pixi/primitives/Graphics.hx",
-            "line": 116,
+            "line": 115,
             "description": "Specifies a simple one-color fill that subsequent calls to other Graphics methods\n(such as lineTo() or drawCircle()) use when drawing.",
             "itemtype": "method",
             "name": "beginFill",
@@ -5163,7 +5322,7 @@
         },
         {
             "file": "pixi/primitives/Graphics.hx",
-            "line": 127,
+            "line": 126,
             "description": "Applies a fill to the lines and shapes that were added since the last call to the beginFill() method.",
             "itemtype": "method",
             "name": "endFill",
@@ -5175,7 +5334,7 @@
         },
         {
             "file": "pixi/primitives/Graphics.hx",
-            "line": 135,
+            "line": 134,
             "itemtype": "method",
             "name": "drawRect",
             "params": [
@@ -5208,7 +5367,7 @@
         },
         {
             "file": "pixi/primitives/Graphics.hx",
-            "line": 146,
+            "line": 145,
             "itemtype": "method",
             "name": "drawRoundedRect",
             "params": [
@@ -5246,7 +5405,7 @@
         },
         {
             "file": "pixi/primitives/Graphics.hx",
-            "line": 158,
+            "line": 157,
             "description": "Draws a circle.",
             "itemtype": "method",
             "name": "drawCircle",
@@ -5275,7 +5434,7 @@
         },
         {
             "file": "pixi/primitives/Graphics.hx",
-            "line": 169,
+            "line": 168,
             "description": "Draws an ellipse.",
             "itemtype": "method",
             "name": "drawEllipse",
@@ -5309,7 +5468,7 @@
         },
         {
             "file": "pixi/primitives/Graphics.hx",
-            "line": 181,
+            "line": 180,
             "description": "Draws a polygon using the given path.",
             "itemtype": "method",
             "name": "drawPolygon",
@@ -5328,7 +5487,7 @@
         },
         {
             "file": "pixi/primitives/Graphics.hx",
-            "line": 190,
+            "line": 189,
             "description": "Clears the graphics that were drawn to this Graphics object, and resets fill and line style settings.",
             "itemtype": "method",
             "name": "clear",
@@ -5340,7 +5499,7 @@
         },
         {
             "file": "pixi/primitives/Graphics.hx",
-            "line": 198,
+            "line": 197,
             "description": "Updates texture size based on canvas size",
             "itemtype": "method",
             "name": "updateCachedSpriteTexture",
@@ -5348,7 +5507,7 @@
         },
         {
             "file": "pixi/primitives/Graphics.hx",
-            "line": 205,
+            "line": 204,
             "description": "Destroys a previous cached sprite.",
             "itemtype": "method",
             "name": "destroyCachedSprite",
@@ -5356,7 +5515,7 @@
         },
         {
             "file": "pixi/primitives/Graphics.hx",
-            "line": 212,
+            "line": 211,
             "description": "Update the bounds of the object",
             "itemtype": "method",
             "name": "updateBounds",
@@ -5364,7 +5523,7 @@
         },
         {
             "file": "pixi/primitives/Graphics.hx",
-            "line": 219,
+            "line": 218,
             "description": "Draws the given shape to this Graphics object. Can be any of Circle, Rectangle, Ellipse, Line or Polygon.",
             "itemtype": "method",
             "name": "drawShape",
@@ -5383,68 +5542,68 @@
         },
         {
             "file": "pixi/primitives/Graphics.hx",
-            "line": 231,
-            "description": "The alpha of the fill of this graphics object",
+            "line": 230,
+            "description": "The alpha value used when filling the Graphics object.",
+            "itemtype": "property",
+            "name": "fillAlpha",
+            "type": "Float",
             "class": "Graphics"
         },
         {
             "file": "pixi/primitives/Graphics.hx",
-            "line": 236,
-            "description": "The width of any lines drawn",
-            "class": "Graphics"
-        },
-        {
-            "file": "pixi/primitives/Graphics.hx",
-            "line": 241,
-            "description": "The color of any lines drawn",
+            "line": 238,
+            "description": "The width (thickness) of any lines drawn.",
+            "itemtype": "property",
+            "name": "lineWidth",
+            "type": "Float",
             "class": "Graphics"
         },
         {
             "file": "pixi/primitives/Graphics.hx",
             "line": 246,
-            "description": "Graphics data",
+            "description": "The color of any lines drawn.",
+            "itemtype": "property",
+            "name": "lineColor",
+            "type": "String",
+            "default": "0",
             "class": "Graphics"
         },
         {
             "file": "pixi/primitives/Graphics.hx",
-            "line": 251,
-            "description": "The tint applied to the graphic shape. This is a hex value",
+            "line": 255,
+            "description": "The tint applied to the graphic shape. This is a hex value. Apply a value of 0xFFFFFF to reset the tint.",
+            "itemtype": "property",
+            "name": "tint",
+            "type": "Int",
+            "default": "0xFFFFFF",
             "class": "Graphics"
         },
         {
             "file": "pixi/primitives/Graphics.hx",
-            "line": 256,
-            "description": "The blend mode to be applied to the graphic shape",
+            "line": 264,
+            "description": "The blend mode to be applied to the graphic shape. Apply a value of PIXI.blendModes.NORMAL to reset the blend mode.",
+            "itemtype": "property",
+            "name": "blendMode",
+            "type": "Int",
+            "default": "PIXI.blendModes.NORMAL;",
             "class": "Graphics"
         },
         {
             "file": "pixi/primitives/Graphics.hx",
-            "line": 261,
-            "description": "Current path",
-            "class": "Graphics"
-        },
-        {
-            "file": "pixi/primitives/Graphics.hx",
-            "line": 266,
-            "description": "Array containing some WebGL-related properties used by the WebGL renderer",
-            "class": "Graphics"
-        },
-        {
-            "file": "pixi/primitives/Graphics.hx",
-            "line": 271,
-            "description": "Whether this shape is being used as a mask",
-            "class": "Graphics"
-        },
-        {
-            "file": "pixi/primitives/Graphics.hx",
-            "line": 276,
-            "description": "the bounds' padding used for bounds calculation",
+            "line": 273,
+            "description": "Whether this shape is being used as a mask.",
+            "itemtype": "property",
+            "name": "isMask",
+            "type": "Bool",
             "class": "Graphics"
         },
         {
             "file": "pixi/primitives/Graphics.hx",
             "line": 281,
-            "description": "Used to detect if the graphics object has changed if this is set to true then the graphics object will be recalculated",
+            "description": "The bounds' padding used for bounds calculation.",
+            "itemtype": "property",
+            "name": "boundsPadding",
+            "type": "Float",
             "class": "Graphics"
         },
         {
@@ -8365,7 +8524,31 @@
         },
         {
             "file": "pixi/utils/Utils.hx",
-            "line": 43,
+            "line": 42,
+            "description": "checks if the given width and height make a power of two texture",
+            "itemtype": "method",
+            "name": "isPowerOfTwo",
+            "params": [
+                {
+                    "name": "width",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "height",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Bool"
+            },
+            "class": "InteractionData"
+        },
+        {
+            "file": "pixi/utils/Utils.hx",
+            "line": 52,
             "description": "A wrapper for ajax requests to be handled cross browser",
             "itemtype": "method",
             "name": "AjaxRequest",
@@ -8776,50 +8959,6 @@
         {
             "message": "Missing item type\nParsed json response",
             "line": " pixi/loaders/SpriteSheetLoader.hx:67"
-        },
-        {
-            "message": "Missing item type\nThe alpha of the fill of this graphics object",
-            "line": " pixi/primitives/Graphics.hx:231"
-        },
-        {
-            "message": "Missing item type\nThe width of any lines drawn",
-            "line": " pixi/primitives/Graphics.hx:236"
-        },
-        {
-            "message": "Missing item type\nThe color of any lines drawn",
-            "line": " pixi/primitives/Graphics.hx:241"
-        },
-        {
-            "message": "Missing item type\nGraphics data",
-            "line": " pixi/primitives/Graphics.hx:246"
-        },
-        {
-            "message": "Missing item type\nThe tint applied to the graphic shape. This is a hex value",
-            "line": " pixi/primitives/Graphics.hx:251"
-        },
-        {
-            "message": "Missing item type\nThe blend mode to be applied to the graphic shape",
-            "line": " pixi/primitives/Graphics.hx:256"
-        },
-        {
-            "message": "Missing item type\nCurrent path",
-            "line": " pixi/primitives/Graphics.hx:261"
-        },
-        {
-            "message": "Missing item type\nArray containing some WebGL-related properties used by the WebGL renderer",
-            "line": " pixi/primitives/Graphics.hx:266"
-        },
-        {
-            "message": "Missing item type\nWhether this shape is being used as a mask",
-            "line": " pixi/primitives/Graphics.hx:271"
-        },
-        {
-            "message": "Missing item type\nthe bounds' padding used for bounds calculation",
-            "line": " pixi/primitives/Graphics.hx:276"
-        },
-        {
-            "message": "Missing item type\nUsed to detect if the graphics object has changed if this is set to true then the graphics object will be recalculated",
-            "line": " pixi/primitives/Graphics.hx:281"
         },
         {
             "message": "Missing item type\nNumber of steps which will be used as a cap when rounding colors",

@@ -53,6 +53,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Rectangle",
         "RenderTexture",
         "Rope",
+        "RoundedRectangle",
         "SepiaFilter",
         "SmartBlurFilter",
         "Spine",
