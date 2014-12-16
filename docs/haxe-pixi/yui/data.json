@@ -621,6 +621,13 @@
             "fors": {},
             "namespaces": {}
         },
+        "pixi/spine/AnimationState.hx": {
+            "name": "pixi/spine/AnimationState.hx",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "pixi/spine/Spine.hx": {
             "name": "pixi/spine/Spine.hx",
             "modules": {},
@@ -7422,6 +7429,23 @@
             "class": "WebGLRenderer"
         },
         {
+            "file": "pixi/spine/AnimationState.hx",
+            "line": 28,
+            "description": "Set the current animation. Any queued animations are cleared.",
+            "class": "Spine"
+        },
+        {
+            "file": "pixi/spine/AnimationState.hx",
+            "line": 35,
+            "params": [
+                {
+                    "name": "delay",
+                    "description": "May be <= 0 to use duration of previous animation minus any mix duration plus the negative delay."
+                }
+            ],
+            "class": "Spine"
+        },
+        {
             "file": "pixi/text/BitmapText.hx",
             "line": 22,
             "description": "Set the style of the text\nstyle.font {String} The size (optional) and bitmap font id (required) eq 'Arial' or '20px Arial' (must have loaded previously)\n[style.align='left'] {String} Alignment for multiline text ('left', 'center' or 'right'), does not affect single lines of text",
@@ -8971,6 +8995,14 @@
         {
             "message": "Missing item type\nWhether or not the Canvas BlendModes are supported, consequently the ability to tint using the multiply method",
             "line": " pixi/renderers/canvas/utils/CanvasTinter.hx:20"
+        },
+        {
+            "message": "Missing item type\nSet the current animation. Any queued animations are cleared.",
+            "line": " pixi/spine/AnimationState.hx:28"
+        },
+        {
+            "message": "Missing item type",
+            "line": " pixi/spine/AnimationState.hx:35"
         },
         {
             "message": "Missing item type\nThe style parameters",
