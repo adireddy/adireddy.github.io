@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>pixi/renderers/webgl/utils/WebGLStencilManager.hx - haxe-pixi</title>
+    <title>pixi/spine/SpineTextureLoader.hx - haxe-pixi</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -152,61 +152,43 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: pixi/renderers/webgl/utils/WebGLStencilManager.hx</h1>
+                        <h1 class="file-heading">File: pixi/spine/SpineTextureLoader.hx</h1>
                         
                         <div class="file">
                             <pre class="code prettyprint linenums">
-                        package pixi.renderers.webgl.utils;
+                        package pixi.spine;
                         
-                        import pixi.primitives.Graphics;
-                        @:native(&quot;PIXI.WebGLStencilManager&quot;)
-                        extern class WebGLStencilManager {
-                        
-                        	/**
-                        	 * @class WebGLStencilManager
-                        	 */
-                        	function new();
+                        import pixi.textures.BaseTexture;
+                        @:native(&quot;PIXI.SpineTextureLoader&quot;)
+                        extern class SpineTextureLoader {
                         
                         	/**
-                        	* @method setContext
-                        	* @param gl {WebGLContext} the current WebGL drawing context
-                        	*/
-                        	function setContext(gl:Dynamic):Void;
-                        
-                        	/**
-                        	* Applies the Mask and adds it to the current filter stack.
-                        	*
-                        	* @method pushStencil
-                        	* @param graphics {Graphics}
-                        	* @param webGLData {Array}
-                        	* @param renderSession {Object}
-                        	*/
-                        	function pushStencil(graphics:Graphics, webGLData:Array&lt;Dynamic&gt;, renderSession:Dynamic):Void;
-                        
-                        	/**
-                        	 * @method popStencil
-                        	 * @param graphics {Graphics}
-                        	 * @param webGLData {Array}
-                        	 * @param renderSession {Object}
-                        	 */
-                        	function popStencil(graphics:Graphics, webGLData:Array&lt;Dynamic&gt;, renderSession:Dynamic):Void;
-                        
-                        	/**
-                        	 * TODO this does not belong here!
+                        	 * Supporting class to load images from spine atlases as per spine spec.
                         	 *
-                        	 * @method bindGraphics
-                        	 * @param graphics {Graphics}
-                        	 * @param webGLData {Array}
-                        	 * @param renderSession {Object}
+                        	 * @class SpineTextureLoader
+                        	 * @uses EventTarget
+                        	 * @constructor
+                        	 * @param basePath {String} Tha base path where to look for the images to be loaded
+                        	 * @param crossorigin {Bool} Whether requests should be treated as crossorigin
                         	 */
-                        	function bindGraphics(graphics:Graphics, webGLData:Array&lt;Dynamic&gt;, renderSession:Dynamic):Void;
+                        	function new(basePath:String, ?crossorigin:Bool);
                         
                         	/**
-                        	* Destroys this object.
-                        	*
-                        	* @method destroy
-                        	*/
-                        	function destroy():Void;
+                        	 * Starts loading a base texture as per spine specification
+                        	 *
+                        	 * @method load
+                        	 * @param page {spine.AtlasPage} Atlas page to which texture belongs
+                        	 * @param file {String} The file to load, this is just the file path relative to the base path configured in the constructor
+                        	 */
+                        	function load(page:Dynamic, file:String):Void;
+                        
+                        	/**
+                        	 * Unloads a previously loaded texture as per spine specification
+                        	 *
+                        	 * @method unload
+                        	 * @param texture {BaseTexture} Texture object to destroy
+                        	 */
+                        	function unload(texture:BaseTexture):Void;
                         
                         }
                             </pre>

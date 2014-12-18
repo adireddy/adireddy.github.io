@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="haxe-pixi"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.2.0</em>
+            <em>API Docs for: 2.2.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -95,6 +95,7 @@
                                 <li><a href="../classes/SmartBlurFilter.html">SmartBlurFilter</a></li>
                                 <li><a href="../classes/Spine.html">Spine</a></li>
                                 <li><a href="../classes/SpineLoader.html">SpineLoader</a></li>
+                                <li><a href="../classes/SpineTextureLoader.html">SpineTextureLoader</a></li>
                                 <li><a href="../classes/Sprite.html">Sprite</a></li>
                                 <li><a href="../classes/SpriteBatch.html">SpriteBatch</a></li>
                                 <li><a href="../classes/SpriteSheetLoader.html">SpriteSheetLoader</a></li>
@@ -157,6 +158,7 @@
                             <pre class="code prettyprint linenums">
                         package pixi;
                         
+                        import pixi.utils.Event;
                         import pixi.display.Sprite;
                         import pixi.display.DisplayObject;
                         import pixi.geom.Point;
@@ -194,7 +196,7 @@
                         	 * @property originalEvent
                         	 * @type Event
                         	 */
-                        	var originalEvent:Dynamic;
+                        	var originalEvent:Event;
                         
                         	/**
                         	 * This will return the local coordinates of the specified displayObject for this InteractionData

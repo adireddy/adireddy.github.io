@@ -58,6 +58,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "SmartBlurFilter",
         "Spine",
         "SpineLoader",
+        "SpineTextureLoader",
         "Sprite",
         "SpriteBatch",
         "SpriteSheetLoader",

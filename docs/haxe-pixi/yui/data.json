@@ -2,7 +2,7 @@
     "project": {
         "name": "haxe-pixi",
         "description": "Haxe Pixi Externs",
-        "version": "2.2.0",
+        "version": "2.2.1",
         "url": "https://github.com/adireddy/haxe-pixi"
     },
     "files": {
@@ -633,6 +633,15 @@
             "modules": {},
             "classes": {
                 "Spine": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "pixi/spine/SpineTextureLoader.hx": {
+            "name": "pixi/spine/SpineTextureLoader.hx",
+            "modules": {},
+            "classes": {
+                "SpineTextureLoader": 1
             },
             "fors": {},
             "namespaces": {}
@@ -2140,7 +2149,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "pixi/spine/Spine.hx",
-            "line": 9,
+            "line": 8,
             "description": "A class that enables the you to import and run your spine animations in pixi.\nSpine animation data needs to be loaded using the PIXI.AssetLoader or PIXI.SpineLoader before it can be used by this class\nSee example 12 (http://www.goodboydigital.com/pixijs/examples/12/) to see a working example and check out the source",
             "extends": "DisplayObjectContainer",
             "is_constructor": 1,
@@ -2149,6 +2158,34 @@
                     "name": "url",
                     "description": "The url of the spine anim file to be used",
                     "type": "String"
+                }
+            ]
+        },
+        "SpineTextureLoader": {
+            "name": "SpineTextureLoader",
+            "shortname": "SpineTextureLoader",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "pixi/spine/SpineTextureLoader.hx",
+            "line": 7,
+            "description": "Supporting class to load images from spine atlases as per spine spec.",
+            "uses": [
+                "EventTarget"
+            ],
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "basePath",
+                    "description": "Tha base path where to look for the images to be loaded",
+                    "type": "String"
+                },
+                {
+                    "name": "crossorigin",
+                    "description": "Whether requests should be treated as crossorigin",
+                    "type": "Bool"
                 }
             ]
         },
@@ -2454,6 +2491,7 @@
                 "JsonLoader",
                 "SpineLoader",
                 "SpriteSheetLoader",
+                "SpineTextureLoader",
                 "BaseTexture",
                 "Texture"
             ],
@@ -2473,7 +2511,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "pixi/InteractionData.hx",
-            "line": 10,
+            "line": 11,
             "description": "Holds all information related to an Interaction event",
             "is_constructor": 1
         },
@@ -4925,7 +4963,7 @@
             "description": "Whether the requests should be treated as cross origin",
             "itemtype": "property",
             "name": "crossorigin",
-            "type": "Boolean",
+            "type": "Bool",
             "class": "JsonLoader"
         },
         {
@@ -4944,7 +4982,7 @@
             "description": "[read-only] Whether the data has loaded yet",
             "itemtype": "property",
             "name": "loaded",
-            "type": "Boolean",
+            "type": "Bool",
             "readonly": "",
             "class": "JsonLoader"
         },
@@ -7446,6 +7484,66 @@
             "class": "Spine"
         },
         {
+            "file": "pixi/spine/Spine.hx",
+            "line": 20,
+            "description": "If this flag is set to true, the spine animation will be autoupdated every time\nthe object id drawn. The down side of this approach is that the delta time is\nautomatically calculated and you could miss out on cool effects like slow motion,\npause, skip ahead and the sorts. Most of these effects can be achieved even with\nautoupdate enabled but are harder to achieve.",
+            "itemtype": "property",
+            "name": "autoUpdate",
+            "type": "{ Bool }",
+            "default": "true",
+            "class": "Spine"
+        },
+        {
+            "file": "pixi/spine/Spine.hx",
+            "line": 33,
+            "description": "Update the spine skeleton and its animations by delta time (dt)",
+            "itemtype": "method",
+            "name": "update",
+            "params": [
+                {
+                    "name": "dt",
+                    "description": "Delta time. Time by which the animation should be updated",
+                    "type": "Float"
+                }
+            ],
+            "class": "Spine"
+        },
+        {
+            "file": "pixi/spine/SpineTextureLoader.hx",
+            "line": 18,
+            "description": "Starts loading a base texture as per spine specification",
+            "itemtype": "method",
+            "name": "load",
+            "params": [
+                {
+                    "name": "page",
+                    "description": "Atlas page to which texture belongs",
+                    "type": "spine.AtlasPage"
+                },
+                {
+                    "name": "file",
+                    "description": "The file to load, this is just the file path relative to the base path configured in the constructor",
+                    "type": "String"
+                }
+            ],
+            "class": "SpineTextureLoader"
+        },
+        {
+            "file": "pixi/spine/SpineTextureLoader.hx",
+            "line": 27,
+            "description": "Unloads a previously loaded texture as per spine specification",
+            "itemtype": "method",
+            "name": "unload",
+            "params": [
+                {
+                    "name": "texture",
+                    "description": "Texture object to destroy",
+                    "type": "BaseTexture"
+                }
+            ],
+            "class": "SpineTextureLoader"
+        },
+        {
             "file": "pixi/text/BitmapText.hx",
             "line": 22,
             "description": "Set the style of the text\nstyle.font {String} The size (optional) and bitmap font id (required) eq 'Arial' or '20px Arial' (must have loaded previously)\n[style.align='left'] {String} Alignment for multiline text ('left', 'center' or 'right'), does not affect single lines of text",
@@ -8580,7 +8678,7 @@
         },
         {
             "file": "pixi/InteractionData.hx",
-            "line": 18,
+            "line": 19,
             "description": "This point stores the global coords of where the touch/mouse event happened",
             "itemtype": "property",
             "name": "global",
@@ -8589,7 +8687,7 @@
         },
         {
             "file": "pixi/InteractionData.hx",
-            "line": 26,
+            "line": 27,
             "description": "The target Sprite that was interacted with",
             "itemtype": "property",
             "name": "target",
@@ -8598,7 +8696,7 @@
         },
         {
             "file": "pixi/InteractionData.hx",
-            "line": 34,
+            "line": 35,
             "description": "When passed to an event handler, this will be the original DOM Event that was captured",
             "itemtype": "property",
             "name": "originalEvent",
@@ -8607,7 +8705,7 @@
         },
         {
             "file": "pixi/InteractionData.hx",
-            "line": 42,
+            "line": 43,
             "description": "This will return the local coordinates of the specified displayObject for this InteractionData",
             "itemtype": "method",
             "name": "getLocalPosition",
@@ -8654,7 +8752,7 @@
             "description": "An object that stores current touches (InteractionData) by id reference",
             "itemtype": "property",
             "name": "touches",
-            "type": "Object",
+            "type": "Dynamic",
             "class": "InteractionManager"
         },
         {
@@ -8662,7 +8760,7 @@
             "line": 43,
             "itemtype": "property",
             "name": "mouseoverEnabled",
-            "type": "Boolean",
+            "type": "Bool",
             "default": "true",
             "class": "InteractionManager"
         },
@@ -8672,7 +8770,7 @@
             "description": "Tiny little interactiveData pool !",
             "itemtype": "property",
             "name": "pool",
-            "type": "Array",
+            "type": "Array<Dynamic>",
             "class": "InteractionManager"
         },
         {
@@ -8680,7 +8778,7 @@
             "line": 58,
             "itemtype": "property",
             "name": "onMouseMove",
-            "type": "Function",
+            "type": "InteractionData -> Void",
             "class": "InteractionManager"
         },
         {
@@ -8688,7 +8786,7 @@
             "line": 64,
             "itemtype": "property",
             "name": "onMouseDown",
-            "type": "Function",
+            "type": "InteractionData -> Void",
             "class": "InteractionManager"
         },
         {
@@ -8696,7 +8794,7 @@
             "line": 70,
             "itemtype": "property",
             "name": "onMouseOut",
-            "type": "Function",
+            "type": "InteractionData -> Void",
             "class": "InteractionManager"
         },
         {
@@ -8704,7 +8802,7 @@
             "line": 76,
             "itemtype": "property",
             "name": "onMouseUp",
-            "type": "Function",
+            "type": "InteractionData -> Void",
             "class": "InteractionManager"
         },
         {
@@ -8712,7 +8810,7 @@
             "line": 82,
             "itemtype": "property",
             "name": "onTouchStart",
-            "type": "Function",
+            "type": "InteractionData -> Void",
             "class": "InteractionManager"
         },
         {
@@ -8720,7 +8818,7 @@
             "line": 88,
             "itemtype": "property",
             "name": "onTouchEnd",
-            "type": "Function",
+            "type": "InteractionData -> Void",
             "class": "InteractionManager"
         },
         {
@@ -8728,7 +8826,7 @@
             "line": 94,
             "itemtype": "property",
             "name": "onTouchMove",
-            "type": "Function",
+            "type": "InteractionData -> Void",
             "class": "InteractionManager"
         },
         {
@@ -8736,7 +8834,7 @@
             "line": 100,
             "itemtype": "property",
             "name": "last",
-            "type": "Number",
+            "type": "Float",
             "class": "InteractionManager"
         },
         {
@@ -8754,7 +8852,7 @@
             "description": "Is set to true when the mouse is moved out of the canvas",
             "itemtype": "property",
             "name": "mouseOut",
-            "type": "Boolean",
+            "type": "Bool",
             "default": "false",
             "class": "InteractionManager"
         },
@@ -8763,7 +8861,7 @@
             "line": 121,
             "itemtype": "property",
             "name": "resolution",
-            "type": "Number",
+            "type": "Float",
             "class": "InteractionManager"
         }
     ],

@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="haxe-pixi"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.2.0</em>
+            <em>API Docs for: 2.2.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -95,6 +95,7 @@
                                 <li><a href="../classes/SmartBlurFilter.html">SmartBlurFilter</a></li>
                                 <li><a href="../classes/Spine.html">Spine</a></li>
                                 <li><a href="../classes/SpineLoader.html">SpineLoader</a></li>
+                                <li><a href="../classes/SpineTextureLoader.html">SpineTextureLoader</a></li>
                                 <li><a href="../classes/Sprite.html">Sprite</a></li>
                                 <li><a href="../classes/SpriteBatch.html">SpriteBatch</a></li>
                                 <li><a href="../classes/SpriteSheetLoader.html">SpriteSheetLoader</a></li>
@@ -159,7 +160,7 @@
                                 </div>
                         
                                 <div class="foundat">
-                                    Defined in: <a href="../files/pixi_spine_Spine.hx.html#l9"><code>pixi&#x2F;spine&#x2F;Spine.hx:9</code></a>
+                                    Defined in: <a href="../files/pixi_spine_Spine.hx.html#l8"><code>pixi&#x2F;spine&#x2F;Spine.hx:8</code></a>
                                 </div>
                         
                         
@@ -196,7 +197,7 @@
                                     <div class="meta">
                                                 <p>
                                                 Defined in
-                                        <a href="../files/pixi_spine_Spine.hx.html#l9"><code>pixi&#x2F;spine&#x2F;Spine.hx:9</code></a>
+                                        <a href="../files/pixi_spine_Spine.hx.html#l8"><code>pixi&#x2F;spine&#x2F;Spine.hx:8</code></a>
                                         </p>
                                 
                                 
@@ -373,6 +374,10 @@
                                                         <a href="#method_touchstart">touchstart</a>
                         
                                                     </li>
+                                                    <li class="index-item method">
+                                                        <a href="#method_update">update</a>
+                        
+                                                    </li>
                                                     <li class="index-item method inherited">
                                                         <a href="#method_updateCache">updateCache</a>
                         
@@ -386,6 +391,10 @@
                                             <ul class="index-list properties extends">
                                                     <li class="index-item property inherited">
                                                         <a href="#property_alpha">alpha</a>
+                        
+                                                    </li>
+                                                    <li class="index-item property">
+                                                        <a href="#property_autoUpdate">autoUpdate</a>
                         
                                                     </li>
                                                     <li class="index-item property inherited">
@@ -2311,6 +2320,59 @@
                                             
                                             
                                             </div>
+                                            <div id="method_update" class="method item">
+                                                <h3 class="name"><code>update</code></h3>
+                                            
+                                                    <div class="args">
+                                                        <span class="paren">(</span><ul class="args-list inline commas">
+                                                            <li class="arg">
+                                                                    <code>dt</code>
+                                                            </li>
+                                                        </ul><span class="paren">)</span>
+                                                    </div>
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                                <div class="meta">
+                                                            <p>
+                                                            Defined in
+                                                    <a href="../files/pixi_spine_Spine.hx.html#l33"><code>pixi&#x2F;spine&#x2F;Spine.hx:33</code></a>
+                                                    </p>
+                                            
+                                            
+                                            
+                                                </div>
+                                            
+                                                <div class="description">
+                                                    <p>Update the spine skeleton and its animations by delta time (dt)</p>
+                                            
+                                                </div>
+                                            
+                                                    <div class="params">
+                                                        <h4>Parameters:</h4>
+                                            
+                                                        <ul class="params-list">
+                                                            <li class="param">
+                                                                    <code class="param-name">dt</code>
+                                                                    <span class="type">Float</span>
+                                            
+                                            
+                                                                <div class="param-description">
+                                                                    <p>Delta time. Time by which the animation should be updated</p>
+                                            
+                                                                </div>
+                                            
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                            
+                                            
+                                            </div>
                                             <div id="method_updateCache" class="method item inherited">
                                                 <h3 class="name"><code>updateCache</code></h3>
                                             
@@ -2368,6 +2430,36 @@
                                             
                                                 </div>
                                             
+                                            
+                                            
+                                            </div>
+                                            <div id="property_autoUpdate" class="property item">
+                                                <h3 class="name"><code>autoUpdate</code></h3>
+                                                <span class="type">Bool</span>
+                                            
+                                            
+                                            
+                                            
+                                            
+                                                <div class="meta">
+                                                            <p>
+                                                            Defined in
+                                                    <a href="../files/pixi_spine_Spine.hx.html#l20"><code>pixi&#x2F;spine&#x2F;Spine.hx:20</code></a>
+                                                    </p>
+                                            
+                                            
+                                                </div>
+                                            
+                                                <div class="description">
+                                                    <p>If this flag is set to true, the spine animation will be autoupdated every time
+                                            the object id drawn. The down side of this approach is that the delta time is
+                                            automatically calculated and you could miss out on cool effects like slow motion,
+                                            pause, skip ahead and the sorts. Most of these effects can be achieved even with
+                                            autoupdate enabled but are harder to achieve.</p>
+                                            
+                                                </div>
+                                            
+                                                    <p><strong>Default:</strong> true</p>
                                             
                                             
                                             </div>

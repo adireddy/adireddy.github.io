@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="haxe-pixi"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.2.0</em>
+            <em>API Docs for: 2.2.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -95,6 +95,7 @@
                                 <li><a href="../classes/SmartBlurFilter.html">SmartBlurFilter</a></li>
                                 <li><a href="../classes/Spine.html">Spine</a></li>
                                 <li><a href="../classes/SpineLoader.html">SpineLoader</a></li>
+                                <li><a href="../classes/SpineTextureLoader.html">SpineTextureLoader</a></li>
                                 <li><a href="../classes/Sprite.html">Sprite</a></li>
                                 <li><a href="../classes/SpriteBatch.html">SpriteBatch</a></li>
                                 <li><a href="../classes/SpriteSheetLoader.html">SpriteSheetLoader</a></li>
@@ -193,13 +194,13 @@
                         	 * An object that stores current touches (InteractionData) by id reference
                         	 *
                         	 * @property touches
-                        	 * @type Object
+                        	 * @type Dynamic
                         	 */
                         	var touches:Dynamic;
                         
                         	/**
                         	 * @property mouseoverEnabled
-                        	 * @type Boolean
+                        	 * @type Bool
                         	 * @default true
                         	 */
                         	var mouseoverEnabled:Bool;
@@ -208,55 +209,55 @@
                         	 * Tiny little interactiveData pool !
                         	 *
                         	 * @property pool
-                        	 * @type Array
+                        	 * @type Array&lt;Dynamic&gt;
                         	 */
                         	var pool:Array&lt;Dynamic&gt;;
                         
                         	/**
                         	 * @property onMouseMove
-                        	 * @type Function
+                        	 * @type InteractionData -&gt; Void
                         	 */
                         	var onMouseMove:InteractionData -&gt; Void;
                         
                         	/**
                         	 * @property onMouseDown
-                        	 * @type Function
+                        	 * @type InteractionData -&gt; Void
                         	 */
                         	var onMouseDown:InteractionData -&gt; Void;
                         
                         	/**
                         	 * @property onMouseOut
-                        	 * @type Function
+                        	 * @type InteractionData -&gt; Void
                         	 */
                         	var onMouseOut:InteractionData -&gt; Void;
                         
                         	/**
                         	 * @property onMouseUp
-                        	 * @type Function
+                        	 * @type InteractionData -&gt; Void
                         	 */
                         	var onMouseUp:InteractionData -&gt; Void;
                         
                         	/**
                         	 * @property onTouchStart
-                        	 * @type Function
+                        	 * @type InteractionData -&gt; Void
                         	 */
                         	var onTouchStart:InteractionData -&gt; Void;
                         
                         	/**
                         	 * @property onTouchEnd
-                        	 * @type Function
+                        	 * @type InteractionData -&gt; Void
                         	 */
                         	var onTouchEnd:InteractionData -&gt; Void;
                         
                         	/**
                         	 * @property onTouchMove
-                        	 * @type Function
+                        	 * @type InteractionData -&gt; Void
                         	 */
                         	var onTouchMove:InteractionData -&gt; Void;
                         
                         	/**
                         	 * @property last
-                        	 * @type Number
+                        	 * @type Float
                         	 */
                         	var last:Float;
                         
@@ -270,14 +271,14 @@
                         	/**
                         	 * Is set to true when the mouse is moved out of the canvas
                         	 * @property mouseOut
-                        	 * @type Boolean
+                        	 * @type Bool
                         	 * @default false
                         	 */
                         	var mouseOut:Bool;
                         
                         	/**
                         	 * @property resolution
-                        	 * @type Number
+                        	 * @type Float
                         	 */
                         	var resolution:Float;
                         }

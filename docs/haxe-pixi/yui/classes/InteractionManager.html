@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="haxe-pixi"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.2.0</em>
+            <em>API Docs for: 2.2.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -95,6 +95,7 @@
                                 <li><a href="../classes/SmartBlurFilter.html">SmartBlurFilter</a></li>
                                 <li><a href="../classes/Spine.html">Spine</a></li>
                                 <li><a href="../classes/SpineLoader.html">SpineLoader</a></li>
+                                <li><a href="../classes/SpineTextureLoader.html">SpineTextureLoader</a></li>
                                 <li><a href="../classes/Sprite.html">Sprite</a></li>
                                 <li><a href="../classes/SpriteBatch.html">SpriteBatch</a></li>
                                 <li><a href="../classes/SpriteSheetLoader.html">SpriteSheetLoader</a></li>
@@ -343,7 +344,7 @@
                                             </div>
                                             <div id="property_last" class="property item">
                                                 <h3 class="name"><code>last</code></h3>
-                                                <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                                                <span class="type">Float</span>
                                             
                                             
                                             
@@ -392,7 +393,7 @@
                                             </div>
                                             <div id="property_mouseOut" class="property item">
                                                 <h3 class="name"><code>mouseOut</code></h3>
-                                                <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                                                <span class="type">Bool</span>
                                             
                                             
                                             
@@ -418,7 +419,7 @@
                                             </div>
                                             <div id="property_mouseoverEnabled" class="property item">
                                                 <h3 class="name"><code>mouseoverEnabled</code></h3>
-                                                <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                                                <span class="type">Bool</span>
                                             
                                             
                                             
@@ -443,7 +444,7 @@
                                             </div>
                                             <div id="property_onMouseDown" class="property item">
                                                 <h3 class="name"><code>onMouseDown</code></h3>
-                                                <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+                                                <span class="type">InteractionData -> Void</span>
                                             
                                             
                                             
@@ -467,7 +468,7 @@
                                             </div>
                                             <div id="property_onMouseMove" class="property item">
                                                 <h3 class="name"><code>onMouseMove</code></h3>
-                                                <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+                                                <span class="type">InteractionData -> Void</span>
                                             
                                             
                                             
@@ -491,7 +492,7 @@
                                             </div>
                                             <div id="property_onMouseOut" class="property item">
                                                 <h3 class="name"><code>onMouseOut</code></h3>
-                                                <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+                                                <span class="type">InteractionData -> Void</span>
                                             
                                             
                                             
@@ -515,7 +516,7 @@
                                             </div>
                                             <div id="property_onMouseUp" class="property item">
                                                 <h3 class="name"><code>onMouseUp</code></h3>
-                                                <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+                                                <span class="type">InteractionData -> Void</span>
                                             
                                             
                                             
@@ -539,7 +540,7 @@
                                             </div>
                                             <div id="property_onTouchEnd" class="property item">
                                                 <h3 class="name"><code>onTouchEnd</code></h3>
-                                                <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+                                                <span class="type">InteractionData -> Void</span>
                                             
                                             
                                             
@@ -563,7 +564,7 @@
                                             </div>
                                             <div id="property_onTouchMove" class="property item">
                                                 <h3 class="name"><code>onTouchMove</code></h3>
-                                                <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+                                                <span class="type">InteractionData -> Void</span>
                                             
                                             
                                             
@@ -587,7 +588,7 @@
                                             </div>
                                             <div id="property_onTouchStart" class="property item">
                                                 <h3 class="name"><code>onTouchStart</code></h3>
-                                                <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+                                                <span class="type">InteractionData -> Void</span>
                                             
                                             
                                             
@@ -611,7 +612,7 @@
                                             </div>
                                             <div id="property_pool" class="property item">
                                                 <h3 class="name"><code>pool</code></h3>
-                                                <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+                                                <span class="type">Array<Dynamic></span>
                                             
                                             
                                             
@@ -636,7 +637,7 @@
                                             </div>
                                             <div id="property_resolution" class="property item">
                                                 <h3 class="name"><code>resolution</code></h3>
-                                                <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                                                <span class="type">Float</span>
                                             
                                             
                                             
@@ -685,7 +686,7 @@
                                             </div>
                                             <div id="property_touches" class="property item">
                                                 <h3 class="name"><code>touches</code></h3>
-                                                <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                                                <span class="type">Dynamic</span>
                                             
                                             
                                             
