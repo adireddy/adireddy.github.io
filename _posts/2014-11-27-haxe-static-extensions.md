@@ -1,6 +1,13 @@
 ---
 layout: post
 title: Haxe Static Extensions
+description: ""
+modified: 2014-11-27
+category: [haxe, static, extensions]
+tags: [haxe, static, extensions, using, keyword]
+imagefeature: 
+comments: true
+share: true
 ---
 
 Station extensions in Haxe can be used to mimic multiple inheritance similar to mixins in Javascript. It's a powerful feature and should be used carefully.
@@ -9,7 +16,7 @@ Station extensions in Haxe can be used to mimic multiple inheritance similar to 
 
 **Quick Example:**
 
-```haxe
+{% highlight haxe %}
 package ;
 
 class ArrayUtils {
@@ -17,10 +24,10 @@ class ArrayUtils {
 		return a[a.length - 1];
 	}
 }
-```
+{% endhighlight %}
 `using` keyword brings the defined class into the context.
 
-```haxe
+{% highlight haxe %}
 package ;
 
 using ArrayUtils;
@@ -32,11 +39,11 @@ class Example {
 		trace(arr.last()); //500
 	}
 }
-```
+{% endhighlight %}
 
 **Another example with multiple static extensions:**
 
-```haxe
+{% highlight haxe %}
 package ;
 
 class ArrayUtils2 {
@@ -44,9 +51,9 @@ class ArrayUtils2 {
 		return a[0];
 	}
 }
-```
+{% endhighlight %}
 
-```haxe
+{% highlight haxe %}
 package ;
 
 using ArrayUtils;
@@ -60,7 +67,7 @@ class Example {
 		trace(arr.first()); //100
 	}
 }
-```
+{% endhighlight %}
 
 A few things to note:
 
@@ -68,7 +75,7 @@ A few things to note:
 - Built in class fields would take priority over the static extension fields. For example if you define `toString` method in `ArrayUtils` class above it wouldn't work as `toString` is a built in array method and it takes precedence.
 - Compiler metadata `@:noUsing` can be used in static extension class if you want to omit any field being included in the context. Check the example below.
 
-```haxe
+{% highlight haxe %}
 package ;
 
 class ArrayUtils {
@@ -81,6 +88,6 @@ class ArrayUtils {
 		return a[1];
 	}
 }
-```
+{% endhighlight %}
 
 You can't use the method `second` as the compiler will not include it in the context when used.

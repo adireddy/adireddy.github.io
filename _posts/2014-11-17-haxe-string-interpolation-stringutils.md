@@ -1,6 +1,14 @@
 ---
 layout: post
 title: Haxe String Interpolation and StringTools
+description: ""
+modified: 2014-11-17
+category: [haxe, string, interpolation, stringtools]
+tags: [haxe, string, interpolation, stringtools]
+imagefeature: 
+comments: true
+share: true
+featured: true
 ---
 
 String interpolation is common in many programming languages including modern languages like [Dart](https://www.dartlang.org/articles/idiomatic-dart/#strings-and-interpolation), [Swift](https://developer.apple.com/library/ios/documentation/swift/conceptual/Swift_Programming_Language/StringsAndCharacters.html), etc and I am glad that it is also available in Haxe.
@@ -9,19 +17,19 @@ String interpolation provides an intuitive way of formatting strings in place of
 
 `$` sign should be used for placeholders and string should be enclosed in single-quote `'` character as shown in the example below.
 
-```haxe
+{% highlight haxe %}
 var winnings:Float = 10;
 var bonus:Float = 2;
 trace('Player won £$winnings'); //Player won £10
 trace('Player won £${winnings + bonus} including bonus');
 //Player won £12 including bonus
-```
+{% endhighlight %}
 
 Next, **StringTools** is another useful class for advanced string manipulation and formatting. It's kept separate to keep the core String class light and this class can be used based on the application needs.
 
 StringTools should be used as a static extension to the String class with `using` keyword as shown below.
 
-```haxe
+{% highlight haxe %}
 using StringTools;
 
 class Main {
@@ -32,8 +40,7 @@ class Main {
         trace(newStr.endsWith("grapes")); //true
     }
 }
-
-```
+{% endhighlight %}
 
 Definition of Static Extension as per the official documentation:
 

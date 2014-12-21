@@ -1,16 +1,24 @@
 ---
 layout: post
 title: Haxe default Access Modifiers and Return Value Type
+description: ""
+modified: 2014-12-10
+category: haxe
+tags: [haxe, access modifiers, return types]
+imagefeature: 
+comments: true
+share: true
+featured: true
 ---
 
 Any developers out there coming from ActionScript or Java background like me, the default access modifiers and function return type in Haxe are a bit different. So let's have a quick look at them in classes, interfaces and externs.
 
-**Classes:**
+## Classes:
 
 - Default access modifier is `private` if none specified.
 - Default function return value type is `Void` if there is no return expression or if the return expression has no argument.
 
-```haxe
+{% highlight haxe %}
 package ;
 class Test {
 
@@ -35,14 +43,14 @@ class Test {
 		_count = 0;
 	}
 }
-```
+{% endhighlight %}
 
-**Interfaces and Externs:**
+## Interfaces and Externs:
 
 - Default access modifier is `public`.
 - Specifying return value type is compulsory for functions. Failing so will result in compile time error `Type required for extern classes and interfaces`
 
-```haxe
+{% highlight haxe %}
 package ;
 interface ITest {
 
@@ -52,14 +60,14 @@ interface ITest {
 	//public function
 	function increaseCount():Void;
 }
-```
+{% endhighlight %}
 
 When implementing the above interface you need to specify `public` access modifier to variable `count` and function `increaseCount` as shown below. Failing so will result in the following compile time errors.
 
 - `Field count should be public as requested by ITest`
 - `Field increaseCount should be public as requested by ITest`.
 
-```haxe
+{% highlight haxe %}
 package ;
 class Test implements ITest {
 
@@ -69,7 +77,7 @@ class Test implements ITest {
 		count++;
 	}
 }
-```
+{% endhighlight %}
 
 Interesting fact from the official documentation about `protected`:
 

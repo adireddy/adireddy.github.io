@@ -1,6 +1,17 @@
 ---
 layout: post
 title: Haxe Documentation Generators
+description: 
+headline: 
+modified: 2014-12-10
+category: [haxe, documentation]
+tags: [haxe, documentation, chxdoc, YUIDoc, api, pixi.js]
+imagefeature: 
+mathjax: 
+chart: 
+comments: true
+share: true
+featured: true
 ---
 
 A quick intro to a couple of documentation generators I have tried recently [chxdoc](https://github.com/ibilon/chxdoc) and [yuidoc](http://yui.github.io/yuidoc/).
