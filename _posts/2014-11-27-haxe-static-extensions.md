@@ -10,7 +10,7 @@ comments: true
 share: true
 ---
 
-Station extensions in Haxe can be used to mimic multiple inheritance similar to mixins in Javascript. It's a powerful feature and should be used carefully.
+Static extensions in Haxe can be used to mimic multiple inheritance similar to mixins in Javascript. It's a powerful feature and should be used carefully.
 
 [StringTools](http://api.haxe.org/StringTools.html) class is a good example of station extension. Refer to my [earlier post](http://adireddy.github.io/2014/11/17/haxe-string-interpolation-stringutils/) for more info on that.
 
