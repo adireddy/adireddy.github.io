@@ -3,7 +3,7 @@ layout: post
 title: Haxe Static Extensions
 description: ""
 modified: 2014-11-27
-category: [haxe, static, extensions]
+category: [haxe, static, extensions, using]
 tags: [haxe, static, extensions, using, keyword]
 imagefeature: 
 comments: true
