@@ -739,6 +739,13 @@
             "fors": {},
             "namespaces": {}
         },
+        "pixi/DomDefinitions.hx": {
+            "name": "pixi/DomDefinitions.hx",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "pixi/InteractionData.hx": {
             "name": "pixi/InteractionData.hx",
             "modules": {},
@@ -1768,7 +1775,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "pixi/renderers/canvas/utils/CanvasBuffer.hx",
-            "line": 9,
+            "line": 8,
             "description": "Creates a Canvas element of the given size.",
             "is_constructor": 1,
             "params": [
@@ -1817,7 +1824,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "pixi/renderers/canvas/CanvasRenderer.hx",
-            "line": 12,
+            "line": 11,
             "description": "The CanvasRenderer draws the Stage and all its content onto a 2d canvas. This renderer should be used for browsers that do not support webGL.\nDon't forget to add the CanvasRenderer.view to your DOM or you will not see anything :)",
             "is_constructor": 1,
             "params": [
@@ -2224,7 +2231,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "pixi/text/Text.hx",
-            "line": 10,
+            "line": 9,
             "description": "A Text Object will create a line(s) of text. To split a line you can use '\\n'\nor add a wordWrap property set to true and and wordWrapWidth property with a value\nin the style object",
             "extends": "Sprite",
             "is_constructor": 1,
@@ -2356,7 +2363,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "pixi/textures/RenderTexture.hx",
-            "line": 13,
+            "line": 12,
             "description": "A RenderTexture is a special texture that allows any Pixi display object to be rendered to it.\n\n__Hint__: All DisplayObjects (i.e. Sprites) that render to a RenderTexture should be preloaded otherwise black rectangles will be drawn instead.\n\nA RenderTexture takes a snapshot of any Display Object given to its render method. The position and rotation of the given Display Objects is ignored. For example:\n\n   var renderTexture = new PIXI.RenderTexture(800, 600);\n   var sprite = PIXI.Sprite.fromImage(\"spinObj_01.png\");\n   sprite.position.x = 800/2;\n   sprite.position.y = 600/2;\n   sprite.anchor.x = 0.5;\n   sprite.anchor.y = 0.5;\n   renderTexture.render(sprite);\n\nThe Sprite in this case will be rendered to a position of 0,0. To render this sprite at its actual position a DisplayObjectContainer should be used:\n\n   var doc = new PIXI.DisplayObjectContainer();\n   doc.addChild(sprite);\n   renderTexture.render(doc);  // Renders to center of renderTexture",
             "extends": "Texture",
             "is_constructor": 1,
@@ -5653,7 +5660,7 @@
         },
         {
             "file": "pixi/renderers/canvas/utils/CanvasBuffer.hx",
-            "line": 19,
+            "line": 18,
             "description": "Resizes the canvas to the specified width and height.",
             "itemtype": "method",
             "name": "resize",
@@ -5673,7 +5680,7 @@
         },
         {
             "file": "pixi/renderers/canvas/utils/CanvasBuffer.hx",
-            "line": 28,
+            "line": 27,
             "description": "The width of the Canvas in pixels.",
             "itemtype": "property",
             "name": "width",
@@ -5682,7 +5689,7 @@
         },
         {
             "file": "pixi/renderers/canvas/utils/CanvasBuffer.hx",
-            "line": 36,
+            "line": 35,
             "description": "The height of the Canvas in pixels.",
             "itemtype": "property",
             "name": "height",
@@ -5691,7 +5698,7 @@
         },
         {
             "file": "pixi/renderers/canvas/utils/CanvasBuffer.hx",
-            "line": 44,
+            "line": 43,
             "description": "The Canvas object that belongs to this CanvasBuffer.",
             "itemtype": "property",
             "name": "canvas",
@@ -5700,7 +5707,7 @@
         },
         {
             "file": "pixi/renderers/canvas/utils/CanvasBuffer.hx",
-            "line": 52,
+            "line": 51,
             "description": "A CanvasRenderingContext2D object representing a two-dimensional rendering context.",
             "itemtype": "property",
             "name": "context",
@@ -5871,7 +5878,7 @@
         },
         {
             "file": "pixi/renderers/canvas/CanvasRenderer.hx",
-            "line": 28,
+            "line": 27,
             "itemtype": "property",
             "name": "type",
             "type": "Int",
@@ -5879,7 +5886,7 @@
         },
         {
             "file": "pixi/renderers/canvas/CanvasRenderer.hx",
-            "line": 34,
+            "line": 33,
             "description": "The resolution of the canvas",
             "itemtype": "property",
             "name": "resolution",
@@ -5889,7 +5896,7 @@
         },
         {
             "file": "pixi/renderers/canvas/CanvasRenderer.hx",
-            "line": 43,
+            "line": 42,
             "description": "This sets if the CanvasRenderer will clear the canvas or not before the new render pass.\nIf the Stage is NOT transparent Pixi will use a canvas sized fillRect operation every frame to set the canvas background color.\nIf the Stage is transparent Pixi will use clearRect to clear the canvas every frame.\nDisable this by setting this to false. For example if your game has a canvas filling background image you often don't need this set.",
             "itemtype": "property",
             "name": "clearBeforeRender",
@@ -5899,7 +5906,7 @@
         },
         {
             "file": "pixi/renderers/canvas/CanvasRenderer.hx",
-            "line": 55,
+            "line": 54,
             "description": "Whether the render view is transparent",
             "itemtype": "property",
             "name": "transparent",
@@ -5908,7 +5915,7 @@
         },
         {
             "file": "pixi/renderers/canvas/CanvasRenderer.hx",
-            "line": 63,
+            "line": 62,
             "description": "The width of the canvas view",
             "itemtype": "property",
             "name": "width",
@@ -5918,7 +5925,7 @@
         },
         {
             "file": "pixi/renderers/canvas/CanvasRenderer.hx",
-            "line": 72,
+            "line": 71,
             "description": "The height of the canvas view",
             "itemtype": "property",
             "name": "height",
@@ -5928,7 +5935,7 @@
         },
         {
             "file": "pixi/renderers/canvas/CanvasRenderer.hx",
-            "line": 81,
+            "line": 80,
             "description": "The canvas element that everything is drawn to",
             "itemtype": "property",
             "name": "view",
@@ -5937,7 +5944,7 @@
         },
         {
             "file": "pixi/renderers/canvas/CanvasRenderer.hx",
-            "line": 89,
+            "line": 88,
             "description": "The canvas 2d context that everything is drawn with",
             "itemtype": "property",
             "name": "context",
@@ -5946,7 +5953,7 @@
         },
         {
             "file": "pixi/renderers/canvas/CanvasRenderer.hx",
-            "line": 96,
+            "line": 95,
             "description": "Boolean flag controlling canvas refresh.",
             "itemtype": "property",
             "name": "refresh",
@@ -5955,7 +5962,7 @@
         },
         {
             "file": "pixi/renderers/canvas/CanvasRenderer.hx",
-            "line": 104,
+            "line": 103,
             "description": "Instance of a PIXI.CanvasMaskManager, handles masking when using the canvas renderer",
             "itemtype": "property",
             "name": "maskManager",
@@ -5964,7 +5971,7 @@
         },
         {
             "file": "pixi/renderers/canvas/CanvasRenderer.hx",
-            "line": 111,
+            "line": 110,
             "description": "The render session is just a bunch of parameter used for rendering",
             "itemtype": "property",
             "name": "renderSession",
@@ -5973,7 +5980,7 @@
         },
         {
             "file": "pixi/renderers/canvas/CanvasRenderer.hx",
-            "line": 118,
+            "line": 117,
             "description": "Renders the stage to its canvas view",
             "itemtype": "method",
             "name": "render",
@@ -5988,7 +5995,7 @@
         },
         {
             "file": "pixi/renderers/canvas/CanvasRenderer.hx",
-            "line": 126,
+            "line": 125,
             "description": "Resizes the canvas view to the specified width and height",
             "itemtype": "method",
             "name": "resize",
@@ -7613,7 +7620,7 @@
         },
         {
             "file": "pixi/text/Text.hx",
-            "line": 34,
+            "line": 33,
             "description": "Set the style of the text",
             "itemtype": "method",
             "name": "setStyle",
@@ -7705,7 +7712,7 @@
         },
         {
             "file": "pixi/text/Text.hx",
-            "line": 53,
+            "line": 52,
             "description": "Set the copy for the text object. To split a line you can use '\\n'",
             "itemtype": "method",
             "name": "setText",
@@ -7720,7 +7727,7 @@
         },
         {
             "file": "pixi/text/Text.hx",
-            "line": 61,
+            "line": 60,
             "description": "Destroys this text object",
             "itemtype": "method",
             "name": "destroy",
@@ -7736,7 +7743,7 @@
         },
         {
             "file": "pixi/text/Text.hx",
-            "line": 69,
+            "line": 68,
             "description": "The canvas element that everything is drawn to",
             "itemtype": "property",
             "name": "canvas",
@@ -7745,7 +7752,7 @@
         },
         {
             "file": "pixi/text/Text.hx",
-            "line": 76,
+            "line": 75,
             "description": "The canvas 2d context that everything is drawn with",
             "itemtype": "property",
             "name": "context",
@@ -7892,7 +7899,7 @@
         },
         {
             "file": "pixi/textures/RenderTexture.hx",
-            "line": 46,
+            "line": 45,
             "description": "This function will draw the display object to the texture.",
             "itemtype": "method",
             "name": "renderWebGL/renderCanvas",
@@ -7919,7 +7926,7 @@
         },
         {
             "file": "pixi/textures/RenderTexture.hx",
-            "line": 56,
+            "line": 55,
             "description": "Resize the RenderTexture.",
             "itemtype": "method",
             "name": "resize",
@@ -7945,7 +7952,7 @@
         },
         {
             "file": "pixi/textures/RenderTexture.hx",
-            "line": 66,
+            "line": 65,
             "description": "Clears the RenderTexture.",
             "itemtype": "method",
             "name": "clear",
@@ -7953,7 +7960,7 @@
         },
         {
             "file": "pixi/textures/RenderTexture.hx",
-            "line": 73,
+            "line": 72,
             "description": "Will return a a base64 encoded string of this texture. It works by calling RenderTexture.getCanvas and then running toDataURL on that.",
             "itemtype": "method",
             "name": "getBase64",
@@ -7965,7 +7972,7 @@
         },
         {
             "file": "pixi/textures/RenderTexture.hx",
-            "line": 81,
+            "line": 80,
             "description": "Creates a Canvas element, renders this RenderTexture to it and then returns it.",
             "itemtype": "method",
             "name": "getCanvas",
@@ -7977,7 +7984,7 @@
         },
         {
             "file": "pixi/textures/RenderTexture.hx",
-            "line": 89,
+            "line": 88,
             "description": "Will return a HTML Image of the texture",
             "itemtype": "method",
             "name": "getImage",
@@ -7989,7 +7996,7 @@
         },
         {
             "file": "pixi/textures/RenderTexture.hx",
-            "line": 97,
+            "line": 96,
             "description": "The renderer this RenderTexture uses. A RenderTexture can only belong to one renderer at the moment if its webGL.",
             "itemtype": "property",
             "name": "renderer",
@@ -7998,7 +8005,7 @@
         },
         {
             "file": "pixi/textures/RenderTexture.hx",
-            "line": 105,
+            "line": 104,
             "description": "The Resolution of the texture.",
             "itemtype": "property",
             "name": "resolution",
@@ -8403,6 +8410,70 @@
             "class": "Event"
         },
         {
+            "file": "pixi/utils/Event.hx",
+            "line": 32,
+            "description": "Tracks the state of bubbling propagation. Do not\nset this directly, instead use `event.stopPropagation()`",
+            "itemtype": "property",
+            "name": "stopped",
+            "type": "Bool",
+            "access": "private",
+            "tagname": "",
+            "readonly": "",
+            "class": "Event"
+        },
+        {
+            "file": "pixi/utils/Event.hx",
+            "line": 43,
+            "description": "Tracks the state of sibling listener propagation. Do not\nset this directly, instead use `event.stopImmediatePropagation()`",
+            "itemtype": "property",
+            "name": "stoppedImmediate",
+            "type": "Bool",
+            "access": "private",
+            "tagname": "",
+            "readonly": "",
+            "class": "Event"
+        },
+        {
+            "file": "pixi/utils/Event.hx",
+            "line": 54,
+            "description": "The original target the event triggered on.",
+            "itemtype": "property",
+            "name": "target",
+            "type": "Dynamic",
+            "readonly": "",
+            "class": "Event"
+        },
+        {
+            "file": "pixi/utils/Event.hx",
+            "line": 63,
+            "description": "The string name of the event that this represents.",
+            "itemtype": "property",
+            "name": "type",
+            "type": "String",
+            "readonly": "",
+            "class": "Event"
+        },
+        {
+            "file": "pixi/utils/Event.hx",
+            "line": 72,
+            "description": "The data that was passed in with this event.",
+            "itemtype": "property",
+            "name": "data",
+            "type": "Object",
+            "readonly": "",
+            "class": "Event"
+        },
+        {
+            "file": "pixi/utils/Event.hx",
+            "line": 84,
+            "description": "The timestamp when the event occurred.",
+            "itemtype": "property",
+            "name": "timeStamp",
+            "type": "Number",
+            "readonly": "",
+            "class": "Event"
+        },
+        {
             "file": "pixi/utils/EventTarget.hx",
             "line": 20,
             "description": "Return a list of assigned event listeners.",
@@ -8674,6 +8745,12 @@
             "description": "A wrapper for ajax requests to be handled cross browser",
             "itemtype": "method",
             "name": "AjaxRequest",
+            "class": "InteractionData"
+        },
+        {
+            "file": "pixi/DomDefinitions.hx",
+            "line": 3,
+            "description": "Because macros cannot access the JS package, put\na bunch of dummy typedefs so compilation will go through.",
             "class": "InteractionData"
         },
         {
@@ -9161,6 +9238,10 @@
         {
             "message": "Missing item type\nhttps://github.com/mrdoob/stats.js/ (JS stats)\nhttps://github.com/luizbills/stats.js.hx (Original Haxe Externs",
             "line": " pixi/utils/Stats.hx:15"
+        },
+        {
+            "message": "Missing item type\nBecause macros cannot access the JS package, put\na bunch of dummy typedefs so compilation will go through.",
+            "line": " pixi/DomDefinitions.hx:3"
         }
     ]
 }
