@@ -8,6 +8,7 @@ tags: [haxe, compiler, metadata]
 imagefeature: 
 comments: true
 share: true
+featured: true
 ---
 
 Haxe compiler metadata can be really handy to get specific behavior or to tweak the language based on your needs.
