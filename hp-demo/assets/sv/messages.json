@@ -1,0 +1,5 @@
+{
+	"SHARED_MESSAGE" : "Localised message - resources/jpj-sv/messages.json",
+	"DYNAMIC_MESSAGE" : "Dynamic {0} example",
+	"BUCKET_MESSAGE" : "This message will be overridden by a bucket specific message!"
+}

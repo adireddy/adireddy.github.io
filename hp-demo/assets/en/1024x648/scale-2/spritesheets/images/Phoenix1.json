@@ -1,0 +1,654 @@
+{
+    "multipack" : true,
+    "textures" : [
+        {"frames": {
+            "Phoenix1_0051.png":
+            {
+                "frame": {"x":2,"y":2,"w":291,"h":543},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":62,"y":26,"w":291,"h":543},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0050.png":
+            {
+                "frame": {"x":2,"y":547,"w":281,"h":534},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":68,"y":31,"w":281,"h":534},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0049.png":
+            {
+                "frame": {"x":2,"y":1083,"w":277,"h":531},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":67,"y":31,"w":277,"h":531},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0014.png":
+            {
+                "frame": {"x":2,"y":1616,"w":287,"h":427},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":59,"y":116,"w":287,"h":427},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0022.png":
+            {
+                "frame": {"x":281,"y":1083,"w":426,"h":527},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":0,"y":13,"w":426,"h":527},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0001.png":
+            {
+                "frame": {"x":281,"y":1612,"w":1,"h":1},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":0,"y":0,"w":1,"h":1},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0024.png":
+            {
+                "frame": {"x":285,"y":547,"w":426,"h":527},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":0,"y":15,"w":426,"h":527},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0002.png":
+            {
+                "frame": {"x":285,"y":1076,"w":2,"h":5},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":210,"y":515,"w":2,"h":5},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0023.png":
+            {
+                "frame": {"x":295,"y":2,"w":424,"h":527},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":2,"y":14,"w":424,"h":527},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0056.png":
+            {
+                "frame": {"x":291,"y":1612,"w":316,"h":417},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":54,"y":31,"w":316,"h":417},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0057.png":
+            {
+                "frame": {"x":609,"y":1612,"w":318,"h":416},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":57,"y":30,"w":318,"h":416},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0025.png":
+            {
+                "frame": {"x":709,"y":1076,"w":420,"h":527},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":6,"y":16,"w":420,"h":527},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0026.png":
+            {
+                "frame": {"x":713,"y":531,"w":375,"h":527},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":51,"y":16,"w":375,"h":527},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0027.png":
+            {
+                "frame": {"x":721,"y":2,"w":374,"h":527},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":52,"y":16,"w":374,"h":527},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0048.png":
+            {
+                "frame": {"x":1090,"y":531,"w":273,"h":527},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":68,"y":31,"w":273,"h":527},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0028.png":
+            {
+                "frame": {"x":1097,"y":2,"w":350,"h":526},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":53,"y":16,"w":350,"h":526},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0058.png":
+            {
+                "frame": {"x":929,"y":1605,"w":318,"h":413},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":60,"y":31,"w":318,"h":413},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0017.png":
+            {
+                "frame": {"x":1131,"y":1060,"w":339,"h":526},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":51,"y":10,"w":339,"h":526},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0016.png":
+            {
+                "frame": {"x":1365,"y":530,"w":325,"h":526},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":58,"y":11,"w":325,"h":526},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0021.png":
+            {
+                "frame": {"x":1449,"y":2,"w":417,"h":525},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":5,"y":13,"w":417,"h":525},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0018.png":
+            {
+                "frame": {"x":1692,"y":529,"w":349,"h":525},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":44,"y":10,"w":349,"h":525},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0010.png":
+            {
+                "frame": {"x":1868,"y":2,"w":170,"h":229},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":110,"y":313,"w":170,"h":229},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0063.png":
+            {
+                "frame": {"x":1692,"y":1056,"w":344,"h":334},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":51,"y":25,"w":344,"h":334},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0044.png":
+            {
+                "frame": {"x":1472,"y":1058,"w":218,"h":511},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":95,"y":31,"w":218,"h":511},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0054.png":
+            {
+                "frame": {"x":1472,"y":1571,"w":303,"h":472},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":60,"y":59,"w":303,"h":472},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0033.png":
+            {
+                "frame": {"x":1777,"y":1392,"w":265,"h":507},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":71,"y":16,"w":265,"h":507},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0006.png":
+            {
+                "frame": {"x":1777,"y":1901,"w":95,"h":144},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":161,"y":398,"w":95,"h":144},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0077.png":
+            {
+                "frame": {"x":1874,"y":1901,"w":166,"h":139},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":198,"y":3,"w":166,"h":139},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0005.png":
+            {
+                "frame": {"x":1692,"y":1392,"w":79,"h":108},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":172,"y":433,"w":79,"h":108},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0003.png":
+            {
+                "frame": {"x":1692,"y":1502,"w":36,"h":61},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":194,"y":479,"w":36,"h":61},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0076.png":
+            {
+                "frame": {"x":1868,"y":233,"w":167,"h":145},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":197,"y":2,"w":167,"h":145},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0012.png":
+            {
+                "frame": {"x":1249,"y":1588,"w":182,"h":357},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":107,"y":183,"w":182,"h":357},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0004.png":
+            {
+                "frame": {"x":1249,"y":1947,"w":66,"h":95},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":182,"y":446,"w":66,"h":95},
+                "sourceSize": {"w":426,"h":602}
+            }},
+            "meta": {
+                "app": "http://www.codeandweb.com/texturepacker ",
+                "version": "1.0",
+                "image": "Phoenix1_0.png",
+                "format": "RGBA8888",
+                "size": {"w":2044,"h":2047},
+                "scale": "",
+                "smartupdate": "$TexturePacker:SmartUpdate:23edbc978f935ae5ffbf07b533907c6f:26a1673d77f88dfbb24f4e38397768cd:938b4f0a2dbb2bcd45f306fc0ba794d5$"
+            }
+        },
+        {"frames": {
+            "Phoenix1_0047.png":
+            {
+                "frame": {"x":2,"y":2,"w":263,"h":522},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":69,"y":31,"w":263,"h":522},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0020.png":
+            {
+                "frame": {"x":2,"y":526,"w":390,"h":521},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":21,"y":11,"w":390,"h":521},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0019.png":
+            {
+                "frame": {"x":267,"y":2,"w":375,"h":521},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":29,"y":11,"w":375,"h":521},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0046.png":
+            {
+                "frame": {"x":2,"y":1049,"w":242,"h":519},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":87,"y":31,"w":242,"h":519},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0059.png":
+            {
+                "frame": {"x":2,"y":1570,"w":318,"h":410},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":63,"y":31,"w":318,"h":410},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0029.png":
+            {
+                "frame": {"x":246,"y":1049,"w":316,"h":518},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":54,"y":16,"w":316,"h":518},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0045.png":
+            {
+                "frame": {"x":394,"y":525,"w":227,"h":515},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":92,"y":31,"w":227,"h":515},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0060.png":
+            {
+                "frame": {"x":322,"y":1569,"w":325,"h":408},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":58,"y":31,"w":325,"h":408},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0030.png":
+            {
+                "frame": {"x":564,"y":1042,"w":293,"h":508},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":56,"y":16,"w":293,"h":508},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0031.png":
+            {
+                "frame": {"x":623,"y":525,"w":281,"h":507},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":62,"y":16,"w":281,"h":507},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0032.png":
+            {
+                "frame": {"x":644,"y":2,"w":272,"h":507},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":67,"y":16,"w":272,"h":507},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0062.png":
+            {
+                "frame": {"x":649,"y":1552,"w":337,"h":398},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":54,"y":30,"w":337,"h":398},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0043.png":
+            {
+                "frame": {"x":859,"y":1034,"w":215,"h":507},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":98,"y":31,"w":215,"h":507},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0034.png":
+            {
+                "frame": {"x":906,"y":511,"w":245,"h":506},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":84,"y":17,"w":245,"h":506},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0040.png":
+            {
+                "frame": {"x":918,"y":2,"w":237,"h":506},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":79,"y":17,"w":237,"h":506},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0013.png":
+            {
+                "frame": {"x":988,"y":1543,"w":232,"h":369},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":59,"y":170,"w":232,"h":369},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0035.png":
+            {
+                "frame": {"x":1076,"y":1019,"w":230,"h":505},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":83,"y":18,"w":230,"h":505},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0039.png":
+            {
+                "frame": {"x":1222,"y":1526,"w":235,"h":504},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":79,"y":19,"w":235,"h":504},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0052.png":
+            {
+                "frame": {"x":1153,"y":510,"w":295,"h":498},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":59,"y":66,"w":295,"h":498},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0042.png":
+            {
+                "frame": {"x":1157,"y":2,"w":210,"h":498},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":103,"y":31,"w":210,"h":498},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0015.png":
+            {
+                "frame": {"x":1369,"y":2,"w":327,"h":493},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":66,"y":50,"w":327,"h":493},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0064.png":
+            {
+                "frame": {"x":1698,"y":2,"w":323,"h":326},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":76,"y":15,"w":323,"h":326},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0041.png":
+            {
+                "frame": {"x":1308,"y":1010,"w":239,"h":492},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":128,"y":31,"w":239,"h":492},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0037.png":
+            {
+                "frame": {"x":1450,"y":497,"w":237,"h":492},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":81,"y":31,"w":237,"h":492},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0053.png":
+            {
+                "frame": {"x":1698,"y":330,"w":297,"h":491},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":61,"y":64,"w":297,"h":491},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0036.png":
+            {
+                "frame": {"x":1459,"y":1504,"w":236,"h":492},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":81,"y":31,"w":236,"h":492},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0038.png":
+            {
+                "frame": {"x":1549,"y":991,"w":236,"h":492},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":80,"y":31,"w":236,"h":492},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0072.png":
+            {
+                "frame": {"x":1787,"y":823,"w":234,"h":157},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":144,"y":8,"w":234,"h":157},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0075.png":
+            {
+                "frame": {"x":1787,"y":982,"w":226,"h":143},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":137,"y":0,"w":226,"h":143},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0069.png":
+            {
+                "frame": {"x":1787,"y":1127,"w":223,"h":222},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":150,"y":0,"w":223,"h":222},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0074.png":
+            {
+                "frame": {"x":1787,"y":1351,"w":222,"h":167},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":140,"y":0,"w":222,"h":167},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0011.png":
+            {
+                "frame": {"x":1697,"y":1520,"w":180,"h":273},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":108,"y":268,"w":180,"h":273},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0009.png":
+            {
+                "frame": {"x":1697,"y":1795,"w":152,"h":215},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":122,"y":327,"w":152,"h":215},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0008.png":
+            {
+                "frame": {"x":1851,"y":1795,"w":112,"h":209},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":153,"y":333,"w":112,"h":209},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0007.png":
+            {
+                "frame": {"x":1879,"y":1520,"w":101,"h":180},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":160,"y":362,"w":101,"h":180},
+                "sourceSize": {"w":426,"h":602}
+            }},
+            "meta": {
+                "app": "http://www.codeandweb.com/texturepacker ",
+                "version": "1.0",
+                "image": "Phoenix1_1.png",
+                "format": "RGBA8888",
+                "size": {"w":2023,"h":2032},
+                "scale": "",
+                "smartupdate": "$TexturePacker:SmartUpdate:23edbc978f935ae5ffbf07b533907c6f:26a1673d77f88dfbb24f4e38397768cd:938b4f0a2dbb2bcd45f306fc0ba794d5$"
+            }
+        },
+        {"frames": {
+            "Phoenix1_0061.png":
+            {
+                "frame": {"x":2,"y":2,"w":333,"h":401},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":55,"y":31,"w":333,"h":401},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0055.png":
+            {
+                "frame": {"x":337,"y":2,"w":312,"h":398},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":54,"y":57,"w":312,"h":398},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0066.png":
+            {
+                "frame": {"x":651,"y":2,"w":290,"h":297},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":111,"y":5,"w":290,"h":297},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0065.png":
+            {
+                "frame": {"x":943,"y":2,"w":328,"h":294},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":73,"y":14,"w":328,"h":294},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0067.png":
+            {
+                "frame": {"x":1273,"y":2,"w":294,"h":287},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":109,"y":0,"w":294,"h":287},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0068.png":
+            {
+                "frame": {"x":1569,"y":2,"w":229,"h":256},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":144,"y":0,"w":229,"h":256},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0071.png":
+            {
+                "frame": {"x":1800,"y":2,"w":230,"h":215},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":147,"y":0,"w":230,"h":215},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0070.png":
+            {
+                "frame": {"x":1800,"y":219,"w":229,"h":209},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":149,"y":9,"w":229,"h":209},
+                "sourceSize": {"w":426,"h":602}
+            },
+            "Phoenix1_0073.png":
+            {
+                "frame": {"x":1569,"y":260,"w":222,"h":158},
+                "rotated": false,
+                "trimmed": true,
+                "spriteSourceSize": {"x":142,"y":3,"w":222,"h":158},
+                "sourceSize": {"w":426,"h":602}
+            }},
+            "meta": {
+                "app": "http://www.codeandweb.com/texturepacker ",
+                "version": "1.0",
+                "image": "Phoenix1_2.png",
+                "format": "RGBA8888",
+                "size": {"w":2032,"h":430},
+                "scale": "",
+                "smartupdate": "$TexturePacker:SmartUpdate:23edbc978f935ae5ffbf07b533907c6f:26a1673d77f88dfbb24f4e38397768cd:938b4f0a2dbb2bcd45f306fc0ba794d5$"
+            }
+        }
+    ]
+}

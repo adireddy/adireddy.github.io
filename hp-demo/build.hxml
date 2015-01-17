@@ -1,0 +1,26 @@
+-main arm.pixidemo.Demo
+
+-js libs/hx-pixi-demo.dev.js
+
+#-cp ../hx-core
+#-cp ../haxe-pixi
+#-cp ../arm
+#-cp ../haxe-howler
+-cp src
+
+--macro mcover.MCover.coverage(['arm'], ['src'], null)
+
+-lib actuate
+-lib msignal
+-lib arm
+-lib mconsole
+-lib buddy
+-lib mcover
+-lib stats.js.hx
+-lib p2js
+-lib pixijs
+-lib howlerjs
+
+-D source-map-content
+
+-dce full

@@ -1,0 +1,10 @@
+{
+	"landscape" : [
+		{"width" : 480, "height" : 320},
+		{"width" : 1024, "height" : 648}
+	]
+
+	,"portrait" : [
+		{"width" : 320, "height" : 480}
+	]
+}

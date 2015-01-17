@@ -1,0 +1,13 @@
+{
+	"LOADING_BAR" : {"x" : 367, "y" : 305},
+    "BIG_WIN" : {"x" : 510, "y" : 180},
+    "TICKER_BACKGROUND" : {"x" : 310, "y" : 240},
+    "TICKER_TEXT" : {"font" : "Arial", "size" : 60, "color" : "#000000"},
+    "SHARED_MESSAGE_TEXT": { "size": 24, "font": "Tahoma", "color" : "#FF00BF" },
+    "BUCKET_MESSAGE_TEXT": { "size": 20, "font": "Tahoma", "color" : "#B40404" },
+    "DYNAMIC_MESSAGE_TEXT": { "size": 16, "font": "Tahoma", "color" : "#003366" },
+	"SPINBTN": 		{ "x": 880, "y": 590, "width": 130, "height": 40 },
+	"BALANCE_TEXT": { "x": 10, "y": 600, "size": 30, "font": "Tahoma", "color" : "#FFFFFF" },
+	"ICON": 		{ "width": 137, "height": 129 },
+	"REELS": 		{ "x": 115, "y": 160, "spacing": 25 }
+}
