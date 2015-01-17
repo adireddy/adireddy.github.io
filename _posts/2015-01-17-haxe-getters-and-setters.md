@@ -38,7 +38,7 @@ function set_amount(value:Float) {
 
 The most important thing to note here is you cannot access the physical variable inside your getter and setter functions. You get the error `This field cannot be accessed because it is not a real variable` if you try to access `amount` inside `get_amount` and `set_amount` functions.
 
-To access physical variable you need to add meta-data `@:isVar` in front of the variable `amount`.
+To access physical variable you need to add metadata `@:isVar` in front of the variable `amount`.
 
 {% highlight haxe %}
 @:isVar public var amount(get, set):Float;
@@ -98,7 +98,7 @@ ___
 
 {% highlight haxe %}
 
-//Read and write access from anywhere but only exception is the physical variable cannot be accessed within getter and setter functions without meta-data @:isVar
+//Read and write access from anywhere but only exception is the physical variable cannot be accessed within getter and setter functions without metadata @:isVar
 public var x(get, set):Float;
 
 //Can be read from anywhere, modified only within the class

@@ -62,6 +62,6 @@ class MyClass {
 {% endhighlight %}
 ___
 
-All of the above are generic metaddata and can be used across platforms and there are many more generic and platform specific metadata you may find useful for your specific needs so explore and please post in the comments section if you find anything interesting.
+All of the above are generic metadata and can be used across platforms and there are many more generic and platform specific metadata you may find useful for your specific needs so explore and please post in the comments section if you find anything interesting.
 
-**Update (14 Jan 2015)**: Another JavaScript specific metata which I find useful is `@:expose`. It can be used on any class to make it available/accessible from the window object. This is useful when you want to expose any of your haxe classes to another library via window object.
+**Update (14 Jan 2015)**: Another JavaScript specific metadatata which I find useful is `@:expose`. It can be used on any class to make it available/accessible from the window object. This is useful when you want to expose any of your haxe classes to another library via window object.
