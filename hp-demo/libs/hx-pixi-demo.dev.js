@@ -641,7 +641,7 @@ $hxClasses["arm.pixidemo.Demo"] = arm.pixidemo.Demo;
 arm.pixidemo.Demo.__name__ = ["arm","pixidemo","Demo"];
 arm.pixidemo.Demo.main = function() {
 	new arm.pixidemo.Demo();
-	haxe.Log.trace("info",{ fileName : "Demo.hx", lineNumber : 214, className : "arm.pixidemo.Demo", methodName : "main", customParams : ["Build ID: ","603e1f9303e6b6c4a7210b0e74fcf0c1"]});
+	haxe.Log.trace("info",{ fileName : "Demo.hx", lineNumber : 214, className : "arm.pixidemo.Demo", methodName : "main", customParams : ["Build ID: ","be1f8a0d77ba1eab0e13aaf66e90dc44"]});
 };
 arm.pixidemo.Demo.__super__ = arm.mvc.Application;
 arm.pixidemo.Demo.prototype = $extend(arm.mvc.Application.prototype,{
@@ -1460,7 +1460,7 @@ arm.pixidemo.components.coins.CoinsView.prototype = $extend(arm.pixidemo.compone
 arm.pixidemo.components.livevideo = {};
 arm.pixidemo.components.livevideo.LiveVideoController = function(m,v,c,mainModel) {
 	this._showing = false;
-	this._id = 16;
+	this._id = 13;
 	mcover.coverage.MCoverage.getLogger().logStatement(95);
 	arm.pixidemo.components.GameComponentController.call(this,m,v,c,mainModel);
 	this._view = js.Boot.__cast(v , arm.pixidemo.components.livevideo.LiveVideoView);
@@ -1662,7 +1662,7 @@ arm.pixidemo.components.menu.MenuController.prototype = $extend(arm.pixidemo.com
 arm.pixidemo.components.menu.MenuView = function(stage,container) {
 	mcover.coverage.MCoverage.getLogger().logStatement(121);
 	arm.pixidemo.components.GameComponentView.call(this,stage,container);
-	this._menuItems = ["Reset","Screen Test","Screen Guide","Localisation","Sprites","Bunnys","Sprite Sheets","Coin Shower","Typekit","Audio","Currency Format","Server Request","Console Bridge","Reels","Skeleton Animation","Video","Live Video","Physics"];
+	this._menuItems = ["Reset","Screen Test","Screen Guide","Localisation","Sprites","Bunnys","Sprite Sheets","Coin Shower","Typekit","Audio","Reels","Skeleton Animation","Video","Live Video","Physics"];
 };
 $hxClasses["arm.pixidemo.components.menu.MenuView"] = arm.pixidemo.components.menu.MenuView;
 arm.pixidemo.components.menu.MenuView.__name__ = ["arm","pixidemo","components","menu","MenuView"];
@@ -1705,7 +1705,7 @@ arm.pixidemo.components.menu.MenuView.prototype = $extend(arm.pixidemo.component
 arm.pixidemo.components.physics = {};
 arm.pixidemo.components.physics.PhysicsController = function(m,v,c,mainModel) {
 	this._showing = false;
-	this._id = 17;
+	this._id = 14;
 	mcover.coverage.MCoverage.getLogger().logStatement(128);
 	arm.pixidemo.components.GameComponentController.call(this,m,v,c,mainModel);
 	this._view = js.Boot.__cast(v , arm.pixidemo.components.physics.PhysicsView);
@@ -1934,7 +1934,7 @@ arm.pixidemo.components.preloader.PreloaderView.prototype = $extend(arm.pixidemo
 arm.pixidemo.components.reels = {};
 arm.pixidemo.components.reels.ReelsController = function(m,v,c,mainModel) {
 	this._showing = false;
-	this._id = 13;
+	this._id = 10;
 	mcover.coverage.MCoverage.getLogger().logStatement(152);
 	arm.pixidemo.components.GameComponentController.call(this,m,v,c,mainModel);
 	this._view = js.Boot.__cast(v , arm.pixidemo.components.reels.ReelsView);
@@ -2344,7 +2344,7 @@ arm.pixidemo.components.screentest.ScreenTestView.prototype = $extend(arm.pixide
 arm.pixidemo.components.skeleton = {};
 arm.pixidemo.components.skeleton.SkeletonController = function(m,v,c,mainModel) {
 	this._showing = false;
-	this._id = 14;
+	this._id = 11;
 	mcover.coverage.MCoverage.getLogger().logStatement(207);
 	arm.pixidemo.components.GameComponentController.call(this,m,v,c,mainModel);
 	this._view = js.Boot.__cast(v , arm.pixidemo.components.skeleton.SkeletonView);
@@ -2923,7 +2923,7 @@ arm.pixidemo.components.typekit.TypekitView.prototype = $extend(arm.pixidemo.com
 arm.pixidemo.components.video = {};
 arm.pixidemo.components.video.VideoController = function(m,v,c,mainModel) {
 	this._showing = false;
-	this._id = 15;
+	this._id = 12;
 	mcover.coverage.MCoverage.getLogger().logStatement(291);
 	arm.pixidemo.components.GameComponentController.call(this,m,v,c,mainModel);
 	this._view = js.Boot.__cast(v , arm.pixidemo.components.video.VideoView);
@@ -4128,7 +4128,7 @@ mconsole.Printer.prototype = {
 mconsole.ConsoleView = function() {
 	mconsole.PrinterBase.call(this);
 	this.atBottom = true;
-	this.projectHome = "/haxe/hp-demo/";
+	this.projectHome = "/haxe/adireddy.github.io/hp-demo/";
 	var document = window.document;
 	this.element = document.createElement("pre");
 	this.element.id = "console";

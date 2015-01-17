@@ -4,7 +4,7 @@ import arm.pixidemo.notifications.internal.MenuNotification;
 
 class VideoController extends GameComponentController {
 
-	var _id:Int = 15;
+	var _id:Int = 12;
 	var _showing:Bool = false;
 	var _view:VideoView;
 

@@ -4,7 +4,7 @@ import arm.pixidemo.notifications.internal.MenuNotification;
 
 class ReelsController extends GameComponentController {
 
-	var _id:Int = 13;
+	var _id:Int = 10;
 	var _showing:Bool = false;
 	var _view:ReelsView;
 

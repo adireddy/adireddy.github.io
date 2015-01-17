@@ -4,7 +4,7 @@ import arm.pixidemo.notifications.internal.MenuNotification;
 
 class PhysicsController extends GameComponentController {
 
-	var _id:Int = 17;
+	var _id:Int = 14;
 	var _showing:Bool = false;
 	var _view:PhysicsView;
 

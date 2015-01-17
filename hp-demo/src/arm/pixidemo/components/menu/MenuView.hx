@@ -14,8 +14,7 @@ class MenuView extends GameComponentView {
 	public function new(stage, ?container) {
 		super(stage, container);
 		_menuItems = ["Reset", "Screen Test", "Screen Guide", "Localisation", "Sprites", "Bunnys", "Sprite Sheets",
-		"Coin Shower", "Typekit", "Audio", "Currency Format", "Server Request", "Console Bridge", "Reels",
-		"Skeleton Animation", "Video", "Live Video", "Physics"]; //"Particles"
+		"Coin Shower", "Typekit", "Audio", "Reels", "Skeleton Animation", "Video", "Live Video", "Physics"];
 	}
 
 	public function create() {

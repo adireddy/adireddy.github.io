@@ -4,7 +4,7 @@ import arm.pixidemo.notifications.internal.MenuNotification;
 
 class SkeletonController extends GameComponentController {
 
-	var _id:Int = 14;
+	var _id:Int = 11;
 	var _showing:Bool = false;
 	var _view:SkeletonView;
 
