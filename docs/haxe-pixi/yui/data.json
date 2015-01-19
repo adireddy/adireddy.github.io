@@ -438,6 +438,49 @@
             "fors": {},
             "namespaces": {}
         },
+        "pixi/plugins/particles/cloudkid/AnimatedParticle.hx": {
+            "name": "pixi/plugins/particles/cloudkid/AnimatedParticle.hx",
+            "modules": {},
+            "classes": {
+                "AnimatedParticle": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "pixi/plugins/particles/cloudkid/Emitter.hx": {
+            "name": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "modules": {},
+            "classes": {
+                "Emitter": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "pixi/plugins/particles/cloudkid/Particle.hx": {
+            "name": "pixi/plugins/particles/cloudkid/Particle.hx",
+            "modules": {},
+            "classes": {
+                "Particle": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "pixi/plugins/particles/cloudkid/ParticleUtils.hx": {
+            "name": "pixi/plugins/particles/cloudkid/ParticleUtils.hx",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "pixi/plugins/particles/cloudkid/PathParticle.hx": {
+            "name": "pixi/plugins/particles/cloudkid/PathParticle.hx",
+            "modules": {},
+            "classes": {
+                "PathParticle": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "pixi/primitives/Graphics.hx": {
             "name": "pixi/primitives/Graphics.hx",
             "modules": {},
@@ -1749,6 +1792,97 @@
                     "description": "Whether requests should be treated as crossorigin",
                     "type": "Bool",
                     "optional": true
+                }
+            ]
+        },
+        "AnimatedParticle": {
+            "name": "AnimatedParticle",
+            "shortname": "AnimatedParticle",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "pixi/plugins/particles/cloudkid/AnimatedParticle.hx",
+            "line": 6,
+            "description": "An individual particle image with an animation. While this class may be functional, it\nhas not gotten thorough testing or examples yet, and is not considered to be release ready.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "emitter",
+                    "description": "The emitter that controls this AnimatedParticle.",
+                    "type": "Emitter"
+                }
+            ]
+        },
+        "Emitter": {
+            "name": "Emitter",
+            "shortname": "Emitter",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 247,
+            "description": "A particle emitter.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "particleParent",
+                    "description": "The display object to add the\n\t\t\t\t\t\t\t\t\t\t\t\t\tparticles to.",
+                    "type": "pixi.display.DisplayObjectContainer"
+                },
+                {
+                    "name": "particleImages",
+                    "description": "A texture or array of textures to use\n\t\t\t\t\t\t\t\t\t\t\tfor the particles.",
+                    "type": "Array<pixi.textures.Texture>",
+                    "optional": true
+                },
+                {
+                    "name": "config",
+                    "description": "A configuration object containing settings for the emitter.",
+                    "type": "Dynamic",
+                    "optional": true
+                }
+            ]
+        },
+        "Particle": {
+            "name": "Particle",
+            "shortname": "Particle",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "pixi/plugins/particles/cloudkid/Particle.hx",
+            "line": 93,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "emitter",
+                    "description": "The emitter that controls this particle.",
+                    "type": "Emitter"
+                }
+            ]
+        },
+        "PathParticle": {
+            "name": "PathParticle",
+            "shortname": "PathParticle",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "pixi/plugins/particles/cloudkid/PathParticle.hx",
+            "line": 31,
+            "description": "An particle that follows a path defined by an algebraic expression, e.g. \"sin(x)\" or\n\"5x + 3\".\nTo use this class, the particle config must have a \"path\" string in the\n\"extraData\" parameter. This string should have \"x\" in it to represent movement (from the\nspeed settings of the particle). It may have numbers, parentheses, the four basic\noperations, and the following Math functions or properties (without the preceding \"Math.\"):\n\"pow\", \"sqrt\", \"abs\", \"floor\", \"round\", \"ceil\", \"E\", \"PI\", \"sin\", \"cos\", \"tan\", \"asin\",\n\"acos\", \"atan\", \"atan2\", \"log\".\nThe overall movement of the particle and the expression value become x and y positions for\nthe particle, respectively. The final position is rotated by the spawn rotation/angle of\nthe particle.\n\nSome example paths:\n\n\t\"sin(x/10) * 20\" // A sine wave path.\n\t\"cos(x/100) * 30\" // Particles curve counterclockwise (for medium speed/low lifetime particles)\n\t\"pow(x/10, 2) / 2\" // Particles curve clockwise (remember, +y is down).",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "emitter",
+                    "description": "The emitter that controls this PathParticle.",
+                    "type": "Emitter"
                 }
             ]
         },
@@ -5108,6 +5242,906 @@
             "itemtype": "method",
             "name": "load",
             "class": "SpriteSheetLoader"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/AnimatedParticle.hx",
+            "line": 15,
+            "description": "Initializes the particle for use, based on the properties that have to\nhave been set already on the particle.",
+            "itemtype": "method",
+            "name": "init",
+            "class": "AnimatedParticle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/AnimatedParticle.hx",
+            "line": 22,
+            "description": "Sets the textures for the particle.",
+            "itemtype": "method",
+            "name": "applyArt",
+            "params": [
+                {
+                    "name": "art",
+                    "description": "An array of pixi.textures.Texture objects for this animated particle.",
+                    "type": "Array<pixi.textures.Texture>"
+                }
+            ],
+            "class": "AnimatedParticle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/AnimatedParticle.hx",
+            "line": 29,
+            "description": "Updates the particle.",
+            "itemtype": "method",
+            "name": "update",
+            "params": [
+                {
+                    "name": "delta",
+                    "description": "Time elapsed since the previous frame, in __seconds__.",
+                    "type": "Float"
+                }
+            ],
+            "class": "AnimatedParticle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/AnimatedParticle.hx",
+            "line": 36,
+            "description": "Destroys the particle, removing references and preventing future use.",
+            "itemtype": "method",
+            "name": "destroy",
+            "class": "AnimatedParticle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 6,
+            "description": "If either ownerPos or spawnPos has changed since the previous update.",
+            "itemtype": "property",
+            "name": "_posChanged",
+            "type": "Bool",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 12,
+            "description": "Acceleration to apply to particles. Using this disables\nany interpolation of particle speed. If the particles do\nnot have a rotation speed, then they will be rotated to\nmatch the direction of travel.",
+            "itemtype": "property",
+            "name": "acceleration",
+            "type": "pixi.geom.Point",
+            "default": "null",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 22,
+            "description": "If particles should be added at the back of the display list instead of the front.",
+            "itemtype": "property",
+            "name": "addAtBack",
+            "type": "Bool",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 28,
+            "description": "Angle at which to start spawning particles in a burst.",
+            "itemtype": "property",
+            "name": "angleStart",
+            "type": "Float",
+            "default": "0",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 35,
+            "description": "An easing function for nonlinear interpolation of values. Accepts a single\nparameter of time as a value from 0-1, inclusive. Expected outputs are values\nfrom 0-1, inclusive.",
+            "itemtype": "property",
+            "name": "customEase",
+            "type": "Void->Void",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 44,
+            "description": "The amount of time in seconds to emit for before setting emit to false.\nA value of -1 is an unlimited amount of time.",
+            "itemtype": "property",
+            "name": "emitterLifetime",
+            "type": "Float",
+            "default": "-1",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 52,
+            "description": "The ending alpha of all particles.",
+            "itemtype": "property",
+            "name": "endAlpha",
+            "type": "Float",
+            "default": "1",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 59,
+            "description": "The ending color of all particles, as red, green, and blue uints from 0-255.",
+            "itemtype": "property",
+            "name": "endColor",
+            "type": "Array<Int>",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 65,
+            "description": "The ending scale of all particles.",
+            "itemtype": "property",
+            "name": "endScale",
+            "type": "Float",
+            "default": "1",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 72,
+            "description": "The ending speed of all particles.",
+            "itemtype": "property",
+            "name": "endSpeed",
+            "type": "Float",
+            "default": "0",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 79,
+            "description": "Extra data for use in custom particles. The emitter doesn't look inside, but\npasses it on to the particle to use in init().",
+            "itemtype": "property",
+            "name": "extraData",
+            "type": "Dynamic",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 86,
+            "description": "Time between particle spawns in seconds.",
+            "itemtype": "property",
+            "name": "frequency",
+            "type": "Float",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 92,
+            "description": "The maximum lifetime for a particle, in seconds.",
+            "itemtype": "property",
+            "name": "maxLifetime",
+            "type": "Float",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 98,
+            "description": "Maximum number of particles to keep alive at a time. If this limit\nis reached, no more particles will spawn until some have died.",
+            "itemtype": "property",
+            "name": "maxParticles",
+            "type": "Int",
+            "default": "1000",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 106,
+            "description": "The maximum start rotation for a particle, in degrees. This value\nis ignored if the spawn type is \"burst\" or \"arc\".",
+            "itemtype": "property",
+            "name": "maxStartRotation",
+            "type": "Float",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 113,
+            "description": "The maximum rotation speed for a particle, in degrees per second.\nThis only visually spins the particle, it does not change direction of movement.",
+            "itemtype": "property",
+            "name": "maxRotationSpeed",
+            "type": "Float",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 120,
+            "description": "A minimum multiplier for the scale of a particle at both start and\nend. A value between minimumScaleMultiplier and 1 is randomly generated\nand multiplied with startScale and endScale to provide the actual\nstartScale and endScale for each particle.",
+            "itemtype": "property",
+            "name": "minimumScaleMultiplier",
+            "type": "Float",
+            "default": "1",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 130,
+            "description": "The minimum lifetime for a particle, in seconds.",
+            "itemtype": "property",
+            "name": "minLifetime",
+            "type": "Float",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 136,
+            "description": "The minimum rotation speed for a particle, in degrees per second.\nThis only visually spins the particle, it does not change direction of movement.",
+            "itemtype": "property",
+            "name": "minRotationSpeed",
+            "type": "Float",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 143,
+            "description": "The world position of the emitter's owner, to add spawnPos to when\nspawning particles. To change this, use updateSpawnOrigin().",
+            "itemtype": "property",
+            "name": "ownerPos",
+            "type": "pixi.geom.Point",
+            "default": "{x:0, y:0}",
+            "readonly": "",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 152,
+            "description": "The display object to add particles to.",
+            "itemtype": "property",
+            "name": "parent",
+            "type": "pixi.display.DisplayObjectContainer",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 158,
+            "description": "The blend mode for all particles, as named by PIXI.blendModes.",
+            "itemtype": "property",
+            "name": "particleBlendMode",
+            "type": "Int",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 164,
+            "description": "An array of PIXI Texture objects.",
+            "itemtype": "property",
+            "name": "particleImages",
+            "type": "Array<pixi.textures.Texture>",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 170,
+            "description": "Spacing between particles in a burst. 0 gives a random angle for each particle.",
+            "itemtype": "property",
+            "name": "particleSpacing",
+            "type": "Float",
+            "default": "0",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 177,
+            "description": "Float of particles to spawn each wave in a burst.",
+            "itemtype": "property",
+            "name": "particlesPerWave",
+            "type": "Int",
+            "default": "1",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 184,
+            "description": "Rotation of the emitter or emitter's owner in degrees. This is added to\nthe calculated spawn angle.\nTo change this, use rotate().",
+            "itemtype": "property",
+            "name": "rotation",
+            "type": "Float",
+            "default": "0",
+            "readonly": "",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 194,
+            "description": "A circle relative to spawnPos to spawn particles inside if the spawn type is \"circle\".",
+            "itemtype": "property",
+            "name": "spawnCircle",
+            "type": "pixi.geom.Circle",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 200,
+            "description": "Position at which to spawn particles, relative to the emitter's owner's origin.\nFor example, the flames of a rocket travelling right might have a spawnPos\nof {x:-50, y:0}.\nto spawn at the rear of the rocket.\nTo change this, use updateSpawnPos().",
+            "itemtype": "property",
+            "name": "spawnPos",
+            "type": "pixi.geom.Point",
+            "readonly": "",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 211,
+            "description": "A rectangle relative to spawnPos to spawn particles inside if the spawn type is \"rect\".",
+            "itemtype": "property",
+            "name": "spawnRect",
+            "type": "pixi.geom.Rectangle",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 217,
+            "description": "How the particles will be spawned. Valid types are \"point\", \"rectangle\",\n\"circle\", \"burst\".",
+            "itemtype": "property",
+            "name": "spawnType",
+            "type": "String",
+            "readonly": "",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 225,
+            "description": "The starting alpha of all particles.",
+            "itemtype": "property",
+            "name": "startAlpha",
+            "type": "Float",
+            "default": "1",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 233,
+            "description": "The starting scale of all particles.",
+            "itemtype": "property",
+            "name": "startScale",
+            "type": "Float",
+            "default": "1",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 240,
+            "description": "The starting speed of all particles.",
+            "itemtype": "property",
+            "name": "startSpeed",
+            "type": "Float",
+            "default": "0",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 259,
+            "description": "Kills all active particles immediately.",
+            "itemtype": "method",
+            "name": "cleanup",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 265,
+            "description": "Destroys the emitter and all of its particles.",
+            "itemtype": "method",
+            "name": "destroy",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 271,
+            "description": "Sets up the emitter based on the config settings.",
+            "itemtype": "method",
+            "name": "init",
+            "params": [
+                {
+                    "name": "particleImages",
+                    "description": "A texture or array of textures to use for the particles.",
+                    "type": "Array<pixi.textures.Texture>"
+                },
+                {
+                    "name": "config",
+                    "description": "A configuration object containing settings for the emitter.",
+                    "type": "Dynamic"
+                }
+            ],
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 279,
+            "description": "Recycles an individual particle.",
+            "itemtype": "method",
+            "name": "recycle",
+            "params": [
+                {
+                    "name": "particle",
+                    "description": "The particle to recycle.",
+                    "type": "Particle"
+                }
+            ],
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 286,
+            "description": "Prevents emitter position interpolation in the next update.\nThis should be used if you made a major position change of your emitter's owner\nthat was not normal movement.",
+            "itemtype": "method",
+            "name": "resetPositionTracking",
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 294,
+            "description": "Sets the rotation of the emitter to a new value.",
+            "itemtype": "method",
+            "name": "rotate",
+            "params": [
+                {
+                    "name": "newRot",
+                    "description": "The new rotation, in degrees.",
+                    "type": "Float"
+                }
+            ],
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 301,
+            "description": "Updates all particles spawned by this emitter and emits new ones.",
+            "itemtype": "method",
+            "name": "update",
+            "params": [
+                {
+                    "name": "delta",
+                    "description": "Time elapsed since the previous frame, in __seconds__.",
+                    "type": "Float"
+                }
+            ],
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 308,
+            "description": "Changes the position of the emitter's owner. You should call this if you are adding\nparticles to the world display object that your emitter's owner is moving around in.",
+            "itemtype": "method",
+            "name": "updateOwnerPos",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The new x value of the emitter's owner.",
+                    "type": "Float"
+                },
+                {
+                    "name": "y",
+                    "description": "The new y value of the emitter's owner.",
+                    "type": "Float"
+                }
+            ],
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Emitter.hx",
+            "line": 317,
+            "description": "Changes the spawn position of the emitter.",
+            "itemtype": "method",
+            "name": "updateSpawnPos",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The new x value of the spawn position for the emitter.",
+                    "type": "Float"
+                },
+                {
+                    "name": "y",
+                    "description": "The new y value of the spawn position for the emitter.",
+                    "type": "Float"
+                }
+            ],
+            "class": "Emitter"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Particle.hx",
+            "line": 6,
+            "description": "Acceleration to apply to the particle.",
+            "itemtype": "property",
+            "name": "acceleration",
+            "type": "pixi.geom.Point",
+            "class": "Particle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Particle.hx",
+            "line": 12,
+            "description": "The current age of the particle, in seconds.",
+            "itemtype": "property",
+            "name": "age",
+            "type": "Float",
+            "class": "Particle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Particle.hx",
+            "line": 18,
+            "description": "A simple easing function to be applied to all properties that\nare being interpolated.",
+            "itemtype": "property",
+            "name": "ease",
+            "type": "Void->Void",
+            "class": "Particle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Particle.hx",
+            "line": 25,
+            "description": "The emitter that controls this particle.",
+            "itemtype": "property",
+            "name": "emitter",
+            "type": "Emitter",
+            "class": "Particle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Particle.hx",
+            "line": 31,
+            "description": "The alpha of the particle at the end of its life.",
+            "itemtype": "property",
+            "name": "endAlpha",
+            "type": "Float",
+            "class": "Particle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Particle.hx",
+            "line": 38,
+            "description": "The scale of the particle at the start of its life.",
+            "itemtype": "property",
+            "name": "endScale",
+            "type": "Float",
+            "class": "Particle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Particle.hx",
+            "line": 44,
+            "description": "The speed of the particle at the end of its life.",
+            "itemtype": "property",
+            "name": "endSpeed",
+            "type": "Number",
+            "class": "Particle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Particle.hx",
+            "line": 50,
+            "description": "Extra data that the emitter passes along for custom particles.",
+            "itemtype": "property",
+            "name": "extraData",
+            "type": "Dynamic",
+            "class": "Particle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Particle.hx",
+            "line": 56,
+            "description": "The maximum lifetime of this particle, in seconds.",
+            "itemtype": "property",
+            "name": "maxLife",
+            "type": "Float",
+            "class": "Particle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Particle.hx",
+            "line": 62,
+            "description": "The alpha of the particle at the start of its life.",
+            "itemtype": "property",
+            "name": "startAlpha",
+            "type": "Float",
+            "class": "Particle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Particle.hx",
+            "line": 68,
+            "description": "The tint of the particle at the start of its life.",
+            "itemtype": "property",
+            "name": "startColor",
+            "type": "Array<Int>",
+            "class": "Particle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Particle.hx",
+            "line": 74,
+            "description": "The scale of the particle at the start of its life.",
+            "itemtype": "property",
+            "name": "startScale",
+            "type": "Float",
+            "class": "Particle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Particle.hx",
+            "line": 80,
+            "description": "The speed of the particle at the start of its life.",
+            "itemtype": "property",
+            "name": "startSpeed",
+            "type": "Float",
+            "class": "Particle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Particle.hx",
+            "line": 86,
+            "description": "The velocity of the particle. Speed may change, but the angle also\ncontained in velocity is constant.",
+            "itemtype": "property",
+            "name": "velocity",
+            "type": "pixi.geom.Point",
+            "class": "Particle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Particle.hx",
+            "line": 100,
+            "description": "Sets the texture for the particle. This can be overridden to allow\nfor an animated particle.",
+            "itemtype": "method",
+            "name": "applyArt",
+            "params": [
+                {
+                    "name": "art",
+                    "description": "The texture to set.",
+                    "type": "pixi.textures.Texture"
+                }
+            ],
+            "class": "Particle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Particle.hx",
+            "line": 108,
+            "description": "Destroys the particle, removing references and preventing future use.",
+            "itemtype": "method",
+            "name": "destroy",
+            "class": "Particle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Particle.hx",
+            "line": 114,
+            "description": "Initializes the particle for use, based on the properties that have to\nhave been set already on the particle.",
+            "itemtype": "method",
+            "name": "init",
+            "class": "Particle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Particle.hx",
+            "line": 121,
+            "description": "Kills the particle, removing it from the display list\nand telling the emitter to recycle it.",
+            "itemtype": "method",
+            "name": "kill",
+            "class": "Particle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/Particle.hx",
+            "line": 128,
+            "description": "Updates the particle.",
+            "itemtype": "method",
+            "name": "update",
+            "params": [
+                {
+                    "name": "delta",
+                    "description": "Time elapsed since the previous frame, in __seconds__.",
+                    "type": "Float"
+                }
+            ],
+            "return": {
+                "description": "The standard interpolation multiplier (0-1) used for all relevant particle\n                    properties. A value of -1 means the particle died of old age instead.",
+                "type": "Float"
+            },
+            "class": "Particle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/ParticleUtils.hx",
+            "line": 6,
+            "description": "Combines separate color components (0-255) into a single uint color.",
+            "itemtype": "method",
+            "name": "combineRGBComponents",
+            "params": [
+                {
+                    "name": "r",
+                    "description": "The red value of the color",
+                    "type": "Int"
+                },
+                {
+                    "name": "g",
+                    "description": "The green value of the color",
+                    "type": "Int"
+                },
+                {
+                    "name": "b",
+                    "description": "The blue value of the color",
+                    "type": "Int"
+                }
+            ],
+            "return": {
+                "description": "The color in the form of 0xRRGGBB",
+                "type": "Int"
+            },
+            "static": 1,
+            "class": "PathParticle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/ParticleUtils.hx",
+            "line": 17,
+            "description": "Generates a custom ease function, based on the GreenSock custom ease, as demonstrated\nby the related tool at http://www.greensock.com/customease/.",
+            "itemtype": "method",
+            "name": "generateEase",
+            "params": [
+                {
+                    "name": "segments",
+                    "description": "An array of segments, as created by\nhttp://www.greensock.com/customease/.",
+                    "type": "Array<Dynamic>"
+                }
+            ],
+            "return": {
+                "description": "A function that calculates the percentage of change at\n\t\t\t\t\ta given point in time (0-1 inclusive).",
+                "type": "Float->Float"
+            },
+            "static": 1,
+            "class": "PathParticle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/ParticleUtils.hx",
+            "line": 29,
+            "description": "Gets a blend mode, ensuring that it is valid.",
+            "itemtype": "method",
+            "name": "getBlendMode",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "The name of the blend mode to get.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The blend mode as specified in the PIXI.blendModes enumeration.",
+                "type": "Int"
+            },
+            "static": 1,
+            "class": "PathParticle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/ParticleUtils.hx",
+            "line": 38,
+            "description": "Converts a hex string from \"#AARRGGBB\", \"#RRGGBB\", \"0xAARRGGBB\", \"0xRRGGBB\",\n\"AARRGGBB\", or \"RRGGBB\" to an array of ints of 0-255 or Numbers from 0-1, as\n[r, g, b, (a)].",
+            "itemtype": "method",
+            "name": "hexToRGB",
+            "params": [
+                {
+                    "name": "color",
+                    "description": "The input color string.",
+                    "type": "String"
+                },
+                {
+                    "name": "output",
+                    "description": "An array to put the output in. If omitted, a new array is created.",
+                    "type": "Array<Int>"
+                }
+            ],
+            "return": {
+                "description": "The array of numeric color values.",
+                "type": "Array<Int>"
+            },
+            "static": 1,
+            "class": "PathParticle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/ParticleUtils.hx",
+            "line": 50,
+            "description": "Returns the length (or magnitude) of this point.",
+            "itemtype": "method",
+            "name": "length",
+            "static": 1,
+            "params": [
+                {
+                    "name": "point",
+                    "description": "The point to measure length",
+                    "type": "pixi.geom.Point"
+                }
+            ],
+            "return": {
+                "description": "The length of this point.",
+                "type": "Float"
+            },
+            "class": "PathParticle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/ParticleUtils.hx",
+            "line": 59,
+            "description": "Reduces the point to a length of 1.",
+            "itemtype": "method",
+            "name": "normalize",
+            "static": 1,
+            "params": [
+                {
+                    "name": "point",
+                    "description": "The point to normalize",
+                    "type": "pixi.geom.Point"
+                }
+            ],
+            "class": "PathParticle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/ParticleUtils.hx",
+            "line": 67,
+            "description": "Rotates a point by a given angle.",
+            "itemtype": "method",
+            "name": "rotatePoint",
+            "params": [
+                {
+                    "name": "angle",
+                    "description": "The angle to rotate by in degrees",
+                    "type": "Float"
+                },
+                {
+                    "name": "p",
+                    "description": "The point to rotate around 0,0.",
+                    "type": "pixi.geom.Point"
+                }
+            ],
+            "static": 1,
+            "class": "PathParticle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/ParticleUtils.hx",
+            "line": 76,
+            "description": "Multiplies the x and y values of this point by a value.",
+            "itemtype": "method",
+            "name": "scaleBy",
+            "static": 1,
+            "params": [
+                {
+                    "name": "point",
+                    "description": "The point to scaleBy",
+                    "type": "pixi.geom.Point"
+                },
+                {
+                    "name": "value",
+                    "description": "The value to scale by.",
+                    "type": "Float"
+                }
+            ],
+            "class": "PathParticle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/PathParticle.hx",
+            "line": 6,
+            "description": "The function representing the path the particle should take.",
+            "itemtype": "property",
+            "name": "path",
+            "type": "Float->Float",
+            "class": "PathParticle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/PathParticle.hx",
+            "line": 12,
+            "description": "The initial rotation in degrees of the particle, because the direction of the path\nis based on that.",
+            "itemtype": "property",
+            "name": "initialRotation",
+            "type": "Float",
+            "class": "PathParticle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/PathParticle.hx",
+            "line": 19,
+            "description": "The initial position of the particle, as all path movement is added to that.",
+            "itemtype": "property",
+            "name": "initialPosition",
+            "type": "pixi.geom.Point",
+            "class": "PathParticle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/PathParticle.hx",
+            "line": 25,
+            "description": "Total single directional movement, due to speed.",
+            "itemtype": "property",
+            "name": "movement",
+            "type": "Float",
+            "class": "PathParticle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/PathParticle.hx",
+            "line": 56,
+            "description": "Initializes the particle for use, based on the properties that have to\nhave been set already on the particle.",
+            "itemtype": "method",
+            "name": "init",
+            "class": "PathParticle"
+        },
+        {
+            "file": "pixi/plugins/particles/cloudkid/PathParticle.hx",
+            "line": 63,
+            "description": "Destroys the particle, removing references and preventing future use.",
+            "itemtype": "method",
+            "name": "destroy",
+            "class": "PathParticle"
         },
         {
             "file": "pixi/primitives/Graphics.hx",
