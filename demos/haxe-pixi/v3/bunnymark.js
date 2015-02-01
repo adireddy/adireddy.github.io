@@ -123,6 +123,8 @@ samples.v3.bunnymark.Main.prototype = $extend(samples.v3.Application.prototype,{
 		var _this = window.document;
 		this.counter = _this.createElement("div");
 		this.counter.style.position = "absolute";
+		this.counter.style.top = "1px";
+		this.counter.style.left = "1px";
 		this.counter.style.width = "90px";
 		this.counter.style.background = "#CCCCC";
 		this.counter.style.backgroundColor = "#105CB6";
@@ -222,8 +224,8 @@ samples.v3.bunnymark.Main.prototype = $extend(samples.v3.Application.prototype,{
 	,_onResize: function() {
 		this.maxX = window.innerWidth;
 		this.maxY = window.innerHeight;
-		this.counter.style.left = this.maxX + "px";
-		this.counter.style.top = this.maxY + 49 + "px";
+		this.counter.style.top = "1px";
+		this.counter.style.left = "1px";
 	}
 });
 var $_, $fid = 0;
