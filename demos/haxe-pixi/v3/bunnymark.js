@@ -50,6 +50,10 @@ samples.v3.Application.prototype = {
 		this._renderer.resize(this.width,this.height);
 		this._canvas.style.width = this.width + "px";
 		this._canvas.style.height = this.height + "px";
+		if(this._stats != null) {
+			this._stats.domElement.style.top = "2px";
+			this._stats.domElement.style.right = "2px";
+		}
 		if(this.onResize != null) this.onResize();
 	}
 	,_onRequestAnimationFrame: function() {
