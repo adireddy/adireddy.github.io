@@ -196,5 +196,3 @@ Math.isNaN = function(i1) {
 };
 samples.bunnymark.Main.main();
 })();
-
-//# sourceMappingURL=hx-pixi-bunnymark.js.map
