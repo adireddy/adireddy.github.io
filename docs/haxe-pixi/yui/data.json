@@ -6,8 +6,8 @@
         "url": "https://github.com/adireddy/haxe-pixi"
     },
     "files": {
-        "pixi/display/DisplayObject.hx": {
-            "name": "pixi/display/DisplayObject.hx",
+        "pixi/display/CoreDisplayObject.hx": {
+            "name": "pixi/display/CoreDisplayObject.hx",
             "modules": {},
             "classes": {
                 "DisplayObject": 1
@@ -15,12 +15,19 @@
             "fors": {},
             "namespaces": {}
         },
-        "pixi/display/DisplayObjectContainer.hx": {
-            "name": "pixi/display/DisplayObjectContainer.hx",
+        "pixi/display/CoreDisplayObjectContainer.hx": {
+            "name": "pixi/display/CoreDisplayObjectContainer.hx",
             "modules": {},
             "classes": {
                 "DisplayObjectContainer": 1
             },
+            "fors": {},
+            "namespaces": {}
+        },
+        "pixi/display/DisplayObjectContainer.hx": {
+            "name": "pixi/display/DisplayObjectContainer.hx",
+            "modules": {},
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -818,7 +825,7 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 14,
             "description": "The base class for all objects that are rendered on the screen.\nThis is an abstract class and should not be used on its own rather it should be extended.",
             "is_constructor": 1
@@ -831,7 +838,7 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "pixi/display/DisplayObjectContainer.hx",
+            "file": "pixi/display/CoreDisplayObjectContainer.hx",
             "line": 8,
             "description": "A DisplayObjectContainer represents a collection of display objects.\nIt is the base class of all display objects that act as a container for other objects.",
             "extends": "DisplayObject",
@@ -2679,7 +2686,7 @@
     },
     "classitems": [
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 23,
             "description": "Useful function that returns a texture of the displayObject object that can then be used to create sprites\nThis can be quite useful if your displayObject is static / complicated and needs to be reused multiple times.",
             "itemtype": "method",
@@ -2709,7 +2716,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 36,
             "description": "Retrieves the bounds of the displayObject as a rectangle object",
             "itemtype": "method",
@@ -2729,7 +2736,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 45,
             "description": "Retrieves the local bounds of the displayObject as a rectangle object",
             "itemtype": "method",
@@ -2741,7 +2748,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 53,
             "description": "Sets the object's stage reference, the stage this object is connected to",
             "itemtype": "method",
@@ -2756,7 +2763,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 61,
             "description": "Calculates the global position of the display object",
             "itemtype": "method",
@@ -2775,7 +2782,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 70,
             "description": "Calculates the local position of the display object relative to another point",
             "itemtype": "method",
@@ -2800,7 +2807,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 80,
             "description": "Generates and updates the cached sprite for this object.",
             "itemtype": "method",
@@ -2808,7 +2815,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 87,
             "description": "The opacity of the object.",
             "itemtype": "property",
@@ -2817,7 +2824,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 95,
             "description": "This is used to indicate if the displayObject should display a mouse hand cursor on rollover",
             "itemtype": "property",
@@ -2826,7 +2833,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 103,
             "description": "Set weather or not a the display objects is cached as a bitmap.\nThis basically takes a snap shot of the display object as it is at that moment. It can provide a performance benefit for complex static displayObjects\nTo remove filters simply set this property to 'null'",
             "itemtype": "property",
@@ -2835,7 +2842,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 112,
             "description": "This is the cursor that will be used when the mouse is over this object. To enable this the element must have interaction = true and buttonMode = true",
             "itemtype": "property",
@@ -2844,7 +2851,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 120,
             "description": "The area the filter is applied to like the hitArea this is used as more of an optimisation\nrather than figuring out the dimensions of the displayObject each frame you can set this rectangle",
             "itemtype": "property",
@@ -2853,7 +2860,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 129,
             "description": "Sets the filters for the displayObject.\n* IMPORTANT: This is a webGL only feature and will be ignored by the canvas renderer.\nTo remove filters simply set this property to 'null'",
             "itemtype": "property",
@@ -2862,7 +2869,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 138,
             "description": "This is the defined area that will pick up mouse / touch events. It is null by default.\nSetting it is a neat way of optimising the hitTest function that the interactionManager will use (as it will not need to hit test all the children)",
             "itemtype": "property",
@@ -2871,7 +2878,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 147,
             "description": "Indicates if the sprite will have touch and mouse interactivity. It is false by default",
             "itemtype": "property",
@@ -2881,7 +2888,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 156,
             "description": "Sets a mask for the displayObject. A mask is an object that limits the visibility of an object to the shape of the mask applied to it.\nIn PIXI a regular mask must be a PIXI.Graphics object. This allows for much faster masking in canvas as it utilises shape clipping.\nTo remove a mask, set this property to null.",
             "itemtype": "property",
@@ -2890,7 +2897,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 166,
             "description": "[read-only] The display object container that contains this display object.",
             "itemtype": "property",
@@ -2900,7 +2907,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 175,
             "description": "The pivot point of the displayObject that it rotates around",
             "itemtype": "property",
@@ -2909,7 +2916,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 183,
             "description": "The coordinate of the object relative to the local coordinates of the parent.",
             "itemtype": "property",
@@ -2918,7 +2925,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 191,
             "description": "Can this object be rendered",
             "itemtype": "property",
@@ -2927,7 +2934,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 199,
             "description": "The rotation of the object in radians.",
             "itemtype": "property",
@@ -2936,7 +2943,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 207,
             "description": "The scale factor of the object.",
             "itemtype": "property",
@@ -2945,7 +2952,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 215,
             "description": "[read-only] The stage the display object is connected to, or undefined if it is not connected to the stage.",
             "itemtype": "property",
@@ -2955,7 +2962,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 224,
             "description": "The visibility of the object.",
             "itemtype": "property",
@@ -2964,7 +2971,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 232,
             "description": "[read-only] The multiplied alpha of the displayObject",
             "itemtype": "property",
@@ -2974,7 +2981,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 241,
             "description": "[read-only] Indicates if the sprite is globaly visible.",
             "itemtype": "property",
@@ -2983,7 +2990,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 249,
             "description": "The position of the displayObject on the x axis relative to the local coordinates of the parent.",
             "itemtype": "property",
@@ -2992,7 +2999,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 257,
             "description": "The position of the displayObject on the y axis relative to the local coordinates of the parent.",
             "itemtype": "property",
@@ -3001,7 +3008,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 265,
             "description": "A callback that is used when the users mouse rolls over the displayObject",
             "itemtype": "method",
@@ -3016,7 +3023,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 272,
             "description": "A callback that is used when the users mouse leaves the displayObject",
             "itemtype": "method",
@@ -3031,7 +3038,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 279,
             "description": "A callback that is used when the users clicks on the displayObject with their mouse's left button",
             "itemtype": "method",
@@ -3046,7 +3053,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 286,
             "description": "A callback that is used when the user clicks the mouse's left button down over the sprite",
             "itemtype": "method",
@@ -3061,7 +3068,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 293,
             "description": "A callback that is used when the user releases the mouse's left button that was over the displayObject\nfor this callback to be fired, the mouse's left button must have been pressed down over the displayObject",
             "itemtype": "method",
@@ -3076,7 +3083,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 301,
             "description": "Is called when mouse is moved across the renderer element",
             "itemtype": "method",
@@ -3091,7 +3098,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 308,
             "description": "A callback that is used when the user releases the mouse's left button that was over the displayObject but is no longer over the displayObject\nfor this callback to be fired, the mouse's left button must have been pressed down over the displayObject",
             "itemtype": "method",
@@ -3106,7 +3113,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 316,
             "description": "A callback that is used when the users clicks on the displayObject with their mouse's right button",
             "itemtype": "method",
@@ -3121,7 +3128,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 323,
             "description": "A callback that is used when the user clicks the mouse's right button down over the sprite",
             "itemtype": "method",
@@ -3136,7 +3143,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 330,
             "description": "A callback that is used when the user releases the mouse's right button that was over the displayObject\nfor this callback to be fired the mouse's right button must have been pressed down over the displayObject",
             "itemtype": "method",
@@ -3151,7 +3158,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 338,
             "description": "A callback that is used when the user releases the mouse's right button that was over the displayObject but is no longer over the displayObject\nfor this callback to be fired, the mouse's right button must have been pressed down over the displayObject",
             "itemtype": "method",
@@ -3166,7 +3173,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 346,
             "description": "A callback that is used when the users taps on the sprite with their finger\nbasically a touch version of click",
             "itemtype": "method",
@@ -3181,7 +3188,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 354,
             "description": "A callback that is used when the user touches over the displayObject",
             "itemtype": "method",
@@ -3196,7 +3203,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 361,
             "description": "A callback that is used when the user releases a touch over the displayObject",
             "itemtype": "method",
@@ -3211,7 +3218,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 368,
             "description": "A callback that is used when the user releases the touch that was over the displayObject\nfor this callback to be fired, The touch must have started over the sprite",
             "itemtype": "method",
@@ -3226,7 +3233,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObject.hx",
+            "file": "pixi/display/CoreDisplayObject.hx",
             "line": 376,
             "description": "Is called when a touch is moved across the renderer element",
             "itemtype": "method",
@@ -3241,7 +3248,7 @@
             "class": "DisplayObject"
         },
         {
-            "file": "pixi/display/DisplayObjectContainer.hx",
+            "file": "pixi/display/CoreDisplayObjectContainer.hx",
             "line": 18,
             "description": "The width of the displayObjectContainer, setting this will actually modify the scale to achieve the value set",
             "itemtype": "property",
@@ -3250,7 +3257,7 @@
             "class": "DisplayObjectContainer"
         },
         {
-            "file": "pixi/display/DisplayObjectContainer.hx",
+            "file": "pixi/display/CoreDisplayObjectContainer.hx",
             "line": 26,
             "description": "The height of the displayObjectContainer, setting this will actually modify the scale to achieve the value set",
             "itemtype": "property",
@@ -3259,7 +3266,7 @@
             "class": "DisplayObjectContainer"
         },
         {
-            "file": "pixi/display/DisplayObjectContainer.hx",
+            "file": "pixi/display/CoreDisplayObjectContainer.hx",
             "line": 34,
             "description": "[read-only] The array of children of this container.",
             "itemtype": "property",
@@ -3269,7 +3276,7 @@
             "class": "DisplayObjectContainer"
         },
         {
-            "file": "pixi/display/DisplayObjectContainer.hx",
+            "file": "pixi/display/CoreDisplayObjectContainer.hx",
             "line": 43,
             "description": "Adds a child to the container.",
             "itemtype": "method",
@@ -3284,7 +3291,7 @@
             "class": "DisplayObjectContainer"
         },
         {
-            "file": "pixi/display/DisplayObjectContainer.hx",
+            "file": "pixi/display/CoreDisplayObjectContainer.hx",
             "line": 51,
             "description": "Adds a child to the container at a specified index. If the index is out of bounds an error will be thrown",
             "itemtype": "method",
@@ -3304,7 +3311,7 @@
             "class": "DisplayObjectContainer"
         },
         {
-            "file": "pixi/display/DisplayObjectContainer.hx",
+            "file": "pixi/display/CoreDisplayObjectContainer.hx",
             "line": 60,
             "description": "Swaps the position of 2 Display Objects within this container.",
             "itemtype": "method",
@@ -3324,7 +3331,7 @@
             "class": "DisplayObjectContainer"
         },
         {
-            "file": "pixi/display/DisplayObjectContainer.hx",
+            "file": "pixi/display/CoreDisplayObjectContainer.hx",
             "line": 69,
             "description": "Returns the child at the specified index",
             "itemtype": "method",
@@ -3343,7 +3350,7 @@
             "class": "DisplayObjectContainer"
         },
         {
-            "file": "pixi/display/DisplayObjectContainer.hx",
+            "file": "pixi/display/CoreDisplayObjectContainer.hx",
             "line": 78,
             "description": "Removes a child from the container.",
             "itemtype": "method",
@@ -3358,7 +3365,7 @@
             "class": "DisplayObjectContainer"
         },
         {
-            "file": "pixi/display/DisplayObjectContainer.hx",
+            "file": "pixi/display/CoreDisplayObjectContainer.hx",
             "line": 86,
             "description": "Removes a child from the specified index position in the child list of the container.",
             "itemtype": "method",
@@ -3373,7 +3380,7 @@
             "class": "DisplayObjectContainer"
         },
         {
-            "file": "pixi/display/DisplayObjectContainer.hx",
+            "file": "pixi/display/CoreDisplayObjectContainer.hx",
             "line": 94,
             "description": "Removes all child instances from the child list of the container.",
             "itemtype": "method",
@@ -3394,7 +3401,7 @@
             "class": "DisplayObjectContainer"
         },
         {
-            "file": "pixi/display/DisplayObjectContainer.hx",
+            "file": "pixi/display/CoreDisplayObjectContainer.hx",
             "line": 103,
             "description": "Changes the position of an existing child in the display object container",
             "itemtype": "method",
@@ -3414,7 +3421,7 @@
             "class": "DisplayObjectContainer"
         },
         {
-            "file": "pixi/display/DisplayObjectContainer.hx",
+            "file": "pixi/display/CoreDisplayObjectContainer.hx",
             "line": 112,
             "description": "Returns the index position of a child DisplayObject instance",
             "itemtype": "method",
@@ -3433,12 +3440,31 @@
             "class": "DisplayObjectContainer"
         },
         {
-            "file": "pixi/display/DisplayObjectContainer.hx",
+            "file": "pixi/display/CoreDisplayObjectContainer.hx",
             "line": 121,
             "description": "Removes the current stage reference from the container and all of its children.",
             "itemtype": "method",
             "name": "removeStageReference",
             "class": "DisplayObjectContainer"
+        },
+        {
+            "file": "pixi/display/DisplayObjectContainer.hx",
+            "line": 9,
+            "description": "Returns the child with the specified name",
+            "itemtype": "method",
+            "name": "getChildByName",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "The name of the child",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "DisplayObject"
+            },
+            "class": "MovieClip"
         },
         {
             "file": "pixi/display/MovieClip.hx",

@@ -156,6 +156,7 @@ samples.v3.bunnymark.Main.prototype = $extend(samples.v3.Application.prototype,{
 			var bunny = new samples.v3.bunnymark.Bunny(this.currentTexture);
 			bunny.speedX = Math.random() * 10;
 			bunny.speedY = Math.random() * 10 - 5;
+			bunny.name = "bunny" + i;
 			bunny.anchor.x = 0.5;
 			bunny.anchor.y = 1;
 			this.bunnys.push(bunny);
@@ -201,6 +202,8 @@ samples.v3.bunnymark.Main.prototype = $extend(samples.v3.Application.prototype,{
 		while(_g11 < _g2) {
 			var i1 = _g11++;
 			var bunny1 = this.bunnys[i1];
+			this.container.getChildByName("bunny" + i1).x = 100;
+			console.log(this.container.getChildByName("bunny" + i1).visible);
 			bunny1.position.x += bunny1.speedX;
 			bunny1.position.y += bunny1.speedY;
 			bunny1.speedY += this.gravity;
