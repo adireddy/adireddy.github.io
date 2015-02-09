@@ -62,6 +62,15 @@ class MyClass {
 {% endhighlight %}
 ___
 
+`@:keep` - Unused variables and functions will be removed with dead code elimination `-dce full`. You can force to keep them using this metadata.
+
+{% highlight haxe %}
+@:keep public function getChildByName(name:String):DisplayObject {
+	return _container.getChildByName(name);
+}
+{% endhighlight %}
+___
+
 All of the above are generic metadata and can be used across platforms and there are many more generic and platform specific metadata you may find useful for your specific needs so explore and please post in the comments section if you find anything interesting.
 
 **Update (14 Jan 2015)**: Another JavaScript specific metadata which I find useful is `@:expose`. It can be used on any class to make it available/accessible from the window object. This is useful when you want to expose any of your haxe classes to another library via window object.
