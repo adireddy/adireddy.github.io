@@ -3467,6 +3467,21 @@
             "class": "MovieClip"
         },
         {
+            "file": "pixi/display/DisplayObjectContainer.hx",
+            "line": 25,
+            "description": "Helper function to apply scale based on the pixel ratio passed",
+            "itemtype": "method",
+            "name": "applyScale",
+            "params": [
+                {
+                    "name": "pixelRatio",
+                    "description": "pixel ratio",
+                    "type": "Float"
+                }
+            ],
+            "class": "MovieClip"
+        },
+        {
             "file": "pixi/display/MovieClip.hx",
             "line": 18,
             "description": "The speed that the MovieClip will play at. Higher is faster, lower is slower",
