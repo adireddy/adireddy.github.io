@@ -98,6 +98,15 @@ pixi.display.DisplayObjectContainer = function() {
 };
 pixi.display.DisplayObjectContainer.__super__ = PIXI.DisplayObjectContainer;
 pixi.display.DisplayObjectContainer.prototype = $extend(PIXI.DisplayObjectContainer.prototype,{
+	getChildByName: function(name) {
+		var _g1 = 0;
+		var _g = this.children.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			if(this.children[i].name == name) return this.children[i];
+		}
+		return null;
+	}
 });
 pixi.renderers = {};
 pixi.renderers.IRenderer = function() { };
@@ -120,10 +129,7 @@ samples.particles.Main.prototype = $extend(pixi.Application.prototype,{
 	_init: function() {
 		this.backgroundColor = 13158;
 		this.onUpdate = $bind(this,this._onUpdate);
-		this.resize = true;
-		this.width = window.innerWidth;
-		this.height = window.innerHeight;
-		pixi.Application.prototype.start.call(this,null,true);
+		pixi.Application.prototype.start.call(this);
 		this.emitters = new Array();
 	}
 	,_onUpdate: function(elapsedTime) {

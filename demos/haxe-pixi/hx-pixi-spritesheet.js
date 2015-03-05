@@ -89,6 +89,15 @@ pixi.display.DisplayObjectContainer = function() {
 };
 pixi.display.DisplayObjectContainer.__super__ = PIXI.DisplayObjectContainer;
 pixi.display.DisplayObjectContainer.prototype = $extend(PIXI.DisplayObjectContainer.prototype,{
+	getChildByName: function(name) {
+		var _g1 = 0;
+		var _g = this.children.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			if(this.children[i].name == name) return this.children[i];
+		}
+		return null;
+	}
 });
 pixi.renderers = {};
 pixi.renderers.IRenderer = function() { };
@@ -109,10 +118,7 @@ samples.spritesheet.Main.__super__ = pixi.Application;
 samples.spritesheet.Main.prototype = $extend(pixi.Application.prototype,{
 	_init: function() {
 		this.backgroundColor = 65382;
-		this.resize = false;
-		this.width = 800;
-		this.height = 600;
-		pixi.Application.prototype.start.call(this,null,true);
+		pixi.Application.prototype.start.call(this);
 	}
 	,_onUpdate: function(elapsedTime) {
 		var _g = 0;
@@ -131,16 +137,16 @@ samples.spritesheet.Main.prototype = $extend(pixi.Application.prototype,{
 		this._aliens = [];
 		this._alienFrames = ["eggHead.png","flowerTop.png","helmlok.png","skully.png"];
 		this._alienContainer = new pixi.display.DisplayObjectContainer();
-		this._alienContainer.x = 400;
-		this._alienContainer.y = 300;
+		this._alienContainer.x = window.innerWidth / 2;
+		this._alienContainer.y = window.innerHeight / 2;
 		this._stage.addChild(this._alienContainer);
 		var _g = 0;
 		while(_g < 100) {
 			var i = _g++;
 			var frameName = this._alienFrames[i % 4];
 			var alien = PIXI.Sprite.fromFrame(frameName);
-			alien.x = Math.random() * 800 - 400;
-			alien.y = Math.random() * 600 - 300;
+			alien.x = Math.random() * window.innerWidth - 400;
+			alien.y = Math.random() * window.innerHeight - 300;
 			alien.anchor.set(0.5,0.5);
 			this._aliens.push(alien);
 			this._alienContainer.addChild(alien);

@@ -89,6 +89,15 @@ pixi.display.DisplayObjectContainer = function() {
 };
 pixi.display.DisplayObjectContainer.__super__ = PIXI.DisplayObjectContainer;
 pixi.display.DisplayObjectContainer.prototype = $extend(PIXI.DisplayObjectContainer.prototype,{
+	getChildByName: function(name) {
+		var _g1 = 0;
+		var _g = this.children.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			if(this.children[i].name == name) return this.children[i];
+		}
+		return null;
+	}
 });
 pixi.renderers = {};
 pixi.renderers.IRenderer = function() { };
@@ -110,10 +119,7 @@ samples.pixidude.Main.__super__ = pixi.Application;
 samples.pixidude.Main.prototype = $extend(pixi.Application.prototype,{
 	_init: function() {
 		this.backgroundColor = 65280;
-		this.resize = false;
-		this.width = 800;
-		this.height = 600;
-		pixi.Application.prototype.start.call(this,null,true);
+		pixi.Application.prototype.start.call(this);
 	}
 	,onAssetsLoaded: function() {
 		this._background1 = PIXI.Sprite.fromImage("assets/spine/data/iP4_BGtile.jpg");
@@ -124,11 +130,11 @@ samples.pixidude.Main.prototype = $extend(pixi.Application.prototype,{
 		this._foreground2 = PIXI.Sprite.fromImage("assets/spine/data/iP4_ground.png");
 		this._stage.addChild(this._foreground1);
 		this._stage.addChild(this._foreground2);
-		this._foreground1.position.y = this._foreground2.position.y = 640 - this._foreground2.height;
+		this._foreground1.position.y = this._foreground2.position.y = window.innerHeight - this._foreground2.height;
 		this._pixie = new PIXI.Spine("assets/spine/data/Pixie.json");
 		var scale = 0.3;
-		this._pixie.position.x = 341.333333333333314;
-		this._pixie.position.y = 500;
+		this._pixie.position.x = window.innerWidth / 3;
+		this._pixie.position.y = 600;
 		this._pixie.scale.x = this._pixie.scale.y = scale;
 		this._pixie.stateData.setMixByName("running","jump",0.2);
 		this._pixie.stateData.setMixByName("jump","running",0.4);

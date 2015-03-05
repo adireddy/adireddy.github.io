@@ -89,6 +89,15 @@ pixi.display.DisplayObjectContainer = function() {
 };
 pixi.display.DisplayObjectContainer.__super__ = PIXI.DisplayObjectContainer;
 pixi.display.DisplayObjectContainer.prototype = $extend(PIXI.DisplayObjectContainer.prototype,{
+	getChildByName: function(name) {
+		var _g1 = 0;
+		var _g = this.children.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			if(this.children[i].name == name) return this.children[i];
+		}
+		return null;
+	}
 });
 pixi.renderers = {};
 pixi.renderers.IRenderer = function() { };
@@ -99,8 +108,7 @@ samples.basics.Main = function() {
 	this._init();
 	this._bunny = new PIXI.Sprite(PIXI.Texture.fromImage("assets/basics/bunny.png"));
 	this._bunny.anchor.set(0.5,0.5);
-	this._bunny.scale.set(2,2);
-	this._bunny.position.set(400,300);
+	this._bunny.position.set(window.innerWidth / 2,window.innerHeight / 2);
 	this._stage.addChild(this._bunny);
 };
 samples.basics.Main.main = function() {
@@ -111,10 +119,7 @@ samples.basics.Main.prototype = $extend(pixi.Application.prototype,{
 	_init: function() {
 		this.backgroundColor = 13158;
 		this.onUpdate = $bind(this,this._onUpdate);
-		this.resize = false;
-		this.width = 800;
-		this.height = 600;
-		pixi.Application.prototype.start.call(this,null,true);
+		pixi.Application.prototype.start.call(this);
 	}
 	,_onUpdate: function(elapsedTime) {
 		this._bunny.rotation += 0.1;

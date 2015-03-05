@@ -212,7 +212,7 @@
                         	 * @param [matrix] {Matrix} Optional matrix to apply to the display object before rendering.
                         	 * @param [clear] {Bool} If true the texture will be cleared before the displayObject is drawn
                         	 */
-                        	var render:DisplayObject -&gt; Matrix -&gt; Bool -&gt; Void;
+                        	function render(displayObject:DisplayObject, matrix:Matrix, clear:Bool):Void;
                         
                         	/**
                         	 * Resize the RenderTexture.
