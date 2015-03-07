@@ -96,7 +96,7 @@ samples.v3.video.Main.prototype = $extend(samples.v3.Application.prototype,{
 		this.resize = true;
 		this.width = window.innerWidth;
 		this.height = window.innerHeight;
-		samples.v3.Application.prototype.start.call(this,"canvas");
+		samples.v3.Application.prototype.start.call(this);
 		var _this = window.document;
 		this._vidElement = _this.createElement("video");
 		this._vidElement.src = "assets/video/test.mp4";
