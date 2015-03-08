@@ -83,39 +83,38 @@ pixi.plugins.app.Application.prototype = {
 	}
 };
 var samples = {};
-samples.video = {};
-samples.video.Main = function() {
+samples.retina = {};
+samples.retina.Main = function() {
 	pixi.plugins.app.Application.call(this);
 	this._init();
 };
-samples.video.Main.main = function() {
-	new samples.video.Main();
+samples.retina.Main.main = function() {
+	new samples.retina.Main();
 };
-samples.video.Main.__super__ = pixi.plugins.app.Application;
-samples.video.Main.prototype = $extend(pixi.plugins.app.Application.prototype,{
+samples.retina.Main.__super__ = pixi.plugins.app.Application;
+samples.retina.Main.prototype = $extend(pixi.plugins.app.Application.prototype,{
 	_init: function() {
-		this.backgroundColor = 14739192;
-		this.onUpdate = $bind(this,this._onUpdate);
-		this.onResize = $bind(this,this._onResize);
-		this.resize = true;
-		this.width = window.innerWidth;
-		this.height = window.innerHeight;
 		pixi.plugins.app.Application.prototype.start.call(this);
-		var _this = window.document;
-		this._vidElement = _this.createElement("video");
-		this._vidElement.src = "assets/video/test.mp4";
-		this._vidTexture = PIXI.Texture.fromVideoUrl("assets/video/test.mp4");
-		this._vidSprite = new PIXI.Sprite(this._vidTexture);
-		this._stage.addChild(this._vidSprite);
-	}
-	,_onUpdate: function(elapsedTime) {
-	}
-	,_onResize: function() {
+		var resolution;
+		if(window.devicePixelRatio >= 2) resolution = 2; else resolution = 1;
+		var imgPath;
+		if(resolution == 2) imgPath = "assets/retina/img@2x.jpg"; else imgPath = "assets/retina/img.jpg";
+		this._img = new PIXI.Sprite(PIXI.Texture.fromImage(imgPath));
+		this._img.anchor.set(0.5,0.5);
+		this._img.name = "img";
+		this._img.position.set(window.innerWidth / 2,window.innerHeight / 2);
+		this._stage.addChild(this._img);
+		var style = { };
+		style.fill = "#FFFFFF";
+		style.font = "16px Tahoma";
+		this._label = new PIXI.text.Text(imgPath,style);
+		this._label.position.set(this._img.x - 480,this._img.y - 300);
+		this._stage.addChild(this._label);
 	}
 });
 var $_, $fid = 0;
 function $bind(o,m) { if( m == null ) return null; if( m.__id__ == null ) m.__id__ = $fid++; var f; if( o.hx__closures__ == null ) o.hx__closures__ = {}; else f = o.hx__closures__[m.__id__]; if( f == null ) { f = function(){ return f.method.apply(f.scope, arguments); }; f.scope = o; f.method = m; o.hx__closures__[m.__id__] = f; } return f; }
-samples.video.Main.main();
+samples.retina.Main.main();
 })();
 
-//# sourceMappingURL=video.js.map
+//# sourceMappingURL=retina.js.map

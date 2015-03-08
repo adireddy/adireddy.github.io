@@ -9,23 +9,25 @@ var Std = function() { };
 Std.random = function(x) {
 	if(x <= 0) return 0; else return Math.floor(Math.random() * x);
 };
-var samples = {};
-samples.v3 = {};
-samples.v3.Application = function() {
+var pixi = {};
+pixi.plugins = {};
+pixi.plugins.app = {};
+pixi.plugins.app.Application = function() {
 	this._lastTime = new Date();
 	this._setDefaultValues();
 };
-samples.v3.Application.prototype = {
+pixi.plugins.app.Application.prototype = {
 	_setDefaultValues: function() {
 		this.pixelRatio = 1;
 		this.skipFrame = false;
-		this.backgroundColor = 16777215;
+		this.backgroundColor = 0;
 		this.width = window.innerWidth;
 		this.height = window.innerHeight;
 		this._skipFrame = false;
 	}
-	,start: function(stats) {
-		if(stats == null) stats = false;
+	,start: function(renderer,stats) {
+		if(stats == null) stats = true;
+		if(renderer == null) renderer = "auto";
 		var _this = window.document;
 		this._canvas = _this.createElement("canvas");
 		this._canvas.style.width = this.width + "px";
@@ -37,12 +39,12 @@ samples.v3.Application.prototype = {
 		renderingOptions.view = this._canvas;
 		renderingOptions.backgroundColor = this.backgroundColor;
 		renderingOptions.resolution = this.pixelRatio;
-		this._renderer = PIXI.autoDetectRenderer(this.width,this.height,renderingOptions);
+		if(renderer == "auto") this._renderer = PIXI.autoDetectRenderer(this.width,this.height,renderingOptions); else if(renderer == "recommended") this._renderer = PIXI.autoDetectRecommendedRenderer(this.width,this.height,renderingOptions); else if(renderer == "canvas") this._renderer = new PIXI.CanvasRenderer(this.width,this.height,renderingOptions); else this._renderer = new PIXI.WebGLRenderer(this.width,this.height,renderingOptions);
 		window.document.body.appendChild(this._renderer.view);
 		window.onresize = $bind(this,this._onWindowResize);
 		window.requestAnimationFrame($bind(this,this._onRequestAnimationFrame));
 		this._lastTime = new Date();
-		if(stats) this.addStats();
+		if(stats) this._addStats();
 	}
 	,_onWindowResize: function(event) {
 		this.width = window.innerWidth;
@@ -71,25 +73,28 @@ samples.v3.Application.prototype = {
 		this._elapsedTime = this._currentTime.getTime() - this._lastTime.getTime();
 		this._lastTime = this._currentTime;
 	}
-	,addStats: function() {
-		var _container = window.document.createElement("div");
-		window.document.body.appendChild(_container);
-		this._stats = new Stats();
-		this._stats.domElement.style.position = "absolute";
-		this._stats.domElement.style.top = "2px";
-		this._stats.domElement.style.right = "2px";
-		_container.appendChild(this._stats.domElement);
-		this._stats.begin();
+	,_addStats: function() {
+		if(window.Stats != null) {
+			var _container = window.document.createElement("div");
+			window.document.body.appendChild(_container);
+			this._stats = new Stats();
+			this._stats.domElement.style.position = "absolute";
+			this._stats.domElement.style.top = "2px";
+			this._stats.domElement.style.right = "2px";
+			_container.appendChild(this._stats.domElement);
+			this._stats.begin();
+		}
 	}
 };
-samples.v3.bunnymark = {};
-samples.v3.bunnymark.Bunny = function(texture) {
+var samples = {};
+samples.bunnymark = {};
+samples.bunnymark.Bunny = function(texture) {
 	PIXI.Sprite.call(this,texture);
 };
-samples.v3.bunnymark.Bunny.__super__ = PIXI.Sprite;
-samples.v3.bunnymark.Bunny.prototype = $extend(PIXI.Sprite.prototype,{
+samples.bunnymark.Bunny.__super__ = PIXI.Sprite;
+samples.bunnymark.Bunny.prototype = $extend(PIXI.Sprite.prototype,{
 });
-samples.v3.bunnymark.Main = function() {
+samples.bunnymark.Main = function() {
 	this.amount = 100;
 	this.count = 0;
 	this.isAdding = false;
@@ -99,14 +104,14 @@ samples.v3.bunnymark.Main = function() {
 	this.gravity = 0.5;
 	this.bunnyTextures = [];
 	this.bunnys = [];
-	samples.v3.Application.call(this);
+	pixi.plugins.app.Application.call(this);
 	this._init();
 };
-samples.v3.bunnymark.Main.main = function() {
-	new samples.v3.bunnymark.Main();
+samples.bunnymark.Main.main = function() {
+	new samples.bunnymark.Main();
 };
-samples.v3.bunnymark.Main.__super__ = samples.v3.Application;
-samples.v3.bunnymark.Main.prototype = $extend(samples.v3.Application.prototype,{
+samples.bunnymark.Main.__super__ = pixi.plugins.app.Application;
+samples.bunnymark.Main.prototype = $extend(pixi.plugins.app.Application.prototype,{
 	_init: function() {
 		this.backgroundColor = 14739192;
 		this.onUpdate = $bind(this,this._onUpdate);
@@ -114,7 +119,7 @@ samples.v3.bunnymark.Main.prototype = $extend(samples.v3.Application.prototype,{
 		this.resize = true;
 		this.width = window.innerWidth;
 		this.height = window.innerHeight;
-		samples.v3.Application.prototype.start.call(this,true);
+		pixi.plugins.app.Application.prototype.start.call(this,null,true);
 		this._setup();
 	}
 	,_setup: function() {
@@ -153,7 +158,7 @@ samples.v3.bunnymark.Main.prototype = $extend(samples.v3.Application.prototype,{
 		var _g = this.startBunnyCount;
 		while(_g1 < _g) {
 			var i = _g1++;
-			var bunny = new samples.v3.bunnymark.Bunny(this.currentTexture);
+			var bunny = new samples.bunnymark.Bunny(this.currentTexture);
 			bunny.speedX = Math.random() * 10;
 			bunny.speedY = Math.random() * 10 - 5;
 			bunny.anchor.x = 0.5;
@@ -182,7 +187,7 @@ samples.v3.bunnymark.Main.prototype = $extend(samples.v3.Application.prototype,{
 				var _g = this.amount;
 				while(_g1 < _g) {
 					var i = _g1++;
-					var bunny = new samples.v3.bunnymark.Bunny(this.currentTexture);
+					var bunny = new samples.bunnymark.Bunny(this.currentTexture);
 					bunny.speedX = Math.random() * 10;
 					bunny.speedY = Math.random() * 10 - 5;
 					bunny.anchor.y = 1;
@@ -239,7 +244,7 @@ Math.isFinite = function(i) {
 Math.isNaN = function(i1) {
 	return isNaN(i1);
 };
-samples.v3.bunnymark.Main.main();
+samples.bunnymark.Main.main();
 })();
 
 //# sourceMappingURL=bunnymark.js.map
