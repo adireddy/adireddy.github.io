@@ -104,7 +104,7 @@ samples.video.Main.prototype = $extend(pixi.plugins.app.Application.prototype,{
 		var _this = window.document;
 		this._vidElement = _this.createElement("video");
 		this._vidElement.src = "assets/video/test.mp4";
-		this._vidTexture = PIXI.Texture.fromVideoUrl("http://10.139.24.100:1935/live/smil:multiplayer-roulette.smil/playlist.m3u8");
+		this._vidTexture = PIXI.Texture.fromVideoUrl("assets/video/test.mp4");
 		this._vidSprite = new PIXI.Sprite(this._vidTexture);
 		this._stage.addChild(this._vidSprite);
 	}
