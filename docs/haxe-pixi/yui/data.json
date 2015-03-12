@@ -8660,7 +8660,14 @@
         },
         {
             "file": "pixi/text/BitmapText.hx",
-            "line": 59,
+            "line": 58,
+            "description": "Text value",
+            "type": "String",
+            "class": "BitmapText"
+        },
+        {
+            "file": "pixi/text/BitmapText.hx",
+            "line": 65,
             "description": "The style parameters",
             "params": [
                 {
@@ -8804,6 +8811,13 @@
         {
             "file": "pixi/text/Text.hx",
             "line": 68,
+            "description": "Text value",
+            "type": "String",
+            "class": "Text"
+        },
+        {
+            "file": "pixi/text/Text.hx",
+            "line": 74,
             "description": "The canvas element that everything is drawn to",
             "itemtype": "property",
             "name": "canvas",
@@ -8812,7 +8826,7 @@
         },
         {
             "file": "pixi/text/Text.hx",
-            "line": 75,
+            "line": 81,
             "description": "The canvas 2d context that everything is drawn with",
             "itemtype": "property",
             "name": "context",
@@ -10240,8 +10254,16 @@
             "line": " pixi/spine/AnimationState.hx:35"
         },
         {
+            "message": "Missing item type\nText value",
+            "line": " pixi/text/BitmapText.hx:58"
+        },
+        {
             "message": "Missing item type\nThe style parameters",
-            "line": " pixi/text/BitmapText.hx:59"
+            "line": " pixi/text/BitmapText.hx:65"
+        },
+        {
+            "message": "Missing item type\nText value",
+            "line": " pixi/text/Text.hx:68"
         },
         {
             "message": "Missing item type\nDoes this Texture have any frame data assigned to it?",
