@@ -136,9 +136,6 @@ samples.spritesheet.Main.prototype = $extend(pixi.plugins.app.Application.protot
 		var fighter = new PIXI.MovieClip(this._fighterTextures);
 		fighter.anchor.set(0.5,0.5);
 		fighter.position.set(x,y);
-		fighter.on("mousedown",function(evt) {
-			console.log("clicked");
-		});
 		fighter.play();
 		this._stage.addChild(fighter);
 		this._count++;
