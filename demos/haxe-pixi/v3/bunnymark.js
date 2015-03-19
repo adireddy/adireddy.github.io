@@ -116,6 +116,7 @@ samples.bunnymark.Main.prototype = $extend(pixi.plugins.app.Application.prototyp
 		this.backgroundColor = 14739192;
 		this.onUpdate = $bind(this,this._onUpdate);
 		this.onResize = $bind(this,this._onResize);
+		this.skipFrame = true;
 		this.resize = true;
 		this.width = window.innerWidth;
 		this.height = window.innerHeight;
@@ -158,8 +159,8 @@ samples.bunnymark.Main.prototype = $extend(pixi.plugins.app.Application.prototyp
 		while(_g1 < _g) {
 			var i = _g1++;
 			var bunny = new samples.bunnymark.Bunny(this.currentTexture);
-			bunny.speedX = Math.random() * 10;
-			bunny.speedY = Math.random() * 10 - 5;
+			bunny.speedX = Math.random() * 5;
+			bunny.speedY = Math.random() * 5 - 3;
 			bunny.anchor.x = 0.5;
 			bunny.anchor.y = 1;
 			this.bunnys.push(bunny);
@@ -187,8 +188,8 @@ samples.bunnymark.Main.prototype = $extend(pixi.plugins.app.Application.prototyp
 				while(_g1 < _g) {
 					var i = _g1++;
 					var bunny = new samples.bunnymark.Bunny(this.currentTexture);
-					bunny.speedX = Math.random() * 10;
-					bunny.speedY = Math.random() * 10 - 5;
+					bunny.speedX = Math.random() * 5;
+					bunny.speedY = Math.random() * 5 - 3;
 					bunny.anchor.y = 1;
 					this.bunnys.push(bunny);
 					bunny.scale.set(0.5 + Math.random() * 0.5,0.5 + Math.random() * 0.5);
