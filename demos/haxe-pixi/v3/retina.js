@@ -107,7 +107,7 @@ samples.retina.Main.prototype = $extend(pixi.plugins.app.Application.prototype,{
 		style.fill = "#FFFFFF";
 		style.font = "12px Courier";
 		this._label = new PIXI.Text(imgPath,style);
-		this._label.position.set(this._img.x - 478,this._img.y - 300);
+		this._label.position.set(0,0);
 		this._stage.addChild(this._label);
 	}
 	,_getPixelRatio: function() {
