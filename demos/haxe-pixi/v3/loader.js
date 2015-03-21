@@ -22,7 +22,7 @@ pixi.plugins.app.Application.prototype = {
 		this.height = window.innerHeight;
 		this._skipFrame = false;
 	}
-	,start: function(renderer,stats) {
+	,start: function(renderer,stats,parentDom) {
 		if(stats == null) stats = true;
 		if(renderer == null) renderer = "auto";
 		var _this = window.document;
@@ -30,7 +30,7 @@ pixi.plugins.app.Application.prototype = {
 		this._canvas.style.width = this.width + "px";
 		this._canvas.style.height = this.height + "px";
 		this._canvas.style.position = "absolute";
-		window.document.body.appendChild(this._canvas);
+		if(parentDom == null) window.document.body.appendChild(this._canvas); else parentDom.appendChild(this._canvas);
 		this._stage = new PIXI.Container();
 		var renderingOptions = { };
 		renderingOptions.view = this._canvas;
@@ -119,7 +119,7 @@ samples.loader.Main.prototype = $extend(pixi.plugins.app.Application.prototype,{
 			var i = _g++;
 			this._img = new PIXI.Sprite(PIXI.Texture.fromImage(this._baseURL + i + ".png"));
 			this._img.name = "img" + i;
-			if(i < 5) this._img.position.set(this._img.width * i,0); else this._img.position.set(this._img.width * (i - 5),this._img.height);
+			if(i < 5) this._img.position.set(128 * i,0); else this._img.position.set(128 * (i - 5),128);
 			_container.addChild(this._img);
 		}
 		_container.position.set((window.innerWidth - _container.width) / 2,(window.innerHeight - _container.height) / 2);
