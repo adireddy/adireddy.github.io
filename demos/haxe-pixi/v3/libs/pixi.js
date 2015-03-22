@@ -1683,7 +1683,7 @@ var async = require('async'),
  * Manages the state and loading of multiple resources to load.
  *
  * @class
- * @param baseUrl {string} The base url for all resources loaded by this loader.
+ * @param [baseUrl=''] {string} The base url for all resources loaded by this loader.
  * @param [concurrency=10] {number} The number of resources to load concurrently.
  */
 function Loader(baseUrl, concurrency) {
@@ -1734,12 +1734,12 @@ function Loader(baseUrl, concurrency) {
     this._afterMiddleware = [];
 
     /**
-     * The `loadResource` function bound with this object context.
+     * The `_loadResource` function bound with this object context.
      *
      * @private
      * @member {function}
      */
-    this._boundLoadResource = this.loadResource.bind(this);
+    this._boundLoadResource = this._loadResource.bind(this);
 
     /**
      * The `_onComplete` function bound with this object context.
@@ -1748,6 +1748,14 @@ function Loader(baseUrl, concurrency) {
      * @member {function}
      */
     this._boundOnComplete = this._onComplete.bind(this);
+
+    /**
+     * The `_onLoad` function bound with this object context.
+     *
+     * @private
+     * @member {function}
+     */
+    this._boundOnLoad = this._onLoad.bind(this);
 
     /**
      * The resource buffer that fills until `load` is called to start loading resources.
@@ -1898,8 +1906,13 @@ Loader.prototype.add = Loader.prototype.enqueue = function (name, url, options, 
         throw new Error('Resource with name "' + name + '" already exists.');
     }
 
+    // add base url if this isn't a data url
+    if (url.indexOf('data:') !== 0) {
+        url = this.baseUrl + url;
+    }
+
     // create the store the resource
-    this.resources[name] = new Resource(name, this.baseUrl + url, options);
+    this.resources[name] = new Resource(name, url, options);
 
     if (typeof cb === 'function') {
         this.resources[name].once('afterMiddleware', cb);
@@ -2003,15 +2016,17 @@ Loader.prototype.load = function (cb) {
  * Loads a single resource.
  *
  * @fires progress
+ * @private
  */
-Loader.prototype.loadResource = function (resource, cb) {
+Loader.prototype._loadResource = function (resource, dequeue) {
     var self = this;
+
+    resource._dequeue = dequeue;
 
     this._runMiddleware(resource, this._beforeMiddleware, function () {
         // resource.on('progress', self.emit.bind(self, 'progress'));
-        resource.once('complete', self._onLoad.bind(self, resource, cb));
 
-        resource.load();
+        resource.load(self._boundOnLoad);
     });
 };
 
@@ -2033,7 +2048,7 @@ Loader.prototype._onComplete = function () {
  * @fires load
  * @private
  */
-Loader.prototype._onLoad = function (resource, cb) {
+Loader.prototype._onLoad = function (resource) {
     this.progress += this._progressChunk;
 
     this.emit('progress', this, resource);
@@ -2045,13 +2060,13 @@ Loader.prototype._onLoad = function (resource, cb) {
         this.emit('load', this, resource);
     }
 
+    // run middleware, this *must* happen before dequeue so sub-assets get added properly
     this._runMiddleware(resource, this._afterMiddleware, function () {
         resource.emit('afterMiddleware', resource);
-
-        if (cb) {
-            cb();
-        }
     });
+
+    // remove this resource from the async queue
+    resource._dequeue();
 };
 
 /**
@@ -2159,6 +2174,15 @@ function Resource(name, url, options) {
     this.xhr = null;
 
     /**
+     * The `dequeue` method that will be used a storage place for the async queue dequeue method
+     * used privately by the loader.
+     *
+     * @member {function}
+     * @private
+     */
+    this._dequeue = null;
+
+    /**
      * The `complete` function bound to this resource's context.
      *
      * @member {function}
@@ -2252,9 +2276,15 @@ Resource.prototype.complete = function () {
  * Kicks off loading of this resource.
  *
  * @fires start
+ * @param [callback] {function} Optional callback to call once the resource is loaded.
  */
-Resource.prototype.load = function () {
+Resource.prototype.load = function (cb) {
     this.emit('start', this);
+
+    // if a callback is set, listen for complete event
+    if (cb) {
+        this.once('complete', cb);
+    }
 
     // if unset, determine the value
     if (typeof this.crossOrigin !== 'string') {
@@ -2347,8 +2377,14 @@ Resource.prototype._loadXhr = function () {
     // set the request type and url
     xhr.open('GET', this.url, true);
 
-    // set the responseType
-    xhr.responseType = this.xhrType;
+    // load json as text and parse it ourselves. We do this because some browsers
+    // *cough* safari *cough* can't deal with it.
+    if (this.xhrType === Resource.XHR_RESPONSE_TYPE.JSON || this.xhrType === Resource.XHR_RESPONSE_TYPE.DOCUMENT) {
+        xhr.responseType = Resource.XHR_RESPONSE_TYPE.TEXT;
+    }
+    else {
+        xhr.responseType = this.xhrType;
+    }
 
     xhr.addEventListener('error', this._boundXhrOnError, false);
     xhr.addEventListener('abort', this._boundXhrOnAbort, false);
@@ -2478,12 +2514,35 @@ Resource.prototype._xhrOnLoad = function (event) {
     var xhr = event.target;
 
     if (xhr.status === 200) {
+        // if text, just return it
         if (this.xhrType === Resource.XHR_RESPONSE_TYPE.TEXT) {
             this.data = xhr.responseText;
         }
-        else if (this.xhrType === Resource.XHR_RESPONSE_TYPE.DOCUMENT) {
-            this.data = xhr.responseXML || xhr.response;
+        // if json, parse into json object
+        else if (this.xhrType === Resource.XHR_RESPONSE_TYPE.JSON) {
+            try {
+                this.data = JSON.parse(xhr.responseText);
+            } catch(e) {
+                this.error = new Error('Error trying to parse loaded json:', e);
+            }
         }
+        // if xml, parse into an xml document or div element
+        else if (this.xhrType === Resource.XHR_RESPONSE_TYPE.DOCUMENT) {
+            try {
+                if (window.DOMParser) {
+                    var domparser = new DOMParser();
+                    this.data = domparser.parseFromString(xhr.responseText, 'text/xml');
+                }
+                else {
+                    var div = document.createElement('div');
+                    div.innerHTML = xhr.responseText;
+                    this.data = div;
+                }
+            } catch (e) {
+                this.error = new Error('Error trying to parse loaded xml:', e);
+            }
+        }
+        // other types just return the response
         else {
             this.data = xhr.response;
         }
@@ -2560,7 +2619,7 @@ Resource.prototype._determineXhrType = function () {
 
         // json
         case 'json':
-            //return Resource.XHR_RESPONSE_TYPE.JSON;
+            return Resource.XHR_RESPONSE_TYPE.JSON;
 
         // text
         case 'text':
@@ -2662,6 +2721,72 @@ Resource.XHR_RESPONSE_TYPE = {
 };
 
 },{"eventemitter3":4}],8:[function(require,module,exports){
+module.exports = {
+
+    // private property
+    _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+
+    encodeBinary: function (input) {
+        var output = "";
+        var bytebuffer;
+        var encodedCharIndexes = new Array(4);
+        var inx = 0;
+        var jnx = 0;
+        var paddingBytes = 0;
+
+        while (inx < input.length) {
+            // Fill byte buffer array
+            bytebuffer = new Array(3);
+            for (jnx = 0; jnx < bytebuffer.length; jnx++) {
+                if (inx < input.length) {
+                    // throw away high-order byte, as documented at:
+                    // https://developer.mozilla.org/En/Using_XMLHttpRequest#Handling_binary_data
+                    bytebuffer[jnx] = input.charCodeAt(inx++) & 0xff;
+                }
+                else {
+                    bytebuffer[jnx] = 0;
+                }
+            }
+
+            // Get each encoded character, 6 bits at a time
+            // index 1: first 6 bits
+            encodedCharIndexes[0] = bytebuffer[0] >> 2;
+            // index 2: second 6 bits (2 least significant bits from input byte 1 + 4 most significant bits from byte 2)
+            encodedCharIndexes[1] = ((bytebuffer[0] & 0x3) << 4) | (bytebuffer[1] >> 4);
+            // index 3: third 6 bits (4 least significant bits from input byte 2 + 2 most significant bits from byte 3)
+            encodedCharIndexes[2] = ((bytebuffer[1] & 0x0f) << 2) | (bytebuffer[2] >> 6);
+            // index 3: forth 6 bits (6 least significant bits from input byte 3)
+            encodedCharIndexes[3] = bytebuffer[2] & 0x3f;
+
+            // Determine whether padding happened, and adjust accordingly
+            paddingBytes = inx - (input.length - 1);
+            switch (paddingBytes) {
+                case 2:
+                    // Set last 2 characters to padding char
+                    encodedCharIndexes[3] = 64;
+                    encodedCharIndexes[2] = 64;
+                    break;
+
+                case 1:
+                    // Set last character to padding char
+                    encodedCharIndexes[3] = 64;
+                    break;
+
+                default:
+                    break; // No padding - proceed
+            }
+
+            // Now we will grab each appropriate character out of our keystring
+            // based on our index array and append it to the output string
+            for (jnx = 0; jnx < encodedCharIndexes.length; jnx++) {
+                output += this._keyStr.charAt(encodedCharIndexes[jnx]);
+            }
+        }
+        return output;
+    }
+};
+
+},{}],9:[function(require,module,exports){
 module.exports = require('./Loader');
 
 module.exports.Resource = require('./Resource');
@@ -2671,12 +2796,11 @@ module.exports.middleware = {
         memory: require('./middlewares/caching/memory')
     },
     parsing: {
-        json: require('./middlewares/parsing/json'),
         blob: require('./middlewares/parsing/blob')
     }
 };
 
-},{"./Loader":6,"./Resource":7,"./middlewares/caching/memory":9,"./middlewares/parsing/blob":10,"./middlewares/parsing/json":11}],9:[function(require,module,exports){
+},{"./Loader":6,"./Resource":7,"./middlewares/caching/memory":10,"./middlewares/parsing/blob":11}],10:[function(require,module,exports){
 // a simple in-memory cache for resources
 var cache = {};
 
@@ -2698,8 +2822,9 @@ module.exports = function () {
     };
 };
 
-},{}],10:[function(require,module,exports){
-var Resource = require('../../Resource');
+},{}],11:[function(require,module,exports){
+var Resource = require('../../Resource'),
+    b64 = require('../../b64');
 
 window.URL = window.URL || window.webkitURL;
 
@@ -2707,12 +2832,29 @@ window.URL = window.URL || window.webkitURL;
 
 module.exports = function () {
     return function (resource, next) {
-        // if this was an XHR load
-        if (resource.xhr && resource.xhrType === Resource.XHR_RESPONSE_TYPE.BLOB && resource.data.type !== undefined) {
-            // if content type says this is an image, then we need to transform the blob into an Image object
-            if (resource.data.type.indexOf('image') === 0) {
+        if (!resource.data) {
+            return next();
+        }
+
+        // if this was an XHR load of a blob
+        if (resource.xhr && resource.xhrType === Resource.XHR_RESPONSE_TYPE.BLOB) {
+            // if there is no blob support we probably got a binary string back
+            if (!window.Blob || typeof resource.data === 'string') {
+                var type = resource.xhr.getResponseHeader('content-type');
+
+                // this is an image, convert the binary string into a data url
+                if (type && type.indexOf('image') === 0) {
+                    resource.data = new Image();
+                    resource.data.src = 'data:' + type + ';base64,' + b64.encodeBinary(resource.xhr.responseText);
+
+                    next();
+                }
+            }
+            // if content type says this is an image, then we should transform the blob into an Image object
+            else if (resource.data.type.indexOf('image') === 0) {
                 var src = URL.createObjectURL(resource.data);
 
+                resource.blob = resource.data;
                 resource.data = new Image();
                 resource.data.src = src;
 
@@ -2731,28 +2873,7 @@ module.exports = function () {
     };
 };
 
-},{"../../Resource":7}],11:[function(require,module,exports){
-// a simple json-parsing middleware for resources
-
-module.exports = function () {
-    return function (resource, next) {
-        // if this is a string, try to parse it as json
-        if (typeof resource.data === 'string') {
-            try {
-                // resource.data is set by the XHR load
-                resource.data = JSON.parse(resource.data);
-            }
-            catch (e) {
-                // this isn't json, just move along
-            }
-        }
-
-        // no matter what, just move along to next middleware
-        next();
-    };
-};
-
-},{}],12:[function(require,module,exports){
+},{"../../Resource":7,"../../b64":8}],12:[function(require,module,exports){
 module.exports={
   "name": "pixi.js",
   "version": "3.0.0-rc3",
@@ -2779,7 +2900,7 @@ module.exports={
     "brfs": "^1.2.0",
     "eventemitter3": "^0.1.6",
     "object-assign": "^2.0.0",
-    "resource-loader": "^1.3.0"
+    "resource-loader": "^1.3.1"
   },
   "devDependencies": {
     "browserify": "^8.0.2",
@@ -2833,6 +2954,27 @@ module.exports = {
      * @property {string} VERSION
      */
     VERSION: require('../../package.json').version,
+
+    /**
+     * @property {number} PI_2 - Two Pi
+     * @constant
+     * @static
+     */
+    PI_2: Math.PI * 2,
+
+    /**
+     * @property {number} RAD_TO_DEG - Constant conversion factor for converting radians to degrees
+     * @constant
+     * @static
+     */
+    RAD_TO_DEG: 180 / Math.PI,
+
+    /**
+     * @property {Number} DEG_TO_RAD - Constant conversion factor for converting degrees to radians
+     * @constant
+     * @static
+     */
+    DEG_TO_RAD: Math.PI / 180,
 
     /**
      * Constant to identify the Renderer Type.
@@ -3552,10 +3694,11 @@ Container.prototype.destroy = function (destroyChildren)
     this.children = null;
 };
 
-},{"../math":23,"../textures/RenderTexture":60,"./DisplayObject":15}],15:[function(require,module,exports){
+},{"../math":23,"../textures/RenderTexture":61,"./DisplayObject":15}],15:[function(require,module,exports){
 var math = require('../math'),
     RenderTexture = require('../textures/RenderTexture'),
     EventEmitter = require('eventemitter3').EventEmitter,
+    CONST = require('../const'),
     _tempMatrix = new math.Matrix();
 
 /**
@@ -3838,7 +3981,7 @@ DisplayObject.prototype.updateTransform = function ()
     var a, b, c, d, tx, ty;
 
     // so if rotation is between 0 then we can simplify the multiplication process...
-    if (this.rotation % math.PI_2)
+    if (this.rotation % CONST.PI_2)
     {
         // check to see if the rotation is the same as the previous render. This means we only need to use sin and cos when rotation actually changes
         if (this.rotation !== this.rotationCache)
@@ -4018,7 +4161,7 @@ DisplayObject.prototype.destroy = function ()
     this.listeners = null;
 };
 
-},{"../math":23,"../textures/RenderTexture":60,"eventemitter3":4}],16:[function(require,module,exports){
+},{"../const":13,"../math":23,"../textures/RenderTexture":61,"eventemitter3":4}],16:[function(require,module,exports){
 var Container = require('../display/Container'),
     Sprite = require('../sprites/Sprite'),
     Texture = require('../textures/Texture'),
@@ -5166,7 +5309,7 @@ Graphics.prototype.drawShape = function (shape)
     return data;
 };
 
-},{"../const":13,"../display/Container":14,"../math":23,"../renderers/canvas/utils/CanvasBuffer":35,"../renderers/canvas/utils/CanvasGraphics":36,"../sprites/Sprite":57,"../textures/Texture":61,"./GraphicsData":17}],17:[function(require,module,exports){
+},{"../const":13,"../display/Container":14,"../math":23,"../renderers/canvas/utils/CanvasBuffer":35,"../renderers/canvas/utils/CanvasGraphics":36,"../sprites/Sprite":57,"../textures/Texture":62,"./GraphicsData":17}],17:[function(require,module,exports){
 /**
  * A GraphicsData object.
  *
@@ -5182,51 +5325,51 @@ Graphics.prototype.drawShape = function (shape)
  */
 function GraphicsData(lineWidth, lineColor, lineAlpha, fillColor, fillAlpha, fill, shape)
 {
-    /* 
+    /*
      * @member {number} the width of the line to draw
      */
     this.lineWidth = lineWidth;
 
-    /* 
+    /*
      * @member {number} the color of the line to draw
      */
     this.lineColor = lineColor;
-    /* 
+    /*
      * @member {number} the alpha of the line to draw
      */
     this.lineAlpha = lineAlpha;
-    /* 
+    /*
      * @member {number} cached tint of the line to draw
      */
     this._lineTint = lineColor;
 
-    /* 
+    /*
      * @member {number} the color of the fill
      */
     this.fillColor = fillColor;
 
-    /* 
+    /*
      * @member {number} the alpha of the fill
      */
     this.fillAlpha = fillAlpha;
 
-    /* 
+    /*
      * @member {number} cached tint of the fill
      */
     this._fillTint = fillColor;
 
-    /* 
+    /*
      * @member {boolean} whether or not the shape is filled with a colour
      */
     this.fill = fill;
 
-    /* 
+    /*
      * @member {Circle|Rectangle|Ellipse|Line|Polygon} The shape object to draw.
      */
     this.shape = shape;
 
-    /* 
-     * @member {number} The type of the shape, see the Const.Shapes file for all the existing types, 
+    /*
+     * @member {number} The type of the shape, see the Const.Shapes file for all the existing types,
      */
     this.type = shape.type;
 }
@@ -5630,7 +5773,9 @@ GraphicsRenderer.prototype.buildRoundedRectangle = function (graphicsData, webGL
     this.quadraticBezierCurve(x, y + height - radius, x, y + height, x + radius, y + height, recPoints);
     this.quadraticBezierCurve(x + width - radius, y + height, x + width, y + height, x + width, y + height - radius, recPoints);
     this.quadraticBezierCurve(x + width, y + radius, x + width, y, x + width - radius, y, recPoints);
-    this.quadraticBezierCurve(x + radius, y, x, y, x, y + radius, recPoints);
+    this.quadraticBezierCurve(x + radius, y, x, y, x, y + radius + 0.0000000001, recPoints);
+    // this tiny number deals with the issue that occurs when points overlap and polyK fails to triangulate the item.
+    // TODO - fix this properly, this is not very elegant.. but it works for now.
 
     if (graphicsData.fill)
     {
@@ -5648,7 +5793,6 @@ GraphicsRenderer.prototype.buildRoundedRectangle = function (graphicsData, webGL
 
         //TODO use this https://github.com/mapbox/earcut
         var triangles = utils.PolyK.Triangulate(recPoints);
-
         //
 
         var i = 0;
@@ -6145,7 +6289,7 @@ GraphicsRenderer.prototype.buildPoly = function (graphicsData, webGLData)
     return true;
 };
 
-},{"../../const":13,"../../math":23,"../../renderers/webgl/WebGLRenderer":39,"../../renderers/webgl/utils/ObjectRenderer":53,"../../utils":65,"./WebGLGraphicsData":19}],19:[function(require,module,exports){
+},{"../../const":13,"../../math":23,"../../renderers/webgl/WebGLRenderer":39,"../../renderers/webgl/utils/ObjectRenderer":53,"../../utils":66,"./WebGLGraphicsData":19}],19:[function(require,module,exports){
 /**
  * An object containing WebGL specific properties to be used by the WebGL renderer
  *
@@ -6254,24 +6398,24 @@ WebGLGraphicsData.prototype.upload = function () {
 /**
  * @namespace PIXI
  */
-var core = {
+// export core and const. We assign core to const so that the non-reference types in const remain in-tact
+var core = module.exports = Object.assign(require('./const'), require('./math'), {
     // utils
     utils: require('./utils'),
     math: require('./math'),
-    CONST: require('./const'),
 
     // display
     DisplayObject:          require('./display/DisplayObject'),
     Container:              require('./display/Container'),
 
-    // legacy..
-    Stage:                  require('./display/Container'),
-    DisplayObjectContainer: require('./display/Container'),
-
+    // sprites
     Sprite:                 require('./sprites/Sprite'),
     ParticleContainer:      require('./particles/ParticleContainer'),
     SpriteRenderer:         require('./sprites/webgl/SpriteRenderer'),
     ParticleRenderer:       require('./particles/webgl/ParticleRenderer'),
+
+    // text
+    Text:                   require('./text/Text'),
 
     // primitives
     Graphics:               require('./graphics/Graphics'),
@@ -6302,6 +6446,7 @@ var core = {
      * WebGL is the preferred renderer as it is a lot faster. If webGL is not supported by
      * the browser then this function will return a canvas renderer
      *
+     * @memberof PIXI
      * @param width=800 {number} the width of the renderers view
      * @param height=600 {number} the height of the renderers view
      * @param [options] {object} The optional renderer parameters
@@ -6327,12 +6472,9 @@ var core = {
 
         return new core.CanvasRenderer(width, height, options);
     }
-};
+});
 
-// export core and const. We assign core to const so that the non-reference types in const remain in-tact
-module.exports = Object.assign(require('./const'), core);
-
-},{"./const":13,"./display/Container":14,"./display/DisplayObject":15,"./graphics/Graphics":16,"./graphics/GraphicsData":17,"./graphics/webgl/GraphicsRenderer":18,"./math":23,"./particles/ParticleContainer":29,"./particles/webgl/ParticleRenderer":31,"./renderers/canvas/CanvasRenderer":34,"./renderers/canvas/utils/CanvasBuffer":35,"./renderers/canvas/utils/CanvasGraphics":36,"./renderers/webgl/WebGLRenderer":39,"./renderers/webgl/filters/AbstractFilter":40,"./renderers/webgl/managers/ShaderManager":46,"./renderers/webgl/shaders/Shader":51,"./sprites/Sprite":57,"./sprites/webgl/SpriteRenderer":58,"./textures/BaseTexture":59,"./textures/RenderTexture":60,"./textures/Texture":61,"./textures/VideoBaseTexture":63,"./utils":65}],21:[function(require,module,exports){
+},{"./const":13,"./display/Container":14,"./display/DisplayObject":15,"./graphics/Graphics":16,"./graphics/GraphicsData":17,"./graphics/webgl/GraphicsRenderer":18,"./math":23,"./particles/ParticleContainer":29,"./particles/webgl/ParticleRenderer":31,"./renderers/canvas/CanvasRenderer":34,"./renderers/canvas/utils/CanvasBuffer":35,"./renderers/canvas/utils/CanvasGraphics":36,"./renderers/webgl/WebGLRenderer":39,"./renderers/webgl/filters/AbstractFilter":40,"./renderers/webgl/managers/ShaderManager":46,"./renderers/webgl/shaders/Shader":51,"./sprites/Sprite":57,"./sprites/webgl/SpriteRenderer":58,"./text/Text":59,"./textures/BaseTexture":60,"./textures/RenderTexture":61,"./textures/Texture":62,"./textures/VideoBaseTexture":64,"./utils":66}],21:[function(require,module,exports){
 var Point = require('./Point');
 
 /**
@@ -6343,7 +6485,7 @@ var Point = require('./Point');
  * | 0 | 0 | 1 |
  *
  * @class
- * @memberof PIXI.math
+ * @memberof PIXI
  */
 function Matrix()
 {
@@ -6698,7 +6840,7 @@ Matrix.TEMP_MATRIX = new Matrix();
  * the horizontal axis and y represents the vertical axis.
  *
  * @class
- * @memberof PIXI.math
+ * @memberof PIXI
  * @param [x=0] {number} position of the point on the x axis
  * @param [y=0] {number} position of the point on the y axis
  */
@@ -6763,31 +6905,7 @@ Point.prototype.set = function (x, y)
 };
 
 },{}],23:[function(require,module,exports){
-/**
- * @namespace PIXI.math
- */
 module.exports = {
-    /**
-     * @property {number} PI_2 - Two Pi
-     * @constant
-     * @static
-     */
-    PI_2: Math.PI * 2,
-
-    /**
-     * @property {number} RAD_TO_DEG - Constant conversion factor for converting radians to degrees
-     * @constant
-     * @static
-     */
-    RAD_TO_DEG: 180 / Math.PI,
-
-    /**
-     * @property {Number} DEG_TO_RAD - Constant conversion factor for converting degrees to radians
-     * @constant
-     * @static
-     */
-    DEG_TO_RAD: Math.PI / 180,
-
     Point:      require('./Point'),
     Matrix:     require('./Matrix'),
 
@@ -8549,7 +8667,7 @@ SystemRenderer.prototype.destroy = function (removeView) {
     this._backgroundColorString = null;
 };
 
-},{"../const":13,"../math":23,"../utils":65,"eventemitter3":4}],34:[function(require,module,exports){
+},{"../const":13,"../math":23,"../utils":66,"eventemitter3":4}],34:[function(require,module,exports){
 var SystemRenderer = require('../SystemRenderer'),
     CanvasMaskManager = require('./utils/CanvasMaskManager'),
     utils = require('../../utils'),
@@ -8819,7 +8937,7 @@ CanvasRenderer.prototype._mapBlendModes = function ()
     }
 };
 
-},{"../../const":13,"../../math":23,"../../utils":65,"../SystemRenderer":33,"./utils/CanvasMaskManager":37}],35:[function(require,module,exports){
+},{"../../const":13,"../../math":23,"../../utils":66,"../SystemRenderer":33,"./utils/CanvasMaskManager":37}],35:[function(require,module,exports){
 /**
  * Creates a Canvas element of the given size.
  *
@@ -9562,7 +9680,7 @@ CanvasTinter.canUseMultiply = utils.canUseNewCanvasBlendModes();
  */
 CanvasTinter.tintMethod = CanvasTinter.canUseMultiply ? CanvasTinter.tintWithMultiply :  CanvasTinter.tintWithPerPixel;
 
-},{"../../../utils":65}],39:[function(require,module,exports){
+},{"../../../utils":66}],39:[function(require,module,exports){
 var SystemRenderer = require('../SystemRenderer'),
     ShaderManager = require('./managers/ShaderManager'),
     MaskManager = require('./managers/MaskManager'),
@@ -9695,7 +9813,7 @@ function WebGLRenderer(width, height, options)
      * Holds the current render target
      * @member {Object}
      */
-    this.currentRenderTarget = this.renderTarget;
+    this.currentRenderTarget = null;
 
     /**
      * object renderer @alvin
@@ -9752,6 +9870,8 @@ WebGLRenderer.prototype._initContext = function ()
     gl.enable(gl.BLEND);
 
     this.renderTarget = new RenderTarget(this.gl, this.width, this.height, null, this.resolution, true);
+
+    this.setRenderTarget(this.renderTarget);
 
     this.emit('context', gl);
 
@@ -10084,7 +10204,7 @@ WebGLRenderer.prototype._mapBlendModes = function ()
     }
 };
 
-},{"../../const":13,"../../utils":65,"../SystemRenderer":33,"./filters/FXAAFilter":41,"./managers/BlendModeManager":43,"./managers/FilterManager":44,"./managers/MaskManager":45,"./managers/ShaderManager":46,"./managers/StencilManager":47,"./utils/ObjectRenderer":53,"./utils/RenderTarget":55}],40:[function(require,module,exports){
+},{"../../const":13,"../../utils":66,"../SystemRenderer":33,"./filters/FXAAFilter":41,"./managers/BlendModeManager":43,"./managers/FilterManager":44,"./managers/MaskManager":45,"./managers/ShaderManager":46,"./managers/StencilManager":47,"./utils/ObjectRenderer":53,"./utils/RenderTarget":55}],40:[function(require,module,exports){
 var DefaultShader = require('../shaders/TextureShader');
 
 /**
@@ -10503,22 +10623,32 @@ FilterManager.prototype.pushFilter = function (target, filters)
          this.capFilterArea( bounds );
     }
 
+    if(bounds.width > 0 && bounds.height > 0)
+    {
+        this.currentFrame = bounds;
 
-    this.currentFrame = bounds;
+        var texture = this.getRenderTarget();
 
-    var texture = this.getRenderTarget();
+        this.renderer.setRenderTarget(texture);
 
-    this.renderer.setRenderTarget(texture);
+        // clear the texture..
+        texture.clear();
 
-    // clear the texture..
-    texture.clear();
+        // TODO get rid of object creation!
+        this.filterStack.push({
+            renderTarget: texture,
+            filter: filters
+        });
 
-    // TODO get rid of object creation!
-    this.filterStack.push({
-        renderTarget: texture,
-        filter: filters
-    });
-
+    }
+    else
+    {
+        // push somthing on to the stack that is empty
+        this.filterStack.push({
+            renderTarget: null,
+            filter: filters
+        });
+    }
 };
 
 
@@ -10532,6 +10662,12 @@ FilterManager.prototype.popFilter = function ()
     var previousFilterData = this.filterStack[this.filterStack.length-1];
 
     var input = filterData.renderTarget;
+
+    // if the renderTarget is null then we don't apply the filter as its offscreen
+    if(!filterData.renderTarget)
+    {
+        return;
+    }
 
     var output = previousFilterData.renderTarget;
 
@@ -10554,6 +10690,9 @@ FilterManager.prototype.popFilter = function ()
     gl.vertexAttribPointer(this.renderer.shaderManager.defaultShader.attributes.aVertexPosition, 2, gl.FLOAT, false, 0, 0);
     gl.vertexAttribPointer(this.renderer.shaderManager.defaultShader.attributes.aTextureCoord, 2, gl.FLOAT, false, 0, 2 * 4 * 4);
     gl.vertexAttribPointer(this.renderer.shaderManager.defaultShader.attributes.aColor, 4, gl.FLOAT, false, 0, 4 * 4 * 4);
+
+    // restore the normal blendmode!
+    this.renderer.blendModeManager.setBlendMode(CONST.BLEND_MODES.NORMAL);
 
     if (filters.length === 1)
     {
@@ -10851,7 +10990,7 @@ MaskManager.prototype.pushMask = function (target, maskData)
 
 /**
  * Removes the last mask from the mask stack and doesn't return it.
- * 
+ *
  * @param target {RenderTarget}
  * @param maskData {any[]}
  */
@@ -10882,6 +11021,7 @@ MaskManager.prototype.pushSpriteMask = function (target, maskData)
         alphaMaskFilter = [new AlphaMaskFilter(maskData)];
     }
 
+    alphaMaskFilter[0].maskSprite = maskData;
     this.renderer.filterManager.pushFilter(target, alphaMaskFilter);
 };
 
@@ -11074,7 +11214,7 @@ ShaderManager.prototype.destroy = function ()
     this.tempAttribState = null;
 };
 
-},{"../../../utils":65,"../shaders/ComplexPrimitiveShader":49,"../shaders/PrimitiveShader":50,"../shaders/TextureShader":52,"./WebGLManager":48}],47:[function(require,module,exports){
+},{"../../../utils":66,"../shaders/ComplexPrimitiveShader":49,"../shaders/PrimitiveShader":50,"../shaders/TextureShader":52,"./WebGLManager":48}],47:[function(require,module,exports){
 var WebGLManager = require('./WebGLManager'),
     utils = require('../../../utils');
 
@@ -11418,7 +11558,7 @@ WebGLMaskManager.prototype.popMask = function (maskData)
 };
 
 
-},{"../../../utils":65,"./WebGLManager":48}],48:[function(require,module,exports){
+},{"../../../utils":66,"./WebGLManager":48}],48:[function(require,module,exports){
 /**
  * @class
  * @memberof PIXI
@@ -12129,7 +12269,7 @@ Shader.prototype._glCompile = function (type, src)
     return shader;
 };
 
-},{"../../../utils":65}],52:[function(require,module,exports){
+},{"../../../utils":66}],52:[function(require,module,exports){
 var Shader = require('./Shader');
 
 /**
@@ -12735,7 +12875,7 @@ RenderTarget.prototype.destroy = function()
     this.texture = null;
 };
 
-},{"../../../const":13,"../../../math":23,"../../../utils":65,"./StencilMaskStack":56}],56:[function(require,module,exports){
+},{"../../../const":13,"../../../math":23,"../../../utils":66,"./StencilMaskStack":56}],56:[function(require,module,exports){
 /**
  * Generic Mask Stack data structure
  * @class
@@ -13250,12 +13390,12 @@ Sprite.prototype._renderCanvas = function (renderer)
                 this.tintedTexture,
                 0,
                 0,
-                width * resolution,
-                height * resolution,
+                width * resolution * renderer.resolution,
+                height * resolution * renderer.resolution,
                 dx / resolution,
                 dy / resolution,
-                width,
-                height
+                width * renderer.resolution,
+                height * renderer.resolution
             );
         }
         else
@@ -13264,12 +13404,12 @@ Sprite.prototype._renderCanvas = function (renderer)
                 texture.baseTexture.source,
                 texture.crop.x * resolution,
                 texture.crop.y * resolution,
-                width * resolution,
-                height * resolution,
+                width * resolution * renderer.resolution,
+                height * resolution * renderer.resolution,
                 dx / resolution,
                 dy / resolution,
-                width,
-                height
+                width * renderer.resolution,
+                height * renderer.resolution
             );
         }
     }
@@ -13333,7 +13473,7 @@ Sprite.fromImage = function (imageId, crossorigin, scaleMode)
     return new Sprite(Texture.fromImage(imageId, crossorigin, scaleMode));
 };
 
-},{"../const":13,"../display/Container":14,"../math":23,"../renderers/canvas/utils/CanvasTinter":38,"../textures/Texture":61,"../utils":65}],58:[function(require,module,exports){
+},{"../const":13,"../display/Container":14,"../math":23,"../renderers/canvas/utils/CanvasTinter":38,"../textures/Texture":62,"../utils":66}],58:[function(require,module,exports){
 var ObjectRenderer = require('../../renderers/webgl/utils/ObjectRenderer'),
     WebGLRenderer = require('../../renderers/webgl/WebGLRenderer'),
     CONST = require('../../const');
@@ -13851,6 +13991,602 @@ SpriteRenderer.prototype.destroy = function ()
 };
 
 },{"../../const":13,"../../renderers/webgl/WebGLRenderer":39,"../../renderers/webgl/utils/ObjectRenderer":53}],59:[function(require,module,exports){
+var Sprite = require('../sprites/Sprite'),
+    Texture = require('../textures/Texture'),
+    math = require('../math'),
+    CONST = require('../const');
+
+/**
+ * A Text Object will create a line or multiple lines of text. To split a line you can use '\n' in your text string,
+ * or add a wordWrap property set to true and and wordWrapWidth property with a value in the style object.
+ *
+ * A Text can be created directly from a string and a style object
+ *
+ * ```js
+ * var text = new PIXI.Text('This is a pixi text',{font : '24px Arial', fill : 0xff1010, align : 'center'});
+ * ```
+ *
+ * @class
+ * @extends Sprite
+ * @memberof PIXI
+ * @param text {string} The copy that you would like the text to display
+ * @param [style] {object} The style parameters
+ * @param [style.font] {string} default 'bold 20px Arial' The style and size of the font
+ * @param [style.fill='black'] {String|Number} A canvas fillstyle that will be used on the text e.g 'red', '#00FF00'
+ * @param [style.align='left'] {string} Alignment for multiline text ('left', 'center' or 'right'), does not affect single line text
+ * @param [style.stroke] {String|Number} A canvas fillstyle that will be used on the text stroke e.g 'blue', '#FCFF00'
+ * @param [style.strokeThickness=0] {number} A number that represents the thickness of the stroke. Default is 0 (no stroke)
+ * @param [style.wordWrap=false] {boolean} Indicates if word wrap should be used
+ * @param [style.wordWrapWidth=100] {number} The width at which text will wrap, it needs wordWrap to be set to true
+ * @param [style.lineHeight] {number} The line height, a number that represents the vertical space that a letter uses
+ * @param [style.dropShadow=false] {boolean} Set a drop shadow for the text
+ * @param [style.dropShadowColor='#000000'] {string} A fill style to be used on the dropshadow e.g 'red', '#00FF00'
+ * @param [style.dropShadowAngle=Math.PI/4] {number} Set a angle of the drop shadow
+ * @param [style.dropShadowDistance=5] {number} Set a distance of the drop shadow
+ * @param [style.padding=0] {number} Occasionally some fonts are cropped. Adding some padding will prevent this from happening
+ * @param [style.textBaseline='alphabetic'] {string} The baseline of the text that is rendered.
+ * @param [style.lineJoin='miter'] {string} The lineJoin property sets the type of corner created, it can resolve
+ *      spiked text issues. Default is 'miter' (creates a sharp corner).
+ * @param [style.miterLimit=10] {number} The miter limit to use when using the 'miter' lineJoin mode. This can reduce
+ *      or increase the spikiness of rendered text.
+ */
+function Text(text, style, resolution)
+{
+    /**
+     * The canvas element that everything is drawn to
+     *
+     * @member {HTMLCanvasElement}
+     */
+    this.canvas = document.createElement('canvas');
+
+    /**
+     * The canvas 2d context that everything is drawn with
+     * @member {HTMLCanvasElement}
+     */
+    this.context = this.canvas.getContext('2d');
+
+    /**
+     * The resolution of the canvas.
+     * @member {number}
+     */
+    this.resolution = resolution || CONST.RESOLUTION;
+
+    /**
+     * Private tracker for the current text.
+     *
+     * @member {string}
+     * @private
+     */
+    this._text = null;
+
+    /**
+     * Private tracker for the current style.
+     *
+     * @member {object}
+     * @private
+     */
+    this._style = null;
+
+    var texture = Texture.fromCanvas(this.canvas);
+    texture.trim = new math.Rectangle();
+    Sprite.call(this, texture);
+
+
+    this.text = text;
+    this.style = style;
+}
+
+// constructor
+Text.prototype = Object.create(Sprite.prototype);
+Text.prototype.constructor = Text;
+module.exports = Text;
+
+Text.fontPropertiesCache = {};
+Text.fontPropertiesCanvas = document.createElement('canvas');
+Text.fontPropertiesContext = Text.fontPropertiesCanvas.getContext('2d');
+
+Object.defineProperties(Text.prototype, {
+    /**
+     * The width of the Text, setting this will actually modify the scale to achieve the value set
+     *
+     * @member {number}
+     * @memberof Text#
+     */
+    width: {
+        get: function ()
+        {
+            if (this.dirty)
+            {
+                this.updateText();
+            }
+
+            return this.scale.x * this._texture._frame.width;
+        },
+        set: function (value)
+        {
+            this.scale.x = value / this._texture._frame.width;
+            this._width = value;
+        }
+    },
+
+    /**
+     * The height of the Text, setting this will actually modify the scale to achieve the value set
+     *
+     * @member {number}
+     * @memberof Text#
+     */
+    height: {
+        get: function ()
+        {
+            if (this.dirty)
+            {
+                this.updateText();
+            }
+
+            return  this.scale.y * this._texture._frame.height;
+        },
+        set: function (value)
+        {
+            this.scale.y = value / this._texture._frame.height;
+            this._height = value;
+        }
+    },
+
+    /**
+     * Set the style of the text
+     *
+     * @param [style] {object} The style parameters
+     * @param [style.font='bold 20pt Arial'] {string} The style and size of the font
+     * @param [style.fill='black'] {object} A canvas fillstyle that will be used on the text eg 'red', '#00FF00'
+     * @param [style.align='left'] {string} Alignment for multiline text ('left', 'center' or 'right'), does not affect single line text
+     * @param [style.stroke='black'] {string} A canvas fillstyle that will be used on the text stroke eg 'blue', '#FCFF00'
+     * @param [style.strokeThickness=0] {number} A number that represents the thickness of the stroke. Default is 0 (no stroke)
+     * @param [style.wordWrap=false] {boolean} Indicates if word wrap should be used
+     * @param [style.wordWrapWidth=100] {number} The width at which text will wrap
+     * @param [style.lineHeight] {number} The line height, a number that represents the vertical space that a letter uses
+     * @param [style.dropShadow=false] {boolean} Set a drop shadow for the text
+     * @param [style.dropShadowColor='#000000'] {string} A fill style to be used on the dropshadow e.g 'red', '#00FF00'
+     * @param [style.dropShadowAngle=Math.PI/6] {number} Set a angle of the drop shadow
+     * @param [style.dropShadowDistance=5] {number} Set a distance of the drop shadow
+     * @param [style.padding=0] {number} Occasionally some fonts are cropped. Adding some padding will prevent this from happening
+     * @param [style.textBaseline='alphabetic'] {string} The baseline of the text that is rendered.
+     * @param [style.lineJoin='miter'] {string} The lineJoin property sets the type of corner created, it can resolve
+     *      spiked text issues. Default is 'miter' (creates a sharp corner).
+     * @param [style.miterLimit=10] {number} The miter limit to use when using the 'miter' lineJoin mode. This can reduce
+     *      or increase the spikiness of rendered text.
+     * @memberof Text#
+     */
+    style: {
+        get: function ()
+        {
+            return this._style;
+        },
+        set: function (style)
+        {
+            style = style || {};
+            style.font = style.font || 'bold 20pt Arial';
+            style.fill = style.fill || 'black';
+            style.align = style.align || 'left';
+            style.stroke = style.stroke || 'black'; //provide a default, see: https://github.com/GoodBoyDigital/pixi.js/issues/136
+            style.strokeThickness = style.strokeThickness || 0;
+            style.wordWrap = style.wordWrap || false;
+            style.wordWrapWidth = style.wordWrapWidth || 100;
+
+            style.dropShadow = style.dropShadow || false;
+            style.dropShadowColor = style.dropShadowColor || '#000000';
+            style.dropShadowAngle = style.dropShadowAngle || Math.PI / 6;
+            style.dropShadowDistance = style.dropShadowDistance || 5;
+
+            style.padding = style.padding || 0;
+
+            style.textBaseline = style.textBaseline || 'alphabetic';
+
+            style.lineJoin = style.lineJoin || 'miter';
+            style.miterLimit = style.miterLimit || 10;
+
+            this._style = style;
+            this.dirty = true;
+        }
+    },
+
+    /**
+     * Set the copy for the text object. To split a line you can use '\n'.
+     *
+     * @param text {string} The copy that you would like the text to display
+     * @memberof Text#
+     */
+    text: {
+        get: function()
+        {
+            return this._text;
+        },
+        set: function (text){
+            text = text.toString() || ' ';
+            if (this._text === text)
+            {
+                return;
+            }
+            this._text = text;
+            this.dirty = true;
+        }
+    }
+});
+
+/**
+ * Renders text and updates it when needed
+ *
+ * @private
+ */
+Text.prototype.updateText = function ()
+{
+    var style = this._style;
+    this.context.font = style.font;
+
+    // word wrap
+    // preserve original text
+    var outputText = style.wordWrap ? this.wordWrap(this._text) : this._text;
+
+    // split text into lines
+    var lines = outputText.split(/(?:\r\n|\r|\n)/);
+
+    // calculate text width
+    var lineWidths = new Array(lines.length);
+    var maxLineWidth = 0;
+    var fontProperties = this.determineFontProperties(style.font);
+    for (var i = 0; i < lines.length; i++)
+    {
+        var lineWidth = this.context.measureText(lines[i]).width;
+        lineWidths[i] = lineWidth;
+        maxLineWidth = Math.max(maxLineWidth, lineWidth);
+    }
+
+    var width = maxLineWidth + style.strokeThickness;
+    if (style.dropShadow)
+    {
+        width += style.dropShadowDistance;
+    }
+
+    this.canvas.width = ( width + this.context.lineWidth ) * this.resolution;
+
+    // calculate text height
+    var lineHeight = this.style.lineHeight || fontProperties.fontSize + style.strokeThickness;
+
+    var height = lineHeight * lines.length;
+    if (style.dropShadow)
+    {
+        height += style.dropShadowDistance;
+    }
+
+    this.canvas.height = ( height + this._style.padding * 2 ) * this.resolution;
+
+    this.context.scale( this.resolution, this.resolution);
+
+    if (navigator.isCocoonJS)
+    {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+    }
+
+    //this.context.fillStyle="#FF0000";
+    //this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+    this.context.font = style.font;
+    this.context.strokeStyle = style.stroke;
+    this.context.lineWidth = style.strokeThickness;
+    this.context.textBaseline = style.textBaseline;
+    this.context.lineJoin = style.lineJoin;
+    this.context.miterLimit = style.miterLimit;
+
+    var linePositionX;
+    var linePositionY;
+
+    if (style.dropShadow)
+    {
+        this.context.fillStyle = style.dropShadowColor;
+
+        var xShadowOffset = Math.cos(style.dropShadowAngle) * style.dropShadowDistance;
+        var yShadowOffset = Math.sin(style.dropShadowAngle) * style.dropShadowDistance;
+
+        for (i = 0; i < lines.length; i++)
+        {
+            linePositionX = style.strokeThickness / 2;
+            linePositionY = (style.strokeThickness / 2 + i * lineHeight) + fontProperties.ascent;
+
+            if (style.align === 'right')
+            {
+                linePositionX += maxLineWidth - lineWidths[i];
+            }
+            else if (style.align === 'center')
+            {
+                linePositionX += (maxLineWidth - lineWidths[i]) / 2;
+            }
+
+            if (style.fill)
+            {
+                this.context.fillText(lines[i], linePositionX + xShadowOffset, linePositionY + yShadowOffset + this._style.padding);
+            }
+        }
+    }
+
+    //set canvas text styles
+    this.context.fillStyle = style.fill;
+
+    //draw lines line by line
+    for (i = 0; i < lines.length; i++)
+    {
+        linePositionX = style.strokeThickness / 2;
+        linePositionY = (style.strokeThickness / 2 + i * lineHeight) + fontProperties.ascent;
+
+        if (style.align === 'right')
+        {
+            linePositionX += maxLineWidth - lineWidths[i];
+        }
+        else if (style.align === 'center')
+        {
+            linePositionX += (maxLineWidth - lineWidths[i]) / 2;
+        }
+
+        if (style.stroke && style.strokeThickness)
+        {
+            this.context.strokeText(lines[i], linePositionX, linePositionY + this._style.padding);
+        }
+
+        if (style.fill)
+        {
+            this.context.fillText(lines[i], linePositionX, linePositionY + this._style.padding);
+        }
+    }
+
+    this.updateTexture();
+};
+
+/**
+ * Updates texture size based on canvas size
+ *
+ * @private
+ */
+Text.prototype.updateTexture = function ()
+{
+    var texture = this._texture;
+
+    texture.baseTexture.hasLoaded = true;
+    texture.baseTexture.resolution = this.resolution;
+
+    texture.baseTexture.width = this.canvas.width / this.resolution;
+    texture.baseTexture.height = this.canvas.height / this.resolution;
+    texture.crop.width = texture._frame.width = this.canvas.width / this.resolution;
+    texture.crop.height = texture._frame.height = this.canvas.height / this.resolution;
+
+    texture.trim.x = 0;
+    texture.trim.y = -this._style.padding;
+
+    texture.trim.width = texture._frame.width;
+    texture.trim.height = texture._frame.height - this._style.padding*2;
+
+    this._width = this.canvas.width / this.resolution;
+    this._height = this.canvas.height / this.resolution;
+
+    texture.update();
+
+    this.dirty = false;
+};
+
+/**
+ * Renders the object using the WebGL renderer
+ *
+ * @param renderer {WebGLRenderer}
+ */
+Text.prototype.renderWebGL = function (renderer)
+{
+    if (this.dirty)
+    {
+        //this.resolution = 1//renderer.resolution;
+
+        this.updateText();
+    }
+
+    Sprite.prototype.renderWebGL.call(this, renderer);
+};
+
+/**
+ * Renders the object using the Canvas renderer
+ *
+ * @param renderer {CanvasRenderer}
+ * @private
+ */
+Text.prototype._renderCanvas = function (renderer)
+{
+    if (this.dirty)
+    {
+     //   this.resolution = 1//renderer.resolution;
+
+        this.updateText();
+    }
+
+    Sprite.prototype._renderCanvas.call(this, renderer);
+};
+
+/**
+ * Calculates the ascent, descent and fontSize of a given fontStyle
+ *
+ * @param fontStyle {object}
+ * @private
+ */
+Text.prototype.determineFontProperties = function (fontStyle)
+{
+    var properties = Text.fontPropertiesCache[fontStyle];
+
+    if (!properties)
+    {
+        properties = {};
+
+        var canvas = Text.fontPropertiesCanvas;
+        var context = Text.fontPropertiesContext;
+
+        context.font = fontStyle;
+
+        var width = Math.ceil(context.measureText('|MÉq').width);
+        var baseline = Math.ceil(context.measureText('M').width);
+        var height = 2 * baseline;
+
+        baseline = baseline * 1.4 | 0;
+
+        canvas.width = width;
+        canvas.height = height;
+
+        context.fillStyle = '#f00';
+        context.fillRect(0, 0, width, height);
+
+        context.font = fontStyle;
+
+        context.textBaseline = 'alphabetic';
+        context.fillStyle = '#000';
+        context.fillText('|MÉq', 0, baseline);
+
+        var imagedata = context.getImageData(0, 0, width, height).data;
+        var pixels = imagedata.length;
+        var line = width * 4;
+
+        var i, j;
+
+        var idx = 0;
+        var stop = false;
+
+        // ascent. scan from top to bottom until we find a non red pixel
+        for (i = 0; i < baseline; i++)
+        {
+            for (j = 0; j < line; j += 4)
+            {
+                if (imagedata[idx + j] !== 255)
+                {
+                    stop = true;
+                    break;
+                }
+            }
+            if (!stop)
+            {
+                idx += line;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        properties.ascent = baseline - i;
+
+        idx = pixels - line;
+        stop = false;
+
+        // descent. scan from bottom to top until we find a non red pixel
+        for (i = height; i > baseline; i--)
+        {
+            for (j = 0; j < line; j += 4)
+            {
+                if (imagedata[idx + j] !== 255)
+                {
+                    stop = true;
+                    break;
+                }
+            }
+            if (!stop)
+            {
+                idx -= line;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        properties.descent = i - baseline;
+        properties.fontSize = properties.ascent + properties.descent;
+
+        Text.fontPropertiesCache[fontStyle] = properties;
+    }
+
+    return properties;
+};
+
+/**
+ * Applies newlines to a string to have it optimally fit into the horizontal
+ * bounds set by the Text object's wordWrapWidth property.
+ *
+ * @param text {string}
+ * @private
+ */
+Text.prototype.wordWrap = function (text)
+{
+    // Greedy wrapping algorithm that will wrap words as the line grows longer
+    // than its horizontal bounds.
+    var result = '';
+    var lines = text.split('\n');
+    var wordWrapWidth = this._style.wordWrapWidth;
+    for (var i = 0; i < lines.length; i++)
+    {
+        var spaceLeft = wordWrapWidth;
+        var words = lines[i].split(' ');
+        for (var j = 0; j < words.length; j++)
+        {
+            var wordWidth = this.context.measureText(words[j]).width;
+            var wordWidthWithSpace = wordWidth + this.context.measureText(' ').width;
+            if (j === 0 || wordWidthWithSpace > spaceLeft)
+            {
+                // Skip printing the newline if it's the first word of the line that is
+                // greater than the word wrap width.
+                if (j > 0)
+                {
+                    result += '\n';
+                }
+                result += words[j];
+                spaceLeft = wordWrapWidth - wordWidth;
+            }
+            else
+            {
+                spaceLeft -= wordWidthWithSpace;
+                result += ' ' + words[j];
+            }
+        }
+
+        if (i < lines.length-1)
+        {
+            result += '\n';
+        }
+    }
+    return result;
+};
+
+/**
+ * Returns the bounds of the Text as a rectangle. The bounds calculation takes the worldTransform into account.
+ *
+ * @param matrix {Matrix} the transformation matrix of the Text
+ * @return {Rectangle} the framing rectangle
+ */
+Text.prototype.getBounds = function (matrix)
+{
+    if (this.dirty)
+    {
+        this.updateText();
+    }
+
+    return Sprite.prototype.getBounds.call(this, matrix);
+};
+
+/**
+ * Destroys this text object.
+ *
+ * @param destroyBaseTexture {boolean} whether to destroy the base texture as well
+ */
+Text.prototype.destroy = function (destroyBaseTexture)
+{
+    // make sure to reset the the context and canvas.. dont want this hanging around in memory!
+    this.context = null;
+    this.canvas = null;
+
+    this._texture.destroy(destroyBaseTexture === undefined ? true : destroyBaseTexture);
+};
+
+},{"../const":13,"../math":23,"../sprites/Sprite":57,"../textures/Texture":62}],60:[function(require,module,exports){
 var utils = require('../utils'),
     CONST = require('../const'),
     EventEmitter = require('eventemitter3').EventEmitter;
@@ -14283,7 +15019,7 @@ BaseTexture.fromCanvas = function (canvas, scaleMode)
     return baseTexture;
 };
 
-},{"../const":13,"../utils":65,"eventemitter3":4}],60:[function(require,module,exports){
+},{"../const":13,"../utils":66,"eventemitter3":4}],61:[function(require,module,exports){
 var BaseTexture = require('./BaseTexture'),
     Texture = require('./Texture'),
     RenderTarget = require('../renderers/webgl/utils/RenderTarget'),
@@ -14441,6 +15177,7 @@ function RenderTexture(renderer, width, height, scaleMode, resolution)
 
         // the creation of a filter manager unbinds the buffers..
         this.renderer.currentRenderer.start();
+        this.renderer.currentRenderTarget.activate();
     }
     else
     {
@@ -14712,7 +15449,7 @@ RenderTexture.prototype.getCanvas = function ()
     }
 };
 
-},{"../const":13,"../math":23,"../renderers/canvas/utils/CanvasBuffer":35,"../renderers/webgl/managers/FilterManager":44,"../renderers/webgl/utils/RenderTarget":55,"./BaseTexture":59,"./Texture":61}],61:[function(require,module,exports){
+},{"../const":13,"../math":23,"../renderers/canvas/utils/CanvasBuffer":35,"../renderers/webgl/managers/FilterManager":44,"../renderers/webgl/utils/RenderTarget":55,"./BaseTexture":60,"./Texture":62}],62:[function(require,module,exports){
 var BaseTexture = require('./BaseTexture'),
     VideoBaseTexture = require('./VideoBaseTexture'),
     TextureUvs = require('./TextureUvs'),
@@ -15086,7 +15823,7 @@ Texture.removeTextureFromCache = function (id)
 
 Texture.emptyTexture = new Texture(new BaseTexture());
 
-},{"../math":23,"../utils":65,"./BaseTexture":59,"./TextureUvs":62,"./VideoBaseTexture":63,"eventemitter3":4}],62:[function(require,module,exports){
+},{"../math":23,"../utils":66,"./BaseTexture":60,"./TextureUvs":63,"./VideoBaseTexture":64,"eventemitter3":4}],63:[function(require,module,exports){
 
 /**
  * A standard object to store the Uvs of a texture
@@ -15154,7 +15891,7 @@ TextureUvs.prototype.set = function (frame, baseFrame, rotate)
     }
 };
 
-},{}],63:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 var BaseTexture = require('./BaseTexture'),
     utils = require('../utils');
 
@@ -15390,7 +16127,7 @@ function createSource(path, type)
     return source;
 }
 
-},{"../utils":65,"./BaseTexture":59}],64:[function(require,module,exports){
+},{"../utils":66,"./BaseTexture":60}],65:[function(require,module,exports){
 //TODO: Have Graphics use https://github.com/mattdesl/shape2d
 // and https://github.com/mattdesl/shape2d-triangulate instead of custom code.
 
@@ -15562,7 +16299,7 @@ PolyK._convex = function (ax, ay, bx, by, cx, cy, sign)
     return ((ay-by)*(cx-bx) + (bx-ax)*(cy-by) >= 0) === sign;
 };
 
-},{}],65:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 var CONST = require('../const');
 
 /**
@@ -15752,7 +16489,7 @@ var utils = module.exports = {
                 'color: #ff2424; background: #fff; padding:5px 0;',
                 'color: #ff2424; background: #fff; padding:5px 0;',
             ];
-            
+
             window.console.log.apply(console, args); //jshint ignore:line
         }
         else if (window.console)
@@ -15793,7 +16530,7 @@ var utils = module.exports = {
     BaseTextureCache: {}
 };
 
-},{"../const":13,"./PolyK":64,"./pluginTarget":66}],66:[function(require,module,exports){
+},{"../const":13,"./PolyK":65,"./pluginTarget":67}],67:[function(require,module,exports){
 /**
  * Mixins functionality to make an object have "plugins".
  *
@@ -15863,11 +16600,11 @@ module.exports = {
     }
 };
 
-},{}],67:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 /*global console */
 var core   = require('./core'),
     mesh   = require('./mesh'),
-    text   = require('./text');
+    extras = require('./extras');
 
 /**
  * @class
@@ -15883,7 +16620,7 @@ core.SpriteBatch = function ()
 /**
  * @class
  * @name PIXI.AssetLoader
- * @see {@link PIXI.Loader}
+ * @see {@link PIXI.loaders.Loader}
  * @throws {ReferenceError} The loader system was overhauled in pixi v3, please see the new PIXI.Loader class.
  */
 core.AssetLoader = function () {
@@ -15923,7 +16660,7 @@ Object.defineProperties(core, {
     /**
      * @class
      * @name PIXI.Strip
-     * @see {@link PIXI.Mesh}
+     * @see {@link PIXI.mesh.Mesh}
      * @deprecated since version 3.0
      */
     Strip: {
@@ -15950,11 +16687,11 @@ core.Sprite.prototype.setTexture = function (texture)
 
 /**
  * @method
- * @name PIXI.BitmapText#setText
+ * @name PIXI.extras.BitmapText#setText
  * @see {@link PIXI.BitmapText#text}
  * @deprecated since version 3.0
  */
-text.BitmapText.prototype.setText = function (text)
+extras.BitmapText.prototype.setText = function (text)
 {
     this.text = text;
     console.warn('setText is now deprecated, please use the text property, e.g : myBitmapText.text = \'my text\';');
@@ -15966,7 +16703,7 @@ text.BitmapText.prototype.setText = function (text)
  * @see {@link PIXI.Text#text}
  * @deprecated since version 3.0
  */
-text.Text.prototype.setText = function (text)
+core.Text.prototype.setText = function (text)
 {
     this.text = text;
     console.warn('setText is now deprecated, please use the text property, e.g : myText.text = \'my text\';');
@@ -15974,7 +16711,355 @@ text.Text.prototype.setText = function (text)
 
 module.exports = {};
 
-},{"./core":20,"./mesh":114,"./text":125}],68:[function(require,module,exports){
+},{"./core":20,"./extras":76,"./mesh":117}],69:[function(require,module,exports){
+var core = require('../core');
+
+/**
+ * A BitmapText object will create a line or multiple lines of text using bitmap font. To
+ * split a line you can use '\n', '\r' or '\r\n' in your string. You can generate the fnt files using:
+ *
+ * A BitmapText can only be created when the font is loaded
+ *
+ * ```js
+ * // in this case the font is in a file called 'desyrel.fnt'
+ * var bitmapText = new PIXI.BitmapText("text using a fancy font!", {font: "35px Desyrel", align: "right"});
+ * ```
+ *
+ *
+ * http://www.angelcode.com/products/bmfont/ for windows or
+ * http://www.bmglyph.com/ for mac.
+ *
+ * @class
+ * @extends Container
+ * @memberof PIXI.extras
+ * @param text {string} The copy that you would like the text to display
+ * @param style {object} The style parameters
+ * @param style.font {string|object} The font descriptor for the object, can be passed as a string of form
+ *      "24px FontName" or "FontName" or as an object with explicit name/size properties.
+ * @param [style.font.name] {string} The bitmap font id
+ * @param [style.font.size] {number} The size of the font in pixels, e.g. 24
+ * @param [style.align='left'] {string} Alignment for multiline text ('left', 'center' or 'right'), does not affect
+ *      single line text
+ * @param [style.tint=0xFFFFFF] {number} The tint color
+ */
+function BitmapText(text, style)
+{
+    core.Container.call(this);
+
+    /**
+     * The width of the overall text, different from fontSize,
+     * which is defined in the style object
+     *
+     * @member {number}
+     * @readOnly
+     */
+    this.textWidth = 0;
+
+    /**
+     * The height of the overall text, different from fontSize,
+     * which is defined in the style object
+     *
+     * @member {number}
+     * @readOnly
+     */
+    this.textHeight = 0;
+
+    /**
+     * Private tracker for the letter sprite pool.
+     *
+     * @member {Sprite[]}
+     * @private
+     */
+    this._glyphs = [];
+
+    /**
+     * Private tracker for the current style.
+     *
+     * @member {object}
+     * @private
+     */
+    this._font = {
+        tint: style.tint !== undefined ? style.tint : 0xFFFFFF,
+        align: style.align || 'left',
+        name: null,
+        size: 0
+    };
+
+    /**
+     * Private tracker for the current font.
+     *
+     * @member {object}
+     * @private
+     */
+    this.font = style.font; // run font setter
+
+    /**
+     * Private tracker for the current text.
+     *
+     * @member {string}
+     * @private
+     */
+    this._text = text;
+
+    /**
+     * The max width of this bitmap text in pixels. If the text provided is longer than the value provided, line breaks will be automatically inserted in the last whitespace.
+     * Disable by setting value to 0
+     *
+     * @member {number}
+     */
+    this.maxWidth = 0;
+
+    /**
+     * The dirty state of this object.
+     *
+     * @member {boolean}
+     */
+    this.dirty = false;
+
+    this.updateText();
+}
+
+// constructor
+BitmapText.prototype = Object.create(core.Container.prototype);
+BitmapText.prototype.constructor = BitmapText;
+module.exports = BitmapText;
+
+Object.defineProperties(BitmapText.prototype, {
+    /**
+     * The tint of the BitmapText object
+     *
+     * @member {number}
+     * @memberof BitmapText#
+     */
+    tint: {
+        get: function ()
+        {
+            return this._font.tint;
+        },
+        set: function (value)
+        {
+            this._font.tint = (typeof value === 'number' && value >= 0) ? value : 0xFFFFFF;
+
+            this.dirty = true;
+        }
+    },
+
+    /**
+     * The alignment of the BitmapText object
+     *
+     * @member {string}
+     * @default 'left'
+     * @memberof BitmapText#
+     */
+    align: {
+        get: function ()
+        {
+            return this._font.align;
+        },
+        set: function (value)
+        {
+            this._font.align = value;
+
+            this.dirty = true;
+        }
+    },
+
+    /**
+     * The font descriptor of the BitmapText object
+     *
+     * @member {Font}
+     * @memberof BitmapText#
+     */
+    font: {
+        get: function ()
+        {
+            return this._font;
+        },
+        set: function (value)
+        {
+            if (typeof value === 'string') {
+                value = value.split(' ');
+
+                this._font.name = value.length === 1 ? value[0] : value.slice(1).join(' ');
+                this._font.size = value.length >= 2 ? parseInt(value[0], 10) : BitmapText.fonts[this._font.name].size;
+            }
+            else {
+                this._font.name = value.name;
+                this._font.size = typeof value.size === 'number' ? value.size : parseInt(value.size, 10);
+            }
+
+            this.dirty = true;
+        }
+    },
+
+    /**
+     * The text of the BitmapText object
+     *
+     * @member {string}
+     * @memberof BitmapText#
+     */
+    text: {
+        get: function ()
+        {
+            return this._text;
+        },
+        set: function (value)
+        {
+            this._text = value;
+
+            this.dirty = true;
+        }
+    }
+});
+
+/**
+ * Renders text and updates it when needed
+ *
+ * @private
+ */
+BitmapText.prototype.updateText = function ()
+{
+    var data = BitmapText.fonts[this._font.name];
+    var pos = new core.math.Point();
+    var prevCharCode = null;
+    var chars = [];
+    var lastLineWidth = 0;
+    var maxLineWidth = 0;
+    var lineWidths = [];
+    var line = 0;
+    var scale = this._font.size / data.size;
+    var lastSpace = -1;
+
+    for (var i = 0; i < this.text.length; i++)
+    {
+        var charCode = this.text.charCodeAt(i);
+        lastSpace = /(\s)/.test(this.text.charAt(i)) ? i : lastSpace;
+
+        if (/(?:\r\n|\r|\n)/.test(this.text.charAt(i)))
+        {
+            lineWidths.push(lastLineWidth);
+            maxLineWidth = Math.max(maxLineWidth, lastLineWidth);
+            line++;
+
+            pos.x = 0;
+            pos.y += data.lineHeight;
+            prevCharCode = null;
+            continue;
+        }
+
+        if (lastSpace !== -1 && this.maxWidth > 0 && pos.x * scale > this.maxWidth)
+        {
+            chars.splice(lastSpace, i - lastSpace);
+            i = lastSpace;
+            lastSpace = -1;
+
+            lineWidths.push(lastLineWidth);
+            maxLineWidth = Math.max(maxLineWidth, lastLineWidth);
+            line++;
+
+            pos.x = 0;
+            pos.y += data.lineHeight;
+            prevCharCode = null;
+            continue;
+        }
+
+        var charData = data.chars[charCode];
+
+        if (!charData)
+        {
+            continue;
+        }
+
+        if (prevCharCode && charData.kerning[prevCharCode])
+        {
+            pos.x += charData.kerning[prevCharCode];
+        }
+
+        chars.push({texture:charData.texture, line: line, charCode: charCode, position: new core.math.Point(pos.x + charData.xOffset, pos.y + charData.yOffset)});
+        lastLineWidth = pos.x + (charData.texture.width + charData.xOffset);
+        pos.x += charData.xAdvance;
+
+        prevCharCode = charCode;
+    }
+
+    lineWidths.push(lastLineWidth);
+    maxLineWidth = Math.max(maxLineWidth, lastLineWidth);
+
+    var lineAlignOffsets = [];
+
+    for (i = 0; i <= line; i++)
+    {
+        var alignOffset = 0;
+
+        if (this._font.align === 'right')
+        {
+            alignOffset = maxLineWidth - lineWidths[i];
+        }
+        else if (this._font.align === 'center')
+        {
+            alignOffset = (maxLineWidth - lineWidths[i]) / 2;
+        }
+
+        lineAlignOffsets.push(alignOffset);
+    }
+
+    var lenChars = chars.length;
+    var tint = this.tint;
+
+    for (i = 0; i < lenChars; i++)
+    {
+        var c = this._glyphs[i]; // get the next glyph sprite
+
+        if (c)
+        {
+            c.texture = chars[i].texture;
+        }
+        else
+        {
+            c = new core.Sprite(chars[i].texture);
+            this._glyphs.push(c);
+        }
+
+        c.position.x = (chars[i].position.x + lineAlignOffsets[chars[i].line]) * scale;
+        c.position.y = chars[i].position.y * scale;
+        c.scale.x = c.scale.y = scale;
+        c.tint = tint;
+
+        if (!c.parent)
+        {
+            this.addChild(c);
+        }
+    }
+
+    // remove unnecessary children.
+    for (i = lenChars; i < this._glyphs.length; ++i)
+    {
+        this.removeChild(this._glyphs[i]);
+    }
+
+    this.textWidth = maxLineWidth * scale;
+    this.textHeight = (pos.y + data.lineHeight) * scale;
+};
+
+/**
+ * Updates the transform of this object
+ *
+ * @private
+ */
+BitmapText.prototype.updateTransform = function ()
+{
+    if (this.dirty)
+    {
+        this.updateText();
+        this.dirty = false;
+    }
+
+    this.containerUpdateTransform();
+};
+
+BitmapText.fonts = {};
+
+},{"../core":20}],70:[function(require,module,exports){
 var core    = require('../core'),
     Ticker  = require('./Ticker');
 
@@ -16241,7 +17326,7 @@ MovieClip.fromImages = function (images)
     return new MovieClip(textures);
 };
 
-},{"../core":20,"./Ticker":69}],69:[function(require,module,exports){
+},{"../core":20,"./Ticker":71}],71:[function(require,module,exports){
 var EventEmitter = require('eventemitter3').EventEmitter;
 
 /**
@@ -16359,13 +17444,14 @@ Ticker.prototype.update = function()
 
 module.exports = new Ticker();
 
-},{"eventemitter3":4}],70:[function(require,module,exports){
+},{"eventemitter3":4}],72:[function(require,module,exports){
 var core = require('../core'),
     TextureUvs = require('../core/textures/TextureUvs'),
     RenderTexture = require('../core/textures/RenderTexture'),
     // a sprite use dfor rendering textures..
     tempSprite = new core.Sprite(),
-    tempPoint = new core.math.Point();
+    tempPoint = new core.Point(),
+    tempMatrix = new core.Matrix();
 
 /**
  * A tiling sprite is a fast way of rendering a tiling image
@@ -16737,21 +17823,23 @@ TilingSprite.prototype.generateTilingTexture = function (renderer, texture, forc
     {
         targetWidth = core.utils.getNextPowerOfTwo(frame.width);
         targetHeight = core.utils.getNextPowerOfTwo(frame.height);
-
         tempSprite.texture = texture;
 
         //TODO not create a new one each time you refresh
         var renderTexture = new RenderTexture(renderer, targetWidth, targetHeight, texture.baseTexture.scaleMode, texture.baseTexture.resolution);
 
-        tempSprite.worldTransform.a = (targetWidth + 1) / (frame.width);
-        tempSprite.worldTransform.d = (targetHeight + 1) / (frame.height);
-        // fixes the odd fuzzy alpha line that happens..
+        var cachedRenderTarget = renderer.currentRenderTarget;
+
+        var m = tempMatrix;
+        m.a =  (targetWidth + 1) / (frame.width);
+        m.d =   (targetHeight + 1) / (frame.height);
+
         tempSprite.worldTransform.tx -= 0.5;
         tempSprite.worldTransform.ty -= 0.5;
 
-        var cachedRenderTarget = renderer.currentRenderTarget;
+        renderer.currentRenderer.flush();
 
-        renderTexture.render( tempSprite, tempSprite.worldTransform, true, false );
+        renderTexture.render( tempSprite, m, true, false );
 
         renderer.setRenderTarget(cachedRenderTarget);
 
@@ -16866,7 +17954,7 @@ TilingSprite.fromImage = function (imageId, width, height, crossorigin, scaleMod
     return new TilingSprite(core.Texture.fromImage(imageId, crossorigin, scaleMode),width,height);
 };
 
-},{"../core":20,"../core/textures/RenderTexture":60,"../core/textures/TextureUvs":62}],71:[function(require,module,exports){
+},{"../core":20,"../core/textures/RenderTexture":61,"../core/textures/TextureUvs":63}],73:[function(require,module,exports){
 var math = require('../core/math'),
     RenderTexture = require('../core/textures/RenderTexture'),
     DisplayObject = require('../core/display/DisplayObject'),
@@ -17123,7 +18211,7 @@ DisplayObject.prototype._destroyCachedDisplayObject = function()
 
 module.exports = {};
 
-},{"../core/display/DisplayObject":15,"../core/math":23,"../core/sprites/Sprite":57,"../core/textures/RenderTexture":60}],72:[function(require,module,exports){
+},{"../core/display/DisplayObject":15,"../core/math":23,"../core/sprites/Sprite":57,"../core/textures/RenderTexture":61}],74:[function(require,module,exports){
 var DisplayObject = require('../core/display/DisplayObject'),
     Container = require('../core/display/Container');
 
@@ -17153,7 +18241,40 @@ Container.prototype.getChildByName = function (name)
 };
 
 module.exports = {};
-},{"../core/display/Container":14,"../core/display/DisplayObject":15}],73:[function(require,module,exports){
+},{"../core/display/Container":14,"../core/display/DisplayObject":15}],75:[function(require,module,exports){
+var DisplayObject = require('../core/display/DisplayObject'),
+    Point = require('../core/math/Point');
+
+
+/**
+* Returns the global position of the displayObject
+*
+* @param point {Point} the point to write the global value to. If null a new point will be returned
+* @return {Point}
+*/
+DisplayObject.prototype.getGlobalPosition = function (point)
+{
+    point = point || new Point();
+
+    if(this.parent)
+    {
+        this.displayObjectUpdateTransform();
+
+        point.x = this.worldTransform.tx;
+        point.y = this.worldTransform.ty;
+    }
+    else
+    {
+        point.x = this.position.x;
+        point.y = this.position.y;
+    }
+
+    return point;
+};
+
+module.exports = {};
+
+},{"../core/display/DisplayObject":15,"../core/math/Point":22}],76:[function(require,module,exports){
 /**
  * @file        Main export of the PIXI extras library
  * @author      Mat Groves <mat@goodboydigital.com>
@@ -17168,11 +18289,13 @@ module.exports = {
     Ticker:         require('./Ticker'),
     MovieClip:      require('./MovieClip'),
     TilingSprite:   require('./TilingSprite'),
+    BitmapText:     require('./BitmapText'),
     cacheAsBitmap:  require('./cacheAsBitmap'),
-    getChildByName: require('./getChildByName')
+    getChildByName: require('./getChildByName'),
+    getGlobalPosition: require('./getGlobalPosition')
 };
 
-},{"./MovieClip":68,"./Ticker":69,"./TilingSprite":70,"./cacheAsBitmap":71,"./getChildByName":72}],74:[function(require,module,exports){
+},{"./BitmapText":69,"./MovieClip":70,"./Ticker":71,"./TilingSprite":72,"./cacheAsBitmap":73,"./getChildByName":74,"./getGlobalPosition":75}],77:[function(require,module,exports){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
 
@@ -17229,7 +18352,7 @@ Object.defineProperties(AsciiFilter.prototype, {
     }
 });
 
-},{"../../core":20}],75:[function(require,module,exports){
+},{"../../core":20}],78:[function(require,module,exports){
 var core = require('../../core'),
     BlurXFilter = require('../blur/BlurXFilter'),
     BlurYFilter = require('../blur/BlurYFilter');
@@ -17265,11 +18388,11 @@ BloomFilter.prototype.applyFilter = function (renderer, input, output)
 
     this.blurXFilter.applyFilter(renderer, input, renderTarget);
 
-    renderer.blendModeManager.setBlendMode(core.CONST.BLEND_MODES.SCREEN);
+    renderer.blendModeManager.setBlendMode(core.BLEND_MODES.SCREEN);
 
     this.blurYFilter.applyFilter(renderer, renderTarget, output);
 
-    renderer.blendModeManager.setBlendMode(core.CONST.BLEND_MODES.NORMAL);
+    renderer.blendModeManager.setBlendMode(core.BLEND_MODES.NORMAL);
 
     renderer.filterManager.returnRenderTarget(renderTarget);
 };
@@ -17330,7 +18453,7 @@ Object.defineProperties(BloomFilter.prototype, {
     }
 });
 
-},{"../../core":20,"../blur/BlurXFilter":77,"../blur/BlurYFilter":78}],76:[function(require,module,exports){
+},{"../../core":20,"../blur/BlurXFilter":80,"../blur/BlurYFilter":81}],79:[function(require,module,exports){
 var core = require('../../core'),
     BlurXFilter = require('./BlurXFilter'),
     BlurYFilter = require('./BlurYFilter');
@@ -17442,7 +18565,7 @@ Object.defineProperties(BlurFilter.prototype, {
     }
 });
 
-},{"../../core":20,"./BlurXFilter":77,"./BlurYFilter":78}],77:[function(require,module,exports){
+},{"../../core":20,"./BlurXFilter":80,"./BlurYFilter":81}],80:[function(require,module,exports){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
 
@@ -17536,7 +18659,7 @@ Object.defineProperties(BlurXFilter.prototype, {
     },
 });
 
-},{"../../core":20}],78:[function(require,module,exports){
+},{"../../core":20}],81:[function(require,module,exports){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
 
@@ -17622,7 +18745,7 @@ Object.defineProperties(BlurYFilter.prototype, {
     },
 });
 
-},{"../../core":20}],79:[function(require,module,exports){
+},{"../../core":20}],82:[function(require,module,exports){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
 
@@ -17648,7 +18771,7 @@ SmartBlurFilter.prototype = Object.create(core.AbstractFilter.prototype);
 SmartBlurFilter.prototype.constructor = SmartBlurFilter;
 module.exports = SmartBlurFilter;
 
-},{"../../core":20}],80:[function(require,module,exports){
+},{"../../core":20}],83:[function(require,module,exports){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
 
@@ -18207,7 +19330,7 @@ Object.defineProperties(ColorMatrixFilter.prototype, {
     }
 });
 
-},{"../../core":20}],81:[function(require,module,exports){
+},{"../../core":20}],84:[function(require,module,exports){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
 
@@ -18256,7 +19379,7 @@ Object.defineProperties(ColorStepFilter.prototype, {
     }
 });
 
-},{"../../core":20}],82:[function(require,module,exports){
+},{"../../core":20}],85:[function(require,module,exports){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
 
@@ -18347,7 +19470,7 @@ Object.defineProperties(ConvolutionFilter.prototype, {
     }
 });
 
-},{"../../core":20}],83:[function(require,module,exports){
+},{"../../core":20}],86:[function(require,module,exports){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
 
@@ -18373,7 +19496,7 @@ CrossHatchFilter.prototype = Object.create(core.AbstractFilter.prototype);
 CrossHatchFilter.prototype.constructor = CrossHatchFilter;
 module.exports = CrossHatchFilter;
 
-},{"../../core":20}],84:[function(require,module,exports){
+},{"../../core":20}],87:[function(require,module,exports){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
 
@@ -18454,7 +19577,7 @@ Object.defineProperties(DisplacementFilter.prototype, {
     }
 });
 
-},{"../../core":20}],85:[function(require,module,exports){
+},{"../../core":20}],88:[function(require,module,exports){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
 
@@ -18526,7 +19649,7 @@ Object.defineProperties(DotScreenFilter.prototype, {
     }
 });
 
-},{"../../core":20}],86:[function(require,module,exports){
+},{"../../core":20}],89:[function(require,module,exports){
 var core = require('../../core');
 
 // @see https://github.com/substack/brfs/issues/25
@@ -18617,7 +19740,7 @@ Object.defineProperties(BlurYTintFilter.prototype, {
     },
 });
 
-},{"../../core":20}],87:[function(require,module,exports){
+},{"../../core":20}],90:[function(require,module,exports){
 var core = require('../../core'),
     BlurXFilter = require('../blur/BlurXFilter'),
     BlurYTintFilter = require('./BlurYTintFilter');
@@ -18646,7 +19769,7 @@ function DropShadowFilter()
     this._distance = 10;
     this.alpha = 0.75;
     this.hideObject = false;
-    this.blendMode = core.CONST.BLEND_MODES.MULTIPLY;
+    this.blendMode = core.BLEND_MODES.MULTIPLY;
 }
 
 DropShadowFilter.prototype = Object.create(core.AbstractFilter.prototype);
@@ -18672,7 +19795,7 @@ DropShadowFilter.prototype.applyFilter = function (renderer, input, output)
 
     this.blurYTintFilter.applyFilter(renderer, renderTarget, output);
 
-    renderer.blendModeManager.setBlendMode(core.CONST.BLEND_MODES.NORMAL);
+    renderer.blendModeManager.setBlendMode(core.BLEND_MODES.NORMAL);
 
     if(!this.hideObject)
     {
@@ -18786,7 +19909,7 @@ Object.defineProperties(DropShadowFilter.prototype, {
     }
 });
 
-},{"../../core":20,"../blur/BlurXFilter":77,"./BlurYTintFilter":86}],88:[function(require,module,exports){
+},{"../../core":20,"../blur/BlurXFilter":80,"./BlurYTintFilter":89}],91:[function(require,module,exports){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
 
@@ -18835,7 +19958,7 @@ Object.defineProperties(GrayFilter.prototype, {
     }
 });
 
-},{"../../core":20}],89:[function(require,module,exports){
+},{"../../core":20}],92:[function(require,module,exports){
 /**
  * @file        Main export of the PIXI filters library
  * @author      Mat Groves <mat@goodboydigital.com>
@@ -18879,7 +20002,7 @@ module.exports = {
     TwistFilter:        require('./twist/TwistFilter')
 };
 
-},{"../core/renderers/webgl/filters/AbstractFilter":40,"../core/renderers/webgl/filters/FXAAFilter":41,"../core/renderers/webgl/filters/SpriteMaskFilter":42,"./ascii/AsciiFilter":74,"./bloom/BloomFilter":75,"./blur/BlurFilter":76,"./blur/BlurXFilter":77,"./blur/BlurYFilter":78,"./blur/SmartBlurFilter":79,"./color/ColorMatrixFilter":80,"./color/ColorStepFilter":81,"./convolution/ConvolutionFilter":82,"./crosshatch/CrossHatchFilter":83,"./displacement/DisplacementFilter":84,"./dot/DotScreenFilter":85,"./dropshadow/DropShadowFilter":87,"./gray/GrayFilter":88,"./invert/InvertFilter":90,"./noise/NoiseFilter":91,"./normal/NormalMapFilter":92,"./pixelate/PixelateFilter":93,"./rgb/RGBSplitFilter":94,"./sepia/SepiaFilter":95,"./shockwave/ShockwaveFilter":96,"./tiltshift/TiltShiftFilter":98,"./tiltshift/TiltShiftXFilter":99,"./tiltshift/TiltShiftYFilter":100,"./twist/TwistFilter":101}],90:[function(require,module,exports){
+},{"../core/renderers/webgl/filters/AbstractFilter":40,"../core/renderers/webgl/filters/FXAAFilter":41,"../core/renderers/webgl/filters/SpriteMaskFilter":42,"./ascii/AsciiFilter":77,"./bloom/BloomFilter":78,"./blur/BlurFilter":79,"./blur/BlurXFilter":80,"./blur/BlurYFilter":81,"./blur/SmartBlurFilter":82,"./color/ColorMatrixFilter":83,"./color/ColorStepFilter":84,"./convolution/ConvolutionFilter":85,"./crosshatch/CrossHatchFilter":86,"./displacement/DisplacementFilter":87,"./dot/DotScreenFilter":88,"./dropshadow/DropShadowFilter":90,"./gray/GrayFilter":91,"./invert/InvertFilter":93,"./noise/NoiseFilter":94,"./normal/NormalMapFilter":95,"./pixelate/PixelateFilter":96,"./rgb/RGBSplitFilter":97,"./sepia/SepiaFilter":98,"./shockwave/ShockwaveFilter":99,"./tiltshift/TiltShiftFilter":101,"./tiltshift/TiltShiftXFilter":102,"./tiltshift/TiltShiftYFilter":103,"./twist/TwistFilter":104}],93:[function(require,module,exports){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
 
@@ -18929,7 +20052,7 @@ Object.defineProperties(InvertFilter.prototype, {
     }
 });
 
-},{"../../core":20}],91:[function(require,module,exports){
+},{"../../core":20}],94:[function(require,module,exports){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
 
@@ -18984,7 +20107,7 @@ Object.defineProperties(NoiseFilter.prototype, {
     }
 });
 
-},{"../../core":20}],92:[function(require,module,exports){
+},{"../../core":20}],95:[function(require,module,exports){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
 
@@ -19097,7 +20220,7 @@ Object.defineProperties(NormalMapFilter.prototype, {
     }
 });
 
-},{"../../core":20}],93:[function(require,module,exports){
+},{"../../core":20}],96:[function(require,module,exports){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
 
@@ -19148,7 +20271,7 @@ Object.defineProperties(PixelateFilter.prototype, {
     }
 });
 
-},{"../../core":20}],94:[function(require,module,exports){
+},{"../../core":20}],97:[function(require,module,exports){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
 
@@ -19234,7 +20357,7 @@ Object.defineProperties(RGBSplitFilter.prototype, {
     }
 });
 
-},{"../../core":20}],95:[function(require,module,exports){
+},{"../../core":20}],98:[function(require,module,exports){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
 
@@ -19284,7 +20407,7 @@ Object.defineProperties(SepiaFilter.prototype, {
     }
 });
 
-},{"../../core":20}],96:[function(require,module,exports){
+},{"../../core":20}],99:[function(require,module,exports){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
 
@@ -19372,7 +20495,7 @@ Object.defineProperties(ShockwaveFilter.prototype, {
     }
 });
 
-},{"../../core":20}],97:[function(require,module,exports){
+},{"../../core":20}],100:[function(require,module,exports){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
 
@@ -19497,7 +20620,7 @@ Object.defineProperties(TiltShiftAxisFilter.prototype, {
     }
 });
 
-},{"../../core":20}],98:[function(require,module,exports){
+},{"../../core":20}],101:[function(require,module,exports){
 var core = require('../../core'),
     TiltShiftXFilter = require('./TiltShiftXFilter'),
     TiltShiftYFilter = require('./TiltShiftYFilter');
@@ -19607,7 +20730,7 @@ Object.defineProperties(TiltShiftFilter.prototype, {
     }
 });
 
-},{"../../core":20,"./TiltShiftXFilter":99,"./TiltShiftYFilter":100}],99:[function(require,module,exports){
+},{"../../core":20,"./TiltShiftXFilter":102,"./TiltShiftYFilter":103}],102:[function(require,module,exports){
 var TiltShiftAxisFilter = require('./TiltShiftAxisFilter');
 
 /**
@@ -19645,7 +20768,7 @@ TiltShiftXFilter.prototype.updateDelta = function ()
     this.uniforms.delta.value.y = dy / d;
 };
 
-},{"./TiltShiftAxisFilter":97}],100:[function(require,module,exports){
+},{"./TiltShiftAxisFilter":100}],103:[function(require,module,exports){
 var TiltShiftAxisFilter = require('./TiltShiftAxisFilter');
 
 /**
@@ -19683,7 +20806,7 @@ TiltShiftYFilter.prototype.updateDelta = function ()
     this.uniforms.delta.value.y = dx / d;
 };
 
-},{"./TiltShiftAxisFilter":97}],101:[function(require,module,exports){
+},{"./TiltShiftAxisFilter":100}],104:[function(require,module,exports){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
 
@@ -19768,7 +20891,7 @@ Object.defineProperties(TwistFilter.prototype, {
     }
 });
 
-},{"../../core":20}],102:[function(require,module,exports){
+},{"../../core":20}],105:[function(require,module,exports){
 var core = require('../core');
 
 /**
@@ -19784,7 +20907,7 @@ function InteractionData()
      *
      * @member {Point}
      */
-    this.global = new core.math.Point();
+    this.global = new core.Point();
 
     /**
      * The target Sprite that was interacted with
@@ -19831,7 +20954,7 @@ InteractionData.prototype.getLocalPosition = function (displayObject, point, glo
     return point;
 };
 
-},{"../core":20}],103:[function(require,module,exports){
+},{"../core":20}],106:[function(require,module,exports){
 var core = require('../core'),
     InteractionData = require('./InteractionData');
 
@@ -19978,7 +21101,7 @@ function InteractionManager(renderer, options)
      * @member {Point}
      * @private
      */
-    this._tempPoint = new core.math.Point();
+    this._tempPoint = new core.Point();
 
     /**
      * The current resolution
@@ -20678,7 +21801,7 @@ InteractionManager.prototype.destroy = function () {
 core.WebGLRenderer.registerPlugin('interaction', InteractionManager);
 core.CanvasRenderer.registerPlugin('interaction', InteractionManager);
 
-},{"../core":20,"./InteractionData":102}],104:[function(require,module,exports){
+},{"../core":20,"./InteractionData":105}],107:[function(require,module,exports){
 /**
  * @file        Main export of the PIXI interactions library
  * @author      Mat Groves <mat@goodboydigital.com>
@@ -20695,7 +21818,7 @@ module.exports = {
     interactiveTarget: require('./interactiveTarget')
 };
 
-},{"./InteractionData":102,"./InteractionManager":103,"./interactiveTarget":105}],105:[function(require,module,exports){
+},{"./InteractionData":105,"./InteractionManager":106,"./interactiveTarget":108}],108:[function(require,module,exports){
 var core = require('../core');
 
 
@@ -20710,35 +21833,26 @@ core.DisplayObject.prototype._touchDown = false;
 
 module.exports = {};
 
-},{"../core":20}],106:[function(require,module,exports){
+},{"../core":20}],109:[function(require,module,exports){
 var Resource = require('resource-loader').Resource,
     core = require('../core'),
-    text = require('../text'),
+    extras = require('../extras'),
     path = require('path');
 
 module.exports = function ()
 {
     return function (resource, next)
     {
-        if (!resource.data || navigator.isCocoonJS)
+        // skip if no data
+        if (!resource.data)
         {
-            if (window.DOMParser)
-            {
-                var domparser = new DOMParser();
-                resource.data = domparser.parseFromString(this.xhr.responseText, 'text/xml');
-            }
-            else
-            {
-                var div = document.createElement('div');
-                div.innerHTML = this.xhr.responseText;
-                resource.data = div;
-            }
+            return next();
         }
 
-        var name = resource.data.nodeName;
+        var name = resource.data.nodeName && resource.data.nodeName.toLowerCase();
 
         // skip if not xml data
-        if (!resource.data || !name || (name.toLowerCase() !== '#document' && name.toLowerCase() !== 'div'))
+        if (!name || (name !== '#document' && name !== 'div'))
         {
             return next();
         }
@@ -20832,14 +21946,14 @@ module.exports = function ()
 
             // I'm leaving this as a temporary fix so we can test the bitmap fonts in v3
             // but it's very likely to change
-            text.BitmapText.fonts[data.font] = data;
+            extras.BitmapText.fonts[data.font] = data;
 
             next();
         });
     };
 };
 
-},{"../core":20,"../text":125,"path":2,"resource-loader":8}],107:[function(require,module,exports){
+},{"../core":20,"../extras":76,"path":2,"resource-loader":9}],110:[function(require,module,exports){
 /**
  * @file        Main export of the PIXI loaders library
  * @author      Mat Groves <mat@goodboydigital.com>
@@ -20860,10 +21974,7 @@ module.exports = {
     textureParser:      require('./textureParser')
 };
 
-
-module.exports.loader = new module.exports.Loader();
-
-},{"./bitmapFontParser":106,"./loader":108,"./spineAtlasParser":109,"./spritesheetParser":110,"./textureParser":111}],108:[function(require,module,exports){
+},{"./bitmapFontParser":109,"./loader":111,"./spineAtlasParser":112,"./spritesheetParser":113,"./textureParser":114}],111:[function(require,module,exports){
 var ResourceLoader = require('resource-loader'),
     textureParser = require('./textureParser'),
     spritesheetParser = require('./spritesheetParser'),
@@ -20887,36 +21998,35 @@ var ResourceLoader = require('resource-loader'),
  * @class
  * @extends ResourceLoader
  * @memberof PIXI.loaders
+ * @param [baseUrl=''] {string} The base url for all resources loaded by this loader.
+ * @param [concurrency=10] {number} The number of resources to load concurrently.
  */
-var Loader = function()
+function Loader(baseUrl, concurrency)
 {
-    ResourceLoader.call(this);
-
-     // parse any json strings into objects
-    this.use(ResourceLoader.middleware.parsing.json())
+    ResourceLoader.call(this, baseUrl, concurrency);
 
     // parse any blob into more usable objects (e.g. Image)
-    .use(ResourceLoader.middleware.parsing.blob())
+    this.use(ResourceLoader.middleware.parsing.blob());
 
     // parse any Image objects into textures
-    .use(textureParser())
+    this.use(textureParser());
 
     // parse any spritesheet data into multiple textures
-    .use(spritesheetParser())
+    this.use(spritesheetParser());
 
     // parse any spine data into a spine object
-    .use(spineAtlasParser())
+    this.use(spineAtlasParser());
 
     // parse any spritesheet data into multiple textures
-    .use(bitmapFontParser());
-};
+    this.use(bitmapFontParser());
+}
 
 Loader.prototype = Object.create(ResourceLoader.prototype);
 Loader.prototype.constructor = Loader;
 
 module.exports = Loader;
 
-},{"./bitmapFontParser":106,"./spineAtlasParser":109,"./spritesheetParser":110,"./textureParser":111,"resource-loader":8}],109:[function(require,module,exports){
+},{"./bitmapFontParser":109,"./spineAtlasParser":112,"./spritesheetParser":113,"./textureParser":114,"resource-loader":9}],112:[function(require,module,exports){
 var Resource = require('resource-loader').Resource,
     async = require('async'),
     spine = require('../spine');
@@ -20925,56 +22035,55 @@ module.exports = function ()
 {
     return function (resource, next)
     {
-        // if this is a spritesheet object
-        if (resource.data && resource.data.bones)
+        // skip if no data
+        if (!resource.data || !resource.data.bones)
         {
-            /**
-             * use a bit of hackery to load the atlas file, here we assume that the .json, .atlas and .png files
-             * that correspond to the spine file are in the same base URL and that the .json and .atlas files
-             * have the same name
-             */
-            var atlasPath = resource.url.substr(0, resource.url.lastIndexOf('.')) + '.atlas';
-            var atlasOptions = {
-                crossOrigin: resource.crossOrigin,
-                xhrType: Resource.XHR_RESPONSE_TYPE.TEXT
-            };
-            var baseUrl = resource.url.substr(0, resource.url.lastIndexOf('/') + 1);
+            return next();
+        }
+
+        /**
+         * use a bit of hackery to load the atlas file, here we assume that the .json, .atlas and .png files
+         * that correspond to the spine file are in the same base URL and that the .json and .atlas files
+         * have the same name
+         */
+        var atlasPath = resource.url.substr(0, resource.url.lastIndexOf('.')) + '.atlas';
+        var atlasOptions = {
+            crossOrigin: resource.crossOrigin,
+            xhrType: Resource.XHR_RESPONSE_TYPE.TEXT
+        };
+        var baseUrl = resource.url.substr(0, resource.url.lastIndexOf('/') + 1);
 
 
-            this.add(resource.name + '_atlas', atlasPath, atlasOptions, function (res)
+        this.add(resource.name + '_atlas', atlasPath, atlasOptions, function (res)
+        {
+            // create a spine atlas using the loaded text
+            var spineAtlas = new spine.SpineRuntime.Atlas(this.xhr.responseText, baseUrl, res.crossOrigin);
+
+            // spine animation
+            var spineJsonParser = new spine.SpineRuntime.SkeletonJsonParser(new spine.SpineRuntime.AtlasAttachmentParser(spineAtlas));
+            var skeletonData = spineJsonParser.readSkeletonData(resource.data);
+
+            resource.spineData = skeletonData;
+            resource.spineAtlas = spineAtlas;
+
+            // Go through each spineAtlas.pages and wait for page.rendererObject (a baseTexture) to
+            // load. Once all loaded, then call the next function.
+            async.each(spineAtlas.pages, function (page, done)
             {
-                // create a spine atlas using the loaded text
-                var spineAtlas = new spine.SpineRuntime.Atlas(this.xhr.responseText, baseUrl, res.crossOrigin);
-
-                // spine animation
-                var spineJsonParser = new spine.SpineRuntime.SkeletonJsonParser(new spine.SpineRuntime.AtlasAttachmentParser(spineAtlas));
-                var skeletonData = spineJsonParser.readSkeletonData(resource.data);
-
-                resource.spineData = skeletonData;
-                resource.spineAtlas = spineAtlas;
-
-                // Go through each spineAtlas.pages and wait for page.rendererObject (a baseTexture) to
-                // load. Once all loaded, then call the next function.
-                async.each(spineAtlas.pages, function (page, done)
+                if (page.rendererObject.hasLoaded)
                 {
-                    if (page.rendererObject.hasLoaded)
-                    {
-                        done();
-                    }
-                    else
-                    {
-                        page.rendererObject.once('loaded', done);
-                    }
-                }, next);
-            });
-        }
-        else {
-            next();
-        }
+                    done();
+                }
+                else
+                {
+                    page.rendererObject.once('loaded', done);
+                }
+            }, next);
+        });
     };
 };
 
-},{"../spine":122,"async":1,"resource-loader":8}],110:[function(require,module,exports){
+},{"../spine":125,"async":1,"resource-loader":9}],113:[function(require,module,exports){
 var Resource = require('resource-loader').Resource,
     path = require('path'),
     core = require('../core');
@@ -20983,82 +22092,81 @@ module.exports = function ()
 {
     return function (resource, next)
     {
-        // if this is a spritesheet object
-        if (resource.data && resource.data.frames)
+        // skip if no data
+        if (!resource.data || !resource.data.frames)
         {
-            var loadOptions = {
-                crossOrigin: resource.crossOrigin,
-                loadType: Resource.LOAD_TYPE.IMAGE
-            };
+            return next();
+        }
 
-            var route = path.dirname(resource.url.replace(this.baseUrl, ''));
+        var loadOptions = {
+            crossOrigin: resource.crossOrigin,
+            loadType: Resource.LOAD_TYPE.IMAGE
+        };
 
-            var resolution = core.utils.getResolutionOfUrl( resource.url );
+        var route = path.dirname(resource.url.replace(this.baseUrl, ''));
 
-            // load the image for this sheet
-            this.add(resource.name + '_image', route + '/' + resource.data.meta.image, loadOptions, function (res)
+        var resolution = core.utils.getResolutionOfUrl( resource.url );
+
+        // load the image for this sheet
+        this.add(resource.name + '_image', route + '/' + resource.data.meta.image, loadOptions, function (res)
+        {
+            resource.textures = {};
+
+            var frames = resource.data.frames;
+
+            for (var i in frames)
             {
-                resource.textures = {};
+                var rect = frames[i].frame;
 
-                var frames = resource.data.frames;
-
-                for (var i in frames)
+                if (rect)
                 {
-                    var rect = frames[i].frame;
+                    var size = null;
+                    var trim = null;
 
-                    if (rect)
-                    {
-                        var size = null;
-                        var trim = null;
-
-                        if (frames[i].rotated) {
-                            size = new core.math.Rectangle(rect.x, rect.y, rect.h, rect.w);
-                        }
-                        else {
-                            size = new core.math.Rectangle(rect.x, rect.y, rect.w, rect.h);
-                        }
-
-                        //  Check to see if the sprite is trimmed
-                        if (frames[i].trimmed)
-                        {
-                            trim = new core.math.Rectangle(
-                                frames[i].spriteSourceSize.x / resolution,
-                                frames[i].spriteSourceSize.y / resolution,
-                                frames[i].sourceSize.w / resolution,
-                                frames[i].sourceSize.h / resolution
-                             );
-                        }
-
-                        // flip the width and height!
-                        if (frames[i].rotated)
-                        {
-                            var temp = size.width;
-                            size.width = size.height;
-                            size.height = temp;
-                        }
-
-                        size.x /= resolution;
-                        size.y /= resolution;
-                        size.width /= resolution;
-                        size.height /= resolution;
-
-                        resource.textures[i] = new core.Texture(res.texture.baseTexture, size, size.clone(), trim, frames[i].rotated);
-
-                        // lets also add the frame to pixi's global cache for fromFrame and fromImage fucntions
-                        core.utils.TextureCache[i] = resource.textures[i];
+                    if (frames[i].rotated) {
+                        size = new core.math.Rectangle(rect.x, rect.y, rect.h, rect.w);
                     }
-                }
+                    else {
+                        size = new core.math.Rectangle(rect.x, rect.y, rect.w, rect.h);
+                    }
 
-                next();
-            });
-        }
-        else {
+                    //  Check to see if the sprite is trimmed
+                    if (frames[i].trimmed)
+                    {
+                        trim = new core.math.Rectangle(
+                            frames[i].spriteSourceSize.x / resolution,
+                            frames[i].spriteSourceSize.y / resolution,
+                            frames[i].sourceSize.w / resolution,
+                            frames[i].sourceSize.h / resolution
+                         );
+                    }
+
+                    // flip the width and height!
+                    if (frames[i].rotated)
+                    {
+                        var temp = size.width;
+                        size.width = size.height;
+                        size.height = temp;
+                    }
+
+                    size.x /= resolution;
+                    size.y /= resolution;
+                    size.width /= resolution;
+                    size.height /= resolution;
+
+                    resource.textures[i] = new core.Texture(res.texture.baseTexture, size, size.clone(), trim, frames[i].rotated);
+
+                    // lets also add the frame to pixi's global cache for fromFrame and fromImage fucntions
+                    core.utils.TextureCache[i] = resource.textures[i];
+                }
+            }
+
             next();
-        }
+        });
     };
 };
 
-},{"../core":20,"path":2,"resource-loader":8}],111:[function(require,module,exports){
+},{"../core":20,"path":2,"resource-loader":9}],114:[function(require,module,exports){
 var core = require('../core');
 
 module.exports = function ()
@@ -21077,14 +22185,14 @@ module.exports = function ()
     };
 };
 
-},{"../core":20}],112:[function(require,module,exports){
+},{"../core":20}],115:[function(require,module,exports){
 var core = require('../core');
 
 /**
  * Base mesh class
  * @class
  * @extends Container
- * @memberof PIXI.extras
+ * @memberof PIXI.mesh
  * @param texture {Texture} The texture to use
  * @param [vertices] {Float32Arrif you want to specify the vertices
  * @param [uvs] {Float32Array} if you want to specify the uvs
@@ -21141,7 +22249,7 @@ function Mesh(texture, vertices, uvs, indices, drawMode)
      * @member {number}
      * @default CONST.BLEND_MODES.NORMAL;
      */
-    this.blendMode = core.CONST.BLEND_MODES.NORMAL;
+    this.blendMode = core.BLEND_MODES.NORMAL;
 
     /**
      * Triangles in canvas mode are automatically antialiased, use this value to force triangles to overlap a bit with each other.
@@ -21468,7 +22576,7 @@ Mesh.DRAW_MODES = {
     TRIANGLES: 1
 };
 
-},{"../core":20}],113:[function(require,module,exports){
+},{"../core":20}],116:[function(require,module,exports){
 var Mesh = require('./Mesh');
 
 /**
@@ -21483,7 +22591,7 @@ var Mesh = require('./Mesh');
  *
  * @class
  * @extends Mesh
- * @memberof PIXI.extras
+ * @memberof PIXI.mesh
  * @param {Texture} texture - The texture to use on the rope.
  * @param {Array} points - An array of {Point} objects to construct this rope.
  *
@@ -21662,7 +22770,7 @@ Rope.prototype.updateTransform = function ()
     this.containerUpdateTransform();
 };
 
-},{"./Mesh":112}],114:[function(require,module,exports){
+},{"./Mesh":115}],117:[function(require,module,exports){
 /**
  * @file        Main export of the PIXI extras library
  * @author      Mat Groves <mat@goodboydigital.com>
@@ -21671,16 +22779,16 @@ Rope.prototype.updateTransform = function ()
  */
 
 /**
- * @namespace PIXI.extras
+ * @namespace PIXI.mesh
  */
 module.exports = {
-    Mesh:          require('./Mesh'),
+    Mesh:           require('./Mesh'),
     Rope:           require('./Rope'),
     MeshRenderer:   require('./webgl/MeshRenderer'),
-    MeshShader:    require('./webgl/MeshShader')
+    MeshShader:     require('./webgl/MeshShader')
 };
 
-},{"./Mesh":112,"./Rope":113,"./webgl/MeshRenderer":115,"./webgl/MeshShader":116}],115:[function(require,module,exports){
+},{"./Mesh":115,"./Rope":116,"./webgl/MeshRenderer":118,"./webgl/MeshShader":119}],118:[function(require,module,exports){
 var ObjectRenderer = require('../../core/renderers/webgl/utils/ObjectRenderer'),
     WebGLRenderer = require('../../core/renderers/webgl/WebGLRenderer');
 
@@ -21699,7 +22807,7 @@ var ObjectRenderer = require('../../core/renderers/webgl/utils/ObjectRenderer'),
  *
  * @class
  * @private
- * @memberof PIXI
+ * @memberof PIXI.mesh
  * @extends ObjectRenderer
  * @param renderer {WebGLRenderer} The renderer this sprite batch works for.
  */
@@ -21890,13 +22998,13 @@ MeshRenderer.prototype.destroy = function ()
 {
 };
 
-},{"../../core/renderers/webgl/WebGLRenderer":39,"../../core/renderers/webgl/utils/ObjectRenderer":53}],116:[function(require,module,exports){
+},{"../../core/renderers/webgl/WebGLRenderer":39,"../../core/renderers/webgl/utils/ObjectRenderer":53}],119:[function(require,module,exports){
 var core = require('../../core');
 
 /**
  * @class
  * @extends Shader
- * @memberof PIXI.extras
+ * @memberof PIXI.mesh
  * @param shaderManager {ShaderManager} The WebGL shader manager this shader works for.
  */
 function StripShader(shaderManager)
@@ -21951,7 +23059,7 @@ module.exports = StripShader;
 
 core.ShaderManager.registerPlugin('meshShader', StripShader);
 
-},{"../../core":20}],117:[function(require,module,exports){
+},{"../../core":20}],120:[function(require,module,exports){
 // References:
 // https://github.com/sindresorhus/object-assign
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
@@ -21961,11 +23069,11 @@ if (!Object.assign)
     Object.assign = require('object-assign');
 }
 
-},{"object-assign":5}],118:[function(require,module,exports){
+},{"object-assign":5}],121:[function(require,module,exports){
 require('./Object.assign');
 require('./requestAnimationFrame');
 
-},{"./Object.assign":117,"./requestAnimationFrame":119}],119:[function(require,module,exports){
+},{"./Object.assign":120,"./requestAnimationFrame":122}],122:[function(require,module,exports){
 (function (global){
 // References:
 // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
@@ -22036,7 +23144,7 @@ if (!global.cancelAnimationFrame) {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],120:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 var core = require('../core'),
     spine = require('./SpineRuntime');
 
@@ -22342,7 +23450,7 @@ Spine.prototype.createMesh = function (slot, attachment)
     return strip;
 };
 
-},{"../core":20,"./SpineRuntime":121}],121:[function(require,module,exports){
+},{"../core":20,"./SpineRuntime":124}],124:[function(require,module,exports){
 /******************************************************************************
  * Spine Runtimes Software License
  * Version 2.1
@@ -25309,7 +26417,7 @@ spine.SkeletonBounds.prototype = {
 	}
 };
 
-},{"../core":20}],122:[function(require,module,exports){
+},{"../core":20}],125:[function(require,module,exports){
 /**
  * @file        Main export of the PIXI spine library
  * @author      Mat Groves <mat@goodboydigital.com>
@@ -25325,983 +26433,27 @@ module.exports = {
     SpineRuntime:    require('./SpineRuntime')
 };
 
-},{"./Spine":120,"./SpineRuntime":121}],123:[function(require,module,exports){
-var core = require('../core');
-
-/**
- * A BitmapText object will create a line or multiple lines of text using bitmap font. To
- * split a line you can use '\n', '\r' or '\r\n' in your string. You can generate the fnt files using:
- *
- * A BitmapText can only be created when the font is loaded
- *
- * ```js
- * // in this case the font is in a file called 'desyrel.fnt'
- * var bitmapText = new PIXI.BitmapText("text using a fancy font!", {font: "35px Desyrel", align: "right"});
- * ```
- *
- *
- * http://www.angelcode.com/products/bmfont/ for windows or
- * http://www.bmglyph.com/ for mac.
- *
- * @class
- * @extends Container
- * @memberof PIXI.text
- * @param text {string} The copy that you would like the text to display
- * @param style {object} The style parameters
- * @param style.font {string|object} The font descriptor for the object, can be passed as a string of form
- *      "24px FontName" or "FontName" or as an object with explicit name/size properties.
- * @param [style.font.name] {string} The bitmap font id
- * @param [style.font.size] {number} The size of the font in pixels, e.g. 24
- * @param [style.align='left'] {string} Alignment for multiline text ('left', 'center' or 'right'), does not affect
- *      single line text
- * @param [style.tint=0xFFFFFF] {number} The tint color
- */
-function BitmapText(text, style)
-{
-    core.Container.call(this);
-
-    /**
-     * The width of the overall text, different from fontSize,
-     * which is defined in the style object
-     *
-     * @member {number}
-     * @readOnly
-     */
-    this.textWidth = 0;
-
-    /**
-     * The height of the overall text, different from fontSize,
-     * which is defined in the style object
-     *
-     * @member {number}
-     * @readOnly
-     */
-    this.textHeight = 0;
-
-    /**
-     * Private tracker for the letter sprite pool.
-     *
-     * @member {Sprite[]}
-     * @private
-     */
-    this._glyphs = [];
-
-    /**
-     * Private tracker for the current style.
-     *
-     * @member {object}
-     * @private
-     */
-    this._font = {
-        tint: style.tint !== undefined ? style.tint : 0xFFFFFF,
-        align: style.align || 'left',
-        name: null,
-        size: 0
-    };
-
-    /**
-     * Private tracker for the current font.
-     *
-     * @member {object}
-     * @private
-     */
-    this.font = style.font; // run font setter
-
-    /**
-     * Private tracker for the current text.
-     *
-     * @member {string}
-     * @private
-     */
-    this._text = text;
-
-    /**
-     * The max width of this bitmap text in pixels. If the text provided is longer than the value provided, line breaks will be automatically inserted in the last whitespace.
-     * Disable by setting value to 0
-     *
-     * @member {number}
-     */
-    this.maxWidth = 0;
-
-    /**
-     * The dirty state of this object.
-     *
-     * @member {boolean}
-     */
-    this.dirty = false;
-
-    this.updateText();
-}
-
-// constructor
-BitmapText.prototype = Object.create(core.Container.prototype);
-BitmapText.prototype.constructor = BitmapText;
-module.exports = BitmapText;
-
-Object.defineProperties(BitmapText.prototype, {
-    /**
-     * The tint of the BitmapText object
-     *
-     * @member {number}
-     * @memberof BitmapText#
-     */
-    tint: {
-        get: function ()
-        {
-            return this._font.tint;
-        },
-        set: function (value)
-        {
-            this._font.tint = (typeof value === 'number' && value >= 0) ? value : 0xFFFFFF;
-
-            this.dirty = true;
-        }
-    },
-
-    /**
-     * The alignment of the BitmapText object
-     *
-     * @member {string}
-     * @default 'left'
-     * @memberof BitmapText#
-     */
-    align: {
-        get: function ()
-        {
-            return this._font.align;
-        },
-        set: function (value)
-        {
-            this._font.align = value;
-
-            this.dirty = true;
-        }
-    },
-
-    /**
-     * The font descriptor of the BitmapText object
-     *
-     * @member {Font}
-     * @memberof BitmapText#
-     */
-    font: {
-        get: function ()
-        {
-            return this._font;
-        },
-        set: function (value)
-        {
-            if (typeof value === 'string') {
-                value = value.split(' ');
-
-                this._font.name = value.length === 1 ? value[0] : value.slice(1).join(' ');
-                this._font.size = value.length >= 2 ? parseInt(value[0], 10) : BitmapText.fonts[this._font.name].size;
-            }
-            else {
-                this._font.name = value.name;
-                this._font.size = typeof value.size === 'number' ? value.size : parseInt(value.size, 10);
-            }
-
-            this.dirty = true;
-        }
-    },
-
-    /**
-     * The text of the BitmapText object
-     *
-     * @member {string}
-     * @memberof BitmapText#
-     */
-    text: {
-        get: function ()
-        {
-            return this._text;
-        },
-        set: function (value)
-        {
-            this._text = value;
-
-            this.dirty = true;
-        }
-    }
-});
-
-/**
- * Renders text and updates it when needed
- *
- * @private
- */
-BitmapText.prototype.updateText = function ()
-{
-    var data = BitmapText.fonts[this._font.name];
-    var pos = new core.math.Point();
-    var prevCharCode = null;
-    var chars = [];
-    var lastLineWidth = 0;
-    var maxLineWidth = 0;
-    var lineWidths = [];
-    var line = 0;
-    var scale = this._font.size / data.size;
-    var lastSpace = -1;
-
-    for (var i = 0; i < this.text.length; i++)
-    {
-        var charCode = this.text.charCodeAt(i);
-        lastSpace = /(\s)/.test(this.text.charAt(i)) ? i : lastSpace;
-
-        if (/(?:\r\n|\r|\n)/.test(this.text.charAt(i)))
-        {
-            lineWidths.push(lastLineWidth);
-            maxLineWidth = Math.max(maxLineWidth, lastLineWidth);
-            line++;
-
-            pos.x = 0;
-            pos.y += data.lineHeight;
-            prevCharCode = null;
-            continue;
-        }
-
-        if (lastSpace !== -1 && this.maxWidth > 0 && pos.x * scale > this.maxWidth)
-        {
-            chars.splice(lastSpace, i - lastSpace);
-            i = lastSpace;
-            lastSpace = -1;
-
-            lineWidths.push(lastLineWidth);
-            maxLineWidth = Math.max(maxLineWidth, lastLineWidth);
-            line++;
-
-            pos.x = 0;
-            pos.y += data.lineHeight;
-            prevCharCode = null;
-            continue;
-        }
-
-        var charData = data.chars[charCode];
-
-        if (!charData)
-        {
-            continue;
-        }
-
-        if (prevCharCode && charData.kerning[prevCharCode])
-        {
-            pos.x += charData.kerning[prevCharCode];
-        }
-
-        chars.push({texture:charData.texture, line: line, charCode: charCode, position: new core.math.Point(pos.x + charData.xOffset, pos.y + charData.yOffset)});
-        lastLineWidth = pos.x + (charData.texture.width + charData.xOffset);
-        pos.x += charData.xAdvance;
-
-        prevCharCode = charCode;
-    }
-
-    lineWidths.push(lastLineWidth);
-    maxLineWidth = Math.max(maxLineWidth, lastLineWidth);
-
-    var lineAlignOffsets = [];
-
-    for (i = 0; i <= line; i++)
-    {
-        var alignOffset = 0;
-
-        if (this._font.align === 'right')
-        {
-            alignOffset = maxLineWidth - lineWidths[i];
-        }
-        else if (this._font.align === 'center')
-        {
-            alignOffset = (maxLineWidth - lineWidths[i]) / 2;
-        }
-
-        lineAlignOffsets.push(alignOffset);
-    }
-
-    var lenChars = chars.length;
-    var tint = this.tint;
-
-    for (i = 0; i < lenChars; i++)
-    {
-        var c = this._glyphs[i]; // get the next glyph sprite
-
-        if (c)
-        {
-            c.texture = chars[i].texture;
-        }
-        else
-        {
-            c = new core.Sprite(chars[i].texture);
-            this._glyphs.push(c);
-        }
-
-        c.position.x = (chars[i].position.x + lineAlignOffsets[chars[i].line]) * scale;
-        c.position.y = chars[i].position.y * scale;
-        c.scale.x = c.scale.y = scale;
-        c.tint = tint;
-
-        if (!c.parent)
-        {
-            this.addChild(c);
-        }
-    }
-
-    // remove unnecessary children.
-    for (i = lenChars; i < this._glyphs.length; ++i)
-    {
-        this.removeChild(this._glyphs[i]);
-    }
-
-    this.textWidth = maxLineWidth * scale;
-    this.textHeight = (pos.y + data.lineHeight) * scale;
-};
-
-/**
- * Updates the transform of this object
- *
- * @private
- */
-BitmapText.prototype.updateTransform = function ()
-{
-    if (this.dirty)
-    {
-        this.updateText();
-        this.dirty = false;
-    }
-
-    this.containerUpdateTransform();
-};
-
-BitmapText.fonts = {};
-
-},{"../core":20}],124:[function(require,module,exports){
-var core = require('../core');
-
-/**
- * A Text Object will create a line or multiple lines of text. To split a line you can use '\n' in your text string,
- * or add a wordWrap property set to true and and wordWrapWidth property with a value in the style object.
- *
- * A Text can be created directly from a string and a style object
- *
- * ```js
- * var text = new PIXI.Text('This is a pixi text',{font : '24px Arial', fill : 0xff1010, align : 'center'});
- * ```
- *
- * @class
- * @extends Sprite
- * @memberof PIXI.text
- * @param text {string} The copy that you would like the text to display
- * @param [style] {object} The style parameters
- * @param [style.font] {string} default 'bold 20px Arial' The style and size of the font
- * @param [style.fill='black'] {String|Number} A canvas fillstyle that will be used on the text e.g 'red', '#00FF00'
- * @param [style.align='left'] {string} Alignment for multiline text ('left', 'center' or 'right'), does not affect single line text
- * @param [style.stroke] {String|Number} A canvas fillstyle that will be used on the text stroke e.g 'blue', '#FCFF00'
- * @param [style.strokeThickness=0] {number} A number that represents the thickness of the stroke. Default is 0 (no stroke)
- * @param [style.wordWrap=false] {boolean} Indicates if word wrap should be used
- * @param [style.wordWrapWidth=100] {number} The width at which text will wrap, it needs wordWrap to be set to true
- * @param [style.lineHeight] {number} The line height, a number that represents the vertical space that a letter uses
- * @param [style.dropShadow=false] {boolean} Set a drop shadow for the text
- * @param [style.dropShadowColor='#000000'] {string} A fill style to be used on the dropshadow e.g 'red', '#00FF00'
- * @param [style.dropShadowAngle=Math.PI/4] {number} Set a angle of the drop shadow
- * @param [style.dropShadowDistance=5] {number} Set a distance of the drop shadow
- * @param [style.padding=0] {number} Occasionally some fonts are cropped. Adding some padding will prevent this from happening
- * @param [style.textBaseline='alphabetic'] {string} The baseline of the text that is rendered.
- * @param [style.lineJoin='miter'] {string} The lineJoin property sets the type of corner created, it can resolve
- *      spiked text issues. Default is 'miter' (creates a sharp corner).
- * @param [style.miterLimit=10] {number} The miter limit to use when using the 'miter' lineJoin mode. This can reduce
- *      or increase the spikiness of rendered text.
- */
-function Text(text, style, resolution)
-{
-    /**
-     * The canvas element that everything is drawn to
-     *
-     * @member {HTMLCanvasElement}
-     */
-    this.canvas = document.createElement('canvas');
-
-    /**
-     * The canvas 2d context that everything is drawn with
-     * @member {HTMLCanvasElement}
-     */
-    this.context = this.canvas.getContext('2d');
-
-    /**
-     * The resolution of the canvas.
-     * @member {number}
-     */
-    this.resolution = resolution || core.RESOLUTION;
-
-    /**
-     * Private tracker for the current text.
-     *
-     * @member {string}
-     * @private
-     */
-    this._text = null;
-
-    /**
-     * Private tracker for the current style.
-     *
-     * @member {object}
-     * @private
-     */
-    this._style = null;
-
-    var texture = core.Texture.fromCanvas(this.canvas);
-    texture.trim = new core.math.Rectangle();
-    core.Sprite.call(this, texture);
-
-
-    this.text = text;
-    this.style = style;
-}
-
-// constructor
-Text.prototype = Object.create(core.Sprite.prototype);
-Text.prototype.constructor = Text;
-module.exports = Text;
-
-Text.fontPropertiesCache = {};
-Text.fontPropertiesCanvas = document.createElement('canvas');
-Text.fontPropertiesContext = Text.fontPropertiesCanvas.getContext('2d');
-
-Object.defineProperties(Text.prototype, {
-    /**
-     * The width of the Text, setting this will actually modify the scale to achieve the value set
-     *
-     * @member {number}
-     * @memberof Text#
-     */
-    width: {
-        get: function ()
-        {
-            if (this.dirty)
-            {
-                this.updateText();
-            }
-
-            return this.scale.x * this._texture._frame.width;
-        },
-        set: function (value)
-        {
-            this.scale.x = value / this._texture._frame.width;
-            this._width = value;
-        }
-    },
-
-    /**
-     * The height of the Text, setting this will actually modify the scale to achieve the value set
-     *
-     * @member {number}
-     * @memberof Text#
-     */
-    height: {
-        get: function ()
-        {
-            if (this.dirty)
-            {
-                this.updateText();
-            }
-
-            return  this.scale.y * this._texture._frame.height;
-        },
-        set: function (value)
-        {
-            this.scale.y = value / this._texture._frame.height;
-            this._height = value;
-        }
-    },
-
-    /**
-     * Set the style of the text
-     *
-     * @param [style] {object} The style parameters
-     * @param [style.font='bold 20pt Arial'] {string} The style and size of the font
-     * @param [style.fill='black'] {object} A canvas fillstyle that will be used on the text eg 'red', '#00FF00'
-     * @param [style.align='left'] {string} Alignment for multiline text ('left', 'center' or 'right'), does not affect single line text
-     * @param [style.stroke='black'] {string} A canvas fillstyle that will be used on the text stroke eg 'blue', '#FCFF00'
-     * @param [style.strokeThickness=0] {number} A number that represents the thickness of the stroke. Default is 0 (no stroke)
-     * @param [style.wordWrap=false] {boolean} Indicates if word wrap should be used
-     * @param [style.wordWrapWidth=100] {number} The width at which text will wrap
-     * @param [style.lineHeight] {number} The line height, a number that represents the vertical space that a letter uses
-     * @param [style.dropShadow=false] {boolean} Set a drop shadow for the text
-     * @param [style.dropShadowColor='#000000'] {string} A fill style to be used on the dropshadow e.g 'red', '#00FF00'
-     * @param [style.dropShadowAngle=Math.PI/6] {number} Set a angle of the drop shadow
-     * @param [style.dropShadowDistance=5] {number} Set a distance of the drop shadow
-     * @param [style.padding=0] {number} Occasionally some fonts are cropped. Adding some padding will prevent this from happening
-     * @param [style.textBaseline='alphabetic'] {string} The baseline of the text that is rendered.
-     * @param [style.lineJoin='miter'] {string} The lineJoin property sets the type of corner created, it can resolve
-     *      spiked text issues. Default is 'miter' (creates a sharp corner).
-     * @param [style.miterLimit=10] {number} The miter limit to use when using the 'miter' lineJoin mode. This can reduce
-     *      or increase the spikiness of rendered text.
-     * @memberof Text#
-     */
-    style: {
-        get: function ()
-        {
-            return this._style;
-        },
-        set: function (style)
-        {
-            style = style || {};
-            style.font = style.font || 'bold 20pt Arial';
-            style.fill = style.fill || 'black';
-            style.align = style.align || 'left';
-            style.stroke = style.stroke || 'black'; //provide a default, see: https://github.com/GoodBoyDigital/pixi.js/issues/136
-            style.strokeThickness = style.strokeThickness || 0;
-            style.wordWrap = style.wordWrap || false;
-            style.wordWrapWidth = style.wordWrapWidth || 100;
-
-            style.dropShadow = style.dropShadow || false;
-            style.dropShadowColor = style.dropShadowColor || '#000000';
-            style.dropShadowAngle = style.dropShadowAngle || Math.PI / 6;
-            style.dropShadowDistance = style.dropShadowDistance || 5;
-
-            style.padding = style.padding || 0;
-
-            style.textBaseline = style.textBaseline || 'alphabetic';
-
-            style.lineJoin = style.lineJoin || 'miter';
-            style.miterLimit = style.miterLimit || 10;
-
-            this._style = style;
-            this.dirty = true;
-        }
-    },
-
-    /**
-     * Set the copy for the text object. To split a line you can use '\n'.
-     *
-     * @param text {string} The copy that you would like the text to display
-     * @memberof Text#
-     */
-    text: {
-        get: function()
-        {
-            return this._text;
-        },
-        set: function (text){
-            text = text.toString() || ' ';
-            if (this._text === text)
-            {
-                return;
-            }
-            this._text = text;
-            this.dirty = true;
-        }
-    }
-});
-
-/**
- * Renders text and updates it when needed
- *
- * @private
- */
-Text.prototype.updateText = function ()
-{
-    var style = this._style;
-    this.context.font = style.font;
-
-    // word wrap
-    // preserve original text
-    var outputText = style.wordWrap ? this.wordWrap(this._text) : this._text;
-
-    // split text into lines
-    var lines = outputText.split(/(?:\r\n|\r|\n)/);
-
-    // calculate text width
-    var lineWidths = new Array(lines.length);
-    var maxLineWidth = 0;
-    var fontProperties = this.determineFontProperties(style.font);
-    for (var i = 0; i < lines.length; i++)
-    {
-        var lineWidth = this.context.measureText(lines[i]).width;
-        lineWidths[i] = lineWidth;
-        maxLineWidth = Math.max(maxLineWidth, lineWidth);
-    }
-
-    var width = maxLineWidth + style.strokeThickness;
-    if (style.dropShadow)
-    {
-        width += style.dropShadowDistance;
-    }
-
-    this.canvas.width = ( width + this.context.lineWidth ) * this.resolution;
-
-    // calculate text height
-    var lineHeight = this.style.lineHeight || fontProperties.fontSize + style.strokeThickness;
-
-    var height = lineHeight * lines.length;
-    if (style.dropShadow)
-    {
-        height += style.dropShadowDistance;
-    }
-
-    this.canvas.height = ( height + this._style.padding * 2 ) * this.resolution;
-
-    this.context.scale( this.resolution, this.resolution);
-
-    if (navigator.isCocoonJS)
-    {
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-    }
-
-    //this.context.fillStyle="#FF0000";
-    //this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
-    this.context.font = style.font;
-    this.context.strokeStyle = style.stroke;
-    this.context.lineWidth = style.strokeThickness;
-    this.context.textBaseline = style.textBaseline;
-    this.context.lineJoin = style.lineJoin;
-    this.context.miterLimit = style.miterLimit;
-
-    var linePositionX;
-    var linePositionY;
-
-    if (style.dropShadow)
-    {
-        this.context.fillStyle = style.dropShadowColor;
-
-        var xShadowOffset = Math.cos(style.dropShadowAngle) * style.dropShadowDistance;
-        var yShadowOffset = Math.sin(style.dropShadowAngle) * style.dropShadowDistance;
-
-        for (i = 0; i < lines.length; i++)
-        {
-            linePositionX = style.strokeThickness / 2;
-            linePositionY = (style.strokeThickness / 2 + i * lineHeight) + fontProperties.ascent;
-
-            if (style.align === 'right')
-            {
-                linePositionX += maxLineWidth - lineWidths[i];
-            }
-            else if (style.align === 'center')
-            {
-                linePositionX += (maxLineWidth - lineWidths[i]) / 2;
-            }
-
-            if (style.fill)
-            {
-                this.context.fillText(lines[i], linePositionX + xShadowOffset, linePositionY + yShadowOffset + this._style.padding);
-            }
-        }
-    }
-
-    //set canvas text styles
-    this.context.fillStyle = style.fill;
-
-    //draw lines line by line
-    for (i = 0; i < lines.length; i++)
-    {
-        linePositionX = style.strokeThickness / 2;
-        linePositionY = (style.strokeThickness / 2 + i * lineHeight) + fontProperties.ascent;
-
-        if (style.align === 'right')
-        {
-            linePositionX += maxLineWidth - lineWidths[i];
-        }
-        else if (style.align === 'center')
-        {
-            linePositionX += (maxLineWidth - lineWidths[i]) / 2;
-        }
-
-        if (style.stroke && style.strokeThickness)
-        {
-            this.context.strokeText(lines[i], linePositionX, linePositionY + this._style.padding);
-        }
-
-        if (style.fill)
-        {
-            this.context.fillText(lines[i], linePositionX, linePositionY + this._style.padding);
-        }
-    }
-
-    this.updateTexture();
-};
-
-/**
- * Updates texture size based on canvas size
- *
- * @private
- */
-Text.prototype.updateTexture = function ()
-{
-    var texture = this._texture;
-
-    texture.baseTexture.hasLoaded = true;
-    texture.baseTexture.resolution = this.resolution;
-
-    texture.baseTexture.width = this.canvas.width / this.resolution;
-    texture.baseTexture.height = this.canvas.height / this.resolution;
-    texture.crop.width = texture._frame.width = this.canvas.width / this.resolution;
-    texture.crop.height = texture._frame.height = this.canvas.height / this.resolution;
-
-    texture.trim.x = 0;
-    texture.trim.y = -this._style.padding;
-
-    texture.trim.width = texture._frame.width;
-    texture.trim.height = texture._frame.height - this._style.padding*2;
-
-    this._width = this.canvas.width / this.resolution;
-    this._height = this.canvas.height / this.resolution;
-
-    texture.update();
-
-    this.dirty = false;
-};
-
-/**
- * Renders the object using the WebGL renderer
- *
- * @param renderer {WebGLRenderer}
- */
-Text.prototype.renderWebGL = function (renderer)
-{
-    if (this.dirty)
-    {
-        //this.resolution = 1//renderer.resolution;
-
-        this.updateText();
-    }
-
-    core.Sprite.prototype.renderWebGL.call(this, renderer);
-};
-
-/**
- * Renders the object using the Canvas renderer
- *
- * @param renderer {CanvasRenderer}
- * @private
- */
-Text.prototype._renderCanvas = function (renderer)
-{
-    if (this.dirty)
-    {
-     //   this.resolution = 1//renderer.resolution;
-
-        this.updateText();
-    }
-
-    core.Sprite.prototype._renderCanvas.call(this, renderer);
-};
-
-/**
- * Calculates the ascent, descent and fontSize of a given fontStyle
- *
- * @param fontStyle {object}
- * @private
- */
-Text.prototype.determineFontProperties = function (fontStyle)
-{
-    var properties = Text.fontPropertiesCache[fontStyle];
-
-    if (!properties)
-    {
-        properties = {};
-
-        var canvas = Text.fontPropertiesCanvas;
-        var context = Text.fontPropertiesContext;
-
-        context.font = fontStyle;
-
-        var width = Math.ceil(context.measureText('|MÉq').width);
-        var baseline = Math.ceil(context.measureText('M').width);
-        var height = 2 * baseline;
-
-        baseline = baseline * 1.4 | 0;
-
-        canvas.width = width;
-        canvas.height = height;
-
-        context.fillStyle = '#f00';
-        context.fillRect(0, 0, width, height);
-
-        context.font = fontStyle;
-
-        context.textBaseline = 'alphabetic';
-        context.fillStyle = '#000';
-        context.fillText('|MÉq', 0, baseline);
-
-        var imagedata = context.getImageData(0, 0, width, height).data;
-        var pixels = imagedata.length;
-        var line = width * 4;
-
-        var i, j;
-
-        var idx = 0;
-        var stop = false;
-
-        // ascent. scan from top to bottom until we find a non red pixel
-        for (i = 0; i < baseline; i++)
-        {
-            for (j = 0; j < line; j += 4)
-            {
-                if (imagedata[idx + j] !== 255)
-                {
-                    stop = true;
-                    break;
-                }
-            }
-            if (!stop)
-            {
-                idx += line;
-            }
-            else
-            {
-                break;
-            }
-        }
-
-        properties.ascent = baseline - i;
-
-        idx = pixels - line;
-        stop = false;
-
-        // descent. scan from bottom to top until we find a non red pixel
-        for (i = height; i > baseline; i--)
-        {
-            for (j = 0; j < line; j += 4)
-            {
-                if (imagedata[idx + j] !== 255)
-                {
-                    stop = true;
-                    break;
-                }
-            }
-            if (!stop)
-            {
-                idx -= line;
-            }
-            else
-            {
-                break;
-            }
-        }
-
-        properties.descent = i - baseline;
-        properties.fontSize = properties.ascent + properties.descent;
-
-        Text.fontPropertiesCache[fontStyle] = properties;
-    }
-
-    return properties;
-};
-
-/**
- * Applies newlines to a string to have it optimally fit into the horizontal
- * bounds set by the Text object's wordWrapWidth property.
- *
- * @param text {string}
- * @private
- */
-Text.prototype.wordWrap = function (text)
-{
-    // Greedy wrapping algorithm that will wrap words as the line grows longer
-    // than its horizontal bounds.
-    var result = '';
-    var lines = text.split('\n');
-    var wordWrapWidth = this._style.wordWrapWidth;
-    for (var i = 0; i < lines.length; i++)
-    {
-        var spaceLeft = wordWrapWidth;
-        var words = lines[i].split(' ');
-        for (var j = 0; j < words.length; j++)
-        {
-            var wordWidth = this.context.measureText(words[j]).width;
-            var wordWidthWithSpace = wordWidth + this.context.measureText(' ').width;
-            if (j === 0 || wordWidthWithSpace > spaceLeft)
-            {
-                // Skip printing the newline if it's the first word of the line that is
-                // greater than the word wrap width.
-                if (j > 0)
-                {
-                    result += '\n';
-                }
-                result += words[j];
-                spaceLeft = wordWrapWidth - wordWidth;
-            }
-            else
-            {
-                spaceLeft -= wordWidthWithSpace;
-                result += ' ' + words[j];
-            }
-        }
-
-        if (i < lines.length-1)
-        {
-            result += '\n';
-        }
-    }
-    return result;
-};
-
-/**
- * Returns the bounds of the Text as a rectangle. The bounds calculation takes the worldTransform into account.
- *
- * @param matrix {Matrix} the transformation matrix of the Text
- * @return {Rectangle} the framing rectangle
- */
-Text.prototype.getBounds = function (matrix)
-{
-    if (this.dirty)
-    {
-        this.updateText();
-    }
-
-    return core.Sprite.prototype.getBounds.call(this, matrix);
-};
-
-/**
- * Destroys this text object.
- *
- * @param destroyBaseTexture {boolean} whether to destroy the base texture as well
- */
-Text.prototype.destroy = function (destroyBaseTexture)
-{
-    // make sure to reset the the context and canvas.. dont want this hanging around in memory!
-    this.context = null;
-    this.canvas = null;
-
-    this._texture.destroy(destroyBaseTexture === undefined ? true : destroyBaseTexture);
-};
-
-},{"../core":20}],125:[function(require,module,exports){
-/**
- * @file        Main export of the PIXI text library
- * @author      Mat Groves <mat@goodboydigital.com>
- * @copyright   2013-2015 GoodBoyDigital
- * @license     {@link https://github.com/GoodBoyDigital/pixi.js/blob/master/LICENSE|MIT License}
- */
-
-/**
- * @namespace PIXI.text
- */
-module.exports = {
-    Text:       require('./Text'),
-    BitmapText: require('./BitmapText')
-};
-
-},{"./BitmapText":123,"./Text":124}],"pixi.js":[function(require,module,exports){
+},{"./Spine":123,"./SpineRuntime":124}],"pixi.js":[function(require,module,exports){
 // run the polyfills
 require('./polyfill');
 
-var core = require('./core'),
-    assign = Object.assign;
+var core = module.exports = require('./core');
 
-assign(core, require('./core/math'));
-assign(core, require('./extras'));
-assign(core, require('./mesh'));
-assign(core, require('./filters'));
-assign(core, require('./interaction'));
-assign(core, require('./loaders'));
-assign(core, require('./spine'));
-assign(core, require('./text'));
-assign(core, require('./deprecation'));
+// add core plugins.
+core.extras         = require('./extras');
+core.filters        = require('./filters');
+core.interaction    = require('./interaction');
+core.loaders        = require('./loaders');
+core.mesh           = require('./mesh');
+core.spine          = require('./spine');
 
-module.exports = core;
+// export a premade loader instance
+core.loader = new core.loaders.Loader();
 
-},{"./core":20,"./core/math":23,"./deprecation":67,"./extras":73,"./filters":89,"./interaction":104,"./loaders":107,"./mesh":114,"./polyfill":118,"./spine":122,"./text":125}]},{},["pixi.js"])("pixi.js")
+// mixin the deprecation features.
+Object.assign(core, require('./deprecation'));
+
+},{"./core":20,"./deprecation":68,"./extras":76,"./filters":92,"./interaction":107,"./loaders":110,"./mesh":117,"./polyfill":121,"./spine":125}]},{},["pixi.js"])("pixi.js")
 });
 
 
