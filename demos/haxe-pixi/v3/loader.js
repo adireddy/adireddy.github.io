@@ -11,6 +11,10 @@ pixi.plugins.app = {};
 pixi.plugins.app.Application = function() {
 	this._lastTime = new Date();
 	this._setDefaultValues();
+	if(window.PIXI == null) window.PIXI = require('pixi.js');
+	if(window.Stats == null) {
+		if(require('stats-js') != null) window.Stats = require('stats-js');
+	}
 };
 pixi.plugins.app.Application.prototype = {
 	_setDefaultValues: function() {
@@ -105,9 +109,8 @@ samples.loader.Main.prototype = $extend(pixi.plugins.app.Application.prototype,{
 			var i = _g++;
 			this._loader.add("img" + i,i + ".png");
 		}
-		this._loader.on("complete",$bind(this,this._onLoaded));
 		this._loader.on("progress",$bind(this,this._onLoadProgress));
-		this._loader.load();
+		this._loader.load($bind(this,this._onLoaded));
 	}
 	,_onLoadProgress: function() {
 		console.log("Loaded: " + Math.round(this._loader.progress));
@@ -120,7 +123,7 @@ samples.loader.Main.prototype = $extend(pixi.plugins.app.Application.prototype,{
 			var i = _g++;
 			this._img = new PIXI.Sprite(PIXI.Texture.fromImage(this._baseURL + i + ".png"));
 			this._img.name = "img" + i;
-			if(i < 5) this._img.position.set(128 * i,0); else this._img.position.set(128 * (i - 5),128);
+			if(i < 6) this._img.position.set(128 * (i - 1),0); else this._img.position.set(128 * (i - 6),128);
 			_container.addChild(this._img);
 		}
 		_container.position.set((window.innerWidth - _container.width) / 2,(window.innerHeight - _container.height) / 2);
