@@ -5,12 +5,12 @@ samples.basics.Main = function() {
 	var options = { };
 	options.backgroundColor = 13158;
 	options.resolution = 1;
-	this._stage = new PIXI.Container();
+	this._container = new PIXI.Container();
 	this._renderer = PIXI.autoDetectRenderer(800,600,options);
 	this._bunny = new PIXI.Sprite(PIXI.Texture.fromImage("assets/basics/bunny.png"));
 	this._bunny.anchor.set(0.5,0.5);
 	this._bunny.position.set(400,300);
-	this._stage.addChild(this._bunny);
+	this._container.addChild(this._bunny);
 	this._graphic = new PIXI.Graphics();
 	this._graphic.beginFill(16711680,0.4);
 	this._graphic.drawRect(200,150,400,300);
@@ -19,7 +19,7 @@ samples.basics.Main = function() {
 	this._graphic.on("click",function(evt) {
 		console.log(evt);
 	});
-	this._stage.addChild(this._graphic);
+	this._container.addChild(this._graphic);
 	window.document.body.appendChild(this._renderer.view);
 	window.requestAnimationFrame($bind(this,this._animate));
 };
@@ -30,7 +30,6 @@ samples.basics.Main.prototype = {
 	_animate: function() {
 		window.requestAnimationFrame($bind(this,this._animate));
 		this._bunny.rotation += 0.1;
-		this._renderer.render(this._stage);
 	}
 };
 var $_, $fid = 0;

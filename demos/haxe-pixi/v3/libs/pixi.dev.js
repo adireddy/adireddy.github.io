@@ -20822,7 +20822,7 @@ module.exports = function ()
     };
 };
 
-},{"../core":14,"../extras":70,"path":2,"resource-loader":"resource-loader"}],104:[function(require,module,exports){
+},{"../core":14,"../extras":70,"path":2,"resource-loader":124}],104:[function(require,module,exports){
 /**
  * @file        Main export of the PIXI loaders library
  * @author      Mat Groves <mat@goodboydigital.com>
@@ -20895,7 +20895,7 @@ Loader.prototype.constructor = Loader;
 
 module.exports = Loader;
 
-},{"./bitmapFontParser":103,"./spineAtlasParser":106,"./spritesheetParser":107,"./textureParser":108,"resource-loader":"resource-loader"}],106:[function(require,module,exports){
+},{"./bitmapFontParser":103,"./spineAtlasParser":106,"./spritesheetParser":107,"./textureParser":108,"resource-loader":124}],106:[function(require,module,exports){
 var Resource = require('resource-loader').Resource,
     async = require('async'),
     spine = require('../spine');
@@ -20952,7 +20952,7 @@ module.exports = function ()
     };
 };
 
-},{"../spine":119,"async":5,"resource-loader":"resource-loader"}],107:[function(require,module,exports){
+},{"../spine":119,"async":5,"resource-loader":124}],107:[function(require,module,exports){
 var Resource = require('resource-loader').Resource,
     path = require('path'),
     core = require('../core');
@@ -21035,7 +21035,7 @@ module.exports = function ()
     };
 };
 
-},{"../core":14,"path":2,"resource-loader":"resource-loader"}],108:[function(require,module,exports){
+},{"../core":14,"path":2,"resource-loader":124}],108:[function(require,module,exports){
 var core = require('../core');
 
 module.exports = function ()
@@ -26452,6 +26452,20 @@ module.exports = {
 };
 
 },{}],124:[function(require,module,exports){
+module.exports = require('./Loader');
+
+module.exports.Resource = require('./Resource');
+
+module.exports.middleware = {
+    caching: {
+        memory: require('./middlewares/caching/memory')
+    },
+    parsing: {
+        blob: require('./middlewares/parsing/blob')
+    }
+};
+
+},{"./Loader":121,"./Resource":122,"./middlewares/caching/memory":125,"./middlewares/parsing/blob":126}],125:[function(require,module,exports){
 // a simple in-memory cache for resources
 var cache = {};
 
@@ -26473,7 +26487,7 @@ module.exports = function () {
     };
 };
 
-},{}],125:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
 var Resource = require('../../Resource'),
     b64 = require('../../b64');
 
@@ -26544,19 +26558,5 @@ core.loader = new core.loaders.Loader();
 // mixin the deprecation features.
 Object.assign(core, require('./deprecation'));
 
-},{"./core":14,"./deprecation":62,"./extras":70,"./filters":86,"./interaction":101,"./loaders":104,"./mesh":111,"./polyfill":115,"./spine":119}],"resource-loader":[function(require,module,exports){
-module.exports = require('./Loader');
-
-module.exports.Resource = require('./Resource');
-
-module.exports.middleware = {
-    caching: {
-        memory: require('./middlewares/caching/memory')
-    },
-    parsing: {
-        blob: require('./middlewares/parsing/blob')
-    }
-};
-
-},{"./Loader":121,"./Resource":122,"./middlewares/caching/memory":124,"./middlewares/parsing/blob":125}]},{},[])("resource-loader")
+},{"./core":14,"./deprecation":62,"./extras":70,"./filters":86,"./interaction":101,"./loaders":104,"./mesh":111,"./polyfill":115,"./spine":119}]},{},[])("pixi.js")
 });

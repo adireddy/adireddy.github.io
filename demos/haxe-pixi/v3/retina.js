@@ -11,10 +11,6 @@ pixi.plugins.app = {};
 pixi.plugins.app.Application = function() {
 	this._lastTime = new Date();
 	this._setDefaultValues();
-	if(window.PIXI == null) window.PIXI = require('pixi.js');
-	if(window.Stats == null) {
-		if(require('stats-js') != null) window.Stats = require('stats-js');
-	}
 };
 pixi.plugins.app.Application.prototype = {
 	_setDefaultValues: function() {
