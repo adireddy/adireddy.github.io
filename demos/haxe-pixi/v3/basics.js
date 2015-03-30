@@ -30,6 +30,7 @@ samples.basics.Main.prototype = {
 	_animate: function() {
 		window.requestAnimationFrame($bind(this,this._animate));
 		this._bunny.rotation += 0.1;
+		this._renderer.render(this._container);
 	}
 };
 var $_, $fid = 0;
