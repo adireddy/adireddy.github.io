@@ -5,6 +5,7 @@ function $extend(from, fields) {
 	if( fields.toString !== Object.prototype.toString ) proto.toString = fields.toString;
 	return proto;
 }
+Math.__name__ = true;
 var Reflect = function() { };
 Reflect.__name__ = true;
 Reflect.isFunction = function(f) {
@@ -171,57 +172,32 @@ msignal.SlotList.prototype = {
 	}
 };
 var pixi = {};
-pixi.display = {};
-pixi.display.DisplayObject = function() {
-	PIXI.DisplayObject.call(this);
-	this.name = "";
-};
-pixi.display.DisplayObject.__name__ = true;
-pixi.display.DisplayObject.__super__ = PIXI.DisplayObject;
-pixi.display.DisplayObject.prototype = $extend(PIXI.DisplayObject.prototype,{
-});
-pixi.display.DisplayObjectContainer = function() {
-	PIXI.DisplayObjectContainer.call(this);
-};
-pixi.display.DisplayObjectContainer.__name__ = true;
-pixi.display.DisplayObjectContainer.__super__ = PIXI.DisplayObjectContainer;
-pixi.display.DisplayObjectContainer.prototype = $extend(PIXI.DisplayObjectContainer.prototype,{
-	getChildByName: function(name) {
-		var _g1 = 0;
-		var _g = this.children.length;
-		while(_g1 < _g) {
-			var i = _g1++;
-			if(this.children[i].name == name) return this.children[i];
-		}
-		return null;
-	}
-});
 pixi.Button = function(label,width,height,data,fontSize) {
-	pixi.display.DisplayObjectContainer.call(this);
+	PIXI.Container.call(this);
 	this.action = new msignal.Signal1(Dynamic);
 	this._data = data;
 	this._setupBackground(width,height);
 	this._setupLabel(width,height,fontSize);
-	this.setText(label);
+	this._label.text = label;
 };
 pixi.Button.__name__ = true;
-pixi.Button.__super__ = pixi.display.DisplayObjectContainer;
-pixi.Button.prototype = $extend(pixi.display.DisplayObjectContainer.prototype,{
+pixi.Button.__super__ = PIXI.Container;
+pixi.Button.prototype = $extend(PIXI.Container.prototype,{
 	_setupBackground: function(width,height) {
 		this._rect = new PIXI.Rectangle(0,0,width,height);
 		this._background = new PIXI.Graphics();
-		this._background.hitArea = this._rect;
+		this._background.interactive = true;
 		this._redraw(3040510);
 		this.addChild(this._background);
 		this._background.interactive = true;
-		this._background.mouseover = $bind(this,this._onMouseOver);
-		this._background.mouseout = $bind(this,this._onMouseOut);
-		this._background.mousedown = $bind(this,this._onMouseDown);
-		this._background.mouseup = $bind(this,this._onMouseUp);
-		this._background.mouseupoutside = $bind(this,this._onMouseUpOutside);
-		this._background.touchstart = $bind(this,this._onTouchStart);
-		this._background.touchend = $bind(this,this._onTouchEnd);
-		this._background.touchendoutside = $bind(this,this._onTouchEndOutside);
+		this._background.on("mouseover",$bind(this,this._onMouseOver));
+		this._background.on("mouseout",$bind(this,this._onMouseOut));
+		this._background.on("mousedown",$bind(this,this._onMouseDown));
+		this._background.on("mouseup",$bind(this,this._onMouseUp));
+		this._background.on("mouseupoutside",$bind(this,this._onMouseUpOutside));
+		this._background.on("touchstart",$bind(this,this._onTouchStart));
+		this._background.on("touchend",$bind(this,this._onTouchEnd));
+		this._background.on("touchendoutside",$bind(this,this._onTouchEndOutside));
 	}
 	,_setupLabel: function(width,height,fontSize) {
 		var size;
@@ -230,7 +206,7 @@ pixi.Button.prototype = $extend(pixi.display.DisplayObjectContainer.prototype,{
 		style.font = size + "px Arial";
 		style.fill = "#FFFFFF";
 		this._label = new PIXI.Text("",style);
-		this._label.anchor.set(0.5,0.5);
+		this._label.anchor.set(0.5);
 		this._label.x = width / 2;
 		this._label.y = height / 2;
 		this.addChild(this._label);
@@ -245,123 +221,149 @@ pixi.Button.prototype = $extend(pixi.display.DisplayObjectContainer.prototype,{
 		this._background.drawRect(this._rect.x + border / 2,this._rect.y + border / 2,this._rect.width - border,this._rect.height - border);
 		this._background.endFill();
 	}
-	,setText: function(label) {
-		this._label.setText(label);
-	}
-	,_onMouseDown: function(data) {
+	,_onMouseDown: function(target) {
 		if(this._enabled) this._redraw(14644225);
 	}
-	,_onMouseUp: function(data) {
+	,_onMouseUp: function(target) {
 		if(this._enabled) {
 			this.action.dispatch(this._data);
 			this._redraw(3040510);
 		}
 	}
-	,_onMouseUpOutside: function(data) {
+	,_onMouseUpOutside: function(target) {
 		if(this._enabled) this._redraw(3040510);
 	}
-	,_onMouseOver: function(data) {
+	,_onMouseOver: function(target) {
 		if(this._enabled) this._redraw(14644225);
 	}
-	,_onMouseOut: function(data) {
+	,_onMouseOut: function(target) {
 		if(this._enabled) this._redraw(3040510);
 	}
-	,_onTouchEndOutside: function(data) {
+	,_onTouchEndOutside: function(target) {
 		if(this._enabled) this._redraw(3040510);
 	}
-	,_onTouchEnd: function(data) {
+	,_onTouchEnd: function(target) {
 		if(this._enabled) {
 			this._redraw(3040510);
 			this.action.dispatch(this._data);
 		}
 	}
-	,_onTouchStart: function(data) {
+	,_onTouchStart: function(target) {
 		if(this._enabled) this._redraw(14644225);
-	}
-	,enable: function() {
-		this._enabled = true;
 	}
 });
-pixi.PixiApplication = function() {
-	this._skipFrame = false;
-	this.backgroundColor = 16777215;
-	this.skipFrame = false;
+pixi.plugins = {};
+pixi.plugins.app = {};
+pixi.plugins.app.Application = function() {
 	this._lastTime = new Date();
-	this._setupPixi();
+	this._setDefaultValues();
 };
-pixi.PixiApplication.__name__ = true;
-pixi.PixiApplication.prototype = {
-	_setupPixi: function() {
+pixi.plugins.app.Application.__name__ = true;
+pixi.plugins.app.Application.prototype = {
+	_setDefaultValues: function() {
+		this.pixelRatio = 1;
+		this.skipFrame = false;
+		this.autoResize = true;
+		this.transparent = false;
+		this.backgroundColor = 16777215;
+		this.width = window.innerWidth;
+		this.height = window.innerHeight;
+		this._skipFrame = false;
+	}
+	,start: function(renderer,stats,parentDom) {
+		if(stats == null) stats = true;
+		if(renderer == null) renderer = "auto";
 		var _this = window.document;
 		this._canvas = _this.createElement("canvas");
-		this._canvas.style.width = "800px";
-		this._canvas.style.height = "600px";
-		window.document.body.appendChild(this._canvas);
-		this.stage = new PIXI.Stage(this.backgroundColor);
-		this.container = new pixi.display.DisplayObjectContainer();
-		this.stage.addChild(this.container);
+		this._canvas.style.width = this.width + "px";
+		this._canvas.style.height = this.height + "px";
+		this._canvas.style.position = "absolute";
+		if(parentDom == null) window.document.body.appendChild(this._canvas); else parentDom.appendChild(this._canvas);
+		this._stage = new PIXI.Container();
 		var renderingOptions = { };
 		renderingOptions.view = this._canvas;
-		renderingOptions.resolution = 2;
-		this._renderer = PIXI.autoDetectRenderer(800,600,renderingOptions);
+		renderingOptions.backgroundColor = this.backgroundColor;
+		renderingOptions.resolution = this.pixelRatio;
+		renderingOptions.antialias = this.antialias;
+		renderingOptions.autoResize = this.autoResize;
+		renderingOptions.transparent = this.transparent;
+		if(renderer == "auto") this._renderer = PIXI.autoDetectRenderer(this.width,this.height,renderingOptions); else if(renderer == "canvas") this._renderer = new PIXI.CanvasRenderer(this.width,this.height,renderingOptions); else this._renderer = new PIXI.WebGLRenderer(this.width,this.height,renderingOptions);
 		window.document.body.appendChild(this._renderer.view);
-		window.onresize = $bind(this,this.__onResize);
-		window.requestAnimationFrame($bind(this,this.__onUpdate));
+		if(this.autoResize) window.onresize = $bind(this,this._onWindowResize);
+		window.requestAnimationFrame($bind(this,this._onRequestAnimationFrame));
 		this._lastTime = new Date();
+		if(stats) this._addStats();
 	}
-	,set_backgroundColor: function(clr) {
-		this.stage.setBackgroundColor(clr);
-		return this.backgroundColor = clr;
+	,_onWindowResize: function(event) {
+		this.width = window.innerWidth;
+		this.height = window.innerHeight;
+		this._renderer.resize(this.width,this.height);
+		this._canvas.style.width = this.width + "px";
+		this._canvas.style.height = this.height + "px";
+		if(this._stats != null) {
+			this._stats.domElement.style.top = "2px";
+			this._stats.domElement.style.right = "2px";
+		}
+		if(this.onResize != null) this.onResize();
 	}
-	,__onResize: function(event) {
-		if(this.resize != null) this.resize();
-	}
-	,__onUpdate: function() {
+	,_onRequestAnimationFrame: function() {
 		if(this.skipFrame && this._skipFrame) this._skipFrame = false; else {
 			this._skipFrame = true;
 			this._calculateElapsedTime();
-			if(this.update != null) this.update(this._elapsedTime);
-			this._renderer.render(this.stage);
+			if(this.onUpdate != null) this.onUpdate(this._elapsedTime);
+			this._renderer.render(this._stage);
 		}
-		window.requestAnimationFrame($bind(this,this.__onUpdate));
+		window.requestAnimationFrame($bind(this,this._onRequestAnimationFrame));
+		if(this._stats != null) this._stats.update();
 	}
 	,_calculateElapsedTime: function() {
 		this._currentTime = new Date();
 		this._elapsedTime = this._currentTime.getTime() - this._lastTime.getTime();
 		this._lastTime = this._currentTime;
 	}
+	,_addStats: function() {
+		if(window.Stats != null) {
+			var _container = window.document.createElement("div");
+			window.document.body.appendChild(_container);
+			this._stats = new Stats();
+			this._stats.domElement.style.position = "absolute";
+			this._stats.domElement.style.top = "2px";
+			this._stats.domElement.style.right = "2px";
+			_container.appendChild(this._stats.domElement);
+			this._stats.begin();
+		}
+	}
 };
-pixi.renderers = {};
-pixi.renderers.IRenderer = function() { };
-pixi.renderers.IRenderer.__name__ = true;
 var samples = {};
 samples.Main = function() {
-	pixi.PixiApplication.call(this);
-	this.set_backgroundColor(6227124);
-	this._btnContainer = new pixi.display.DisplayObjectContainer();
-	this.container.addChild(this._btnContainer);
-	this._bgSound = this._setupSound("assets/loop.mp3");
-	this._bgSound.loop(true);
-	this._bgSound.play();
+	pixi.plugins.app.Application.call(this);
+	this.pixelRatio = Math.floor(window.devicePixelRatio);
+	this.backgroundColor = 6227124;
+	pixi.plugins.app.Application.prototype.start.call(this);
+	this._btnContainer = new PIXI.Container();
+	this._stage.addChild(this._btnContainer);
+	this._bgSound = this._setupSound("assets/loop.mp3",true);
 	this._sound1 = this._setupSound("assets/sound1.wav");
 	this._sound2 = this._setupSound("assets/sound2.wav");
+	this._bgSound.play();
 	this._addButton("SOUND 1",100,0,100,30,$bind(this,this._playSound1));
 	this._addButton("SOUND 2",200,0,100,30,$bind(this,this._playSound2));
-	this._addButton("STOP ALL",300,0,100,30,$bind(this,this._stopAll));
-	this._btnContainer.x = 150;
-	this._btnContainer.y = 285;
+	this._addButton("STOP ALL",320,0,100,30,$bind(this,this._stopAll));
+	this._btnContainer.position.set((window.innerWidth - 300 * this.pixelRatio) / 2,(window.innerHeight - 30 * this.pixelRatio) / 2);
 };
 samples.Main.__name__ = true;
 samples.Main.main = function() {
 	new samples.Main();
 };
-samples.Main.__super__ = pixi.PixiApplication;
-samples.Main.prototype = $extend(pixi.PixiApplication.prototype,{
-	_setupSound: function(url) {
+samples.Main.__super__ = pixi.plugins.app.Application;
+samples.Main.prototype = $extend(pixi.plugins.app.Application.prototype,{
+	_setupSound: function(url,loop) {
+		if(loop == null) loop = false;
 		var options = { };
-		options.urls = [url];
+		options.src = [url];
 		options.autoplay = false;
-		var snd = new window.Howl(options);
+		options.loop = loop;
+		var snd = new Howl(options);
 		return snd;
 	}
 	,_playSound1: function() {
@@ -377,15 +379,23 @@ samples.Main.prototype = $extend(pixi.PixiApplication.prototype,{
 	}
 	,_addButton: function(label,x,y,width,height,callback) {
 		var button = new pixi.Button(label,width,height);
-		button.x = x;
-		button.y = y;
+		button.position.set(x,y);
 		button.action.add(callback);
-		button.enable();
+		button._enabled = true;
 		this._btnContainer.addChild(button);
 	}
 });
 var $_, $fid = 0;
 function $bind(o,m) { if( m == null ) return null; if( m.__id__ == null ) m.__id__ = $fid++; var f; if( o.hx__closures__ == null ) o.hx__closures__ = {}; else f = o.hx__closures__[m.__id__]; if( f == null ) { f = function(){ return f.method.apply(f.scope, arguments); }; f.scope = o; f.method = m; o.hx__closures__[m.__id__] = f; } return f; }
+Math.NaN = Number.NaN;
+Math.NEGATIVE_INFINITY = Number.NEGATIVE_INFINITY;
+Math.POSITIVE_INFINITY = Number.POSITIVE_INFINITY;
+Math.isFinite = function(i) {
+	return isFinite(i);
+};
+Math.isNaN = function(i1) {
+	return isNaN(i1);
+};
 String.__name__ = true;
 Array.__name__ = true;
 Date.__name__ = ["Date"];
@@ -393,3 +403,5 @@ var Dynamic = { __name__ : ["Dynamic"]};
 msignal.SlotList.NIL = new msignal.SlotList(null,null);
 samples.Main.main();
 })();
+
+//# sourceMappingURL=howler-demo.js.map
