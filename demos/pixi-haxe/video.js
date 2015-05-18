@@ -1,23 +1,22 @@
-(function () { "use strict";
+(function (console) { "use strict";
 function $extend(from, fields) {
 	function Inherit() {} Inherit.prototype = from; var proto = new Inherit();
 	for (var name in fields) proto[name] = fields[name];
 	if( fields.toString !== Object.prototype.toString ) proto.toString = fields.toString;
 	return proto;
 }
-var pixi = {};
-pixi.plugins = {};
-pixi.plugins.app = {};
-pixi.plugins.app.Application = function() {
+var pixi_plugins_app_Application = function() {
 	this._lastTime = new Date();
 	this._setDefaultValues();
 };
-pixi.plugins.app.Application.prototype = {
+pixi_plugins_app_Application.prototype = {
 	_setDefaultValues: function() {
 		this.pixelRatio = 1;
 		this.skipFrame = false;
 		this.autoResize = true;
 		this.transparent = false;
+		this.antialias = false;
+		this.forceFXAA = false;
 		this.backgroundColor = 16777215;
 		this.width = window.innerWidth;
 		this.height = window.innerHeight;
@@ -38,6 +37,7 @@ pixi.plugins.app.Application.prototype = {
 		renderingOptions.backgroundColor = this.backgroundColor;
 		renderingOptions.resolution = this.pixelRatio;
 		renderingOptions.antialias = this.antialias;
+		renderingOptions.forceFXAA = this.forceFXAA;
 		renderingOptions.autoResize = this.autoResize;
 		renderingOptions.transparent = this.transparent;
 		if(renderer == "auto") this._renderer = PIXI.autoDetectRenderer(this.width,this.height,renderingOptions); else if(renderer == "canvas") this._renderer = new PIXI.CanvasRenderer(this.width,this.height,renderingOptions); else this._renderer = new PIXI.WebGLRenderer(this.width,this.height,renderingOptions);
@@ -87,17 +87,15 @@ pixi.plugins.app.Application.prototype = {
 		}
 	}
 };
-var samples = {};
-samples.video = {};
-samples.video.Main = function() {
-	pixi.plugins.app.Application.call(this);
+var samples_video_Main = function() {
+	pixi_plugins_app_Application.call(this);
 	this._init();
 };
-samples.video.Main.main = function() {
-	new samples.video.Main();
+samples_video_Main.main = function() {
+	new samples_video_Main();
 };
-samples.video.Main.__super__ = pixi.plugins.app.Application;
-samples.video.Main.prototype = $extend(pixi.plugins.app.Application.prototype,{
+samples_video_Main.__super__ = pixi_plugins_app_Application;
+samples_video_Main.prototype = $extend(pixi_plugins_app_Application.prototype,{
 	_init: function() {
 		this.backgroundColor = 14739192;
 		this.onUpdate = $bind(this,this._onUpdate);
@@ -105,7 +103,7 @@ samples.video.Main.prototype = $extend(pixi.plugins.app.Application.prototype,{
 		this.autoResize = true;
 		this.width = window.innerWidth;
 		this.height = window.innerHeight;
-		pixi.plugins.app.Application.prototype.start.call(this);
+		pixi_plugins_app_Application.prototype.start.call(this);
 		var _this = window.document;
 		this._vidElement = _this.createElement("video");
 		this._vidElement.src = "assets/video/test.mp4";
@@ -120,7 +118,7 @@ samples.video.Main.prototype = $extend(pixi.plugins.app.Application.prototype,{
 });
 var $_, $fid = 0;
 function $bind(o,m) { if( m == null ) return null; if( m.__id__ == null ) m.__id__ = $fid++; var f; if( o.hx__closures__ == null ) o.hx__closures__ = {}; else f = o.hx__closures__[m.__id__]; if( f == null ) { f = function(){ return f.method.apply(f.scope, arguments); }; f.scope = o; f.method = m; o.hx__closures__[m.__id__] = f; } return f; }
-samples.video.Main.main();
-})();
+samples_video_Main.main();
+})(typeof console != "undefined" ? console : {log:function(){}});
 
 //# sourceMappingURL=video.js.map

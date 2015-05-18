@@ -87,32 +87,47 @@ pixi_plugins_app_Application.prototype = {
 		}
 	}
 };
-var samples_bitmapfont_Main = function() {
+var samples_mask_Main = function() {
 	pixi_plugins_app_Application.call(this);
 	this._init();
 };
-samples_bitmapfont_Main.main = function() {
-	new samples_bitmapfont_Main();
+samples_mask_Main.main = function() {
+	new samples_mask_Main();
 };
-samples_bitmapfont_Main.__super__ = pixi_plugins_app_Application;
-samples_bitmapfont_Main.prototype = $extend(pixi_plugins_app_Application.prototype,{
+samples_mask_Main.__super__ = pixi_plugins_app_Application;
+samples_mask_Main.prototype = $extend(pixi_plugins_app_Application.prototype,{
 	_init: function() {
-		this.backgroundColor = 13158;
-		pixi_plugins_app_Application.prototype.start.call(this);
-		var fontloader = new PIXI.loaders.Loader();
-		fontloader.add("font","assets/fonts/desyrel.xml");
-		fontloader.load($bind(this,this._onLoaded));
+		this.onUpdate = $bind(this,this._onUpdate);
+		pixi_plugins_app_Application.prototype.start.call(this,"recommended");
+		this._bg = PIXI.Sprite.fromImage("assets/alphamask/bkg.jpg");
+		this._stage.addChild(this._bg);
+		this._cells = PIXI.Sprite.fromImage("assets/alphamask/cells.png");
+		this._cells.scale.set(1.5);
+		this._mask = new PIXI.Graphics();
+		this._mask.clear();
+		this._mask.beginFill(0);
+		this._mask.drawRect(100,100,300,200);
+		this._mask.endFill();
+		this._mask.cacheAsBitmap = true;
+		this._cells.mask = this._mask;
+		this._stage.addChild(this._cells);
+		this._stage.addChild(this._mask);
+		this._target = new PIXI.Point();
+		this._reset();
 	}
-	,_onLoaded: function() {
-		var bitmapFontText = new PIXI.extras.BitmapText("bitmap fonts are\n now supported!",{ font : "60px Desyrel"});
-		bitmapFontText.position.x = (window.innerWidth - bitmapFontText.width) / 2;
-		bitmapFontText.position.y = (window.innerHeight - bitmapFontText.height) / 2;
-		this._stage.addChild(bitmapFontText);
+	,_reset: function() {
+		this._target.x = Math.floor(Math.random() * 550);
+		this._target.y = Math.floor(Math.random() * 300);
+	}
+	,_onUpdate: function(elapsedTime) {
+		this._mask.position.x += (this._target.x - this._mask.x) * 0.1;
+		this._mask.position.y += (this._target.y - this._mask.y) * 0.1;
+		if(Math.abs(this._mask.x - this._target.x) < 1) this._reset();
 	}
 });
 var $_, $fid = 0;
 function $bind(o,m) { if( m == null ) return null; if( m.__id__ == null ) m.__id__ = $fid++; var f; if( o.hx__closures__ == null ) o.hx__closures__ = {}; else f = o.hx__closures__[m.__id__]; if( f == null ) { f = function(){ return f.method.apply(f.scope, arguments); }; f.scope = o; f.method = m; o.hx__closures__[m.__id__] = f; } return f; }
-samples_bitmapfont_Main.main();
+samples_mask_Main.main();
 })(typeof console != "undefined" ? console : {log:function(){}});
 
-//# sourceMappingURL=bitmapfont.js.map
+//# sourceMappingURL=mask.js.map
