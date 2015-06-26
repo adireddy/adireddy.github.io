@@ -165,9 +165,20 @@ var pixi_plugins_app_Application = function() {
 };
 pixi_plugins_app_Application.__name__ = true;
 pixi_plugins_app_Application.prototype = {
-	_setDefaultValues: function() {
+	set_fps: function(val) {
+		this._frameCount = 0;
+		return val >= 1 && val < 60?this.fps = val | 0:this.fps = 60;
+	}
+	,set_skipFrame: function(val) {
+		if(val) {
+			console.log("pixi.plugins.app.Application > Deprecated: skipFrame - use fps property and set it to 30 instead");
+			this.set_fps(30);
+		}
+		return this.skipFrame = val;
+	}
+	,_setDefaultValues: function() {
 		this.pixelRatio = 1;
-		this.skipFrame = false;
+		this.set_skipFrame(false);
 		this.autoResize = true;
 		this.transparent = false;
 		this.antialias = false;
@@ -175,7 +186,7 @@ pixi_plugins_app_Application.prototype = {
 		this.backgroundColor = 16777215;
 		this.width = window.innerWidth;
 		this.height = window.innerHeight;
-		this._skipFrame = false;
+		this.set_fps(60);
 	}
 	,start: function(renderer,stats,parentDom) {
 		if(stats == null) stats = true;
@@ -215,8 +226,9 @@ pixi_plugins_app_Application.prototype = {
 		if(this.onResize != null) this.onResize();
 	}
 	,_onRequestAnimationFrame: function() {
-		if(this.skipFrame && this._skipFrame) this._skipFrame = false; else {
-			this._skipFrame = true;
+		this._frameCount++;
+		if(this._frameCount == (60 / this.fps | 0)) {
+			this._frameCount = 0;
 			this._calculateElapsedTime();
 			if(this.onUpdate != null) this.onUpdate(this._elapsedTime);
 			this._renderer.render(this._stage);
