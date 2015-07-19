@@ -119,7 +119,6 @@ samples_events_Main.prototype = $extend(pixi_plugins_app_Application.prototype,{
 		this._img.on("touchstart",$bind(this,this._onEvent));
 		this._img.tap = $bind(this,this._onEvent);
 		this._img.click = $bind(this,this._onEvent);
-		this._img.hitArea = new PIXI.Rectangle(0,0,this._img.width,100);
 		this._stage.addChild(this._img);
 		var style = { };
 		style.fill = "#000000";
