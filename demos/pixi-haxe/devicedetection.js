@@ -204,19 +204,27 @@ samples_devicedetection_Main.prototype = $extend(pixi_plugins_app_Application.pr
 		this._info = new PIXI.Container();
 		this._stage.addChild(this._info);
 		var txt = new PIXI.Text("",{ fill : "#FFFFFF"});
-		txt.text = "Android: \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + Std.string(this._isAndroid());
+		txt.text = "Android:\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + Std.string(this._isAndroid());
 		this._info.addChild(txt);
 		txt = new PIXI.Text("",{ fill : "#FFFFFF"});
-		txt.text = "Android Phone: \t\t\t\t" + Std.string(this._isAndroidMobile());
+		txt.text = "Android Phone:\t\t\t\t\t" + Std.string(this._isAndroidPhone());
 		txt.y = 40;
 		this._info.addChild(txt);
 		txt = new PIXI.Text("",{ fill : "#FFFFFF"});
-		txt.text = "iOS: \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + Std.string(this._isiOS());
+		txt.text = "iOS:\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + Std.string(this._isiOS());
 		txt.y = 80;
 		this._info.addChild(txt);
 		txt = new PIXI.Text("",{ fill : "#FFFFFF"});
-		txt.text = "iOS Phone: \t\t\t\t\t\t\t\t\t\t\t\t" + Std.string(this._isiOSPhone());
+		txt.text = "iOS Phone:\t\t\t\t\t\t\t\t\t\t\t\t\t" + Std.string(this._isiOSPhone());
 		txt.y = 120;
+		this._info.addChild(txt);
+		txt = new PIXI.Text("",{ fill : "#FFFFFF"});
+		txt.text = "Windows:\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + Std.string(this._isWindows());
+		txt.y = 160;
+		this._info.addChild(txt);
+		txt = new PIXI.Text("",{ fill : "#FFFFFF"});
+		txt.text = "Windows Phone:\t\t\t" + Std.string(this._isWindowsPhone());
+		txt.y = 200;
 		this._info.addChild(txt);
 		this._info.position.x = (window.innerWidth - this._info.width) / 2;
 		this._info.position.y = (window.innerHeight - this._info.height) / 2;
@@ -224,7 +232,7 @@ samples_devicedetection_Main.prototype = $extend(pixi_plugins_app_Application.pr
 	,_isAndroid: function() {
 		return new EReg("Android","i").match(window.navigator.userAgent);
 	}
-	,_isAndroidMobile: function() {
+	,_isAndroidPhone: function() {
 		return new EReg("Android","i").match(window.navigator.userAgent) && new EReg("Mobile","i").match(window.navigator.userAgent);
 	}
 	,_isiOS: function() {
@@ -232,6 +240,12 @@ samples_devicedetection_Main.prototype = $extend(pixi_plugins_app_Application.pr
 	}
 	,_isiOSPhone: function() {
 		return new EReg("(iPhone|iPod)","i").match(window.navigator.userAgent);
+	}
+	,_isWindows: function() {
+		return new EReg("(Windows|iemobile)","i").match(window.navigator.userAgent);
+	}
+	,_isWindowsPhone: function() {
+		return new EReg("Windows Phone","i").match(window.navigator.userAgent) || new EReg("iemobile","i").match(window.navigator.userAgent);
 	}
 });
 var $_, $fid = 0;
