@@ -4,12 +4,14 @@ var radar_Main = function() {
 	var canvas;
 	var _this = window.document;
 	canvas = _this.createElement("canvas");
-	canvas.id = "myChart";
 	window.document.body.appendChild(canvas);
 	Chart.defaults.global.responsive = true;
 	var ctx = canvas.getContext("2d");
-	var radarChart = new Chart(ctx);
-	radarChart.Radar(this.data);
+	var radarChart = new Chart(ctx).Radar(this.data);
+	canvas.onclick = function(evt) {
+		radarChart.addData([Math.random() * 100],"test");
+		radarChart.update();
+	};
 };
 radar_Main.main = function() {
 	new radar_Main();
