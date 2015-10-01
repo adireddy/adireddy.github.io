@@ -130,7 +130,7 @@ samples_loader_Main.main = function() {
 samples_loader_Main.__super__ = pixi_plugins_app_Application;
 samples_loader_Main.prototype = $extend(pixi_plugins_app_Application.prototype,{
 	_init: function() {
-		pixi_plugins_app_Application.prototype.start.call(this,"auto");
+		pixi_plugins_app_Application.prototype.start.call(this);
 		this._baseURL = "assets/loader/";
 		this._loader = new PIXI.loaders.Loader();
 		this._loader.baseUrl = this._baseURL;
