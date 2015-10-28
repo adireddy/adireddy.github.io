@@ -7,7 +7,17 @@ function $extend(from, fields) {
 }
 var pixi_plugins_app_Application = function() {
 	this._lastTime = new Date();
-	this._setDefaultValues();
+	this.pixelRatio = 1;
+	this.set_skipFrame(false);
+	this.autoResize = true;
+	this.transparent = false;
+	this.antialias = false;
+	this.forceFXAA = false;
+	this.roundPixels = false;
+	this.backgroundColor = 16777215;
+	this.width = window.innerWidth;
+	this.height = window.innerHeight;
+	this.set_fps(60);
 };
 pixi_plugins_app_Application.prototype = {
 	set_fps: function(val) {
@@ -21,21 +31,7 @@ pixi_plugins_app_Application.prototype = {
 		}
 		return this.skipFrame = val;
 	}
-	,_setDefaultValues: function() {
-		this.pixelRatio = 1;
-		this.set_skipFrame(false);
-		this.autoResize = true;
-		this.transparent = false;
-		this.antialias = false;
-		this.forceFXAA = false;
-		this.roundPixels = false;
-		this.backgroundColor = 16777215;
-		this.width = window.innerWidth;
-		this.height = window.innerHeight;
-		this.set_fps(60);
-	}
-	,start: function(rendererType,stats,parentDom) {
-		if(stats == null) stats = true;
+	,start: function(rendererType,parentDom) {
 		if(rendererType == null) rendererType = "auto";
 		var _this = window.document;
 		this.canvas = _this.createElement("canvas");
@@ -58,7 +54,7 @@ pixi_plugins_app_Application.prototype = {
 		if(this.autoResize) window.onresize = $bind(this,this._onWindowResize);
 		window.requestAnimationFrame($bind(this,this._onRequestAnimationFrame));
 		this._lastTime = new Date();
-		if(stats) this._addStats();
+		this._addStats();
 	}
 	,_onWindowResize: function(event) {
 		this.width = window.innerWidth;
@@ -66,10 +62,6 @@ pixi_plugins_app_Application.prototype = {
 		this.renderer.resize(this.width,this.height);
 		this.canvas.style.width = this.width + "px";
 		this.canvas.style.height = this.height + "px";
-		if(this._stats != null) {
-			this._stats.domElement.style.top = "2px";
-			this._stats.domElement.style.right = "2px";
-		}
 		if(this.onResize != null) this.onResize();
 	}
 	,_onRequestAnimationFrame: function() {
@@ -81,7 +73,6 @@ pixi_plugins_app_Application.prototype = {
 			this.renderer.render(this.stage);
 		}
 		window.requestAnimationFrame($bind(this,this._onRequestAnimationFrame));
-		if(this._stats != null) this._stats.update();
 	}
 	,_calculateElapsedTime: function() {
 		this._currentTime = new Date();
@@ -89,35 +80,6 @@ pixi_plugins_app_Application.prototype = {
 		this._lastTime = this._currentTime;
 	}
 	,_addStats: function() {
-		if(window.Stats != null) {
-			var container;
-			var _this = window.document;
-			container = _this.createElement("div");
-			window.document.body.appendChild(container);
-			this._stats = new Stats();
-			this._stats.domElement.style.position = "absolute";
-			this._stats.domElement.style.top = "2px";
-			this._stats.domElement.style.right = "2px";
-			container.appendChild(this._stats.domElement);
-			this._stats.begin();
-			var counter;
-			var _this1 = window.document;
-			counter = _this1.createElement("div");
-			counter.style.position = "absolute";
-			counter.style.top = "50px";
-			counter.style.right = "2px";
-			counter.style.width = "76px";
-			counter.style.background = "#CCCCC";
-			counter.style.backgroundColor = "#105CB6";
-			counter.style.fontFamily = "Helvetica,Arial";
-			counter.style.padding = "2px";
-			counter.style.color = "#0FF";
-			counter.style.fontSize = "9px";
-			counter.style.fontWeight = "bold";
-			counter.style.textAlign = "center";
-			window.document.body.appendChild(counter);
-			counter.innerHTML = ["Unknown","WebGL","Canvas"][this.renderer.type] + " - " + this.pixelRatio;
-		}
 	}
 };
 var samples_textureswap_Main = function() {
