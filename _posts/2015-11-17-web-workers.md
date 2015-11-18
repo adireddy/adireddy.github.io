@@ -8,7 +8,7 @@ tags: [haxe, web, workers, multi-threading, javascript]
 imagefeature: 
 comments: true
 share: true
-featured: false
+featured: true
 ---
 
 I recently started exploring web workers in JavaScript and found them really useful to help boost the general performance of web apps.
