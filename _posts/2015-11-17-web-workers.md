@@ -3,8 +3,8 @@ layout: post
 title: Web Workers
 description: "Multi-threading in JavaScript"
 modified: 2015-11-17
-category: [haxe, web, workers, multi-threading, javascript]
-tags: [haxe, web, workers, multi-threading, javascript]
+category: [haxe, web workers, multi-threading, javascript]
+tags: [haxe, web workers, multi-threading, javascript]
 imagefeature: 
 comments: true
 share: true
@@ -21,7 +21,7 @@ JavaScript apps are single threaded and can be unresponsive or degrade performan
 
 Web workers handle pure data, which makes them especially suitable for JavaScript code that takes a long time to execute.
 
-To summarize:
+*To summarize*:
 
 - Web workers operate independently of the main browser UI thread.
 - Ideal for running computationally expensive tasks in background threads without affecting the UI thread.
@@ -32,18 +32,18 @@ To summarize:
 
 Basic web worker support is good across all browsers but I do not recommend using shared web workers as the support is very limited.
 
-Basic web worker support:
+*Basic web worker support*:
 
 - Safari Mobile 5.1
 - Android 4.4
 - Chrome 4
 - IE 10
 
-You can check upto date support info at https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers
+You can check upto date support info [here](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers).
 
 **Limitations**
 
-Worker thread *DO NOT* have access to:
+Worker thread **DO NOT** have access to:
 
 - DOM
 - Window object
@@ -101,7 +101,7 @@ class LoadJson {
 }
 {% endhighlight %}
 
-In build.hxml:
+Add the following to your **build.hxml** to generate worker script file:
 
 {% highlight haxe %}
 -js js/LoadJson.js
@@ -143,8 +143,8 @@ You can also terminate the worker by calling `close()` method on itself.
 
 **References**
 
-http://www.w3.org/TR/workers/
-http://www.w3schools.com/html/html5_webworkers.asp
-https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers
+[w3.org](http://www.w3.org/TR/workers/)
+[w3schools](http://www.w3schools.com/html/html5_webworkers.asp)
+[mozilla.org](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers)
 
 You can check my [repo](https://github.com/adireddy/playground/tree/master/src/webworkers) for more samples.
