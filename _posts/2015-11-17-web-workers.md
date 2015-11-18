@@ -81,7 +81,7 @@ class LoadJson {
 					if (request.readyState == 4) {
 						if (request.status == 200) {
 							_data = Json.parse(request.responseText);
-							untyped __js__("self").postMessage(_data);
+							untyped __js__("self").postMessage("LOADED");
 						}
 					}
 				}
@@ -126,7 +126,13 @@ class Main {
 	}
 
 	function _processWorkerJsonData(e) {
-		trace(e.data);
+		switch (e.data) {
+			case "LOADED":
+				_worker.postMessage("AccessOrder");
+
+			default:
+				trace(e.data);
+		}
 	}
 
 	static function main() {
