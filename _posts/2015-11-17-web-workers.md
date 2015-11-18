@@ -104,8 +104,8 @@ class LoadJson {
 Add the following to your **build.hxml** to generate worker script file:
 
 {% highlight haxe %}
--js js/LoadJson.js
 webworkers.LoadJson
+-js js/LoadJson.js
 {% endhighlight %}
 
 The following sample shows how to load and communicate with the worker script.
@@ -143,8 +143,10 @@ You can also terminate the worker by calling `close()` method on itself.
 
 **References**
 
-[w3.org](http://www.w3.org/TR/workers/)
-[w3schools](http://www.w3schools.com/html/html5_webworkers.asp)
-[mozilla.org](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers)
+- [w3.org](http://www.w3.org/TR/workers/)
+- [w3schools](http://www.w3schools.com/html/html5_webworkers.asp)
+- [mozilla.org](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers)
 
 You can check my [repo](https://github.com/adireddy/playground/tree/master/src/webworkers) for more samples.
+
+Any questions or comments, please post them in the comments section below. Thanks for reading.
