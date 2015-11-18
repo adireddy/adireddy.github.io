@@ -2,7 +2,7 @@
 layout: post
 title: Web Workers
 description: "Multi-threading in JavaScript"
-modified: 2015-11-18
+modified: 2015-11-17
 category: [haxe, web, workers, multi-threading, javascript]
 tags: [haxe, web, workers, multi-threading, javascript]
 imagefeature: 
