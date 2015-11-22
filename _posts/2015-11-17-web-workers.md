@@ -51,6 +51,8 @@ Worker thread **DO NOT** have access to:
 - Parent object
 - Global variables or functions in main page
 
+Also note that all of your worker scripts must be served from the same domain and protocol as the script that is attempting to create the worker.
+
 ###Ideal Candidates/Use cases###
 
 The most important thing is to identify and isolate hot spots in your code so that they can me moved to web workers for parallel execution provided they do not have any limitations mentioned above.
