@@ -1,4 +1,4 @@
-(function (console) { "use strict";
+(function (console, $hx_exports) { "use strict";
 var $hxClasses = {};
 function $extend(from, fields) {
 	function Inherit() {} Inherit.prototype = from; var proto = new Inherit();
@@ -193,6 +193,234 @@ Type.createInstance = function(cl,args) {
 	}
 	return null;
 };
+var Utils = function() { };
+$hxClasses["Utils"] = Utils;
+Utils.__name__ = ["Utils"];
+Utils.isiOS = function() {
+	return new EReg("(iPad|iPhone|iPod)","i").match(window.navigator.userAgent);
+};
+var Waud = $hx_exports.Waud = function() { };
+$hxClasses["Waud"] = Waud;
+Waud.__name__ = ["Waud"];
+Waud.init = function() {
+	Waud.audioContext = Waud.createAudioContext();
+	Waud.checkAudioContext(Waud.sampleRate);
+	Waud.webAudioAPI = false;
+	Waud.defaults = new WaudDefaults();
+	Waud.defaults.autoplay = false;
+	Waud.defaults.formats = [];
+	Waud.defaults.loop = false;
+	Waud.defaults.preload = "metadata";
+	Waud.defaults.volume = 1;
+	Waud.defaults.document = window.document;
+	Waud.sounds = new haxe_ds_StringMap();
+	Waud.types = new haxe_ds_StringMap();
+	Waud.types.set("mp3","audio/mpeg");
+	Waud.types.set("ogg","audio/ogg");
+	Waud.types.set("wav","audio/wav");
+	Waud.types.set("aac","audio/aac");
+	Waud.types.set("m4a","audio/x-m4a");
+	if(Waud.iOS) window.document.addEventListener("touchend",Waud.unlockAudio,true);
+	window.addEventListener("unload",Waud.destroyContext,true);
+};
+Waud.mute = function() {
+	var $it0 = Waud.sounds.iterator();
+	while( $it0.hasNext() ) {
+		var sound = $it0.next();
+		sound.mute();
+	}
+};
+Waud.unmute = function() {
+	var $it0 = Waud.sounds.iterator();
+	while( $it0.hasNext() ) {
+		var sound = $it0.next();
+		sound.unmute();
+	}
+};
+Waud.destroyContext = function() {
+	if(Waud.audioContext != null) {
+		if(Waud.audioContext.close != null) Waud.audioContext.close();
+		Waud.audioContext = null;
+	}
+};
+Waud.suspendContext = function() {
+	if(Waud.audioContext != null) {
+		if(Waud.audioContext.suspend != null) Waud.audioContext.suspend();
+	}
+};
+Waud.resumeContext = function() {
+	if(Waud.audioContext != null) {
+		if(Waud.audioContext.resume != null) Waud.audioContext.resume();
+	}
+};
+Waud.getSupportString = function() {
+	var support = "OGG: " + Waud.audioElement.canPlayType("audio/ogg; codecs=\"vorbis\"");
+	support += ", WAV: " + Waud.audioElement.canPlayType("audio/wav; codecs=\"1\"");
+	support += ", MP3: " + Waud.audioElement.canPlayType("audio/mpeg;");
+	support += ", AAC: " + Waud.audioElement.canPlayType("audio/aac;");
+	support += ", M4A: " + Waud.audioElement.canPlayType("audio/x-m4a;");
+	return support;
+};
+Waud.createAudioContext = function() {
+	if(Waud.audioContext == null) try {
+		if(Waud.ac != null) Waud.audioContext = Type.createInstance(Waud.ac,[]);
+	} catch( e ) {
+		if (e instanceof js__$Boot_HaxeError) e = e.val;
+		Waud.audioContext = null;
+	}
+	return Waud.audioContext;
+};
+Waud.checkAudioContext = function(sampleRate) {
+	if(Waud.audioContext != null && Waud.audioContext.sampleRate != sampleRate) {
+		Waud.destroyContext();
+		Waud.audioContext = Waud.createAudioContext();
+	}
+};
+Waud.unlockAudio = function() {
+	if(Waud.unlocked || Waud.audioContext == null) return;
+	var bfr = Waud.audioContext.createBuffer(1,1,Waud.sampleRate);
+	var src = Waud.audioContext.createBufferSource();
+	src.buffer = bfr;
+	src.connect(Waud.audioContext.destination);
+	if(src.noteOn != null) src.noteOn(0); else src.start(0);
+	haxe_Timer.delay(function() {
+		if(src.playbackState == src.PLAYING_STATE || src.playbackState == src.FINISHED_STATE) {
+			Waud.unlocked = true;
+			if(Waud.touchUnlock != null) Waud.touchUnlock();
+			window.document.removeEventListener("touchend",Waud.unlockAudio,true);
+		}
+	},1);
+};
+Waud.isSupported = function() {
+	return ($_=Waud.audioElement,$bind($_,$_.canPlayType)) != null;
+};
+Waud.isOGGSupported = function() {
+	var canPlay = Waud.audioElement.canPlayType("audio/ogg; codecs=\"vorbis\"");
+	return ($_=Waud.audioElement,$bind($_,$_.canPlayType)) != null && canPlay != null && (canPlay == "probably" || canPlay == "maybe");
+};
+Waud.isWAVSupported = function() {
+	var canPlay = Waud.audioElement.canPlayType("audio/wav; codecs=\"1\"");
+	return ($_=Waud.audioElement,$bind($_,$_.canPlayType)) != null && canPlay != null && (canPlay == "probably" || canPlay == "maybe");
+};
+Waud.isMP3Supported = function() {
+	var canPlay = Waud.audioElement.canPlayType("audio/mpeg;");
+	return ($_=Waud.audioElement,$bind($_,$_.canPlayType)) != null && canPlay != null && (canPlay == "probably" || canPlay == "maybe");
+};
+Waud.isAACSupported = function() {
+	var canPlay = Waud.audioElement.canPlayType("audio/aac;");
+	return ($_=Waud.audioElement,$bind($_,$_.canPlayType)) != null && canPlay != null && (canPlay == "probably" || canPlay == "maybe");
+};
+Waud.isM4ASupported = function() {
+	var canPlay = Waud.audioElement.canPlayType("audio/x-m4a;");
+	return ($_=Waud.audioElement,$bind($_,$_.canPlayType)) != null && canPlay != null && (canPlay == "probably" || canPlay == "maybe");
+};
+var WaudDefaults = function() {
+};
+$hxClasses["WaudDefaults"] = WaudDefaults;
+WaudDefaults.__name__ = ["WaudDefaults"];
+WaudDefaults.prototype = {
+	__class__: WaudDefaults
+};
+var WaudSound = $hx_exports.WaudSound = function(src,options) {
+	var _g = this;
+	if(Waud.defaults == null) {
+		console.log("Initialise Waud using Waud.init() before loading sounds");
+		return;
+	}
+	if(options == null) options = { };
+	if(options.document != null) this.doc = options.document; else this.doc = Waud.defaults.document;
+	this.pid = 0;
+	this.events = [];
+	this.supported = ($_=Waud.audioElement,$bind($_,$_.canPlayType)) != null;
+	if(options.autoplay != null) options.autoplay = options.autoplay; else options.autoplay = Waud.defaults.autoplay;
+	if(options.formats != null) options.formats = options.formats; else options.formats = Waud.defaults.formats;
+	if(options.loop != null) options.loop = options.loop; else options.loop = Waud.defaults.loop;
+	if(options.preload != null) options.preload = options.preload; else options.preload = Waud.defaults.preload;
+	if(options.volume != null && options.volume >= 0 && options.volume <= 1) options.volume = options.volume; else options.volume = Waud.defaults.volume;
+	if(this.supported && src != null && src != "") {
+		var _this = window.document;
+		this.sound = _this.createElement("audio");
+		this.sound.crossOrigin = "anonymous";
+		if(Waud.webAudioAPI && Waud.audioContext != null) {
+			if(Waud.audioContext != null) {
+				this.source = Waud.audioContext.createMediaElementSource(this.sound);
+				(js_Boot.__cast(this.source , MediaElementAudioSourceNode)).connect(Waud.audioContext.destination);
+			}
+		}
+		if(options.formats.length > 0) {
+			var _g1 = 0;
+			var _g11 = options.formats;
+			while(_g1 < _g11.length) {
+				var format = _g11[_g1];
+				++_g1;
+				this.addSource(src + "." + format);
+			}
+		} else this.addSource(src);
+		if(options.loop) this.sound.loop = true;
+		if(options.autoplay) this.sound.autoplay = true;
+		this.sound.volume = options.volume;
+		if(Std.string(options.preload) == "true") this.sound.preload = "auto"; else if(Std.string(options.preload) == "false") this.sound.preload = "none"; else this.sound.preload = "metadata";
+		if(options.onload != null) this.sound.onloadeddata = function() {
+			options.onload(_g);
+		};
+		if(options.onend != null) this.sound.onended = function() {
+			options.onend(_g);
+		};
+		if(options.onerror != null) this.sound.onerror = function() {
+			options.onerror(_g);
+		};
+		Waud.sounds.set(src,this);
+		this.sound.load();
+	}
+};
+$hxClasses["WaudSound"] = WaudSound;
+WaudSound.__name__ = ["WaudSound"];
+WaudSound.prototype = {
+	addSource: function(src) {
+		var _this = window.document;
+		this.source = _this.createElement("source");
+		this.source.src = src;
+		if((function($this) {
+			var $r;
+			var key = $this.getExt(src);
+			$r = Waud.types.get(key);
+			return $r;
+		}(this)) != null) {
+			var key1 = this.getExt(src);
+			this.source.type = Waud.types.get(key1);
+		}
+		this.sound.appendChild(this.source);
+		return this.source;
+	}
+	,getExt: function(filename) {
+		return filename.split(".").pop();
+	}
+	,set_volume: function(val) {
+		if(val >= 0 && val <= 1) this.sound.volume = val;
+		return this.volume = val;
+	}
+	,mute: function() {
+		this.sound.muted = true;
+	}
+	,unmute: function() {
+		this.sound.muted = false;
+	}
+	,loop: function() {
+		this.sound.loop = true;
+	}
+	,unloop: function() {
+		this.sound.loop = false;
+	}
+	,play: function() {
+		this.sound.play();
+	}
+	,stop: function() {
+		this.sound.pause();
+		this.sound.currentTime = 0;
+	}
+	,__class__: WaudSound
+	,__properties__: {set_volume:"set_volume"}
+};
 var pixi_plugins_app_Application = function() {
 	this._lastTime = new Date();
 	this.pixelRatio = 1;
@@ -297,6 +525,7 @@ var arm_cohere_Main = function() {
 $hxClasses["arm.cohere.Main"] = arm_cohere_Main;
 arm_cohere_Main.__name__ = ["arm","cohere","Main"];
 arm_cohere_Main.main = function() {
+	Waud.init();
 	new arm_cohere_Main();
 };
 arm_cohere_Main.__super__ = pixi_plugins_app_Application;
@@ -341,20 +570,19 @@ arm_cohere_core_components_ComponentController.prototype = {
 	}
 	,__class__: arm_cohere_core_components_ComponentController
 };
-var arm_cohere_components_bitmapfont_BitmapfontController = function() {
+var arm_cohere_components_bg_BgController = function() {
 	arm_cohere_core_components_ComponentController.call(this);
 };
-$hxClasses["arm.cohere.components.bitmapfont.BitmapfontController"] = arm_cohere_components_bitmapfont_BitmapfontController;
-arm_cohere_components_bitmapfont_BitmapfontController.__name__ = ["arm","cohere","components","bitmapfont","BitmapfontController"];
-arm_cohere_components_bitmapfont_BitmapfontController.__super__ = arm_cohere_core_components_ComponentController;
-arm_cohere_components_bitmapfont_BitmapfontController.prototype = $extend(arm_cohere_core_components_ComponentController.prototype,{
+$hxClasses["arm.cohere.components.bg.BgController"] = arm_cohere_components_bg_BgController;
+arm_cohere_components_bg_BgController.__name__ = ["arm","cohere","components","bg","BgController"];
+arm_cohere_components_bg_BgController.__super__ = arm_cohere_core_components_ComponentController;
+arm_cohere_components_bg_BgController.prototype = $extend(arm_cohere_core_components_ComponentController.prototype,{
 	setup: function() {
-		this.model.get_currentDemoChanged().add($bind(this,this._onCurrentDemoChange));
+		this.view.playBgSound();
 	}
 	,_onCurrentDemoChange: function(from,to) {
-		if(to == "bitmapfont") this.view.start(); else this.view.end();
 	}
-	,__class__: arm_cohere_components_bitmapfont_BitmapfontController
+	,__class__: arm_cohere_components_bg_BgController
 });
 var arm_cohere_core_components_ComponentView = function(mainView,viewName) {
 	this.view = mainView;
@@ -395,6 +623,39 @@ arm_cohere_core_components_ComponentView.prototype = {
 	}
 	,__class__: arm_cohere_core_components_ComponentView
 };
+var arm_cohere_components_bg_BgView = function(mainView,viewName) {
+	arm_cohere_core_components_ComponentView.call(this,mainView,viewName);
+};
+$hxClasses["arm.cohere.components.bg.BgView"] = arm_cohere_components_bg_BgView;
+arm_cohere_components_bg_BgView.__name__ = ["arm","cohere","components","bg","BgView"];
+arm_cohere_components_bg_BgView.__super__ = arm_cohere_core_components_ComponentView;
+arm_cohere_components_bg_BgView.prototype = $extend(arm_cohere_core_components_ComponentView.prototype,{
+	addAssetsToLoad: function() {
+		this.loader.addAudioAsset("sounds_bg","sounds/bg.mp3");
+	}
+	,playBgSound: function() {
+		var _g = this;
+		if(arm_cohere_core_utils_BrowserUtils.isiOS()) Waud.touchUnlock = function() {
+			_g.loader.playAudio("sounds_bg",true);
+		}; else this.loader.playAudio("sounds_bg",true);
+	}
+	,__class__: arm_cohere_components_bg_BgView
+});
+var arm_cohere_components_bitmapfont_BitmapfontController = function() {
+	arm_cohere_core_components_ComponentController.call(this);
+};
+$hxClasses["arm.cohere.components.bitmapfont.BitmapfontController"] = arm_cohere_components_bitmapfont_BitmapfontController;
+arm_cohere_components_bitmapfont_BitmapfontController.__name__ = ["arm","cohere","components","bitmapfont","BitmapfontController"];
+arm_cohere_components_bitmapfont_BitmapfontController.__super__ = arm_cohere_core_components_ComponentController;
+arm_cohere_components_bitmapfont_BitmapfontController.prototype = $extend(arm_cohere_core_components_ComponentController.prototype,{
+	setup: function() {
+		this.model.get_currentDemoChanged().add($bind(this,this._onCurrentDemoChange));
+	}
+	,_onCurrentDemoChange: function(from,to) {
+		if(to == "bitmapfont") this.view.start(); else this.view.end();
+	}
+	,__class__: arm_cohere_components_bitmapfont_BitmapfontController
+});
 var arm_cohere_components_bitmapfont_BitmapfontView = function(mainView,viewName) {
 	arm_cohere_core_components_ComponentView.call(this,mainView,viewName);
 };
@@ -444,12 +705,7 @@ arm_cohere_components_bunnymark_BunnymarkController.prototype = $extend(arm_cohe
 	,__class__: arm_cohere_components_bunnymark_BunnymarkController
 });
 var arm_cohere_components_bunnymark_BunnymarkView = function(mainView,viewName) {
-	this._amount = 100;
 	this._count = 0;
-	this._isAdding = false;
-	this._startBunnyCount = 2;
-	this._minY = 0;
-	this._minX = 0;
 	this._gravity = 0.5;
 	this._bunnyTextures = [];
 	this._bunnys = [];
@@ -465,12 +721,12 @@ arm_cohere_components_bunnymark_BunnymarkView.prototype = $extend(arm_cohere_cor
 		this.loader.addAsset("bunnymark_bunny3","bunnymark/bunny3.png");
 		this.loader.addAsset("bunnymark_bunny4","bunnymark/bunny4.png");
 		this.loader.addAsset("bunnymark_bunny5","bunnymark/bunny5.png");
+		this.loader.addAudioAsset("sounds_sound2","sounds/sound2.wav");
 	}
 	,start: function() {
 		this._maxX = window.innerWidth;
 		this._maxY = window.innerHeight;
-		this._count = this._startBunnyCount;
-		this._counter = new PIXI.Text(this._count + " BUNNIES",{ fill : "#105CB6", font : "bold 12px Courier"});
+		this._counter = new PIXI.Text("0 BUNNIES (touch/click to add)",{ fill : "#105CB6", font : "bold 12px Courier"});
 		this._container.addChild(this._counter);
 		this._bunnyContainer = new PIXI.ParticleContainer();
 		this._bunnyContainer.addChild(this._bunnyContainer);
@@ -478,77 +734,54 @@ arm_cohere_components_bunnymark_BunnymarkView.prototype = $extend(arm_cohere_cor
 		this._bunnyTextures = [this.loader.getTexture("bunnymark_bunny1"),this.loader.getTexture("bunnymark_bunny2"),this.loader.getTexture("bunnymark_bunny3"),this.loader.getTexture("bunnymark_bunny4"),this.loader.getTexture("bunnymark_bunny5")];
 		this._bunnyType = 1;
 		this._currentTexture = this._bunnyTextures[this._bunnyType];
-		var _g1 = 0;
-		var _g = this._startBunnyCount;
-		while(_g1 < _g) {
-			var i = _g1++;
-			var bunny = new arm_cohere_components_bunnymark_Bunny(this._currentTexture);
-			bunny.speedX = Math.random() * 5;
-			bunny.speedY = Math.random() * 5 - 3;
-			bunny.anchor.set(0.5,1);
-			this._bunnys.push(bunny);
-			this._bunnyContainer.addChild(bunny);
-		}
 		window.document.addEventListener("touchstart",$bind(this,this._onTouchStart),true);
-		window.document.addEventListener("touchend",$bind(this,this._onTouchEnd),true);
 		window.document.addEventListener("mousedown",$bind(this,this._onTouchStart),true);
-		window.document.addEventListener("mouseup",$bind(this,this._onTouchEnd),true);
+		this.loader.playAudio("sounds_sound2",true);
 	}
 	,_onTouchStart: function(event) {
-		this._isAdding = true;
-	}
-	,_onTouchEnd: function(event) {
 		this._bunnyType++;
 		this._bunnyType %= 5;
 		this._currentTexture = this._bunnyTextures[this._bunnyType];
-		this._isAdding = false;
+		if(this._count < 200000) {
+			var _g = 0;
+			while(_g < 500) {
+				var i = _g++;
+				var bunny = new arm_cohere_components_bunnymark_Bunny(this._currentTexture);
+				bunny.speedX = Math.random() * 5;
+				bunny.speedY = Math.random() * 5 - 3;
+				bunny.anchor.set(0,1);
+				bunny.scale.set(0.5 + Math.random() * 0.5,0.5 + Math.random() * 0.5);
+				bunny.rotation = Math.random() - 0.5;
+				this._bunnys.push(bunny);
+				this._container.addChild(bunny);
+				this._count++;
+			}
+		}
+		this._counter.text = this._count + " BUNNIES";
 	}
 	,update: function(elapsedTime) {
-		if(this._isAdding) {
-			if(this._count < 200000) {
-				var _g1 = 0;
-				var _g = this._amount;
-				while(_g1 < _g) {
-					var i = _g1++;
-					var bunny = new arm_cohere_components_bunnymark_Bunny(this._currentTexture);
-					bunny.speedX = Math.random() * 5;
-					bunny.speedY = Math.random() * 5 - 3;
-					bunny.anchor.y = 1;
-					bunny.alpha = 0.3 + Math.random() * 0.7;
-					this._bunnys.push(bunny);
-					bunny.scale.set(0.5 + Math.random() * 0.5,0.5 + Math.random() * 0.5);
-					bunny.rotation = Math.random() - 0.5;
-					bunny.rotation = Math.random() - 0.5;
-					var random = Std.random(this._bunnyContainer.children.length - 2);
-					this._bunnyContainer.addChild(bunny);
-					this._count++;
-				}
+		var _g1 = 0;
+		var _g = this._bunnys.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			var bunny = this._bunnys[i];
+			bunny.position.x += bunny.speedX;
+			bunny.position.y += bunny.speedY;
+			bunny.speedY += this._gravity;
+			if(bunny.position.x > this._maxX) {
+				bunny.speedX *= -1;
+				bunny.position.x = this._maxX;
+			} else if(bunny.position.x < 0) {
+				bunny.speedX *= -1;
+				bunny.position.x = 0;
 			}
-			this._counter.text = this._count + " BUNNIES";
-		}
-		var _g11 = 0;
-		var _g2 = this._bunnys.length;
-		while(_g11 < _g2) {
-			var i1 = _g11++;
-			var bunny1 = this._bunnys[i1];
-			bunny1.rotation += 0.1;
-			bunny1.position.x += bunny1.speedX;
-			bunny1.position.y += bunny1.speedY;
-			bunny1.speedY += this._gravity;
-			if(bunny1.position.x > this._maxX) {
-				bunny1.speedX *= -1;
-				bunny1.position.x = this._maxX;
-			} else if(bunny1.position.x < this._minX) {
-				bunny1.speedX *= -1;
-				bunny1.position.x = this._minX;
-			}
-			if(bunny1.position.y > this._maxY) {
-				bunny1.speedY *= -0.85;
-				bunny1.position.y = this._maxY;
-				if(Math.random() > 0.5) bunny1.speedY -= Math.random() * 6;
-			} else if(bunny1.position.y < this._minY) {
-				bunny1.speedY = 0;
-				bunny1.position.y = this._minY;
+			if(bunny.position.y > this._maxY) {
+				bunny.speedY *= -0.85;
+				bunny.position.y = this._maxY;
+				if(Math.random() > 0.5) bunny.speedY -= Math.random() * 6;
+			} else if(bunny.position.y < 0) {
+				bunny.speedY = 0;
+				bunny.position.y = 0;
 			}
 		}
 	}
@@ -557,16 +790,13 @@ arm_cohere_components_bunnymark_BunnymarkView.prototype = $extend(arm_cohere_cor
 		this._maxY = window.innerHeight;
 	}
 	,end: function() {
-		this._isAdding = false;
 		this._container.removeChildren();
 		this._counter = null;
 		this._bunnyContainer = null;
 		this._count = 0;
 		this._bunnyTextures = [];
 		window.document.removeEventListener("touchstart",$bind(this,this._onTouchStart),true);
-		window.document.removeEventListener("touchend",$bind(this,this._onTouchEnd),true);
 		window.document.removeEventListener("mousedown",$bind(this,this._onTouchStart),true);
-		window.document.removeEventListener("mouseup",$bind(this,this._onTouchEnd),true);
 	}
 	,__class__: arm_cohere_components_bunnymark_BunnymarkView
 });
@@ -668,14 +898,14 @@ arm_cohere_components_preloader_PreloaderView.prototype = $extend(arm_cohere_cor
 		this._loadingBarBG.drawRect(0,0,204,26);
 		this._loadingBarBG.endFill();
 		this._loadingBar = new PIXI.Graphics();
-		this._loadingBar.beginFill(559624);
+		this._loadingBar.beginFill(16711765);
 		this._loadingBar.drawRect(0,0,200,22);
 		this._loadingBar.endFill();
 		this._loadingBarContainer.addChild(this._loadingBarBG);
 		this._loadingBarContainer.addChild(this._loadingBar);
 		this._loadingBar.x = this._loadingBar.y = 2;
 		this._loadingBar.scale.x = 0.02;
-		this._loadingBarContainer.position.set(this._logo.x - this._loadingBarBG.width / 2,this._logo.y + this._logo.height / 2 + 25);
+		this._loadingBarContainer.position.set(this._logo.x - this._loadingBarBG.width / 2,this._logo.y + this._logo.height / 2 + 10);
 	}
 	,reset: function() {
 		this._container.removeChild(this._logo);
@@ -764,6 +994,8 @@ arm_cohere_components_spritesheet_SpritesheetView.prototype = $extend(arm_cohere
 		this._count = 0;
 		this._isAdding = false;
 		this._fighterTextures = [];
+		this._spriteContainer = new PIXI.Container();
+		this._container.addChild(this._spriteContainer);
 		var _g = 0;
 		while(_g < 29) {
 			var i = _g++;
@@ -771,7 +1003,7 @@ arm_cohere_components_spritesheet_SpritesheetView.prototype = $extend(arm_cohere
 			if(i < 10) frame = "0" + frame;
 			this._fighterTextures.push(this.loader.getTexture("rollSequence00" + frame + ".png"));
 		}
-		this._counter = new PIXI.Text(this._count + " SPRITES",{ fill : "#105CB6", font : "bold 12px Courier"});
+		this._counter = new PIXI.Text(this._count + " SPRITES",{ fill : "#0000FF", font : "bold 12px Courier"});
 		this._container.addChild(this._counter);
 		this._addFighter(window.innerWidth / 2,window.innerHeight / 2);
 		window.document.addEventListener("touchstart",$bind(this,this._onTouchStart),true);
@@ -790,7 +1022,7 @@ arm_cohere_components_spritesheet_SpritesheetView.prototype = $extend(arm_cohere
 		fighter.anchor.set(0.5);
 		fighter.position.set(x,y);
 		fighter.play();
-		this._container.addChild(fighter);
+		this._spriteContainer.addChild(fighter);
 		this._count++;
 		this._counter.text = this._count + " SPRITES";
 	}
@@ -802,6 +1034,7 @@ arm_cohere_components_spritesheet_SpritesheetView.prototype = $extend(arm_cohere
 		this._count = 0;
 		this._isAdding = false;
 		this._fighterTextures = [];
+		this._spriteContainer = null;
 		window.document.removeEventListener("touchstart",$bind(this,this._onTouchStart),true);
 		window.document.removeEventListener("touchend",$bind(this,this._onTouchEnd),true);
 		window.document.removeEventListener("mousedown",$bind(this,this._onTouchStart),true);
@@ -980,14 +1213,14 @@ arm_cohere_core_loader_AssetLoader.prototype = $extend(PIXI.loaders.Loader.proto
 		var value = new arm_cohere_core_loader_AudioAsset(this.baseUrl + this._audioAssetPaths.get(id),false,false,$bind(this,this._onAudioAssetLoaded),$bind(this,this._onAudioAssetLoadError));
 		this._audioAssets.set(id,value);
 	}
-	,_onAudioAssetLoaded: function() {
+	,_onAudioAssetLoaded: function(snd) {
 		this._loadCount++;
 		if(this._loadCount == this._audioCount) {
 			if(this.count - this._audioCount > 0) this.load(this._onComplete); else this._onComplete();
 		} else if(this._audioKeys.length > 0) this._loadAudioAsset();
 		this._checkProgress();
 	}
-	,_onAudioAssetLoadError: function() {
+	,_onAudioAssetLoadError: function(snd) {
 		this._loadCount++;
 		if(this._loadCount == this._audioCount) {
 			if(this.count - this._audioCount > 0) this.load(this._onComplete); else this._onComplete();
@@ -1001,6 +1234,12 @@ arm_cohere_core_loader_AssetLoader.prototype = $extend(PIXI.loaders.Loader.proto
 	,_checkProgress: function() {
 		this.loadProgress = this._loadCount / this.count * 100;
 		if(this._onProgress != null) this._onProgress();
+	}
+	,addAudioAsset: function(id,path) {
+		this.count++;
+		this._audioCount++;
+		this._audioAssetPaths.set(id,path);
+		this._audioKeys.push(id);
 	}
 	,addAsset: function(id,path,usePixelRatio) {
 		if(usePixelRatio == null) usePixelRatio = true;
@@ -1019,6 +1258,11 @@ arm_cohere_core_loader_AssetLoader.prototype = $extend(PIXI.loaders.Loader.proto
 		var resource = Reflect.field(this.resources,id);
 		if(resource != null && resource.texture != null) return resource.texture; else if(PIXI.Texture.fromFrame(id) != null) return PIXI.Texture.fromFrame(id); else JConsole.error("Texture with id '" + id + "' not found");
 		return null;
+	}
+	,playAudio: function(id,loop,onend) {
+		if(loop == null) loop = false;
+		var snd = this._audioAssets.get(id);
+		snd.play(loop,onend);
 	}
 	,reset: function() {
 		this.removeAllListeners();
@@ -1039,18 +1283,24 @@ arm_cohere_core_loader_AssetLoader.prototype = $extend(PIXI.loaders.Loader.proto
 var arm_cohere_core_loader_AudioAsset = function(path,autoPlay,loop,loadComplete,loadError) {
 	if(loop == null) loop = false;
 	if(autoPlay == null) autoPlay = false;
+	console.log(path);
 	var options = { };
-	options.src = [path];
 	options.autoplay = autoPlay;
 	options.loop = loop;
 	if(loadComplete != null) options.onload = loadComplete;
-	if(loadError != null) options.onloaderror = loadError;
-	this._snd = new Howl(options);
+	if(loadError != null) options.onerror = loadError;
+	this._snd = new WaudSound(path,options);
 };
 $hxClasses["arm.cohere.core.loader.AudioAsset"] = arm_cohere_core_loader_AudioAsset;
 arm_cohere_core_loader_AudioAsset.__name__ = ["arm","cohere","core","loader","AudioAsset"];
 arm_cohere_core_loader_AudioAsset.prototype = {
-	__class__: arm_cohere_core_loader_AudioAsset
+	play: function(loop,onend) {
+		if(loop == null) loop = false;
+		this._snd.stop();
+		this._snd.play();
+		if(loop) this._snd.loop(); else this._snd.unloop();
+	}
+	,__class__: arm_cohere_core_loader_AudioAsset
 };
 var arm_cohere_core_loader_MultipackParser = function() { };
 $hxClasses["arm.cohere.core.loader.MultipackParser"] = arm_cohere_core_loader_MultipackParser;
@@ -1218,6 +1468,49 @@ bindx_FieldSignal.prototype = $extend(bindx_Signal.prototype,{
 var haxe_IMap = function() { };
 $hxClasses["haxe.IMap"] = haxe_IMap;
 haxe_IMap.__name__ = ["haxe","IMap"];
+var haxe_Timer = function(time_ms) {
+	var me = this;
+	this.id = setInterval(function() {
+		me.run();
+	},time_ms);
+};
+$hxClasses["haxe.Timer"] = haxe_Timer;
+haxe_Timer.__name__ = ["haxe","Timer"];
+haxe_Timer.delay = function(f,time_ms) {
+	var t = new haxe_Timer(time_ms);
+	t.run = function() {
+		t.stop();
+		f();
+	};
+	return t;
+};
+haxe_Timer.prototype = {
+	stop: function() {
+		if(this.id == null) return;
+		clearInterval(this.id);
+		this.id = null;
+	}
+	,run: function() {
+	}
+	,__class__: haxe_Timer
+};
+var haxe_ds__$StringMap_StringMapIterator = function(map,keys) {
+	this.map = map;
+	this.keys = keys;
+	this.index = 0;
+	this.count = keys.length;
+};
+$hxClasses["haxe.ds._StringMap.StringMapIterator"] = haxe_ds__$StringMap_StringMapIterator;
+haxe_ds__$StringMap_StringMapIterator.__name__ = ["haxe","ds","_StringMap","StringMapIterator"];
+haxe_ds__$StringMap_StringMapIterator.prototype = {
+	hasNext: function() {
+		return this.index < this.count;
+	}
+	,next: function() {
+		return this.map.get(this.keys[this.index++]);
+	}
+	,__class__: haxe_ds__$StringMap_StringMapIterator
+};
 var haxe_ds_StringMap = function() {
 	this.h = { };
 };
@@ -1246,6 +1539,21 @@ haxe_ds_StringMap.prototype = {
 	,existsReserved: function(key) {
 		if(this.rh == null) return false;
 		return this.rh.hasOwnProperty("$" + key);
+	}
+	,arrayKeys: function() {
+		var out = [];
+		for( var key in this.h ) {
+		if(this.h.hasOwnProperty(key)) out.push(key);
+		}
+		if(this.rh != null) {
+			for( var key in this.rh ) {
+			if(key.charCodeAt(0) == 36) out.push(key.substr(1));
+			}
+		}
+		return out;
+	}
+	,iterator: function() {
+		return new haxe_ds__$StringMap_StringMapIterator(this,this.arrayKeys());
 	}
 	,__class__: haxe_ds_StringMap
 };
@@ -1979,11 +2287,22 @@ var Class = $hxClasses.Class = { __name__ : ["Class"]};
 var Enum = { };
 var __map_reserved = {}
 msignal_SlotList.NIL = new msignal_SlotList(null,null);
-AssetsList.LIST = ["resources/sounds/loop.mp3","resources/sounds/sound1.wav","resources/sounds/sound2.wav","resources/sounds/sound3.wav","resources/sounds/sound4.wav","resources/@1x/alphamask/bkg.jpg","resources/@1x/alphamask/cells.png","resources/@1x/alphamask/flowerTop.png","resources/@1x/bunnymark/.DS_Store","resources/@1x/bunnymark/bunny1.png","resources/@1x/bunnymark/bunny2.png","resources/@1x/bunnymark/bunny3.png","resources/@1x/bunnymark/bunny4.png","resources/@1x/bunnymark/bunny5.png","resources/@1x/common/button.png","resources/@1x/filters/BGrotate.jpg","resources/@1x/filters/depth_blur_BG.jpg","resources/@1x/filters/depth_blur_dudes.jpg","resources/@1x/filters/depth_blur_moby.jpg","resources/@1x/filters/LightRotate1.png","resources/@1x/filters/LightRotate2.png","resources/@1x/filters/panda.png","resources/@1x/filters/SceneRotate.jpg","resources/@1x/fonts/desyrel.png","resources/@1x/fonts/desyrel.ttf","resources/@1x/fonts/desyrel.xml","resources/@1x/graphics/spinObj_01.png","resources/@1x/graphics/spinObj_02.png","resources/@1x/graphics/spinObj_03.png","resources/@1x/graphics/spinObj_04.png","resources/@1x/graphics/spinObj_05.png","resources/@1x/graphics/spinObj_06.png","resources/@1x/graphics/spinObj_07.png","resources/@1x/graphics/spinObj_08.png","resources/@1x/movieclip/.DS_Store","resources/@1x/movieclip/SpriteSheet.json","resources/@1x/movieclip/SpriteSheet.png","resources/@1x/nape/ball.png","resources/@1x/preloader/logo.png","resources/@1x/rendertexture/spinObj_01.png","resources/@1x/rendertexture/spinObj_02.png","resources/@1x/rendertexture/spinObj_03.png","resources/@1x/rendertexture/spinObj_04.png","resources/@1x/rendertexture/spinObj_05.png","resources/@1x/rendertexture/spinObj_06.png","resources/@1x/rendertexture/spinObj_07.png","resources/@1x/rendertexture/spinObj_08.png","resources/@1x/retina/img.jpg","resources/@1x/rope/snake.png","resources/@1x/spine/.DS_Store","resources/@1x/spine/dragon.atlas","resources/@1x/spine/dragon.json","resources/@1x/spine/dragon.png","resources/@1x/spine/dragon2.png","resources/@1x/spine/goblins.atlas","resources/@1x/spine/goblins.json","resources/@1x/spine/goblins.png","resources/@1x/spine/iP4_BGtile.jpg","resources/@1x/spine/iP4_ground.png","resources/@1x/spine/Pixie.atlas","resources/@1x/spine/Pixie.json","resources/@1x/spine/Pixie.png","resources/@1x/spine/spineboy.atlas","resources/@1x/spine/spineboy.json","resources/@1x/spine/spineboy.png","resources/@1x/spritesheet/.DS_Store","resources/@1x/spritesheet/fighter.json","resources/@1x/spritesheet/fighter.png","resources/@1x/spritesheet/SpriteSheet.json","resources/@1x/spritesheet/SpriteSheet.png","resources/@1x/tiling/p2.jpeg","resources/@2x/preloader/logo.png","resources/@2x/retina/img.jpg",""];
-CompileTimeClassList.__meta__ = { obj : { classLists : [["null,true,arm.cohere.core.components.ComponentModel",""],["null,true,arm.cohere.core.components.ComponentView","arm.cohere.components.bitmapfont.BitmapfontView,arm.cohere.components.bunnymark.BunnymarkView,arm.cohere.components.menu.MenuView,arm.cohere.components.preloader.PreloaderView,arm.cohere.components.retina.RetinaView,arm.cohere.components.spritesheet.SpritesheetView"],["null,true,arm.cohere.core.components.ComponentController","arm.cohere.components.bitmapfont.BitmapfontController,arm.cohere.components.bunnymark.BunnymarkController,arm.cohere.components.menu.MenuController,arm.cohere.components.preloader.PreloaderController,arm.cohere.components.retina.RetinaController,arm.cohere.components.spritesheet.SpritesheetController"]]}};
+AssetsList.LIST = ["resources/@1x/.DS_Store","resources/@2x/.DS_Store","resources/sounds/bg.mp3","resources/sounds/loop.mp3","resources/sounds/sound1.wav","resources/sounds/sound2.wav","resources/sounds/sound3.wav","resources/sounds/sound4.wav","resources/@1x/alphamask/bkg.jpg","resources/@1x/alphamask/cells.png","resources/@1x/alphamask/flowerTop.png","resources/@1x/bunnymark/.DS_Store","resources/@1x/bunnymark/bunny1.png","resources/@1x/bunnymark/bunny2.png","resources/@1x/bunnymark/bunny3.png","resources/@1x/bunnymark/bunny4.png","resources/@1x/bunnymark/bunny5.png","resources/@1x/common/button.png","resources/@1x/filters/BGrotate.jpg","resources/@1x/filters/depth_blur_BG.jpg","resources/@1x/filters/depth_blur_dudes.jpg","resources/@1x/filters/depth_blur_moby.jpg","resources/@1x/filters/LightRotate1.png","resources/@1x/filters/LightRotate2.png","resources/@1x/filters/panda.png","resources/@1x/filters/SceneRotate.jpg","resources/@1x/fonts/desyrel.png","resources/@1x/fonts/desyrel.ttf","resources/@1x/fonts/desyrel.xml","resources/@1x/graphics/spinObj_01.png","resources/@1x/graphics/spinObj_02.png","resources/@1x/graphics/spinObj_03.png","resources/@1x/graphics/spinObj_04.png","resources/@1x/graphics/spinObj_05.png","resources/@1x/graphics/spinObj_06.png","resources/@1x/graphics/spinObj_07.png","resources/@1x/graphics/spinObj_08.png","resources/@1x/movieclip/.DS_Store","resources/@1x/movieclip/SpriteSheet.json","resources/@1x/movieclip/SpriteSheet.png","resources/@1x/nape/ball.png","resources/@1x/preloader/logo.png","resources/@1x/rendertexture/spinObj_01.png","resources/@1x/rendertexture/spinObj_02.png","resources/@1x/rendertexture/spinObj_03.png","resources/@1x/rendertexture/spinObj_04.png","resources/@1x/rendertexture/spinObj_05.png","resources/@1x/rendertexture/spinObj_06.png","resources/@1x/rendertexture/spinObj_07.png","resources/@1x/rendertexture/spinObj_08.png","resources/@1x/retina/img.jpg","resources/@1x/rope/snake.png","resources/@1x/spine/.DS_Store","resources/@1x/spine/dragon.atlas","resources/@1x/spine/dragon.json","resources/@1x/spine/dragon.png","resources/@1x/spine/dragon2.png","resources/@1x/spine/goblins.atlas","resources/@1x/spine/goblins.json","resources/@1x/spine/goblins.png","resources/@1x/spine/iP4_BGtile.jpg","resources/@1x/spine/iP4_ground.png","resources/@1x/spine/Pixie.atlas","resources/@1x/spine/Pixie.json","resources/@1x/spine/Pixie.png","resources/@1x/spine/spineboy.atlas","resources/@1x/spine/spineboy.json","resources/@1x/spine/spineboy.png","resources/@1x/spritesheet/.DS_Store","resources/@1x/spritesheet/fighter.json","resources/@1x/spritesheet/fighter.png","resources/@1x/spritesheet/SpriteSheet.json","resources/@1x/spritesheet/SpriteSheet.png","resources/@1x/tiling/p2.jpeg","resources/@2x/preloader/logo.png","resources/@2x/retina/img.jpg",""];
+CompileTimeClassList.__meta__ = { obj : { classLists : [["null,true,arm.cohere.core.components.ComponentModel",""],["null,true,arm.cohere.core.components.ComponentView","arm.cohere.components.bg.BgView,arm.cohere.components.bitmapfont.BitmapfontView,arm.cohere.components.bunnymark.BunnymarkView,arm.cohere.components.menu.MenuView,arm.cohere.components.preloader.PreloaderView,arm.cohere.components.retina.RetinaView,arm.cohere.components.spritesheet.SpritesheetView"],["null,true,arm.cohere.core.components.ComponentController","arm.cohere.components.bg.BgController,arm.cohere.components.bitmapfont.BitmapfontController,arm.cohere.components.bunnymark.BunnymarkController,arm.cohere.components.menu.MenuController,arm.cohere.components.preloader.PreloaderController,arm.cohere.components.retina.RetinaController,arm.cohere.components.spritesheet.SpritesheetController"]]}};
+Waud.sampleRate = 44100;
+Waud.ac = Reflect.field(window,"AudioContext") != null?Reflect.field(window,"AudioContext"):Reflect.field(window,"webkitAudioContext");
+Waud.audioElement = (function($this) {
+	var $r;
+	var _this = window.document;
+	$r = _this.createElement("audio");
+	return $r;
+}(this));
+Waud.iOS = Utils.isiOS();
+Waud.unlocked = false;
 arm_cohere_core_components_ComponentController.__meta__ = { fields : { model : { type : ["arm.cohere.model.Model"], inject : null}}};
-arm_cohere_components_bitmapfont_BitmapfontController.__meta__ = { fields : { view : { type : ["arm.cohere.components.bitmapfont.BitmapfontView"], inject : null}}};
+arm_cohere_components_bg_BgController.__meta__ = { fields : { view : { type : ["arm.cohere.components.bg.BgView"], inject : null}}};
 arm_cohere_core_components_ComponentView.__meta__ = { obj : { SuppressWarnings : ["checkstyle:Dynamic"]}, fields : { loader : { type : ["arm.cohere.core.loader.AssetLoader"], inject : null}, stageProperties : { type : ["arm.cohere.core.utils.StageProperties"], inject : null}}};
+arm_cohere_components_bitmapfont_BitmapfontController.__meta__ = { fields : { view : { type : ["arm.cohere.components.bitmapfont.BitmapfontView"], inject : null}}};
 arm_cohere_components_bunnymark_BunnymarkController.__meta__ = { fields : { view : { type : ["arm.cohere.components.bunnymark.BunnymarkView"], inject : null}}};
 arm_cohere_components_menu_MenuController.__meta__ = { fields : { view : { type : ["arm.cohere.components.menu.MenuView"], inject : null}}};
 arm_cohere_components_preloader_PreloaderController.__meta__ = { fields : { view : { type : ["arm.cohere.components.preloader.PreloaderView"], inject : null}}};
@@ -1998,6 +2317,6 @@ haxe_IMap.__meta__ = { obj : { 'interface' : null}};
 js_Boot.__toStr = {}.toString;
 minject_point_InjectionPoint.__meta__ = { obj : { 'interface' : null}};
 arm_cohere_Main.main();
-})(typeof console != "undefined" ? console : {log:function(){}});
+})(typeof console != "undefined" ? console : {log:function(){}}, typeof window != "undefined" ? window : exports);
 
 //# sourceMappingURL=cohere.dev.js.map
