@@ -7,17 +7,17 @@ class Main extends Application {
 
 	var _btnContainer:Container;
 
-	var _bgSnd:ISound;
+	var _bgSnd:IWaudSound;
 
-	var _glassAAC:ISound;
-	var _bellAAC:ISound;
-	var _canAAC:ISound;
-	var _glassMP3:ISound;
-	var _bellMP3:ISound;
-	var _canMP3:ISound;
-	var _glassOGG:ISound;
-	var _bellOGG:ISound;
-	var _canOGG:ISound;
+	var _glassAAC:IWaudSound;
+	var _bellAAC:IWaudSound;
+	var _canAAC:IWaudSound;
+	var _glassMP3:IWaudSound;
+	var _bellMP3:IWaudSound;
+	var _canMP3:IWaudSound;
+	var _glassOGG:IWaudSound;
+	var _bellOGG:IWaudSound;
+	var _canOGG:IWaudSound;
 
 	var _ua:Text;
 
@@ -39,21 +39,21 @@ class Main extends Application {
 		_addButton("Bell", 160, 0, 60, 30, function() { _bellMP3.play(); });
 		_addButton("Can", 220, 0, 60, 30, function() { _canMP3.play(); });
 
-		label = new Text("AAC", { font: "26px Tahoma", fill:"#FFFFFF" });
+		label = new Text("AAC: ", { font: "26px Tahoma", fill:"#FFFFFF" });
 		_btnContainer.addChild(label);
 		label.position.y = 50;
 		_addButton("Glass", 100, 50, 60, 30, function() { _glassAAC.play(); });
 		_addButton("Bell", 160, 50, 60, 30, function() { _bellAAC.play(); });
 		_addButton("Can", 220, 50, 60, 30, function() { _canAAC.play(); });
 
-		label = new Text("OGG", { font: "26px Tahoma", fill:"#FFFFFF" });
+		label = new Text("OGG: ", { font: "26px Tahoma", fill:"#FFFFFF" });
 		_btnContainer.addChild(label);
 		label.position.y = 100;
 		_addButton("Glass", 100, 100, 60, 30, function() { _glassOGG.play(); });
 		_addButton("Bell", 160, 100, 60, 30, function() { _bellOGG.play(); });
 		_addButton("Can", 220, 100, 60, 30, function() { _canOGG.play(); });
 
-		label = new Text("Controls", { font: "26px Tahoma", fill:"#FFFFFF" });
+		label = new Text("Controls: ", { font: "26px Tahoma", fill:"#FFFFFF" });
 		_btnContainer.addChild(label);
 		label.position.y = 150;
 		_addButton("Mute", 100, 150, 60, 30, _mute);
@@ -88,13 +88,11 @@ class Main extends Application {
 		_resize();
 	}
 
-	// for iOS devices
-
 	function touchUnlock() {
 		if (!_bgSnd.isPlaying()) _bgSnd.play();
 	}
 
-	function _playBgSound(snd:ISound) {
+	function _playBgSound(snd:IWaudSound) {
 		if (!snd.isPlaying()) snd.play();
 	}
 
