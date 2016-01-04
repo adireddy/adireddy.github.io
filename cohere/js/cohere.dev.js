@@ -12,6 +12,70 @@ AssetsList.__name__ = ["AssetsList"];
 AssetsList.exists = function(val) {
 	return HxOverrides.indexOf(AssetsList.LIST,val,0) > -1;
 };
+var AudioManager = function() {
+	this.bufferList = new haxe_ds_StringMap();
+	this.playingSounds = new haxe_ds_StringMap();
+};
+$hxClasses["AudioManager"] = AudioManager;
+AudioManager.__name__ = ["AudioManager"];
+AudioManager.prototype = {
+	checkWebAudioAPISupport: function() {
+		if(Reflect.field(window,"AudioContext") != null) {
+			AudioManager.AudioContextClass = Reflect.field(window,"AudioContext");
+			return true;
+		} else if(Reflect.field(window,"webkitAudioContext") != null) {
+			AudioManager.AudioContextClass = Reflect.field(window,"webkitAudioContext");
+			return true;
+		}
+		return false;
+	}
+	,unlockAudio: function() {
+		if(this.audioContext == null) return;
+		var bfr = this.audioContext.createBuffer(1,1,Waud.preferredSampleRate);
+		var src = this.audioContext.createBufferSource();
+		src.buffer = bfr;
+		src.connect(this.audioContext.destination);
+		src.start(0);
+		if(src.onended != null) src.onended = $bind(this,this._unlockCallback); else haxe_Timer.delay($bind(this,this._unlockCallback),1);
+	}
+	,_unlockCallback: function() {
+		if(Waud.__touchUnlockCallback != null) Waud.__touchUnlockCallback();
+		Waud.dom.ontouchend = null;
+	}
+	,createAudioContext: function() {
+		if(this.audioContext == null) try {
+			if(AudioManager.AudioContextClass != null) this.audioContext = Type.createInstance(AudioManager.AudioContextClass,[]);
+		} catch( e ) {
+			if (e instanceof js__$Boot_HaxeError) e = e.val;
+			this.audioContext = null;
+		}
+	}
+	,__class__: AudioManager
+};
+var BaseSound = function(url,options) {
+	if(url == null || url == "") {
+		console.log("invalid sound url");
+		return;
+	}
+	if(Waud.audioManager == null) {
+		console.log("initialise Waud using Waud.init() before loading sounds");
+		return;
+	}
+	this.isSpriteSound = false;
+	this._isPlaying = false;
+	this._muted = false;
+	if(options == null) options = { };
+	if(options.autoplay != null) options.autoplay = options.autoplay; else options.autoplay = Waud.defaults.autoplay;
+	if(options.preload != null) options.preload = options.preload; else options.preload = Waud.defaults.preload;
+	if(options.loop != null) options.loop = options.loop; else options.loop = Waud.defaults.loop;
+	if(options.volume != null && options.volume >= 0 && options.volume <= 1) options.volume = options.volume; else options.volume = Waud.defaults.volume;
+	this._options = options;
+};
+$hxClasses["BaseSound"] = BaseSound;
+BaseSound.__name__ = ["BaseSound"];
+BaseSound.prototype = {
+	__class__: BaseSound
+};
 var CompileTimeClassList = function() { };
 $hxClasses["CompileTimeClassList"] = CompileTimeClassList;
 CompileTimeClassList.__name__ = ["CompileTimeClassList"];
@@ -58,6 +122,119 @@ EReg.prototype = {
 	}
 	,__class__: EReg
 };
+var IWaudSound = function() { };
+$hxClasses["IWaudSound"] = IWaudSound;
+IWaudSound.__name__ = ["IWaudSound"];
+IWaudSound.prototype = {
+	__class__: IWaudSound
+};
+var HTML5Sound = $hx_exports.HTML5Sound = function(url,options) {
+	var _g = this;
+	BaseSound.call(this,url,options);
+	this._snd = Waud.dom.createElement("audio");
+	this._addSource(url);
+	this._snd.autoplay = this._options.autoplay;
+	this._snd.loop = this._options.loop;
+	this._snd.volume = this._options.volume;
+	if(Std.string(this._options.preload) == "true") this._snd.preload = "auto"; else if(Std.string(this._options.preload) == "false") this._snd.preload = "none"; else this._snd.preload = "metadata";
+	if(this._options.onload != null) this._snd.onloadeddata = function() {
+		_g._options.onload(_g);
+	};
+	this._snd.onplaying = function() {
+		_g._isPlaying = true;
+	};
+	this._snd.onended = function() {
+		_g._isPlaying = false;
+		if(_g._options.onend != null) _g._options.onend(_g);
+	};
+	if(this._options.onerror != null) this._snd.onerror = function() {
+		_g._options.onerror(_g);
+	};
+	Waud.sounds.set(url,this);
+	this._snd.load();
+};
+$hxClasses["HTML5Sound"] = HTML5Sound;
+HTML5Sound.__name__ = ["HTML5Sound"];
+HTML5Sound.__interfaces__ = [IWaudSound];
+HTML5Sound.__super__ = BaseSound;
+HTML5Sound.prototype = $extend(BaseSound.prototype,{
+	_addSource: function(src) {
+		this._src = Waud.dom.createElement("source");
+		this._src.src = src;
+		if((function($this) {
+			var $r;
+			var key = $this._getExt(src);
+			$r = Waud.types.get(key);
+			return $r;
+		}(this)) != null) {
+			var key1 = this._getExt(src);
+			this._src.type = Waud.types.get(key1);
+		}
+		this._snd.appendChild(this._src);
+		return this._src;
+	}
+	,_getExt: function(filename) {
+		return filename.split(".").pop();
+	}
+	,setVolume: function(val) {
+		if(val >= 0 && val <= 1) {
+			this._snd.volume = val;
+			this._options.volume = val;
+		}
+	}
+	,getVolume: function() {
+		return this._options.volume;
+	}
+	,mute: function(val) {
+		this._snd.muted = val;
+		if(Utils.isiOS()) {
+			if(val && this.isPlaying()) {
+				this._muted = true;
+				this._snd.pause();
+			} else if(this._muted) {
+				this._muted = false;
+				this._snd.play();
+			}
+		}
+	}
+	,play: function(spriteName,soundProps) {
+		var _g = this;
+		if(this._muted) return this;
+		this.stop();
+		if(this.isSpriteSound && soundProps != null) {
+			this._snd.currentTime = soundProps.start;
+			if(this._tmr != null) this._tmr.stop();
+			this._tmr = haxe_Timer.delay(function() {
+				if(soundProps.loop != null && soundProps.loop) _g.play(spriteName,soundProps); else _g.stop();
+			},Math.ceil(soundProps.duration * 1000));
+		}
+		this._snd.play();
+		return this;
+	}
+	,isPlaying: function() {
+		return this._isPlaying;
+	}
+	,loop: function(val) {
+		this._snd.loop = val;
+	}
+	,stop: function() {
+		this._snd.pause();
+		this._snd.currentTime = 0;
+	}
+	,onEnd: function(callback) {
+		this._options.onend = callback;
+		return this;
+	}
+	,destroy: function() {
+		if(this._snd != null) {
+			this._snd.pause();
+			this._snd.removeChild(this._src);
+			this._src = null;
+			this._snd = null;
+		}
+	}
+	,__class__: HTML5Sound
+});
 var HxOverrides = function() { };
 $hxClasses["HxOverrides"] = HxOverrides;
 HxOverrides.__name__ = ["HxOverrides"];
@@ -97,6 +274,129 @@ List.prototype = {
 	,__class__: List
 };
 Math.__name__ = ["Math"];
+var Perf = $hx_exports.Perf = function(pos,offset) {
+	if(offset == null) offset = 0;
+	if(pos == null) pos = "TR";
+	this._perfObj = window.performance;
+	this._memoryObj = window.performance.memory;
+	this._memCheck = this._perfObj != null && this._memoryObj != null && this._memoryObj.totalJSHeapSize > 0;
+	this.currentFps = 0;
+	this.currentMs = 0;
+	this.currentMem = "0";
+	this._pos = pos;
+	this._offset = offset;
+	this._time = 0;
+	this._ticks = 0;
+	this._fpsMin = Infinity;
+	this._fpsMax = 0;
+	if(this._perfObj != null && ($_=this._perfObj,$bind($_,$_.now)) != null) this._startTime = this._perfObj.now(); else this._startTime = new Date().getTime();
+	this._prevTime = -Perf.MEASUREMENT_INTERVAL;
+	this._createFpsDom();
+	this._createMsDom();
+	if(this._memCheck) this._createMemoryDom();
+	window.requestAnimationFrame($bind(this,this._tick));
+};
+$hxClasses["Perf"] = Perf;
+Perf.__name__ = ["Perf"];
+Perf.prototype = {
+	_tick: function() {
+		var time;
+		if(this._perfObj != null && ($_=this._perfObj,$bind($_,$_.now)) != null) time = this._perfObj.now(); else time = new Date().getTime();
+		this._ticks++;
+		if(time > this._prevTime + Perf.MEASUREMENT_INTERVAL) {
+			this.currentMs = Math.round(time - this._startTime);
+			this.ms.innerHTML = "MS: " + this.currentMs;
+			this.currentFps = Math.round(this._ticks * 1000 / (time - this._prevTime));
+			this._fpsMin = Math.min(this._fpsMin,this.currentFps);
+			this._fpsMax = Math.max(this._fpsMax,this.currentFps);
+			this.fps.innerHTML = "FPS: " + this.currentFps + " (" + this._fpsMin + "-" + this._fpsMax + ")";
+			if(this.currentFps >= 30) this.fps.style.backgroundColor = Perf.FPS_BG_CLR; else if(this.currentFps >= 15) this.fps.style.backgroundColor = Perf.FPS_WARN_BG_CLR; else this.fps.style.backgroundColor = Perf.FPS_PROB_BG_CLR;
+			this._prevTime = time;
+			this._ticks = 0;
+			if(this._memCheck) {
+				this.currentMem = this._getFormattedSize(this._memoryObj.usedJSHeapSize,2);
+				this.memory.innerHTML = "MEM: " + this.currentMem;
+			}
+		}
+		this._startTime = time;
+		window.requestAnimationFrame($bind(this,this._tick));
+	}
+	,_createDiv: function(id,top) {
+		if(top == null) top = 0;
+		var div;
+		var _this = window.document;
+		div = _this.createElement("div");
+		div.id = id;
+		div.className = id;
+		div.style.position = "absolute";
+		var _g = this._pos;
+		switch(_g) {
+		case "TL":
+			div.style.left = this._offset + "px";
+			div.style.top = top + "px";
+			break;
+		case "TR":
+			div.style.right = this._offset + "px";
+			div.style.top = top + "px";
+			break;
+		case "BL":
+			div.style.left = this._offset + "px";
+			div.style.bottom = (this._memCheck?48:32) - top + "px";
+			break;
+		case "BR":
+			div.style.right = this._offset + "px";
+			div.style.bottom = (this._memCheck?48:32) - top + "px";
+			break;
+		}
+		div.style.width = "80px";
+		div.style.height = "12px";
+		div.style.lineHeight = "12px";
+		div.style.padding = "2px";
+		div.style.fontFamily = Perf.FONT_FAMILY;
+		div.style.fontSize = "9px";
+		div.style.fontWeight = "bold";
+		div.style.textAlign = "center";
+		window.document.body.appendChild(div);
+		return div;
+	}
+	,_createFpsDom: function() {
+		this.fps = this._createDiv("fps");
+		this.fps.style.backgroundColor = Perf.FPS_BG_CLR;
+		this.fps.style.zIndex = "995";
+		this.fps.style.color = Perf.FPS_TXT_CLR;
+		this.fps.innerHTML = "FPS: 0";
+	}
+	,_createMsDom: function() {
+		this.ms = this._createDiv("ms",16);
+		this.ms.style.backgroundColor = Perf.MS_BG_CLR;
+		this.ms.style.zIndex = "996";
+		this.ms.style.color = Perf.MS_TXT_CLR;
+		this.ms.innerHTML = "MS: 0";
+	}
+	,_createMemoryDom: function() {
+		this.memory = this._createDiv("memory",32);
+		this.memory.style.backgroundColor = Perf.MEM_BG_CLR;
+		this.memory.style.color = Perf.MEM_TXT_CLR;
+		this.memory.style.zIndex = "997";
+		this.memory.innerHTML = "MEM: 0";
+	}
+	,_getFormattedSize: function(bytes,frac) {
+		if(frac == null) frac = 0;
+		var sizes = ["Bytes","KB","MB","GB","TB"];
+		if(bytes == 0) return "0";
+		var precision = Math.pow(10,frac);
+		var i = Math.floor(Math.log(bytes) / Math.log(1024));
+		return Math.round(bytes * precision / Math.pow(1024,i)) / precision + " " + sizes[i];
+	}
+	,addInfo: function(val) {
+		this.info = this._createDiv("info",this._memCheck?48:32);
+		this.info.style.backgroundColor = Perf.INFO_BG_CLR;
+		this.info.style.color = Perf.INFO_TXT_CLR;
+		this.info.style.zIndex = "998";
+		this.info.innerHTML = val;
+	}
+	,__class__: Perf
+};
 var Reflect = function() { };
 $hxClasses["Reflect"] = Reflect;
 Reflect.__name__ = ["Reflect"];
@@ -144,6 +444,9 @@ $hxClasses["Std"] = Std;
 Std.__name__ = ["Std"];
 Std.string = function(s) {
 	return js_Boot.__string_rec(s,"");
+};
+Std["int"] = function(x) {
+	return x | 0;
 };
 Std.random = function(x) {
 	if(x <= 0) return 0; else return Math.floor(Math.random() * x);
@@ -202,17 +505,18 @@ Utils.isiOS = function() {
 var Waud = $hx_exports.Waud = function() { };
 $hxClasses["Waud"] = Waud;
 Waud.__name__ = ["Waud"];
-Waud.init = function() {
-	Waud.audioContext = Waud.createAudioContext();
-	Waud.checkAudioContext(Waud.sampleRate);
-	Waud.webAudioAPI = false;
-	Waud.defaults = new WaudDefaults();
+Waud.init = function(d) {
+	if(d == null) d = window.document;
+	Waud.dom = d;
+	Waud.audioElement = Waud.dom.createElement("audio");
+	if(Waud.audioManager == null) Waud.audioManager = new AudioManager();
+	Waud.isWebAudioSupported = Waud.audioManager.checkWebAudioAPISupport();
+	Waud.isHTML5AudioSupported = Reflect.field(window,"Audio") != null;
+	if(Waud.isWebAudioSupported) Waud.audioManager.createAudioContext(); else if(!Waud.isHTML5AudioSupported) console.log("no audio support in this browser");
 	Waud.defaults.autoplay = false;
-	Waud.defaults.formats = [];
 	Waud.defaults.loop = false;
-	Waud.defaults.preload = "metadata";
+	Waud.defaults.preload = "true";
 	Waud.defaults.volume = 1;
-	Waud.defaults.document = window.document;
 	Waud.sounds = new haxe_ds_StringMap();
 	Waud.types = new haxe_ds_StringMap();
 	Waud.types.set("mp3","audio/mpeg");
@@ -220,40 +524,27 @@ Waud.init = function() {
 	Waud.types.set("wav","audio/wav");
 	Waud.types.set("aac","audio/aac");
 	Waud.types.set("m4a","audio/x-m4a");
-	if(Waud.iOS) window.document.addEventListener("touchend",Waud.unlockAudio,true);
-	window.addEventListener("unload",Waud.destroyContext,true);
 };
-Waud.mute = function() {
+Waud.enableTouchUnlock = function(callback) {
+	Waud.__touchUnlockCallback = callback;
+	Waud.dom.ontouchend = ($_=Waud.audioManager,$bind($_,$_.unlockAudio));
+};
+Waud.mute = function(val) {
+	if(val == null) val = true;
 	var $it0 = Waud.sounds.iterator();
 	while( $it0.hasNext() ) {
 		var sound = $it0.next();
-		sound.mute();
+		sound.mute(val);
 	}
 };
-Waud.unmute = function() {
+Waud.stop = function() {
 	var $it0 = Waud.sounds.iterator();
 	while( $it0.hasNext() ) {
 		var sound = $it0.next();
-		sound.unmute();
+		sound.stop();
 	}
 };
-Waud.destroyContext = function() {
-	if(Waud.audioContext != null) {
-		if(Waud.audioContext.close != null) Waud.audioContext.close();
-		Waud.audioContext = null;
-	}
-};
-Waud.suspendContext = function() {
-	if(Waud.audioContext != null) {
-		if(Waud.audioContext.suspend != null) Waud.audioContext.suspend();
-	}
-};
-Waud.resumeContext = function() {
-	if(Waud.audioContext != null) {
-		if(Waud.audioContext.resume != null) Waud.audioContext.resume();
-	}
-};
-Waud.getSupportString = function() {
+Waud.getFormatSupportString = function() {
 	var support = "OGG: " + Waud.audioElement.canPlayType("audio/ogg; codecs=\"vorbis\"");
 	support += ", WAV: " + Waud.audioElement.canPlayType("audio/wav; codecs=\"1\"");
 	support += ", MP3: " + Waud.audioElement.canPlayType("audio/mpeg;");
@@ -261,168 +552,222 @@ Waud.getSupportString = function() {
 	support += ", M4A: " + Waud.audioElement.canPlayType("audio/x-m4a;");
 	return support;
 };
-Waud.createAudioContext = function() {
-	if(Waud.audioContext == null) try {
-		if(Waud.ac != null) Waud.audioContext = Type.createInstance(Waud.ac,[]);
-	} catch( e ) {
-		if (e instanceof js__$Boot_HaxeError) e = e.val;
-		Waud.audioContext = null;
-	}
-	return Waud.audioContext;
-};
-Waud.checkAudioContext = function(sampleRate) {
-	if(Waud.audioContext != null && Waud.audioContext.sampleRate != sampleRate) {
-		Waud.destroyContext();
-		Waud.audioContext = Waud.createAudioContext();
-	}
-};
-Waud.unlockAudio = function() {
-	if(Waud.unlocked || Waud.audioContext == null) return;
-	var bfr = Waud.audioContext.createBuffer(1,1,Waud.sampleRate);
-	var src = Waud.audioContext.createBufferSource();
-	src.buffer = bfr;
-	src.connect(Waud.audioContext.destination);
-	if(src.noteOn != null) src.noteOn(0); else src.start(0);
-	haxe_Timer.delay(function() {
-		if(src.playbackState == src.PLAYING_STATE || src.playbackState == src.FINISHED_STATE) {
-			Waud.unlocked = true;
-			if(Waud.touchUnlock != null) Waud.touchUnlock();
-			window.document.removeEventListener("touchend",Waud.unlockAudio,true);
-		}
-	},1);
-};
 Waud.isSupported = function() {
-	return ($_=Waud.audioElement,$bind($_,$_.canPlayType)) != null;
+	if(Waud.isWebAudioSupported == null || Waud.isHTML5AudioSupported == null) {
+		Waud.isWebAudioSupported = Waud.audioManager.checkWebAudioAPISupport();
+		Waud.isHTML5AudioSupported = Reflect.field(window,"Audio") != null;
+	}
+	return Waud.isWebAudioSupported || Waud.isHTML5AudioSupported;
 };
 Waud.isOGGSupported = function() {
 	var canPlay = Waud.audioElement.canPlayType("audio/ogg; codecs=\"vorbis\"");
-	return ($_=Waud.audioElement,$bind($_,$_.canPlayType)) != null && canPlay != null && (canPlay == "probably" || canPlay == "maybe");
+	return Waud.isHTML5AudioSupported && canPlay != null && (canPlay == "probably" || canPlay == "maybe");
 };
 Waud.isWAVSupported = function() {
 	var canPlay = Waud.audioElement.canPlayType("audio/wav; codecs=\"1\"");
-	return ($_=Waud.audioElement,$bind($_,$_.canPlayType)) != null && canPlay != null && (canPlay == "probably" || canPlay == "maybe");
+	return Waud.isHTML5AudioSupported && canPlay != null && (canPlay == "probably" || canPlay == "maybe");
 };
 Waud.isMP3Supported = function() {
 	var canPlay = Waud.audioElement.canPlayType("audio/mpeg;");
-	return ($_=Waud.audioElement,$bind($_,$_.canPlayType)) != null && canPlay != null && (canPlay == "probably" || canPlay == "maybe");
+	return Waud.isHTML5AudioSupported && canPlay != null && (canPlay == "probably" || canPlay == "maybe");
 };
 Waud.isAACSupported = function() {
 	var canPlay = Waud.audioElement.canPlayType("audio/aac;");
-	return ($_=Waud.audioElement,$bind($_,$_.canPlayType)) != null && canPlay != null && (canPlay == "probably" || canPlay == "maybe");
+	return Waud.isHTML5AudioSupported && canPlay != null && (canPlay == "probably" || canPlay == "maybe");
 };
 Waud.isM4ASupported = function() {
 	var canPlay = Waud.audioElement.canPlayType("audio/x-m4a;");
-	return ($_=Waud.audioElement,$bind($_,$_.canPlayType)) != null && canPlay != null && (canPlay == "probably" || canPlay == "maybe");
-};
-var WaudDefaults = function() {
-};
-$hxClasses["WaudDefaults"] = WaudDefaults;
-WaudDefaults.__name__ = ["WaudDefaults"];
-WaudDefaults.prototype = {
-	__class__: WaudDefaults
+	return Waud.isHTML5AudioSupported && canPlay != null && (canPlay == "probably" || canPlay == "maybe");
 };
 var WaudSound = $hx_exports.WaudSound = function(src,options) {
-	var _g = this;
-	if(Waud.defaults == null) {
-		console.log("Initialise Waud using Waud.init() before loading sounds");
+	if(Waud.audioManager == null) {
+		console.log("initialise Waud using Waud.init() before loading sounds");
 		return;
 	}
-	if(options == null) options = { };
-	if(options.document != null) this.doc = options.document; else this.doc = Waud.defaults.document;
-	this.pid = 0;
-	this.events = [];
-	this.supported = ($_=Waud.audioElement,$bind($_,$_.canPlayType)) != null;
-	if(options.autoplay != null) options.autoplay = options.autoplay; else options.autoplay = Waud.defaults.autoplay;
-	if(options.formats != null) options.formats = options.formats; else options.formats = Waud.defaults.formats;
-	if(options.loop != null) options.loop = options.loop; else options.loop = Waud.defaults.loop;
-	if(options.preload != null) options.preload = options.preload; else options.preload = Waud.defaults.preload;
-	if(options.volume != null && options.volume >= 0 && options.volume <= 1) options.volume = options.volume; else options.volume = Waud.defaults.volume;
-	if(this.supported && src != null && src != "") {
-		var _this = window.document;
-		this.sound = _this.createElement("audio");
-		this.sound.crossOrigin = "anonymous";
-		if(Waud.webAudioAPI && Waud.audioContext != null) {
-			if(Waud.audioContext != null) {
-				this.source = Waud.audioContext.createMediaElementSource(this.sound);
-				(js_Boot.__cast(this.source , MediaElementAudioSourceNode)).connect(Waud.audioContext.destination);
-			}
-		}
-		if(options.formats.length > 0) {
-			var _g1 = 0;
-			var _g11 = options.formats;
-			while(_g1 < _g11.length) {
-				var format = _g11[_g1];
-				++_g1;
-				this.addSource(src + "." + format);
-			}
-		} else this.addSource(src);
-		if(options.loop) this.sound.loop = true;
-		if(options.autoplay) this.sound.autoplay = true;
-		this.sound.volume = options.volume;
-		if(Std.string(options.preload) == "true") this.sound.preload = "auto"; else if(Std.string(options.preload) == "false") this.sound.preload = "none"; else this.sound.preload = "metadata";
-		if(options.onload != null) this.sound.onloadeddata = function() {
-			options.onload(_g);
-		};
-		if(options.onend != null) this.sound.onended = function() {
-			options.onend(_g);
-		};
-		if(options.onerror != null) this.sound.onerror = function() {
-			options.onerror(_g);
-		};
-		Waud.sounds.set(src,this);
-		this.sound.load();
+	this._options = options;
+	if(src.indexOf(".json") > 0) {
+		this.isSpriteSound = true;
+		this._loadSpriteJson(src);
+	} else {
+		this.isSpriteSound = false;
+		this._init(src);
 	}
 };
 $hxClasses["WaudSound"] = WaudSound;
 WaudSound.__name__ = ["WaudSound"];
+WaudSound.__interfaces__ = [IWaudSound];
 WaudSound.prototype = {
-	addSource: function(src) {
-		var _this = window.document;
-		this.source = _this.createElement("source");
-		this.source.src = src;
-		if((function($this) {
-			var $r;
-			var key = $this.getExt(src);
-			$r = Waud.types.get(key);
-			return $r;
-		}(this)) != null) {
-			var key1 = this.getExt(src);
-			this.source.type = Waud.types.get(key1);
+	_loadSpriteJson: function(url) {
+		var _g = this;
+		var xobj = new XMLHttpRequest();
+		xobj.overrideMimeType("application/json");
+		xobj.open("GET",url,true);
+		xobj.onreadystatechange = function() {
+			if(xobj.readyState == 4 && xobj.status == 200) {
+				_g._spriteData = JSON.parse(xobj.response);
+				_g._init(_g._spriteData.src);
+			}
+		};
+		xobj.send(null);
+	}
+	,_init: function(src) {
+		if(Waud.isWebAudioSupported) this._snd = new WebAudioAPISound(src,this._options); else if(Waud.isHTML5AudioSupported) this._snd = new HTML5Sound(src,this._options); else console.log("no audio support in this browser");
+		this._snd.isSpriteSound = this.isSpriteSound;
+	}
+	,setVolume: function(val) {
+		this._snd.setVolume(val);
+	}
+	,getVolume: function() {
+		return this._snd.getVolume();
+	}
+	,mute: function(val) {
+		this._snd.mute(val);
+	}
+	,play: function(spriteName,soundProps) {
+		if(spriteName != null) {
+			var _g = 0;
+			var _g1 = this._spriteData.sprite;
+			while(_g < _g1.length) {
+				var snd = _g1[_g];
+				++_g;
+				if(snd.name == spriteName) {
+					soundProps = snd;
+					break;
+				}
+			}
 		}
-		this.sound.appendChild(this.source);
-		return this.source;
+		this._snd.play(spriteName,soundProps);
+		return this;
 	}
-	,getExt: function(filename) {
-		return filename.split(".").pop();
+	,isPlaying: function() {
+		return this._snd.isPlaying();
 	}
-	,set_volume: function(val) {
-		if(val >= 0 && val <= 1) this.sound.volume = val;
-		return this.volume = val;
-	}
-	,mute: function() {
-		this.sound.muted = true;
-	}
-	,unmute: function() {
-		this.sound.muted = false;
-	}
-	,loop: function() {
-		this.sound.loop = true;
-	}
-	,unloop: function() {
-		this.sound.loop = false;
-	}
-	,play: function() {
-		this.sound.play();
+	,loop: function(val) {
+		this._snd.loop(val);
 	}
 	,stop: function() {
-		this.sound.pause();
-		this.sound.currentTime = 0;
+		this._snd.stop();
+	}
+	,onEnd: function(callback) {
+		this._snd.onEnd(callback);
+		return this;
+	}
+	,destroy: function() {
+		this._snd.destroy();
+		this._snd = null;
 	}
 	,__class__: WaudSound
-	,__properties__: {set_volume:"set_volume"}
 };
+var WebAudioAPISound = $hx_exports.WebAudioAPISound = function(url,options) {
+	BaseSound.call(this,url,options);
+	this._url = url;
+	this._manager = Waud.audioManager;
+	var request = new XMLHttpRequest();
+	request.open("GET",this._url,true);
+	request.responseType = "arraybuffer";
+	request.onload = $bind(this,this._onSoundLoaded);
+	request.onerror = $bind(this,this._error);
+	request.send();
+	Waud.sounds.set(url,this);
+};
+$hxClasses["WebAudioAPISound"] = WebAudioAPISound;
+WebAudioAPISound.__name__ = ["WebAudioAPISound"];
+WebAudioAPISound.__interfaces__ = [IWaudSound];
+WebAudioAPISound.__super__ = BaseSound;
+WebAudioAPISound.prototype = $extend(BaseSound.prototype,{
+	_onSoundLoaded: function(evt) {
+		this._manager.audioContext.decodeAudioData(evt.target.response,$bind(this,this._decodeSuccess),$bind(this,this._error));
+	}
+	,_decodeSuccess: function(buffer) {
+		if(buffer == null) {
+			console.log("empty buffer: " + this._url);
+			if(this._options.onerror != null) this._options.onerror(this);
+			return;
+		}
+		this._manager.bufferList.set(this._url,buffer);
+		if(this._options.onload != null) this._options.onload(this);
+		if(this._options.autoplay) this.play();
+	}
+	,_error: function() {
+		if(this._options.onerror != null) this._options.onerror(this);
+	}
+	,_makeSource: function(buffer) {
+		var source = this._manager.audioContext.createBufferSource();
+		this._gainNode = this._manager.audioContext.createGain();
+		this._gainNode.gain.value = this._options.volume;
+		source.buffer = buffer;
+		source.connect(this._gainNode);
+		this._gainNode.connect(this._manager.audioContext.destination);
+		return source;
+	}
+	,play: function(spriteName,soundProps) {
+		var _g = this;
+		if(this._muted) return this;
+		var start = 0;
+		var end = -1;
+		if(this.isSpriteSound && soundProps != null) {
+			start = soundProps.start;
+			end = soundProps.duration;
+		}
+		var buffer = this._manager.bufferList.get(this._url);
+		if(buffer != null) {
+			this._snd = this._makeSource(buffer);
+			if(start >= 0 && end > -1) this._snd.start(0,start,end); else {
+				this._snd.loop = this._options.loop;
+				this._snd.start(0);
+			}
+			this._isPlaying = true;
+			this._snd.onended = function() {
+				if(_g.isSpriteSound && soundProps != null && soundProps.loop && start >= 0 && end > -1) _g.play(spriteName,soundProps);
+				_g._isPlaying = false;
+				if(_g._options.onend != null) _g._options.onend(_g);
+			};
+			if(this._manager.playingSounds.get(this._url) == null) this._manager.playingSounds.set(this._url,this._snd);
+		}
+		return this;
+	}
+	,isPlaying: function() {
+		return this._isPlaying;
+	}
+	,loop: function(val) {
+		if(this._snd == null) return;
+		this._snd.loop = val;
+	}
+	,setVolume: function(val) {
+		if(this._gainNode == null) return;
+		this._options.volume = val;
+		this._gainNode.gain.value = this._options.volume;
+	}
+	,getVolume: function() {
+		return this._options.volume;
+	}
+	,mute: function(val) {
+		this._muted = val;
+		if(this._gainNode == null) return;
+		if(val) this._gainNode.gain.value = 0; else this._gainNode.gain.value = this._options.volume;
+	}
+	,stop: function() {
+		if(this._snd == null) return;
+		this._snd.stop(0);
+	}
+	,onEnd: function(callback) {
+		this._options.onend = callback;
+		return this;
+	}
+	,destroy: function() {
+		if(this._snd != null) {
+			this._snd.stop(0);
+			this._snd.disconnect();
+			this._snd = null;
+		}
+		if(this._gainNode != null) {
+			this._gainNode.disconnect();
+			this._gainNode = null;
+		}
+	}
+	,__class__: WebAudioAPISound
+});
 var pixi_plugins_app_Application = function() {
-	this._lastTime = new Date();
 	this.pixelRatio = 1;
 	this.set_skipFrame(false);
 	this.autoResize = true;
@@ -430,6 +775,8 @@ var pixi_plugins_app_Application = function() {
 	this.antialias = false;
 	this.forceFXAA = false;
 	this.roundPixels = false;
+	this.clearBeforeRender = true;
+	this.preserveDrawingBuffer = false;
 	this.backgroundColor = 16777215;
 	this.width = window.innerWidth;
 	this.height = window.innerHeight;
@@ -466,13 +813,13 @@ pixi_plugins_app_Application.prototype = {
 		renderingOptions.forceFXAA = this.forceFXAA;
 		renderingOptions.autoResize = this.autoResize;
 		renderingOptions.transparent = this.transparent;
+		renderingOptions.clearBeforeRender = this.clearBeforeRender;
+		renderingOptions.preserveDrawingBuffer = this.preserveDrawingBuffer;
 		if(rendererType == "auto") this.renderer = PIXI.autoDetectRenderer(this.width,this.height,renderingOptions); else if(rendererType == "canvas") this.renderer = new PIXI.CanvasRenderer(this.width,this.height,renderingOptions); else this.renderer = new PIXI.WebGLRenderer(this.width,this.height,renderingOptions);
 		if(this.roundPixels) this.renderer.roundPixels = true;
 		window.document.body.appendChild(this.renderer.view);
 		if(this.autoResize) window.onresize = $bind(this,this._onWindowResize);
 		window.requestAnimationFrame($bind(this,this._onRequestAnimationFrame));
-		this._lastTime = new Date();
-		this._addStats();
 	}
 	,_onWindowResize: function(event) {
 		this.width = window.innerWidth;
@@ -482,22 +829,14 @@ pixi_plugins_app_Application.prototype = {
 		this.canvas.style.height = this.height + "px";
 		if(this.onResize != null) this.onResize();
 	}
-	,_onRequestAnimationFrame: function() {
+	,_onRequestAnimationFrame: function(elapsedTime) {
 		this._frameCount++;
 		if(this._frameCount == (60 / this.fps | 0)) {
 			this._frameCount = 0;
-			this._calculateElapsedTime();
-			if(this.onUpdate != null) this.onUpdate(this._elapsedTime);
+			if(this.onUpdate != null) this.onUpdate(elapsedTime);
 			this.renderer.render(this.stage);
 		}
 		window.requestAnimationFrame($bind(this,this._onRequestAnimationFrame));
-	}
-	,_calculateElapsedTime: function() {
-		this._currentTime = new Date();
-		this._elapsedTime = this._currentTime.getTime() - this._lastTime.getTime();
-		this._lastTime = this._currentTime;
-	}
-	,_addStats: function() {
 	}
 	,__class__: pixi_plugins_app_Application
 	,__properties__: {set_fps:"set_fps",set_skipFrame:"set_skipFrame"}
@@ -521,6 +860,8 @@ var arm_cohere_Main = function() {
 	PIXI.RESOLUTION = this._stageProperties.pixelRatio;
 	pixi_plugins_app_Application.prototype.start.call(this);
 	this._setupApplication();
+	var perf = new Perf(Perf.BOTTOM_RIGHT);
+	perf.addInfo(["UNKNOWN","WEBGL","CANVAS"][this.renderer.type] + " - " + this.pixelRatio);
 };
 $hxClasses["arm.cohere.Main"] = arm_cohere_Main;
 arm_cohere_Main.__name__ = ["arm","cohere","Main"];
@@ -589,8 +930,6 @@ var arm_cohere_core_components_ComponentView = function(mainView,viewName) {
 	this._container = new PIXI.Container();
 	this._container.name = viewName + "Container";
 	this.componentName = viewName.substring(0,viewName.indexOf("View")).toLowerCase();
-	if(arm_cohere_Main.resize != null) arm_cohere_Main.resize.add($bind(this,this.resize));
-	if(arm_cohere_Main.update != null) arm_cohere_Main.update.add($bind(this,this.update));
 };
 $hxClasses["arm.cohere.core.components.ComponentView"] = arm_cohere_core_components_ComponentView;
 arm_cohere_core_components_ComponentView.__name__ = ["arm","cohere","core","components","ComponentView"];
@@ -606,14 +945,10 @@ arm_cohere_core_components_ComponentView.prototype = {
 	}
 	,addAssetsToLoad: function() {
 	}
-	,resize: function() {
-	}
 	,destroy: function() {
 		this._container.destroy(true);
 		this.view.stage.removeChild(this._container);
 		this._container = null;
-	}
-	,update: function(t) {
 	}
 	,applyIndex: function() {
 		if(this.index != null && this.index <= this.view.stage.children.length - 1) this.view.stage.setChildIndex(this._container,this.index); else {
@@ -634,10 +969,6 @@ arm_cohere_components_bg_BgView.prototype = $extend(arm_cohere_core_components_C
 		this.loader.addAudioAsset("sounds_bg","sounds/bg.mp3");
 	}
 	,playBgSound: function() {
-		var _g = this;
-		if(arm_cohere_core_utils_BrowserUtils.isiOS()) Waud.touchUnlock = function() {
-			_g.loader.playAudio("sounds_bg",true);
-		}; else this.loader.playAudio("sounds_bg",true);
 	}
 	,__class__: arm_cohere_components_bg_BgView
 });
@@ -669,13 +1000,14 @@ arm_cohere_components_bitmapfont_BitmapfontView.prototype = $extend(arm_cohere_c
 	,start: function() {
 		this._bitmapFont = new PIXI.extras.BitmapText("bitmap fonts are\n now supported!",{ font : "60px Desyrel"});
 		this._container.addChild(this._bitmapFont);
-		this.resize();
+		this._resize();
+		if(arm_cohere_Main.resize != null) arm_cohere_Main.resize.add($bind(this,this._resize));
 	}
 	,end: function() {
 		this._container.removeChildren();
 		this._bitmapFont = null;
 	}
-	,resize: function() {
+	,_resize: function() {
 		this._container.position.set((this.stageProperties.screenWidth - this._container.width) / 2,(this.stageProperties.screenHeight - this._container.height) / 2);
 	}
 	,__class__: arm_cohere_components_bitmapfont_BitmapfontView
@@ -716,12 +1048,7 @@ arm_cohere_components_bunnymark_BunnymarkView.__name__ = ["arm","cohere","compon
 arm_cohere_components_bunnymark_BunnymarkView.__super__ = arm_cohere_core_components_ComponentView;
 arm_cohere_components_bunnymark_BunnymarkView.prototype = $extend(arm_cohere_core_components_ComponentView.prototype,{
 	addAssetsToLoad: function() {
-		this.loader.addAsset("bunnymark_bunny1","bunnymark/bunny1.png");
-		this.loader.addAsset("bunnymark_bunny2","bunnymark/bunny2.png");
-		this.loader.addAsset("bunnymark_bunny3","bunnymark/bunny3.png");
-		this.loader.addAsset("bunnymark_bunny4","bunnymark/bunny4.png");
-		this.loader.addAsset("bunnymark_bunny5","bunnymark/bunny5.png");
-		this.loader.addAudioAsset("sounds_sound2","sounds/sound2.wav");
+		this.loader.addAsset("bunnymark_bunnys","bunnymark/bunnys.png");
 	}
 	,start: function() {
 		this._maxX = window.innerWidth;
@@ -731,12 +1058,19 @@ arm_cohere_components_bunnymark_BunnymarkView.prototype = $extend(arm_cohere_cor
 		this._bunnyContainer = new PIXI.ParticleContainer();
 		this._bunnyContainer.addChild(this._bunnyContainer);
 		this._container.addChild(this._bunnyContainer);
-		this._bunnyTextures = [this.loader.getTexture("bunnymark_bunny1"),this.loader.getTexture("bunnymark_bunny2"),this.loader.getTexture("bunnymark_bunny3"),this.loader.getTexture("bunnymark_bunny4"),this.loader.getTexture("bunnymark_bunny5")];
+		this._bunnyTexture = this.loader.getTexture("bunnymark_bunnys");
+		var bunny1 = new PIXI.Texture(this._bunnyTexture.baseTexture,new PIXI.Rectangle(2,47,26,37));
+		var bunny2 = new PIXI.Texture(this._bunnyTexture.baseTexture,new PIXI.Rectangle(2,86,26,37));
+		var bunny3 = new PIXI.Texture(this._bunnyTexture.baseTexture,new PIXI.Rectangle(2,125,26,37));
+		var bunny4 = new PIXI.Texture(this._bunnyTexture.baseTexture,new PIXI.Rectangle(2,164,26,37));
+		var bunny5 = new PIXI.Texture(this._bunnyTexture.baseTexture,new PIXI.Rectangle(2,2,26,37));
+		this._bunnyTextures = [bunny1,bunny2,bunny3,bunny4,bunny5];
 		this._bunnyType = 1;
 		this._currentTexture = this._bunnyTextures[this._bunnyType];
 		window.document.addEventListener("touchstart",$bind(this,this._onTouchStart),true);
 		window.document.addEventListener("mousedown",$bind(this,this._onTouchStart),true);
-		this.loader.playAudio("sounds_sound2",true);
+		if(arm_cohere_Main.update != null) arm_cohere_Main.update.add($bind(this,this._update));
+		if(arm_cohere_Main.resize != null) arm_cohere_Main.resize.add($bind(this,this._resize));
 	}
 	,_onTouchStart: function(event) {
 		this._bunnyType++;
@@ -759,7 +1093,7 @@ arm_cohere_components_bunnymark_BunnymarkView.prototype = $extend(arm_cohere_cor
 		}
 		this._counter.text = this._count + " BUNNIES";
 	}
-	,update: function(elapsedTime) {
+	,_update: function(elapsedTime) {
 		var _g1 = 0;
 		var _g = this._bunnys.length;
 		while(_g1 < _g) {
@@ -785,7 +1119,7 @@ arm_cohere_components_bunnymark_BunnymarkView.prototype = $extend(arm_cohere_cor
 			}
 		}
 	}
-	,resize: function() {
+	,_resize: function() {
 		this._maxX = window.innerWidth;
 		this._maxY = window.innerHeight;
 	}
@@ -799,6 +1133,100 @@ arm_cohere_components_bunnymark_BunnymarkView.prototype = $extend(arm_cohere_cor
 		window.document.removeEventListener("mousedown",$bind(this,this._onTouchStart),true);
 	}
 	,__class__: arm_cohere_components_bunnymark_BunnymarkView
+});
+var arm_cohere_components_graphics_GraphicsController = function() {
+	arm_cohere_core_components_ComponentController.call(this);
+};
+$hxClasses["arm.cohere.components.graphics.GraphicsController"] = arm_cohere_components_graphics_GraphicsController;
+arm_cohere_components_graphics_GraphicsController.__name__ = ["arm","cohere","components","graphics","GraphicsController"];
+arm_cohere_components_graphics_GraphicsController.__super__ = arm_cohere_core_components_ComponentController;
+arm_cohere_components_graphics_GraphicsController.prototype = $extend(arm_cohere_core_components_ComponentController.prototype,{
+	setup: function() {
+		this.model.get_currentDemoChanged().add($bind(this,this._onCurrentDemoChange));
+	}
+	,_onCurrentDemoChange: function(from,to) {
+		if(to == "graphics") this.view.start(); else this.view.end();
+	}
+	,__class__: arm_cohere_components_graphics_GraphicsController
+});
+var arm_cohere_components_graphics_GraphicsView = function(mainView,viewName) {
+	arm_cohere_core_components_ComponentView.call(this,mainView,viewName);
+};
+$hxClasses["arm.cohere.components.graphics.GraphicsView"] = arm_cohere_components_graphics_GraphicsView;
+arm_cohere_components_graphics_GraphicsView.__name__ = ["arm","cohere","components","graphics","GraphicsView"];
+arm_cohere_components_graphics_GraphicsView.__super__ = arm_cohere_core_components_ComponentView;
+arm_cohere_components_graphics_GraphicsView.prototype = $extend(arm_cohere_core_components_ComponentView.prototype,{
+	start: function() {
+		this._count = 0;
+		this._graphics = new PIXI.Graphics();
+		this._graphics.beginFill(16724736);
+		this._graphics.lineStyle(10,16767232,1);
+		this._graphics.moveTo(50,50);
+		this._graphics.lineTo(250,50);
+		this._graphics.lineTo(100,100);
+		this._graphics.lineTo(250,220);
+		this._graphics.lineTo(50,220);
+		this._graphics.lineTo(50,50);
+		this._graphics.endFill();
+		this._graphics.lineStyle(10,16711680,0.8);
+		this._graphics.beginFill(16740363,1);
+		this._graphics.moveTo(210,300);
+		this._graphics.lineTo(450,320);
+		this._graphics.lineTo(570,350);
+		this._graphics.lineTo(580,20);
+		this._graphics.lineTo(330,120);
+		this._graphics.lineTo(410,200);
+		this._graphics.lineTo(210,300);
+		this._graphics.endFill();
+		this._graphics.lineStyle(2,255,1);
+		this._graphics.drawRect(50,250,100,100);
+		this._graphics.lineStyle(0);
+		this._graphics.beginFill(16776971,0.5);
+		this._graphics.drawCircle(470,200,100);
+		this._graphics.lineStyle(20,3407616);
+		this._graphics.moveTo(30,30);
+		this._graphics.lineTo(600,300);
+		this._container.addChild(this._graphics);
+		this._thing = new PIXI.Graphics();
+		this._container.addChild(this._thing);
+		this._container.interactive = true;
+		this._container.hitArea = new PIXI.Rectangle(0,0,window.innerWidth,window.innerHeight);
+		this._container.on("click",$bind(this,this._onStageClick));
+		this._container.on("tap",$bind(this,this._onStageClick));
+		this._resize();
+		if(arm_cohere_Main.update != null) arm_cohere_Main.update.add($bind(this,this._update));
+		if(arm_cohere_Main.resize != null) arm_cohere_Main.resize.add($bind(this,this._resize));
+	}
+	,_update: function(t) {
+		this._count += 0.1;
+		this._thing.clear();
+		this._thing.lineStyle(30,16711680,1);
+		this._thing.beginFill(16711680,0.5);
+		this._thing.moveTo(-120 + Math.sin(this._count) * 20,-100 + Math.cos(this._count) * 20);
+		this._thing.lineTo(120 + Math.cos(this._count) * 20,-100 + Math.sin(this._count) * 20);
+		this._thing.lineTo(120 + Math.sin(this._count) * 20,100 + Math.cos(this._count) * 20);
+		this._thing.lineTo(-120 + Math.cos(this._count) * 20,100 + Math.sin(this._count) * 20);
+		this._thing.lineTo(-120 + Math.sin(this._count) * 20,-100 + Math.cos(this._count) * 20);
+		this._thing.rotation = this._count * 0.1;
+	}
+	,_onStageClick: function() {
+		this._graphics.lineStyle(Math.random() * 30,Std["int"](Math.random() * 16777215),1);
+		this._graphics.moveTo(Math.random() * window.innerWidth,Math.random() * window.innerHeight);
+		this._graphics.lineTo(Math.random() * window.innerWidth,Math.random() * window.innerHeight);
+	}
+	,end: function() {
+		this._container.removeChildren();
+		this._container.interactive = false;
+		this._container.off("click",$bind(this,this._onStageClick));
+		this._container.off("tap",$bind(this,this._onStageClick));
+		this._graphics = null;
+		this._thing = null;
+	}
+	,_resize: function() {
+		this._graphics.position.set(window.innerWidth / 2 - this._graphics.width / 2,window.innerHeight / 2 - this._graphics.height / 2);
+		this._thing.position.set(window.innerWidth / 2,window.innerHeight / 2);
+	}
+	,__class__: arm_cohere_components_graphics_GraphicsView
 });
 var arm_cohere_components_menu_MenuController = function() {
 	arm_cohere_core_components_ComponentController.call(this);
@@ -832,7 +1260,7 @@ arm_cohere_components_menu_MenuView.prototype = $extend(arm_cohere_core_componen
 		this.fps = new msignal_Signal1(Int);
 		this._data = { demo : "", fps : 60};
 		this._menu = new dat.gui.GUI();
-		this._demoList = this._menu.add(this._data,"demo",["none","Retina","Bunnymark","Spritesheet","Bitmapfont"]);
+		this._demoList = this._menu.add(this._data,"demo",["none","Retina","Bunnymark","Spritesheet","Bitmapfont","Graphics","Rope"]);
 		this._demoList.onChange($bind(this,this._changeDemo));
 		this._fps = this._menu.add(this._data,"fps",1,60);
 		this._fps.onChange($bind(this,this._changeFps));
@@ -886,7 +1314,9 @@ arm_cohere_components_preloader_PreloaderView.prototype = $extend(arm_cohere_cor
 		this._logo.anchor.set(0.5);
 		this._container.addChild(this._logo);
 		this._createLoadingBar();
-		this.resize();
+		this._resize();
+		if(arm_cohere_Main.update != null) arm_cohere_Main.update.add($bind(this,this._update));
+		if(arm_cohere_Main.resize != null) arm_cohere_Main.resize.add($bind(this,this._resize));
 		this.loader.reset();
 		this.ready.dispatch();
 	}
@@ -913,10 +1343,10 @@ arm_cohere_components_preloader_PreloaderView.prototype = $extend(arm_cohere_cor
 		this._loadingBarContainer = null;
 		this._logo = null;
 	}
-	,update: function(elapsed) {
+	,_update: function(elapsed) {
 		if(this._loadingBar != null) this._loadingBar.scale.x = this.loader.loadProgress / 100;
 	}
-	,resize: function() {
+	,_resize: function() {
 		this._container.position.set(this.stageProperties.screenWidth / 2,this.stageProperties.screenHeight / 2 - 25);
 	}
 	,__class__: arm_cohere_components_preloader_PreloaderView
@@ -965,6 +1395,61 @@ arm_cohere_components_retina_RetinaView.prototype = $extend(arm_cohere_core_comp
 	}
 	,__class__: arm_cohere_components_retina_RetinaView
 });
+var arm_cohere_components_rope_RopeController = function() {
+	arm_cohere_core_components_ComponentController.call(this);
+};
+$hxClasses["arm.cohere.components.rope.RopeController"] = arm_cohere_components_rope_RopeController;
+arm_cohere_components_rope_RopeController.__name__ = ["arm","cohere","components","rope","RopeController"];
+arm_cohere_components_rope_RopeController.__super__ = arm_cohere_core_components_ComponentController;
+arm_cohere_components_rope_RopeController.prototype = $extend(arm_cohere_core_components_ComponentController.prototype,{
+	setup: function() {
+		this.model.get_currentDemoChanged().add($bind(this,this._onCurrentDemoChange));
+	}
+	,_onCurrentDemoChange: function(from,to) {
+		if(to == "rope") this.view.start(); else this.view.end();
+	}
+	,__class__: arm_cohere_components_rope_RopeController
+});
+var arm_cohere_components_rope_RopeView = function(mainView,viewName) {
+	arm_cohere_core_components_ComponentView.call(this,mainView,viewName);
+};
+$hxClasses["arm.cohere.components.rope.RopeView"] = arm_cohere_components_rope_RopeView;
+arm_cohere_components_rope_RopeView.__name__ = ["arm","cohere","components","rope","RopeView"];
+arm_cohere_components_rope_RopeView.__super__ = arm_cohere_core_components_ComponentView;
+arm_cohere_components_rope_RopeView.prototype = $extend(arm_cohere_core_components_ComponentView.prototype,{
+	addAssetsToLoad: function() {
+		this.loader.addAsset("rope_snake","rope/snake.png");
+	}
+	,start: function() {
+		this._count = 0;
+		this._points = [];
+		this._length = window.innerWidth / 20;
+		var _g = 0;
+		while(_g < 20) {
+			var i = _g++;
+			var segSize = this._length;
+			this._points.push(new PIXI.Point(i * this._length,0));
+		}
+		var strip = new PIXI.mesh.Rope(this.loader.getTexture("rope_snake"),this._points);
+		this._container.addChild(strip);
+		strip.position.set(10,window.innerHeight / 2);
+		if(arm_cohere_Main.update != null) arm_cohere_Main.update.add($bind(this,this._update));
+	}
+	,_update: function(elapsedTime) {
+		this._count += 0.1;
+		var _g1 = 0;
+		var _g = this._points.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			this._points[i].y = Math.sin(i * 0.5 + this._count) * 30;
+			this._points[i].x = i * this._length + Math.cos(i * 0.3 + this._count) * 20;
+		}
+	}
+	,end: function() {
+		this._container.removeChildren();
+	}
+	,__class__: arm_cohere_components_rope_RopeView
+});
 var arm_cohere_components_spritesheet_SpritesheetController = function() {
 	arm_cohere_core_components_ComponentController.call(this);
 };
@@ -1010,6 +1495,7 @@ arm_cohere_components_spritesheet_SpritesheetView.prototype = $extend(arm_cohere
 		window.document.addEventListener("touchend",$bind(this,this._onTouchEnd),true);
 		window.document.addEventListener("mousedown",$bind(this,this._onTouchStart),true);
 		window.document.addEventListener("mouseup",$bind(this,this._onTouchEnd),true);
+		if(arm_cohere_Main.update != null) arm_cohere_Main.update.add($bind(this,this._update));
 	}
 	,_onTouchStart: function(event) {
 		this._isAdding = true;
@@ -1026,7 +1512,7 @@ arm_cohere_components_spritesheet_SpritesheetView.prototype = $extend(arm_cohere
 		this._count++;
 		this._counter.text = this._count + " SPRITES";
 	}
-	,update: function(elapsedTime) {
+	,_update: function(elapsedTime) {
 		if(this._isAdding) this._addFighter(Std.random(window.innerWidth),Std.random(window.innerHeight));
 	}
 	,end: function() {
@@ -1054,7 +1540,7 @@ arm_cohere_controller_Controller.prototype = {
 		this.view.init();
 		this.model.addAssets.addOnce($bind(this,this._onAddAssets));
 		this._loader = new arm_cohere_core_loader_AssetLoader();
-		this._loader.baseUrl = "resources/";
+		this._loader.baseUrl = "assets/";
 		this._loader.pixelRatio = this.stageProperties.pixelRatio;
 		this._setupComponents();
 	}
@@ -1259,11 +1745,6 @@ arm_cohere_core_loader_AssetLoader.prototype = $extend(PIXI.loaders.Loader.proto
 		if(resource != null && resource.texture != null) return resource.texture; else if(PIXI.Texture.fromFrame(id) != null) return PIXI.Texture.fromFrame(id); else JConsole.error("Texture with id '" + id + "' not found");
 		return null;
 	}
-	,playAudio: function(id,loop,onend) {
-		if(loop == null) loop = false;
-		var snd = this._audioAssets.get(id);
-		snd.play(loop,onend);
-	}
 	,reset: function() {
 		this.removeAllListeners();
 		this.count = 0;
@@ -1283,7 +1764,6 @@ arm_cohere_core_loader_AssetLoader.prototype = $extend(PIXI.loaders.Loader.proto
 var arm_cohere_core_loader_AudioAsset = function(path,autoPlay,loop,loadComplete,loadError) {
 	if(loop == null) loop = false;
 	if(autoPlay == null) autoPlay = false;
-	console.log(path);
 	var options = { };
 	options.autoplay = autoPlay;
 	options.loop = loop;
@@ -1294,13 +1774,7 @@ var arm_cohere_core_loader_AudioAsset = function(path,autoPlay,loop,loadComplete
 $hxClasses["arm.cohere.core.loader.AudioAsset"] = arm_cohere_core_loader_AudioAsset;
 arm_cohere_core_loader_AudioAsset.__name__ = ["arm","cohere","core","loader","AudioAsset"];
 arm_cohere_core_loader_AudioAsset.prototype = {
-	play: function(loop,onend) {
-		if(loop == null) loop = false;
-		this._snd.stop();
-		this._snd.play();
-		if(loop) this._snd.loop(); else this._snd.unloop();
-	}
-	,__class__: arm_cohere_core_loader_AudioAsset
+	__class__: arm_cohere_core_loader_AudioAsset
 };
 var arm_cohere_core_loader_MultipackParser = function() { };
 $hxClasses["arm.cohere.core.loader.MultipackParser"] = arm_cohere_core_loader_MultipackParser;
@@ -2287,26 +2761,34 @@ var Class = $hxClasses.Class = { __name__ : ["Class"]};
 var Enum = { };
 var __map_reserved = {}
 msignal_SlotList.NIL = new msignal_SlotList(null,null);
-AssetsList.LIST = ["resources/@1x/.DS_Store","resources/@2x/.DS_Store","resources/sounds/bg.mp3","resources/sounds/loop.mp3","resources/sounds/sound1.wav","resources/sounds/sound2.wav","resources/sounds/sound3.wav","resources/sounds/sound4.wav","resources/@1x/alphamask/bkg.jpg","resources/@1x/alphamask/cells.png","resources/@1x/alphamask/flowerTop.png","resources/@1x/bunnymark/.DS_Store","resources/@1x/bunnymark/bunny1.png","resources/@1x/bunnymark/bunny2.png","resources/@1x/bunnymark/bunny3.png","resources/@1x/bunnymark/bunny4.png","resources/@1x/bunnymark/bunny5.png","resources/@1x/common/button.png","resources/@1x/filters/BGrotate.jpg","resources/@1x/filters/depth_blur_BG.jpg","resources/@1x/filters/depth_blur_dudes.jpg","resources/@1x/filters/depth_blur_moby.jpg","resources/@1x/filters/LightRotate1.png","resources/@1x/filters/LightRotate2.png","resources/@1x/filters/panda.png","resources/@1x/filters/SceneRotate.jpg","resources/@1x/fonts/desyrel.png","resources/@1x/fonts/desyrel.ttf","resources/@1x/fonts/desyrel.xml","resources/@1x/graphics/spinObj_01.png","resources/@1x/graphics/spinObj_02.png","resources/@1x/graphics/spinObj_03.png","resources/@1x/graphics/spinObj_04.png","resources/@1x/graphics/spinObj_05.png","resources/@1x/graphics/spinObj_06.png","resources/@1x/graphics/spinObj_07.png","resources/@1x/graphics/spinObj_08.png","resources/@1x/movieclip/.DS_Store","resources/@1x/movieclip/SpriteSheet.json","resources/@1x/movieclip/SpriteSheet.png","resources/@1x/nape/ball.png","resources/@1x/preloader/logo.png","resources/@1x/rendertexture/spinObj_01.png","resources/@1x/rendertexture/spinObj_02.png","resources/@1x/rendertexture/spinObj_03.png","resources/@1x/rendertexture/spinObj_04.png","resources/@1x/rendertexture/spinObj_05.png","resources/@1x/rendertexture/spinObj_06.png","resources/@1x/rendertexture/spinObj_07.png","resources/@1x/rendertexture/spinObj_08.png","resources/@1x/retina/img.jpg","resources/@1x/rope/snake.png","resources/@1x/spine/.DS_Store","resources/@1x/spine/dragon.atlas","resources/@1x/spine/dragon.json","resources/@1x/spine/dragon.png","resources/@1x/spine/dragon2.png","resources/@1x/spine/goblins.atlas","resources/@1x/spine/goblins.json","resources/@1x/spine/goblins.png","resources/@1x/spine/iP4_BGtile.jpg","resources/@1x/spine/iP4_ground.png","resources/@1x/spine/Pixie.atlas","resources/@1x/spine/Pixie.json","resources/@1x/spine/Pixie.png","resources/@1x/spine/spineboy.atlas","resources/@1x/spine/spineboy.json","resources/@1x/spine/spineboy.png","resources/@1x/spritesheet/.DS_Store","resources/@1x/spritesheet/fighter.json","resources/@1x/spritesheet/fighter.png","resources/@1x/spritesheet/SpriteSheet.json","resources/@1x/spritesheet/SpriteSheet.png","resources/@1x/tiling/p2.jpeg","resources/@2x/preloader/logo.png","resources/@2x/retina/img.jpg",""];
-CompileTimeClassList.__meta__ = { obj : { classLists : [["null,true,arm.cohere.core.components.ComponentModel",""],["null,true,arm.cohere.core.components.ComponentView","arm.cohere.components.bg.BgView,arm.cohere.components.bitmapfont.BitmapfontView,arm.cohere.components.bunnymark.BunnymarkView,arm.cohere.components.menu.MenuView,arm.cohere.components.preloader.PreloaderView,arm.cohere.components.retina.RetinaView,arm.cohere.components.spritesheet.SpritesheetView"],["null,true,arm.cohere.core.components.ComponentController","arm.cohere.components.bg.BgController,arm.cohere.components.bitmapfont.BitmapfontController,arm.cohere.components.bunnymark.BunnymarkController,arm.cohere.components.menu.MenuController,arm.cohere.components.preloader.PreloaderController,arm.cohere.components.retina.RetinaController,arm.cohere.components.spritesheet.SpritesheetController"]]}};
-Waud.sampleRate = 44100;
-Waud.ac = Reflect.field(window,"AudioContext") != null?Reflect.field(window,"AudioContext"):Reflect.field(window,"webkitAudioContext");
-Waud.audioElement = (function($this) {
-	var $r;
-	var _this = window.document;
-	$r = _this.createElement("audio");
-	return $r;
-}(this));
-Waud.iOS = Utils.isiOS();
-Waud.unlocked = false;
+AssetsList.LIST = ["assets/@1x/.DS_Store","assets/@2x/.DS_Store","assets/sounds/bg.mp3","assets/sounds/loop.mp3","assets/sounds/sound1.wav","assets/sounds/sound2.wav","assets/sounds/sound3.wav","assets/sounds/sound4.wav","assets/@1x/alphamask/bkg.jpg","assets/@1x/alphamask/cells.png","assets/@1x/alphamask/flowerTop.png","assets/@1x/bunnymark/.DS_Store","assets/@1x/bunnymark/bunnys.png","assets/@1x/common/button.png","assets/@1x/filters/BGrotate.jpg","assets/@1x/filters/depth_blur_BG.jpg","assets/@1x/filters/depth_blur_dudes.jpg","assets/@1x/filters/depth_blur_moby.jpg","assets/@1x/filters/LightRotate1.png","assets/@1x/filters/LightRotate2.png","assets/@1x/filters/panda.png","assets/@1x/filters/SceneRotate.jpg","assets/@1x/fonts/desyrel.png","assets/@1x/fonts/desyrel.ttf","assets/@1x/fonts/desyrel.xml","assets/@1x/graphics/spinObj_01.png","assets/@1x/graphics/spinObj_02.png","assets/@1x/graphics/spinObj_03.png","assets/@1x/graphics/spinObj_04.png","assets/@1x/graphics/spinObj_05.png","assets/@1x/graphics/spinObj_06.png","assets/@1x/graphics/spinObj_07.png","assets/@1x/graphics/spinObj_08.png","assets/@1x/movieclip/.DS_Store","assets/@1x/movieclip/SpriteSheet.json","assets/@1x/movieclip/SpriteSheet.png","assets/@1x/nape/ball.png","assets/@1x/preloader/logo.png","assets/@1x/rendertexture/spinObj_01.png","assets/@1x/rendertexture/spinObj_02.png","assets/@1x/rendertexture/spinObj_03.png","assets/@1x/rendertexture/spinObj_04.png","assets/@1x/rendertexture/spinObj_05.png","assets/@1x/rendertexture/spinObj_06.png","assets/@1x/rendertexture/spinObj_07.png","assets/@1x/rendertexture/spinObj_08.png","assets/@1x/retina/img.jpg","assets/@1x/rope/snake.png","assets/@1x/spine/.DS_Store","assets/@1x/spine/dragon.atlas","assets/@1x/spine/dragon.json","assets/@1x/spine/dragon.png","assets/@1x/spine/dragon2.png","assets/@1x/spine/goblins.atlas","assets/@1x/spine/goblins.json","assets/@1x/spine/goblins.png","assets/@1x/spine/iP4_BGtile.jpg","assets/@1x/spine/iP4_ground.png","assets/@1x/spine/Pixie.atlas","assets/@1x/spine/Pixie.json","assets/@1x/spine/Pixie.png","assets/@1x/spine/spineboy.atlas","assets/@1x/spine/spineboy.json","assets/@1x/spine/spineboy.png","assets/@1x/spritesheet/.DS_Store","assets/@1x/spritesheet/fighter.json","assets/@1x/spritesheet/fighter.png","assets/@1x/spritesheet/SpriteSheet.json","assets/@1x/spritesheet/SpriteSheet.png","assets/@1x/tiling/p2.jpeg","assets/@2x/preloader/logo.png","assets/@2x/retina/img.jpg",""];
+CompileTimeClassList.__meta__ = { obj : { classLists : [["null,true,arm.cohere.core.components.ComponentModel",""],["null,true,arm.cohere.core.components.ComponentView","arm.cohere.components.bg.BgView,arm.cohere.components.bitmapfont.BitmapfontView,arm.cohere.components.bunnymark.BunnymarkView,arm.cohere.components.graphics.GraphicsView,arm.cohere.components.menu.MenuView,arm.cohere.components.preloader.PreloaderView,arm.cohere.components.retina.RetinaView,arm.cohere.components.rope.RopeView,arm.cohere.components.spritesheet.SpritesheetView"],["null,true,arm.cohere.core.components.ComponentController","arm.cohere.components.bg.BgController,arm.cohere.components.bitmapfont.BitmapfontController,arm.cohere.components.bunnymark.BunnymarkController,arm.cohere.components.graphics.GraphicsController,arm.cohere.components.menu.MenuController,arm.cohere.components.preloader.PreloaderController,arm.cohere.components.retina.RetinaController,arm.cohere.components.rope.RopeController,arm.cohere.components.spritesheet.SpritesheetController"]]}};
+IWaudSound.__meta__ = { obj : { 'interface' : null}};
+Perf.MEASUREMENT_INTERVAL = 1000;
+Perf.FONT_FAMILY = "Helvetica,Arial";
+Perf.FPS_BG_CLR = "#00FF00";
+Perf.FPS_WARN_BG_CLR = "#FF8000";
+Perf.FPS_PROB_BG_CLR = "#FF0000";
+Perf.MS_BG_CLR = "#FFFF00";
+Perf.MEM_BG_CLR = "#086A87";
+Perf.INFO_BG_CLR = "#00FFFF";
+Perf.FPS_TXT_CLR = "#000000";
+Perf.MS_TXT_CLR = "#000000";
+Perf.MEM_TXT_CLR = "#FFFFFF";
+Perf.INFO_TXT_CLR = "#000000";
+Perf.BOTTOM_RIGHT = "BR";
+Waud.defaults = { };
+Waud.preferredSampleRate = 44100;
 arm_cohere_core_components_ComponentController.__meta__ = { fields : { model : { type : ["arm.cohere.model.Model"], inject : null}}};
 arm_cohere_components_bg_BgController.__meta__ = { fields : { view : { type : ["arm.cohere.components.bg.BgView"], inject : null}}};
 arm_cohere_core_components_ComponentView.__meta__ = { obj : { SuppressWarnings : ["checkstyle:Dynamic"]}, fields : { loader : { type : ["arm.cohere.core.loader.AssetLoader"], inject : null}, stageProperties : { type : ["arm.cohere.core.utils.StageProperties"], inject : null}}};
 arm_cohere_components_bitmapfont_BitmapfontController.__meta__ = { fields : { view : { type : ["arm.cohere.components.bitmapfont.BitmapfontView"], inject : null}}};
 arm_cohere_components_bunnymark_BunnymarkController.__meta__ = { fields : { view : { type : ["arm.cohere.components.bunnymark.BunnymarkView"], inject : null}}};
+arm_cohere_components_graphics_GraphicsController.__meta__ = { fields : { view : { type : ["arm.cohere.components.graphics.GraphicsView"], inject : null}}};
 arm_cohere_components_menu_MenuController.__meta__ = { fields : { view : { type : ["arm.cohere.components.menu.MenuView"], inject : null}}};
 arm_cohere_components_preloader_PreloaderController.__meta__ = { fields : { view : { type : ["arm.cohere.components.preloader.PreloaderView"], inject : null}}};
 arm_cohere_components_retina_RetinaController.__meta__ = { fields : { view : { type : ["arm.cohere.components.retina.RetinaView"], inject : null}}};
+arm_cohere_components_rope_RopeController.__meta__ = { fields : { view : { type : ["arm.cohere.components.rope.RopeView"], inject : null}}};
 arm_cohere_components_spritesheet_SpritesheetController.__meta__ = { fields : { view : { type : ["arm.cohere.components.spritesheet.SpritesheetView"], inject : null}}};
 arm_cohere_controller_Controller.__meta__ = { fields : { model : { type : ["arm.cohere.model.Model"], inject : null}, view : { type : ["arm.cohere.view.View"], inject : null}, stageProperties : { type : ["arm.cohere.core.utils.StageProperties"], inject : null}}};
 arm_cohere_core_components_ComponentModel.__meta__ = { fields : { model : { type : ["arm.cohere.model.Model"], inject : null}}};
