@@ -778,6 +778,7 @@
             "static": 1,
             "itemtype": "property",
             "name": "ua",
+            "type": "{String}",
             "example": [
                 "\n    WaudUtils.ua;"
             ],
@@ -785,7 +786,7 @@
         },
         {
             "file": "src/WaudUtils.hx",
-            "line": 20,
+            "line": 21,
             "description": "Function to check if the device is **Android** or not.",
             "static": 1,
             "itemtype": "method",
@@ -801,7 +802,7 @@
         },
         {
             "file": "src/WaudUtils.hx",
-            "line": 33,
+            "line": 34,
             "description": "Function to check if the device is **iOS** or not.",
             "static": 1,
             "itemtype": "method",
@@ -817,7 +818,7 @@
         },
         {
             "file": "src/WaudUtils.hx",
-            "line": 46,
+            "line": 47,
             "description": "Function to check if the device is **Windows Phone** or not.",
             "static": 1,
             "itemtype": "method",
@@ -833,7 +834,7 @@
         },
         {
             "file": "src/WaudUtils.hx",
-            "line": 59,
+            "line": 60,
             "description": "Function to check if the device is **Firefox** or not.",
             "static": 1,
             "itemtype": "method",
@@ -849,7 +850,7 @@
         },
         {
             "file": "src/WaudUtils.hx",
-            "line": 72,
+            "line": 73,
             "description": "Function to check if the device is **Opera** or not.",
             "static": 1,
             "itemtype": "method",
@@ -865,7 +866,7 @@
         },
         {
             "file": "src/WaudUtils.hx",
-            "line": 85,
+            "line": 86,
             "description": "Function to check if the device is **Chrome** or not.",
             "static": 1,
             "itemtype": "method",
@@ -881,7 +882,7 @@
         },
         {
             "file": "src/WaudUtils.hx",
-            "line": 98,
+            "line": 99,
             "description": "Function to check if the device is **Safari** or not.",
             "static": 1,
             "itemtype": "method",
@@ -897,7 +898,7 @@
         },
         {
             "file": "src/WaudUtils.hx",
-            "line": 111,
+            "line": 112,
             "description": "Function to check if the device is **mobile** or not.",
             "static": 1,
             "itemtype": "method",
@@ -913,7 +914,7 @@
         },
         {
             "file": "src/WaudUtils.hx",
-            "line": 124,
+            "line": 125,
             "description": "Function to get the **iOS** version.",
             "static": 1,
             "itemtype": "method",
