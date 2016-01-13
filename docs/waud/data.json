@@ -504,7 +504,37 @@
         },
         {
             "file": "src/WaudFocusManager.hx",
-            "line": 105,
+            "line": 90,
+            "description": "Function to handle visibility change event.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_handleVisibilityChange",
+            "class": "WaudFocusManager"
+        },
+        {
+            "file": "src/WaudFocusManager.hx",
+            "line": 101,
+            "description": "Function to trigger focus callback.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_focus",
+            "class": "WaudFocusManager"
+        },
+        {
+            "file": "src/WaudFocusManager.hx",
+            "line": 112,
+            "description": "Function to trigger blur callback.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_blur",
+            "class": "WaudFocusManager"
+        },
+        {
+            "file": "src/WaudFocusManager.hx",
+            "line": 123,
             "description": "Function to clear focus manager events.",
             "itemtype": "method",
             "name": "clearEvents",
