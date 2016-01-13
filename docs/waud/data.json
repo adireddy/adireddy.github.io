@@ -853,7 +853,7 @@
             "description": "Function to check if the device is **Opera** or not.",
             "static": 1,
             "itemtype": "method",
-            "name": "isiOS",
+            "name": "isOpera",
             "return": {
                 "description": "true or false",
                 "type": "Bool"
