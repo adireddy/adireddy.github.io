@@ -2,7 +2,7 @@
     "project": {
         "name": "waud.js",
         "description": "Web Audio Library",
-        "version": "0.3.0",
+        "version": "0.3.1",
         "url": "https://github.com/adireddy/waud"
     },
     "files": {
@@ -859,7 +859,7 @@
                 "type": "Bool"
             },
             "example": [
-                "\n    Waud.isiOS();"
+                "\n    Waud.isOpera();"
             ],
             "class": "WaudUtils"
         },

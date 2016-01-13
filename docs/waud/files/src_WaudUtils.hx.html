@@ -18,7 +18,7 @@
             <h1 class="blue-main-title">waud.js</h1>
         </div>
         <div class="yui3-u-1-4 version project-version">
-            API Docs for: 0.3.0
+            API Docs for: 0.3.1
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -162,7 +162,7 @@ import js.Browser;
 	* @method isOpera
 	* @return {Bool} true or false
 	* @example
-	*     Waud.isiOS();
+	*     Waud.isOpera();
 	*/
 	public static function isOpera():Bool {
 		return ~/Opera/i.match(ua) || Reflect.field(Browser.window, &quot;opera&quot;) != null;
