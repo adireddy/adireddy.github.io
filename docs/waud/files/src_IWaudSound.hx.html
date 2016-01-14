@@ -18,7 +18,7 @@
             <h1 class="blue-main-title">waud.js</h1>
         </div>
         <div class="yui3-u-1-4 version project-version">
-            API Docs for: 0.3.1
+            API Docs for: 0.3.2
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -90,10 +90,13 @@
  * @interface IWaudSound
  */
 interface IWaudSound {
+	var url:String;
 	var isSpriteSound:Bool;
+	function load(?callback:IWaudSound -&gt; Void):IWaudSound;
 	function play(?spriteName:String, ?soundProps:AudioSpriteSoundProperties):IWaudSound;
 	function stop():Void;
 	function onEnd(callback:IWaudSound -&gt; Void):IWaudSound;
+	function onLoad(callback:IWaudSound -&gt; Void):IWaudSound;
 	function mute(val:Bool):Void;
 	function loop(val:Bool):Void;
 	function setVolume(val:Float):Void;

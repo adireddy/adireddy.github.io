@@ -18,7 +18,7 @@
             <h1 class="blue-main-title">waud.js</h1>
         </div>
         <div class="yui3-u-1-4 version project-version">
-            API Docs for: 0.3.1
+            API Docs for: 0.3.2
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -138,7 +138,18 @@ typedef WaudSoundOptions = {
 	*/
 	@:optional var onerror:IWaudSound -&gt; Void;
 
-	@:optional var preload:Dynamic;
+	/**
+	* Whether to preload the sound or not.
+	*
+	* Set it to &#x60;true&#x60; to automatically load the sound when instantiated.
+	*
+	* Set it to &#x60;false&#x60; to load the sound manually using &#x60;snd.load()&#x60; method.
+	*
+	* @property preload
+	* @type {Bool}
+	* @default true
+	*/
+	@:optional var preload:Bool;
 }
     </pre>
 </div>
