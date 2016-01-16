@@ -18,7 +18,7 @@
             <h1 class="blue-main-title">waud.js</h1>
         </div>
         <div class="yui3-u-1-4 version project-version">
-            API Docs for: 0.3.2
+            API Docs for: 0.3.3
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -150,6 +150,17 @@ typedef WaudSoundOptions = {
 	* @default true
 	*/
 	@:optional var preload:Bool;
+
+	/**
+	* Whether to use web audio api or not.
+	*
+	* Set it to &#x60;false&#x60; to force html5 audio even when web audio is available.
+	*
+	* @property webaudio
+	* @type {Bool}
+	* @default true
+	*/
+	@:optional var webaudio:Bool;
 }
     </pre>
 </div>

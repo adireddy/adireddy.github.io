@@ -18,7 +18,7 @@
             <h1 class="blue-main-title">waud.js</h1>
         </div>
         <div class="yui3-u-1-4 version project-version">
-            API Docs for: 0.3.2
+            API Docs for: 0.3.3
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -180,8 +180,8 @@ import js.Browser;
 	* @method _handleVisibilityChange
 	*/
 	function _handleVisibilityChange() {
-		if (Reflect.field(Browser.document, _hidden) != null &amp;&amp; Reflect.field(Browser.document, _hidden)) blur();
-		else focus();
+		if (Reflect.field(Browser.document, _hidden) != null &amp;&amp; Reflect.field(Browser.document, _hidden) &amp;&amp; blur != null) blur();
+		else if (focus != null) focus();
 	}
 
 	/**
