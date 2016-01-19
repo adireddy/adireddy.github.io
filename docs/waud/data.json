@@ -115,7 +115,7 @@
                 }
             ],
             "example": [
-                "\n\t\t// MP3 Sound\n\t\tvar snd = new WaudSound(\"assets/loop.mp3\", { autoplay: false, loop: true, volume: 0.5, onload: _playBgSound });\n\n\t\t// Audio Sprite\n\t\tvar audSprite = new WaudSound(\"assets/sprite.json\");\n\t\taudSprite.play(\"glass\");"
+                "\n\t\t// MP3 Sound\n\t\tvar snd = new WaudSound(\"assets/loop.mp3\", { autoplay: false, loop: true, volume: 0.5, onload: _playBgSound });\n\n\t\t// Force HTML5 Audio\n\t\tvar snd = new WaudSound(\"assets/loop.mp3\", { webaudio: false });\n\n\t\t// Audio Sprite\n\t\tvar audSprite = new WaudSound(\"assets/sprite.json\");\n\t\taudSprite.play(\"glass\");"
             ]
         },
         "WaudSoundOptions": {
@@ -154,7 +154,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 13,
+            "line": 14,
             "description": "Tells whether to use web audio api or not.\n\nYou can use this to enable/disable web audio globally for all sounds.\n\nNote that you can also enable/disable web audio individually for each sound instance.",
             "itemtype": "property",
             "name": "useWebAudio",
@@ -168,7 +168,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 29,
+            "line": 30,
             "description": "Tells whether web audio api is supported or not.",
             "itemtype": "property",
             "name": "isWebAudioSupported",
@@ -182,7 +182,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 41,
+            "line": 42,
             "description": "Tells whether html5 audio is supported or not.",
             "itemtype": "property",
             "name": "isHTML5AudioSupported",
@@ -196,7 +196,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 53,
+            "line": 54,
             "description": "Defaults properties used on sound.",
             "itemtype": "property",
             "name": "defaults",
@@ -210,7 +210,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 71,
+            "line": 72,
             "description": "Holds all the sounds that are loaded.",
             "itemtype": "property",
             "name": "sounds",
@@ -224,7 +224,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 83,
+            "line": 84,
             "description": "Preferred sample rate used when creating buffer on audio context.\n\nIt is recommended to use audio files with same sample rate and set the value used here.",
             "itemtype": "property",
             "name": "preferredSampleRate",
@@ -238,7 +238,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 97,
+            "line": 98,
             "description": "Audio Manager instance.",
             "itemtype": "property",
             "name": "audioManager",
@@ -249,7 +249,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 107,
+            "line": 108,
             "description": "Audio Context reference.",
             "itemtype": "property",
             "name": "audioContext",
@@ -260,7 +260,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 117,
+            "line": 118,
             "description": "Document dom element used for appending sounds and touch events.",
             "itemtype": "property",
             "name": "dom",
@@ -270,7 +270,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 126,
+            "line": 127,
             "description": "State of audio, muted or not.",
             "itemtype": "property",
             "name": "isMuted",
@@ -285,7 +285,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 139,
+            "line": 140,
             "description": "Touch unlock callback reference.",
             "itemtype": "property",
             "name": "__touchUnlockCallback",
@@ -297,7 +297,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 149,
+            "line": 150,
             "description": "Audio element used to check audio support.",
             "itemtype": "property",
             "name": "__audioElement",
@@ -310,7 +310,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 160,
+            "line": 161,
             "description": "Focus Manager reference used for `autoMute` functionality.",
             "itemtype": "property",
             "name": "_focusManager",
@@ -323,7 +323,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 171,
+            "line": 172,
             "description": "To initialise the library, make sure you call this first.\n\nYou can also pass an optional parent DOM element to it where all the HTML5 sounds will be appended and also used for touch events to unlock audio on iOS devices.",
             "static": 1,
             "itemtype": "method",
@@ -344,7 +344,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 197,
+            "line": 198,
             "description": "Helper function to automatically mute audio when the browser window is not in focus.\n\nWill un-mute when the window gains focus.",
             "static": 1,
             "itemtype": "method",
@@ -356,7 +356,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 221,
+            "line": 222,
             "description": "Helper function to unlock audio on iOS devices.\n\nYou can pass an optional callback which will be triggered on `touchend` event.",
             "static": 1,
             "itemtype": "method",
@@ -376,7 +376,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 237,
+            "line": 238,
             "description": "Helper function to mute all the sounds.",
             "static": 1,
             "itemtype": "method",
@@ -397,7 +397,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 253,
+            "line": 254,
             "description": "Helper function to stop all the sounds.",
             "static": 1,
             "itemtype": "method",
@@ -409,7 +409,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 265,
+            "line": 266,
             "description": "Returns a string with all the format support information.",
             "static": 1,
             "itemtype": "method",
@@ -425,7 +425,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 283,
+            "line": 284,
             "description": "Function to check whether audio is supported or not.",
             "static": 1,
             "itemtype": "method",
@@ -441,7 +441,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 300,
+            "line": 301,
             "description": "Function to check `ogg` format support.",
             "static": 1,
             "itemtype": "method",
@@ -457,7 +457,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 314,
+            "line": 315,
             "description": "Function to check `wav` format support.",
             "static": 1,
             "itemtype": "method",
@@ -473,7 +473,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 328,
+            "line": 329,
             "description": "Function to check `mp3` format support.",
             "static": 1,
             "itemtype": "method",
@@ -489,7 +489,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 342,
+            "line": 343,
             "description": "Function to check `aac` format support.",
             "static": 1,
             "itemtype": "method",
@@ -505,7 +505,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 356,
+            "line": 357,
             "description": "Function to check `m4a` format support.",
             "static": 1,
             "itemtype": "method",
@@ -521,7 +521,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 370,
+            "line": 371,
             "description": "Function to destroy audio context.",
             "static": 1,
             "itemtype": "method",
@@ -624,7 +624,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 67,
+            "line": 70,
             "description": "Function to load audio sprite JSON.",
             "access": "private",
             "tagname": "",
@@ -641,7 +641,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 87,
+            "line": 90,
             "description": "Function to initialize sound.",
             "access": "private",
             "tagname": "",
@@ -658,7 +658,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 103,
+            "line": 106,
             "description": "Function to set sound volume.",
             "itemtype": "method",
             "name": "setVolume",
@@ -676,7 +676,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 116,
+            "line": 119,
             "description": "Function to get sound volume.",
             "itemtype": "method",
             "name": "getVolume",
@@ -691,7 +691,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 129,
+            "line": 132,
             "description": "Function to mute sound.",
             "itemtype": "method",
             "name": "mute",
@@ -709,7 +709,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 142,
+            "line": 145,
             "description": "Function to manually load the sound if `preload` was set to `false` with optional onload callback.",
             "itemtype": "method",
             "name": "load",
@@ -732,7 +732,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 158,
+            "line": 161,
             "description": "Function to play the sound with optional sprite name when using audio sprite.",
             "itemtype": "method",
             "name": "play",
@@ -755,7 +755,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 182,
+            "line": 185,
             "description": "Function to check if the sound is playing or not.",
             "itemtype": "method",
             "name": "isPlaying",
@@ -770,7 +770,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 195,
+            "line": 198,
             "description": "Function to loop or unloop sound.",
             "itemtype": "method",
             "name": "loop",
@@ -788,7 +788,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 208,
+            "line": 211,
             "description": "Function to stop sound.",
             "itemtype": "method",
             "name": "stop",
@@ -799,7 +799,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 220,
+            "line": 223,
             "description": "Function to add callback that triggers when the sound finishes playing.",
             "itemtype": "method",
             "name": "onEnd",
@@ -821,7 +821,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 235,
+            "line": 238,
             "description": "Function to add callback that triggers when the sound is loaded.",
             "itemtype": "method",
             "name": "onLoad",
@@ -843,7 +843,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 250,
+            "line": 253,
             "description": "Function to destroy sound.",
             "itemtype": "method",
             "name": "destroy",
