@@ -86,7 +86,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_AudioManager.hx.html#l22"><code>src&#x2F;AudioManager.hx:22</code></a>
+            Defined in: <a href="../files/src_AudioManager.hx.html#l53"><code>src&#x2F;AudioManager.hx:53</code></a>
         </div>
 
 
@@ -107,7 +107,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_AudioManager.hx.html#l22"><code>src&#x2F;AudioManager.hx:22</code></a>
+      <a href="../files/src_AudioManager.hx.html#l53"><code>src&#x2F;AudioManager.hx:53</code></a>
   </p>
 
 
@@ -194,10 +194,26 @@
                     <h3>Properties</h3>
 
                     <ul class="index-list properties">
+                            <li class="index-item property protected">
+                                <a href="#property_audioContext">audioContext</a>
+
+                            </li>
                             <li class="index-item property private">
                                 <a href="#property_AudioContextClass">AudioContextClass</a>
 
                                     <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property protected">
+                                <a href="#property_bufferList">bufferList</a>
+
+                            </li>
+                            <li class="index-item property protected">
+                                <a href="#property_playingSounds">playingSounds</a>
+
+                            </li>
+                            <li class="index-item property protected">
+                                <a href="#property_types">types</a>
+
                             </li>
                     </ul>
                 </div>
@@ -214,7 +230,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_AudioManager.hx.html#l42"><code>src&#x2F;AudioManager.hx:42</code></a>
+      <a href="../files/src_AudioManager.hx.html#l73"><code>src&#x2F;AudioManager.hx:73</code></a>
   </p>
 
 
@@ -252,7 +268,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_AudioManager.hx.html#l84"><code>src&#x2F;AudioManager.hx:84</code></a>
+      <a href="../files/src_AudioManager.hx.html#l115"><code>src&#x2F;AudioManager.hx:115</code></a>
   </p>
 
 
@@ -290,7 +306,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_AudioManager.hx.html#l102"><code>src&#x2F;AudioManager.hx:102</code></a>
+      <a href="../files/src_AudioManager.hx.html#l133"><code>src&#x2F;AudioManager.hx:133</code></a>
   </p>
 
 
@@ -328,7 +344,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_AudioManager.hx.html#l133"><code>src&#x2F;AudioManager.hx:133</code></a>
+      <a href="../files/src_AudioManager.hx.html#l164"><code>src&#x2F;AudioManager.hx:164</code></a>
   </p>
 
 
@@ -373,7 +389,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_AudioManager.hx.html#l119"><code>src&#x2F;AudioManager.hx:119</code></a>
+      <a href="../files/src_AudioManager.hx.html#l150"><code>src&#x2F;AudioManager.hx:150</code></a>
   </p>
 
 
@@ -419,7 +435,7 @@ This is useful if you want an application to power down the audio hardware when 
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_AudioManager.hx.html#l61"><code>src&#x2F;AudioManager.hx:61</code></a>
+      <a href="../files/src_AudioManager.hx.html#l92"><code>src&#x2F;AudioManager.hx:92</code></a>
   </p>
 
 
@@ -456,13 +472,47 @@ This is useful if you want an application to power down the audio hardware when 
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
+                    <div id="property_audioContext" class="property item protected">
+                    
+                      <h3 class="blue-method-name">audioContext</h3>
+                      <div class="meta method-meta">
+                          <p>
+                              Defined in
+                          <a href="../files/src_AudioManager.hx.html#l16"><code>src&#x2F;AudioManager.hx:16</code></a>
+                      </p>
+                    
+                    
+                      </div>
+                    
+                      <h3>Syntax</h3>
+                      <div class="blue-method-syntax">
+                        <h3 class="name"><code>audioContext</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/API/AudioContext" class="crosslink external" target="_blank">AudioContext</a></span>
+                    
+                    
+                            <span class="flag protected">protected</span>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                          <h3>Summary</h3>
+                            <p>Audio Context instance.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    
+                    </div>
                     <div id="property_AudioContextClass" class="property item private">
                     
                       <h3 class="blue-method-name">AudioContextClass</h3>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/src_AudioManager.hx.html#l12"><code>src&#x2F;AudioManager.hx:12</code></a>
+                          <a href="../files/src_AudioManager.hx.html#l43"><code>src&#x2F;AudioManager.hx:43</code></a>
                       </p>
                     
                     
@@ -484,6 +534,108 @@ This is useful if you want an application to power down the audio hardware when 
                         <div class="description">
                           <h3>Summary</h3>
                             <p>Audio Context Class determined based on the browser type. Refer <a href="../classes/AudioManager.html#method_checkWebAudioAPISupport" class="crosslink">checkWebAudioAPISupport</a> method.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    
+                    </div>
+                    <div id="property_bufferList" class="property item protected">
+                    
+                      <h3 class="blue-method-name">bufferList</h3>
+                      <div class="meta method-meta">
+                          <p>
+                              Defined in
+                          <a href="../files/src_AudioManager.hx.html#l25"><code>src&#x2F;AudioManager.hx:25</code></a>
+                      </p>
+                    
+                    
+                      </div>
+                    
+                      <h3>Syntax</h3>
+                      <div class="blue-method-syntax">
+                        <h3 class="name"><code>bufferList</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map" class="crosslink external" target="_blank">Map</a></span>
+                    
+                    
+                            <span class="flag protected">protected</span>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                          <h3>Summary</h3>
+                            <p>Audio buffer list.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    
+                    </div>
+                    <div id="property_playingSounds" class="property item protected">
+                    
+                      <h3 class="blue-method-name">playingSounds</h3>
+                      <div class="meta method-meta">
+                          <p>
+                              Defined in
+                          <a href="../files/src_AudioManager.hx.html#l34"><code>src&#x2F;AudioManager.hx:34</code></a>
+                      </p>
+                    
+                    
+                      </div>
+                    
+                      <h3>Syntax</h3>
+                      <div class="blue-method-syntax">
+                        <h3 class="name"><code>playingSounds</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map" class="crosslink external" target="_blank">Map</a></span>
+                    
+                    
+                            <span class="flag protected">protected</span>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                          <h3>Summary</h3>
+                            <p>Reference to playing sounds.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    
+                    </div>
+                    <div id="property_types" class="property item protected">
+                    
+                      <h3 class="blue-method-name">types</h3>
+                      <div class="meta method-meta">
+                          <p>
+                              Defined in
+                          <a href="../files/src_AudioManager.hx.html#l7"><code>src&#x2F;AudioManager.hx:7</code></a>
+                      </p>
+                    
+                    
+                      </div>
+                    
+                      <h3>Syntax</h3>
+                      <div class="blue-method-syntax">
+                        <h3 class="name"><code>types</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map" class="crosslink external" target="_blank">Map</a></span>
+                    
+                    
+                            <span class="flag protected">protected</span>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                          <h3>Summary</h3>
+                            <p>Audio Types.</p>
                     
                         </div>
                     

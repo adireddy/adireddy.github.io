@@ -91,9 +91,40 @@ import js.Browser;
 
 class AudioManager {
 
+	/**
+	* Audio Types.
+	*
+	* @property types
+	* @protected
+	* @type {Map}
+	*/
 	public var types:Map&lt;String, String&gt;;
+
+	/**
+	* Audio Context instance.
+	*
+	* @property audioContext
+	* @protected
+	* @type {AudioContext}
+	*/
 	public var audioContext:AudioContext;
+
+	/**
+	* Audio buffer list.
+	*
+	* @property bufferList
+	* @protected
+	* @type {Map}
+	*/
 	public var bufferList:Map&lt;String, Dynamic&gt;;
+
+	/**
+	* Reference to playing sounds.
+	*
+	* @property playingSounds
+	* @protected
+	* @type {Map}
+	*/
 	public var playingSounds:Map&lt;String, Dynamic&gt;;
 
 	/**
