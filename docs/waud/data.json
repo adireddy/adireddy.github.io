@@ -425,7 +425,7 @@
             "itemtype": "property",
             "name": "__touchUnlockCallback",
             "static": 1,
-            "access": "private",
+            "access": "protected",
             "tagname": "",
             "type": "{Function}",
             "class": "Waud"
