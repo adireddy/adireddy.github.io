@@ -80,7 +80,7 @@
             "extension_for": [],
             "file": "src/AudioManager.hx",
             "line": 14,
-            "description": "Audio Manager class instantiated in {{#crossLink \"Waud/init:method\"}}{{/crossLink}} method.",
+            "description": "Audio Manager class instantiated in {{#crossLink \"Waud/init:method\"}}Waud.init{{/crossLink}} method.",
             "is_constructor": 1,
             "example": [
                 "\n\t\tWaud.audioManager"
