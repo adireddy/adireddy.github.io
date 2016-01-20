@@ -2,7 +2,7 @@
 <html lang="en" class="yui-overrride">
 <head>
     <meta charset="utf-8">
-    <title>src/WaudSoundOptions.hx - waud.js</title>
+    <title>src/AudioManager.hx - waud.js</title>
     <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet' type='text/css'>
@@ -81,87 +81,118 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/WaudSoundOptions.hx</h1>
+<h1 class="file-heading">File: src/AudioManager.hx</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-/**
-* Sound Options.
-*
-* @class WaudSoundOptions
-*/
-typedef WaudSoundOptions = {
-	/**
-	* Auto play sound.
-	* @property autoplay
-	* @type {Bool}
-	* @default false
-	*/
-	@:optional var autoplay:Bool;
+import js.html.audio.AudioBufferSourceNode;
+import js.html.audio.AudioContext;
+import js.Browser;
+
+class AudioManager {
+
+	public var types:Map&lt;String, String&gt;;
+	public var audioContext:AudioContext;
+	public var bufferList:Map&lt;String, Dynamic&gt;;
+	public var playingSounds:Map&lt;String, Dynamic&gt;;
+
+	static var AudioContextClass:Dynamic;
 
 	/**
-	* Loop sound.
-	* @property loop
-	* @type {Bool}
-	* @default false
-	*/
-	@:optional var loop:Bool;
-
-	/**
-	* Sound volume between 0 and 1.
-	* @property volume
-	* @type {Float}
-	* @default 1
-	*/
-	@:optional var volume:Float;
-
-	/**
-	* Callback function when the sound is loaded with sound instance as parameter.
-	* @property onload
-	* @type {Function}
-	* @default null
-	*/
-	@:optional var onload:IWaudSound -&gt; Void;
-
-	/**
-	* Callback function when the sound playback ends with sound instance as parameter.
-	* @property onend
-	* @type {Function}
-	* @default null
-	*/
-	@:optional var onend:IWaudSound -&gt; Void;
-
-	/**
-	* Callback function when there is an error in loading/decoding with sound instance as parameter.
-	* @property onerror
-	* @type {Function}
-	* @default null
-	*/
-	@:optional var onerror:IWaudSound -&gt; Void;
-
-	/**
-	* Whether to preload the sound or not.
+	* Audio Manager class instantiated in {{#crossLink &quot;Waud/init:method&quot;}}{{/crossLink}} method.
 	*
-	* Set it to &#x60;true&#x60; to automatically load the sound when instantiated.
-	*
-	* Set it to &#x60;false&#x60; to load the sound manually using &#x60;snd.load()&#x60; method.
-	*
-	* @property preload
-	* @type {Bool}
-	* @default true
+	* @class AudioManager
+	* @constructor
+	* @example
+	* 		Waud.audioManager
 	*/
-	@:optional var preload:Bool;
+	public function new() {
+		bufferList = new Map();
+		playingSounds = new Map();
+
+		types = new Map();
+		types.set(&quot;mp3&quot;, &quot;audio/mpeg&quot;);
+		types.set(&quot;ogg&quot;, &quot;audio/ogg&quot;);
+		types.set(&quot;wav&quot;, &quot;audio/wav&quot;);
+		types.set(&quot;aac&quot;, &quot;audio/aac&quot;);
+		types.set(&quot;m4a&quot;, &quot;audio/x-m4a&quot;);
+	}
+
+	public function checkWebAudioAPISupport():Bool {
+		if (Reflect.field(Browser.window, &quot;AudioContext&quot;) != null) {
+			AudioContextClass = Reflect.field(Browser.window, &quot;AudioContext&quot;);
+			return true;
+		}
+		else if (Reflect.field(Browser.window, &quot;webkitAudioContext&quot;) != null) {
+			AudioContextClass = Reflect.field(Browser.window, &quot;webkitAudioContext&quot;);
+			return true;
+		}
+		return false;
+	}
+
+	public function unlockAudio() {
+		if (audioContext == null) return;
+		var bfr = audioContext.createBuffer(1, 1, Waud.preferredSampleRate);
+		var src:AudioBufferSourceNode = audioContext.createBufferSource();
+		src.buffer = bfr;
+		src.connect(audioContext.destination);
+		src.start(0);
+		if (src.onended != null) src.onended = _unlockCallback;
+		else haxe.Timer.delay(_unlockCallback, 1);
+	}
+
+	inline function _unlockCallback() {
+		if (Waud.__touchUnlockCallback != null) Waud.__touchUnlockCallback();
+		Waud.dom.ontouchend = null;
+	}
+
+	public function createAudioContext() {
+		if (audioContext == null) {
+			try {
+				if (AudioContextClass != null) audioContext = cast Type.createInstance(AudioContextClass, []);
+			}
+			catch(e:Dynamic) {
+				audioContext = null;
+			}
+		}
+	}
+
+	public function destroyContext() {
+		if (audioContext != null &amp;&amp; untyped __js__(&quot;this.audioContext&quot;).close != null &amp;&amp; untyped __js__(&quot;this.audioContext&quot;).close != &quot;&quot;) {
+			untyped __js__(&quot;this.audioContext&quot;).close();
+		}
+		audioContext = null;
+		bufferList = null;
+		playingSounds = null;
+		types = null;
+	}
 
 	/**
-	* Whether to use web audio api or not.
+	* This function suspends the progression of time in the audio context, temporarily halting audio hardware access and reducing CPU/battery usage in the process.
+	* This is useful if you want an application to power down the audio hardware when it will not be using an audio context for a while.
 	*
-	* Set it to &#x60;false&#x60; to force html5 audio even when web audio is available.
-	*
-	* @property webaudio
-	* @type {Bool}
-	* @default true
+	* @method suspendContext
+	* @example
+	*     Waud.audioManager.suspendContext();
 	*/
-	@:optional var webaudio:Bool;
+	public function suspendContext() {
+		if (audioContext != null) {
+			if (untyped __js__(&quot;this.audioContext&quot;).suspend != null) untyped __js__(&quot;this.audioContext&quot;).suspend();
+		}
+	}
+
+	/**
+	* This function resumes the progression of time in an audio context that has previously been suspended.
+	*
+	* @method resumeContext
+	* @example
+	*     Waud.audioManager.resumeContext();
+	*/
+	public function resumeContext() {
+		if (audioContext != null) {
+			if (untyped __js__(&quot;this.audioContext&quot;).resume != null) untyped __js__(&quot;this.audioContext&quot;).resume();
+		}
+	}
 }
     </pre>
 </div>
