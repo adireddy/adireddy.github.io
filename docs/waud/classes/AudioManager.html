@@ -86,7 +86,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_AudioManager.hx.html#l14"><code>src&#x2F;AudioManager.hx:14</code></a>
+            Defined in: <a href="../files/src_AudioManager.hx.html#l22"><code>src&#x2F;AudioManager.hx:22</code></a>
         </div>
 
 
@@ -107,7 +107,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_AudioManager.hx.html#l14"><code>src&#x2F;AudioManager.hx:14</code></a>
+      <a href="../files/src_AudioManager.hx.html#l22"><code>src&#x2F;AudioManager.hx:22</code></a>
   </p>
 
 
@@ -152,6 +152,7 @@
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
     <div>
@@ -163,6 +164,18 @@
 
                     <ul class="index-list methods">
                             <li class="index-item method">
+                                <a href="#method_checkWebAudioAPISupport">checkWebAudioAPISupport</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_createAudioContext">createAudioContext</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_destroy">destroy</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_resumeContext">resumeContext</a>
 
                             </li>
@@ -170,9 +183,24 @@
                                 <a href="#method_suspendContext">suspendContext</a>
 
                             </li>
+                            <li class="index-item method">
+                                <a href="#method_unlockAudio">unlockAudio</a>
+
+                            </li>
                     </ul>
                 </div>
 
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property private">
+                                <a href="#property_AudioContextClass">AudioContextClass</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                    </ul>
+                </div>
 
 
         </div>
@@ -180,13 +208,127 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
+<div id="method_checkWebAudioAPISupport" class="method item">
+  <h3 class="blue-method-name">checkWebAudioAPISupport</h3>
+
+  <div class="meta method-meta">
+      <p>
+          Defined in
+      <a href="../files/src_AudioManager.hx.html#l42"><code>src&#x2F;AudioManager.hx:42</code></a>
+  </p>
+
+
+
+  </div>
+
+  <h3>Syntax</h3>
+  <div class="blue-method-syntax">
+  <h3 class="name"><code>checkWebAudioAPISupport</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+  </div>
+    <div class="description">
+      <h3>Summary</h3>
+        <p>Function to check web audio api support.</p>
+<p>Used by <a href="../classes/Waud.html#method_init" class="crosslink">Waud.init</a> method.</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_createAudioContext" class="method item">
+  <h3 class="blue-method-name">createAudioContext</h3>
+
+  <div class="meta method-meta">
+      <p>
+          Defined in
+      <a href="../files/src_AudioManager.hx.html#l84"><code>src&#x2F;AudioManager.hx:84</code></a>
+  </p>
+
+
+
+  </div>
+
+  <h3>Syntax</h3>
+  <div class="blue-method-syntax">
+  <h3 class="name"><code>createAudioContext</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+  </div>
+    <div class="description">
+      <h3>Summary</h3>
+        <p>Function to create audio context.</p>
+<p>Used by <a href="../classes/Waud.html#method_init" class="crosslink">Waud.init</a> method.</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_destroy" class="method item">
+  <h3 class="blue-method-name">destroy</h3>
+
+  <div class="meta method-meta">
+      <p>
+          Defined in
+      <a href="../files/src_AudioManager.hx.html#l102"><code>src&#x2F;AudioManager.hx:102</code></a>
+  </p>
+
+
+
+  </div>
+
+  <h3>Syntax</h3>
+  <div class="blue-method-syntax">
+  <h3 class="name"><code>destroy</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+  </div>
+    <div class="description">
+      <h3>Summary</h3>
+        <p>Function to close audio context and reset all variables.</p>
+<p>Used by <a href="../classes/Waud.html#method_destroy" class="crosslink">Waud.destroy</a> method.</p>
+
+    </div>
+
+
+
+
+</div>
 <div id="method_resumeContext" class="method item">
   <h3 class="blue-method-name">resumeContext</h3>
 
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_AudioManager.hx.html#l97"><code>src&#x2F;AudioManager.hx:97</code></a>
+      <a href="../files/src_AudioManager.hx.html#l133"><code>src&#x2F;AudioManager.hx:133</code></a>
   </p>
 
 
@@ -231,7 +373,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_AudioManager.hx.html#l83"><code>src&#x2F;AudioManager.hx:83</code></a>
+      <a href="../files/src_AudioManager.hx.html#l119"><code>src&#x2F;AudioManager.hx:119</code></a>
   </p>
 
 
@@ -271,8 +413,85 @@ This is useful if you want an application to power down the audio hardware when 
         </div>
 
 </div>
+<div id="method_unlockAudio" class="method item">
+  <h3 class="blue-method-name">unlockAudio</h3>
+
+  <div class="meta method-meta">
+      <p>
+          Defined in
+      <a href="../files/src_AudioManager.hx.html#l61"><code>src&#x2F;AudioManager.hx:61</code></a>
+  </p>
+
+
+
+  </div>
+
+  <h3>Syntax</h3>
+  <div class="blue-method-syntax">
+  <h3 class="name"><code>unlockAudio</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+  </div>
+    <div class="description">
+      <h3>Summary</h3>
+        <p>Function to unlock audio on <code>touchend</code> event.</p>
+<p>Used by <a href="../classes/Waud.html#method_enableTouchUnlock" class="crosslink">Waud.enableTouchUnlock</a> method.</p>
+
+    </div>
+
+
+
+
+</div>
             </div>
 
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                    <div id="property_AudioContextClass" class="property item private">
+                    
+                      <h3 class="blue-method-name">AudioContextClass</h3>
+                      <div class="meta method-meta">
+                          <p>
+                              Defined in
+                          <a href="../files/src_AudioManager.hx.html#l12"><code>src&#x2F;AudioManager.hx:12</code></a>
+                      </p>
+                    
+                    
+                      </div>
+                    
+                      <h3>Syntax</h3>
+                      <div class="blue-method-syntax">
+                        <h3 class="name"><code>AudioContextClass</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/API/AudioContext" class="crosslink external" target="_blank">AudioContext</a> | WebkitAudioContext</span>
+                    
+                    
+                            <span class="flag private">private</span>
+                    
+                    
+                            <span class="flag static">static</span>
+                    
+                        </div>
+                    
+                        <div class="description">
+                          <h3>Summary</h3>
+                            <p>Audio Context Class determined based on the browser type. Refer <a href="../classes/AudioManager.html#method_checkWebAudioAPISupport" class="crosslink">checkWebAudioAPISupport</a> method.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    
+                    </div>
+            </div>
 
 
     </div>

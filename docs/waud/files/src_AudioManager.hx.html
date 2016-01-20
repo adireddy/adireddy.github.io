@@ -96,6 +96,14 @@ class AudioManager {
 	public var bufferList:Map&lt;String, Dynamic&gt;;
 	public var playingSounds:Map&lt;String, Dynamic&gt;;
 
+	/**
+	* Audio Context Class determined based on the browser type. Refer {{#crossLink &quot;AudioManager/checkWebAudioAPISupport:method&quot;}}{{/crossLink}} method.
+	*
+	* @property AudioContextClass
+	* @static
+	* @private
+	* @type {AudioContext|webkitAudioContext}
+	*/
 	static var AudioContextClass:Dynamic;
 
 	/**
@@ -118,6 +126,13 @@ class AudioManager {
 		types.set(&quot;m4a&quot;, &quot;audio/x-m4a&quot;);
 	}
 
+	/**
+	* Function to check web audio api support.
+	*
+	* Used by {{#crossLink &quot;Waud/init:method&quot;}}Waud.init{{/crossLink}} method.
+	*
+	* @method checkWebAudioAPISupport
+	*/
 	public function checkWebAudioAPISupport():Bool {
 		if (Reflect.field(Browser.window, &quot;AudioContext&quot;) != null) {
 			AudioContextClass = Reflect.field(Browser.window, &quot;AudioContext&quot;);
@@ -130,6 +145,13 @@ class AudioManager {
 		return false;
 	}
 
+	/**
+	* Function to unlock audio on &#x60;touchend&#x60; event.
+	*
+	* Used by {{#crossLink &quot;Waud/enableTouchUnlock:method&quot;}}Waud.enableTouchUnlock{{/crossLink}} method.
+	*
+	* @method unlockAudio
+	*/
 	public function unlockAudio() {
 		if (audioContext == null) return;
 		var bfr = audioContext.createBuffer(1, 1, Waud.preferredSampleRate);
@@ -146,6 +168,13 @@ class AudioManager {
 		Waud.dom.ontouchend = null;
 	}
 
+	/**
+	* Function to create audio context.
+	*
+	* Used by {{#crossLink &quot;Waud/init:method&quot;}}Waud.init{{/crossLink}} method.
+	*
+	* @method createAudioContext
+	*/
 	public function createAudioContext() {
 		if (audioContext == null) {
 			try {
@@ -157,7 +186,14 @@ class AudioManager {
 		}
 	}
 
-	public function destroyContext() {
+	/**
+	* Function to close audio context and reset all variables.
+	*
+	* Used by {{#crossLink &quot;Waud/destroy:method&quot;}}Waud.destroy{{/crossLink}} method.
+	*
+	* @method destroy
+	*/
+	public function destroy() {
 		if (audioContext != null &amp;&amp; untyped __js__(&quot;this.audioContext&quot;).close != null &amp;&amp; untyped __js__(&quot;this.audioContext&quot;).close != &quot;&quot;) {
 			untyped __js__(&quot;this.audioContext&quot;).close();
 		}

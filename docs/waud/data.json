@@ -79,7 +79,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "src/AudioManager.hx",
-            "line": 14,
+            "line": 22,
             "description": "Audio Manager class instantiated in {{#crossLink \"Waud/init:method\"}}Waud.init{{/crossLink}} method.",
             "is_constructor": 1,
             "example": [
@@ -172,7 +172,51 @@
     "classitems": [
         {
             "file": "src/AudioManager.hx",
-            "line": 83,
+            "line": 12,
+            "description": "Audio Context Class determined based on the browser type. Refer {{#crossLink \"AudioManager/checkWebAudioAPISupport:method\"}}{{/crossLink}} method.",
+            "itemtype": "property",
+            "name": "AudioContextClass",
+            "static": 1,
+            "access": "private",
+            "tagname": "",
+            "type": "{AudioContext|webkitAudioContext}",
+            "class": "AudioManager"
+        },
+        {
+            "file": "src/AudioManager.hx",
+            "line": 42,
+            "description": "Function to check web audio api support.\n\nUsed by {{#crossLink \"Waud/init:method\"}}Waud.init{{/crossLink}} method.",
+            "itemtype": "method",
+            "name": "checkWebAudioAPISupport",
+            "class": "AudioManager"
+        },
+        {
+            "file": "src/AudioManager.hx",
+            "line": 61,
+            "description": "Function to unlock audio on `touchend` event.\n\nUsed by {{#crossLink \"Waud/enableTouchUnlock:method\"}}Waud.enableTouchUnlock{{/crossLink}} method.",
+            "itemtype": "method",
+            "name": "unlockAudio",
+            "class": "AudioManager"
+        },
+        {
+            "file": "src/AudioManager.hx",
+            "line": 84,
+            "description": "Function to create audio context.\n\nUsed by {{#crossLink \"Waud/init:method\"}}Waud.init{{/crossLink}} method.",
+            "itemtype": "method",
+            "name": "createAudioContext",
+            "class": "AudioManager"
+        },
+        {
+            "file": "src/AudioManager.hx",
+            "line": 102,
+            "description": "Function to close audio context and reset all variables.\n\nUsed by {{#crossLink \"Waud/destroy:method\"}}Waud.destroy{{/crossLink}} method.",
+            "itemtype": "method",
+            "name": "destroy",
+            "class": "AudioManager"
+        },
+        {
+            "file": "src/AudioManager.hx",
+            "line": 119,
             "description": "This function suspends the progression of time in the audio context, temporarily halting audio hardware access and reducing CPU/battery usage in the process.\nThis is useful if you want an application to power down the audio hardware when it will not be using an audio context for a while.",
             "itemtype": "method",
             "name": "suspendContext",
@@ -183,7 +227,7 @@
         },
         {
             "file": "src/AudioManager.hx",
-            "line": 97,
+            "line": 133,
             "description": "This function resumes the progression of time in an audio context that has previously been suspended.",
             "itemtype": "method",
             "name": "resumeContext",
