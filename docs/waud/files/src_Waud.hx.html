@@ -18,7 +18,7 @@
             <a href="https://github.com/adireddy/waud" target="_blank"><img src="../assets/css/logo.png" alt="waud.js"></a>
         </div>
         <div class="yui3-u-1-4 version project-version">
-            API Docs for: 0.3.3
+            API Docs for: 0.3.6
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -273,10 +273,8 @@ import js.Browser;
 		if (Waud.audioManager == null) Waud.audioManager = new AudioManager();
 		isWebAudioSupported = Waud.audioManager.checkWebAudioAPISupport();
 		isHTML5AudioSupported = (Reflect.field(Browser.window, &quot;Audio&quot;) != null);
-		audioContext = Waud.audioManager.audioContext;
 
-		if (isWebAudioSupported) Waud.audioManager.createAudioContext();
-		else if (!isHTML5AudioSupported) trace(&quot;no audio support in this browser&quot;);
+		if (isWebAudioSupported) audioContext = Waud.audioManager.createAudioContext();
 
 		sounds = new Map();
 	}

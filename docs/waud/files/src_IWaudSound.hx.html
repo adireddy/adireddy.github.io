@@ -18,7 +18,7 @@
             <a href="https://github.com/adireddy/waud" target="_blank"><img src="../assets/css/logo.png" alt="waud.js"></a>
         </div>
         <div class="yui3-u-1-4 version project-version">
-            API Docs for: 0.3.3
+            API Docs for: 0.3.6
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -98,6 +98,7 @@ interface IWaudSound {
 	function stop():Void;
 	function onEnd(callback:IWaudSound -&gt; Void):IWaudSound;
 	function onLoad(callback:IWaudSound -&gt; Void):IWaudSound;
+	function onError(callback:IWaudSound -&gt; Void):IWaudSound;
 	function mute(val:Bool):Void;
 	function loop(val:Bool):Void;
 	function setVolume(val:Float):Void;

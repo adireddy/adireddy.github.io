@@ -18,7 +18,7 @@
             <a href="https://github.com/adireddy/waud" target="_blank"><img src="../assets/css/logo.png" alt="waud.js"></a>
         </div>
         <div class="yui3-u-1-4 version project-version">
-            API Docs for: 0.3.3
+            API Docs for: 0.3.6
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -185,7 +185,10 @@ import haxe.Json;
 		this.url = url;
 		if (Waud.isWebAudioSupported &amp;&amp; Waud.useWebAudio &amp;&amp; (_options == null || _options.webaudio == null || _options.webaudio)) _snd = new WebAudioAPISound(url, _options);
 		else if (Waud.isHTML5AudioSupported) _snd = new HTML5Sound(url, _options);
-		else trace(&quot;no audio support in this browser&quot;);
+		else {
+			trace(&quot;no audio support in this browser&quot;);
+			return;
+		}
 
 		_snd.isSpriteSound = isSpriteSound;
 	}
@@ -334,6 +337,21 @@ import haxe.Json;
 	public function onLoad(callback:IWaudSound -&gt; Void):IWaudSound {
 		if (_snd == null) return null;
 		_snd.onLoad(callback);
+		return this;
+	}
+
+	/**
+	* Function to add callback that triggers when the sound fails to load or if it fails to decode when using web audio.
+	*
+	* @method onError
+	* @param {Function} callback - Callback function.
+	* @return {IWaudSound} sound instance
+	* @example
+	*     snd.onError(callback);
+	*/
+	public function onError(callback:IWaudSound -&gt; Void):IWaudSound {
+		if (_snd == null) return null;
+		_snd.onError(callback);
 		return this;
 	}
 
