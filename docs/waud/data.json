@@ -2,7 +2,7 @@
     "project": {
         "name": "waud.js",
         "description": "Web Audio Library",
-        "version": "0.3.6",
+        "version": "0.3.9",
         "url": "https://github.com/adireddy/waud"
     },
     "files": {
@@ -482,7 +482,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 195,
+            "line": 197,
             "description": "Helper function to automatically mute audio when the browser window is not in focus.\n\nWill un-mute when the window gains focus.",
             "static": 1,
             "itemtype": "method",
@@ -494,7 +494,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 219,
+            "line": 221,
             "description": "Helper function to unlock audio on iOS devices.\n\nYou can pass an optional callback which will be triggered on `touchend` event.",
             "static": 1,
             "itemtype": "method",
@@ -514,7 +514,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 235,
+            "line": 237,
             "description": "Helper function to mute all the sounds.",
             "static": 1,
             "itemtype": "method",
@@ -535,7 +535,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 251,
+            "line": 253,
             "description": "Helper function to stop all the sounds.",
             "static": 1,
             "itemtype": "method",
@@ -547,7 +547,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 263,
+            "line": 265,
             "description": "Returns a string with all the format support information.",
             "static": 1,
             "itemtype": "method",
@@ -563,7 +563,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 281,
+            "line": 283,
             "description": "Function to check whether audio is supported or not.",
             "static": 1,
             "itemtype": "method",
@@ -579,7 +579,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 298,
+            "line": 300,
             "description": "Function to check `ogg` format support.",
             "static": 1,
             "itemtype": "method",
@@ -595,7 +595,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 312,
+            "line": 314,
             "description": "Function to check `wav` format support.",
             "static": 1,
             "itemtype": "method",
@@ -611,7 +611,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 326,
+            "line": 328,
             "description": "Function to check `mp3` format support.",
             "static": 1,
             "itemtype": "method",
@@ -627,7 +627,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 340,
+            "line": 342,
             "description": "Function to check `aac` format support.",
             "static": 1,
             "itemtype": "method",
@@ -643,7 +643,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 354,
+            "line": 356,
             "description": "Function to check `m4a` format support.",
             "static": 1,
             "itemtype": "method",
@@ -659,7 +659,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 368,
+            "line": 370,
             "description": "Function to destroy audio context.",
             "static": 1,
             "itemtype": "method",
@@ -1095,19 +1095,6 @@
         {
             "file": "src/WaudUtils.hx",
             "line": 10,
-            "description": "User Agrent String.",
-            "static": 1,
-            "itemtype": "property",
-            "name": "ua",
-            "type": "{String}",
-            "example": [
-                "\n    WaudUtils.ua;"
-            ],
-            "class": "WaudUtils"
-        },
-        {
-            "file": "src/WaudUtils.hx",
-            "line": 21,
             "description": "Function to check if the device is **Android** or not.",
             "static": 1,
             "itemtype": "method",
@@ -1123,7 +1110,7 @@
         },
         {
             "file": "src/WaudUtils.hx",
-            "line": 34,
+            "line": 24,
             "description": "Function to check if the device is **iOS** or not.",
             "static": 1,
             "itemtype": "method",
@@ -1139,7 +1126,7 @@
         },
         {
             "file": "src/WaudUtils.hx",
-            "line": 47,
+            "line": 38,
             "description": "Function to check if the device is **Windows Phone** or not.",
             "static": 1,
             "itemtype": "method",
@@ -1155,7 +1142,7 @@
         },
         {
             "file": "src/WaudUtils.hx",
-            "line": 60,
+            "line": 52,
             "description": "Function to check if the device is **Firefox** or not.",
             "static": 1,
             "itemtype": "method",
@@ -1171,7 +1158,7 @@
         },
         {
             "file": "src/WaudUtils.hx",
-            "line": 73,
+            "line": 66,
             "description": "Function to check if the device is **Opera** or not.",
             "static": 1,
             "itemtype": "method",
@@ -1187,7 +1174,7 @@
         },
         {
             "file": "src/WaudUtils.hx",
-            "line": 86,
+            "line": 80,
             "description": "Function to check if the device is **Chrome** or not.",
             "static": 1,
             "itemtype": "method",
@@ -1203,7 +1190,7 @@
         },
         {
             "file": "src/WaudUtils.hx",
-            "line": 99,
+            "line": 94,
             "description": "Function to check if the device is **Safari** or not.",
             "static": 1,
             "itemtype": "method",
@@ -1219,7 +1206,7 @@
         },
         {
             "file": "src/WaudUtils.hx",
-            "line": 112,
+            "line": 108,
             "description": "Function to check if the device is **mobile** or not.",
             "static": 1,
             "itemtype": "method",
@@ -1235,7 +1222,7 @@
         },
         {
             "file": "src/WaudUtils.hx",
-            "line": 125,
+            "line": 122,
             "description": "Function to get the **iOS** version.",
             "static": 1,
             "itemtype": "method",
