@@ -2,7 +2,7 @@
     "project": {
         "name": "waud.js",
         "description": "Web Audio Library",
-        "version": "0.3.9",
+        "version": "0.4.1",
         "url": "https://github.com/adireddy/waud"
     },
     "files": {
@@ -244,7 +244,7 @@
         },
         {
             "file": "src/AudioManager.hx",
-            "line": 115,
+            "line": 116,
             "description": "Function to create audio context.\n\nUsed by {{#crossLink \"Waud/init:method\"}}Waud.init{{/crossLink}} method.",
             "itemtype": "method",
             "name": "createAudioContext",
@@ -255,7 +255,7 @@
         },
         {
             "file": "src/AudioManager.hx",
-            "line": 135,
+            "line": 136,
             "description": "Function to close audio context and reset all variables.\n\nUsed by {{#crossLink \"Waud/destroy:method\"}}Waud.destroy{{/crossLink}} method.",
             "itemtype": "method",
             "name": "destroy",
@@ -263,7 +263,7 @@
         },
         {
             "file": "src/AudioManager.hx",
-            "line": 152,
+            "line": 153,
             "description": "This function suspends the progression of time in the audio context, temporarily halting audio hardware access and reducing CPU/battery usage in the process.\nThis is useful if you want an application to power down the audio hardware when it will not be using an audio context for a while.",
             "itemtype": "method",
             "name": "suspendContext",
@@ -274,7 +274,7 @@
         },
         {
             "file": "src/AudioManager.hx",
-            "line": 166,
+            "line": 167,
             "description": "This function resumes the progression of time in an audio context that has previously been suspended.",
             "itemtype": "method",
             "name": "resumeContext",
@@ -938,6 +938,17 @@
         {
             "file": "src/WaudSound.hx",
             "line": 226,
+            "description": "Function to pause sound.",
+            "itemtype": "method",
+            "name": "pause",
+            "example": [
+                "\n    snd.pause();"
+            ],
+            "class": "WaudSound"
+        },
+        {
+            "file": "src/WaudSound.hx",
+            "line": 238,
             "description": "Function to add callback that triggers when the sound finishes playing.",
             "itemtype": "method",
             "name": "onEnd",
@@ -959,7 +970,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 241,
+            "line": 253,
             "description": "Function to add callback that triggers when the sound is loaded.",
             "itemtype": "method",
             "name": "onLoad",
@@ -981,7 +992,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 256,
+            "line": 268,
             "description": "Function to add callback that triggers when the sound fails to load or if it fails to decode when using web audio.",
             "itemtype": "method",
             "name": "onError",
@@ -1003,7 +1014,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 271,
+            "line": 283,
             "description": "Function to destroy sound.",
             "itemtype": "method",
             "name": "destroy",
