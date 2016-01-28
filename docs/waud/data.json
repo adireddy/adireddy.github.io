@@ -2,7 +2,7 @@
     "project": {
         "name": "waud.js",
         "description": "Web Audio Library",
-        "version": "0.4.2",
+        "version": "0.4.3",
         "url": "https://github.com/adireddy/waud"
     },
     "files": {
@@ -108,7 +108,7 @@
             "extension_for": [],
             "file": "src/WaudFocusManager.hx",
             "line": 32,
-            "description": "Cross-browser utility class used to mute/unmute audio on focus on/off events. Used when **Waud.autoMute()** is called.\n\nThis calss can also be used as a standalone utility class to handle focus on/off events.",
+            "description": "Cross-browser utility class used to mute/unmute audio on focus on/off events. Used when **Waud.autoMute()** is called.\n\nThis can also be used as a standalone utility class to handle focus on/off events.",
             "is_constructor": 1,
             "example": [
                 "\n\t\tvar fm = new WaudFocusManager();\n\t\tfm.focus = onFocus;\n\t\tfm.blur = onBlur;"
@@ -548,6 +548,18 @@
         {
             "file": "src/Waud.hx",
             "line": 265,
+            "description": "Helper function to pause all the sounds.",
+            "static": 1,
+            "itemtype": "method",
+            "name": "pause",
+            "example": [
+                "\n    Waud.pause();"
+            ],
+            "class": "Waud"
+        },
+        {
+            "file": "src/Waud.hx",
+            "line": 277,
             "description": "Returns a string with all the format support information.",
             "static": 1,
             "itemtype": "method",
@@ -563,7 +575,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 283,
+            "line": 295,
             "description": "Function to check whether audio is supported or not.",
             "static": 1,
             "itemtype": "method",
@@ -579,7 +591,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 300,
+            "line": 312,
             "description": "Function to check `ogg` format support.",
             "static": 1,
             "itemtype": "method",
@@ -595,7 +607,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 314,
+            "line": 326,
             "description": "Function to check `wav` format support.",
             "static": 1,
             "itemtype": "method",
@@ -611,7 +623,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 328,
+            "line": 340,
             "description": "Function to check `mp3` format support.",
             "static": 1,
             "itemtype": "method",
@@ -627,7 +639,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 342,
+            "line": 354,
             "description": "Function to check `aac` format support.",
             "static": 1,
             "itemtype": "method",
@@ -643,7 +655,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 356,
+            "line": 368,
             "description": "Function to check `m4a` format support.",
             "static": 1,
             "itemtype": "method",
@@ -659,7 +671,7 @@
         },
         {
             "file": "src/Waud.hx",
-            "line": 370,
+            "line": 382,
             "description": "Function to destroy audio context.",
             "static": 1,
             "itemtype": "method",
