@@ -1,0 +1,199 @@
+{
+    "project": {
+        "name": "device-capabilities.js",
+        "description": "Device Capabilities Library",
+        "version": "0.0.2",
+        "url": "https://github.com/adireddy/device-capabilities"
+    },
+    "files": {
+        "src/BatterySupport.hx": {
+            "name": "src/BatterySupport.hx",
+            "modules": {},
+            "classes": {
+                "BatterySupport": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/Motion.hx": {
+            "name": "src/Motion.hx",
+            "modules": {},
+            "classes": {
+                "Motion": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/Vibration.hx": {
+            "name": "src/Vibration.hx",
+            "modules": {},
+            "classes": {
+                "Vibration": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "BatterySupport": {
+            "name": "BatterySupport",
+            "shortname": "BatterySupport",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/BatterySupport.hx",
+            "line": 25,
+            "description": "Class to access battery manager.",
+            "is_constructor": 1,
+            "example": [
+                "\n\t\tvar batterySupport = new BatterySupport(onReady);\n\n\t    function onReady() {\n\t        trace(batterySupport.isSupported);\n\t        if (batterySupport.isSupported) {\n\t            trace(batterySupport.battery.level);\n\t        }\n\t    }"
+            ]
+        },
+        "Motion": {
+            "name": "Motion",
+            "shortname": "Motion",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/Motion.hx",
+            "line": 16,
+            "description": "Class for shake(devicemotion) functionality.",
+            "is_constructor": 1,
+            "example": [
+                "\n\t\tvar motion = new Motion();\n\t\tmotion.shake(onShake);\n\t\tfunction onShake() {\n\t        trace(\"shake detected\");\n      }"
+            ]
+        },
+        "Vibration": {
+            "name": "Vibration",
+            "shortname": "Vibration",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/Vibration.hx",
+            "line": 16,
+            "description": "Class to vibrate the device if supported.",
+            "is_constructor": 1,
+            "example": [
+                "\n\t\tvar vibration = new Vibration();\n\t\tvibration.start(2000);"
+            ]
+        }
+    },
+    "elements": {},
+    "classitems": [
+        {
+            "file": "src/BatterySupport.hx",
+            "line": 7,
+            "description": "Support check.",
+            "itemtype": "property",
+            "name": "isSupported",
+            "type": "{Bool}",
+            "class": "BatterySupport"
+        },
+        {
+            "file": "src/BatterySupport.hx",
+            "line": 15,
+            "description": "Battery manager instance.",
+            "itemtype": "property",
+            "name": "battery",
+            "type": "{BatteryManager}",
+            "class": "BatterySupport"
+        },
+        {
+            "file": "src/Motion.hx",
+            "line": 32,
+            "description": "Function to detect shake motion.",
+            "itemtype": "method",
+            "name": "shake",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "",
+                    "type": "Function"
+                },
+                {
+                    "name": "threshold ",
+                    "description": "",
+                    "type": "Int",
+                    "optional": true,
+                    "optdefault": " 10"
+                },
+                {
+                    "name": "interval ",
+                    "description": "",
+                    "type": "Int",
+                    "optional": true,
+                    "optdefault": " 1000"
+                }
+            ],
+            "class": "Motion"
+        },
+        {
+            "file": "src/Motion.hx",
+            "line": 49,
+            "description": "Function to stop shake motion detection.",
+            "itemtype": "method",
+            "name": "stopShake",
+            "class": "Motion"
+        },
+        {
+            "file": "src/Vibration.hx",
+            "line": 6,
+            "description": "Support check.",
+            "itemtype": "property",
+            "name": "isSupported",
+            "type": "{Bool}",
+            "class": "Vibration"
+        },
+        {
+            "file": "src/Vibration.hx",
+            "line": 30,
+            "description": "Function to start vibration.",
+            "itemtype": "method",
+            "name": "start",
+            "params": [
+                {
+                    "name": "duration ",
+                    "description": "",
+                    "type": "Int",
+                    "optional": true,
+                    "optdefault": " 1000"
+                }
+            ],
+            "class": "Vibration"
+        },
+        {
+            "file": "src/Vibration.hx",
+            "line": 40,
+            "description": "Function to start vibration pattern.",
+            "itemtype": "method",
+            "name": "startPattern",
+            "params": [
+                {
+                    "name": "pattern",
+                    "description": "",
+                    "type": "Array<Int>"
+                }
+            ],
+            "example": [
+                "\n      vibration.startPattern([200, 100, 300, 50, 200]);"
+            ],
+            "class": "Vibration"
+        },
+        {
+            "file": "src/Vibration.hx",
+            "line": 52,
+            "description": "Function to stop vibration.",
+            "itemtype": "method",
+            "name": "stop",
+            "class": "Vibration"
+        }
+    ],
+    "warnings": []
+}
