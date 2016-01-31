@@ -12,6 +12,7 @@
 	<script src="//cdn.muicss.com/mui-0.2.9/js/mui.min.js"></script>
 
 	<script src="dist/device-capabilities.min.js"></script>
+    <script src="http://jsconsole.com/remote.js?C8000C10-83FD-4484-864F-55F069C64C20"></script>
 
 	<script>
 		var batterySupport = new BatterySupport(onReady);
@@ -20,15 +21,20 @@
 
 		function init() {
 			document.getElementById("ua").innerHTML = navigator.userAgent;
-			document.getElementById("ua").innerHTML += "<br/>Vibration Support: " + vibration.isSupported;
+			document.getElementById("supportInfo").innerHTML += "<br/>Vibration Support: " + vibration.isSupported;
 		}
 
 		function onReady() {
-			document.getElementById("ua").innerHTML += "<br/>Battery Support: " + batterySupport.isSupported;
-			document.getElementById("batteryInfo").innerHTML += "Charging: " + batterySupport.battery.charging;
-			document.getElementById("batteryInfo").innerHTML += "<br/>Charging Time: " + batterySupport.battery.chargingTime;
-			document.getElementById("batteryInfo").innerHTML += "<br/>Level: " + batterySupport.battery.level;
-			document.getElementById("batteryInfo").innerHTML += "<br/>Discharging Time: " + batterySupport.battery.dischargingTime;
+			document.getElementById("supportInfo").innerHTML += "<br/>Battery Support: " + batterySupport.isSupported;
+            if (batterySupport.isSupported) {
+                document.getElementById("batteryInfo").innerHTML += "Charging: " + batterySupport.battery.charging;
+                document.getElementById("batteryInfo").innerHTML += "<br/>Charging Time: " + batterySupport.battery.chargingTime;
+                document.getElementById("batteryInfo").innerHTML += "<br/>Level: " + batterySupport.battery.level;
+                document.getElementById("batteryInfo").innerHTML += "<br/>Discharging Time: " + batterySupport.battery.dischargingTime;
+            }
+            else {
+                document.getElementById("batteryInfo").innerHTML = "<br/>NOT SUPPORTED";
+            }
 		}
 
 		function shake(threshold) {
@@ -62,6 +68,7 @@
 	<br />
 	<br />
 	<div id="ua" class="mui--text-caption"></div>
+    <div id="supportInfo" class="mui--text-caption"></div>
 	<br />
 	<br />
 	<div id="vibration" class="mui--text-title">Vibration (Android only)</div>

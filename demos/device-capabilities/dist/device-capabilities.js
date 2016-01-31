@@ -10,7 +10,7 @@ var BatterySupport = $hx_exports.BatterySupport = function(ready) {
 		_g.battery = b;
 		_g.isSupported = true;
 		if(ready != null) ready();
-	}); else if(ready != null) ready();
+	}); else if(ready != null) haxe_Timer.delay(ready,1);
 };
 var Motion = $hx_exports.Motion = function() {
 	this._window = window;
@@ -86,6 +86,29 @@ Vibration.prototype = {
 	}
 	,stop: function() {
 		if(this.isSupported) this._navigator.vibrate(0);
+	}
+};
+var haxe_Timer = function(time_ms) {
+	var me = this;
+	this.id = setInterval(function() {
+		me.run();
+	},time_ms);
+};
+haxe_Timer.delay = function(f,time_ms) {
+	var t = new haxe_Timer(time_ms);
+	t.run = function() {
+		t.stop();
+		f();
+	};
+	return t;
+};
+haxe_Timer.prototype = {
+	stop: function() {
+		if(this.id == null) return;
+		clearInterval(this.id);
+		this.id = null;
+	}
+	,run: function() {
 	}
 };
 var $_, $fid = 0;
