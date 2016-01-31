@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>device-capabilities-sample</title>
+
+	<link href="//cdn.muicss.com/mui-0.2.9/css/mui.min.css" rel="stylesheet" type="text/css" />
+	<script src="//cdn.muicss.com/mui-0.2.9/js/mui.min.js"></script>
+
+	<script src="dist/device-capabilities.min.js"></script>
+
+	<script>
+		var batterySupport = new BatterySupport(onReady);
+		var vibration = new Vibration();
+		var motion = new Motion();
+
+		function init() {
+			document.getElementById("ua").innerHTML = navigator.userAgent;
+			document.getElementById("ua").innerHTML += "<br/>Vibration Support: " + vibration.isSupported;
+		}
+
+		function onReady() {
+			document.getElementById("ua").innerHTML += "<br/> Battery Support: " + batterySupport.isSupported;
+		}
+
+		function shake(threshold) {
+			motion.shake(onShake, threshold);
+		}
+
+		function onShake() {
+			document.getElementById("shakeStatus").innerText = "SHAKE DETECTED " + Math.round(Math.random());
+		}
+
+	</script>
+
+</head>
+
+<body onload="init()">
+
+<header class="mui-appbar mui--z2">
+	<div class="mui-container">
+		<table width="100%">
+			<tr class="mui--appbar-height">
+				<td class="mui--text-title"><img src="logo.png" /></td>
+				<td align="right">
+					<a href="https://github.com/adireddy/device-capabilities" target="_blank">
+						<button class="mui-btn mui-btn--small mui-btn--raised">GitHub</button>
+					</a>
+					<a href="https://www.npmjs.com/package/device-capabilities.js" target="_blank">
+						<button class="mui-btn mui-btn--small mui-btn--raised">NPM</button>
+					</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+</header>
+
+<div id="content-wrapper" class="mui--text-center">
+
+	<div class="mui--appbar-height"></div>
+	<br />
+	<br />
+	<div id="ua" class="mui--text-caption"></div>
+	<br />
+	<br />
+	<div id="ua" class="mui--text-title">Vibration</div>
+	<button class="mui-btn mui-btn--small mui-btn--raised mui-btn--primary" onclick="vibration.start(10000);">Vibrate 10 Secs</button>
+	<button class="mui-btn mui-btn--small mui-btn--raised mui-btn--danger" onclick="vibration.startPattern([200,100,300,200,50,50,50,50,1000]);">Pattern Vibrate</button>
+	<button class="mui-btn mui-btn--small mui-btn--raised mui-btn--accent" onclick="vibration.stop();">Stop</button>
+	<br />
+	<br />
+	<div id="ua" class="mui--text-title">Motion</div>
+	<button class="mui-btn mui-btn--small mui-btn--raised mui-btn--primary" onclick="shake(5);">Shake 5 Threshold</button>
+	<button class="mui-btn mui-btn--small mui-btn--raised mui-btn--primary" onclick="shake(10);">Shake 10 Threshold</button>
+	<button class="mui-btn mui-btn--small mui-btn--raised mui-btn--danger" onclick="shake(15);">Shake 15 Threshold</button>
+	<button class="mui-btn mui-btn--small mui-btn--raised mui-btn--accent" id="shakeStatus">WAITING...</button>
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+</div>
+
+<footer>
+	<div class="mui-container mui--text-center">
+		This content is released under the <a href="http://opensource.org/licenses/MIT">MIT</a> License.
+	</div>
+</footer>
+
+</body>
+</html>
