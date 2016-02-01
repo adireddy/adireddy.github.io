@@ -2,7 +2,7 @@
     "project": {
         "name": "waud.js",
         "description": "Web Audio Library",
-        "version": "0.4.4",
+        "version": "0.4.5",
         "url": "https://github.com/adireddy/waud"
     },
     "files": {
@@ -884,8 +884,8 @@
                 }
             ],
             "return": {
-                "description": "sound instance",
-                "type": "IWaudSound"
+                "description": "sound id",
+                "type": "Int"
             },
             "example": [
                 "\n    snd.play();\n    snd.play(\"bell\");"
