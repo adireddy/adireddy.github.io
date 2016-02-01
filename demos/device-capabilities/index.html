@@ -81,7 +81,7 @@
         function monitorSpeech() {
             speech.startRecognition(function(results) {
                 document.getElementById("speechInfo").innerText = results[0][0].transcript + "\n";
-                document.getElementById("speechInfo").innerText += "Confidence: " + results[0][0].confidence;
+                document.getElementById("speechInfo").innerText += "Confidence: " + Math.round(results[0][0].confidence * 100) + "%";
             }, function() {
                 document.getElementById("speechInfo").innerText = "";
             });
