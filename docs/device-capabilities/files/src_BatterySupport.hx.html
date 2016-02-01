@@ -18,7 +18,7 @@
             <a href="https://github.com/adireddy/device-capabilities" target="_blank"><img src="../assets/css/logo.png" alt="waud.js"></a>
         </div>
         <div class="yui3-u-1-4 version project-version">
-            API Docs for v0.0.2
+            API Docs for v0.0.4
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,6 +40,7 @@
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/BatterySupport.html">BatterySupport</a></li>
+                                <li><a href="../classes/Location.html">Location</a></li>
                                 <li><a href="../classes/Motion.html">Motion</a></li>
                                 <li><a href="../classes/Vibration.html">Vibration</a></li>
                             </ul>
@@ -82,6 +83,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import haxe.Timer;
 import js.Browser;
 import js.html.BatteryManager;
 import js.html.Navigator;
@@ -135,7 +137,7 @@ import js.html.Navigator;
             });
         }
         else {
-            if (ready != null) ready();
+            if (ready != null) Timer.delay(ready, 1);
         }
     }
 }

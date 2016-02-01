@@ -2,7 +2,7 @@
     "project": {
         "name": "device-capabilities.js",
         "description": "Device Capabilities Library",
-        "version": "0.0.2",
+        "version": "0.0.4",
         "url": "https://github.com/adireddy/device-capabilities"
     },
     "files": {
@@ -11,6 +11,15 @@
             "modules": {},
             "classes": {
                 "BatterySupport": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/Location.hx": {
+            "name": "src/Location.hx",
+            "modules": {},
+            "classes": {
+                "Location": 1
             },
             "fors": {},
             "namespaces": {}
@@ -45,11 +54,27 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "src/BatterySupport.hx",
-            "line": 25,
+            "line": 26,
             "description": "Class to access battery manager.",
             "is_constructor": 1,
             "example": [
                 "\n\t\tvar batterySupport = new BatterySupport(onReady);\n\n\t    function onReady() {\n\t        trace(batterySupport.isSupported);\n\t        if (batterySupport.isSupported) {\n\t            trace(batterySupport.battery.level);\n\t        }\n\t    }"
+            ]
+        },
+        "Location": {
+            "name": "Location",
+            "shortname": "Location",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/Location.hx",
+            "line": 28,
+            "description": "Class to get user location.",
+            "is_constructor": 1,
+            "example": [
+                "\n\t\tvar location = new Location();\n      location.getCurrentPosition(onLocation, onError);\n\n      function onLocation(position:Position) {\n          trace(position.coords.latitude, position.coords.longitude);\n      }\n\n      function onError(msg) {\n          trace(msg);\n      }"
             ]
         },
         "Motion": {
@@ -89,7 +114,7 @@
     "classitems": [
         {
             "file": "src/BatterySupport.hx",
-            "line": 7,
+            "line": 8,
             "description": "Support check.",
             "itemtype": "property",
             "name": "isSupported",
@@ -98,12 +123,80 @@
         },
         {
             "file": "src/BatterySupport.hx",
-            "line": 15,
+            "line": 16,
             "description": "Battery manager instance.",
             "itemtype": "property",
             "name": "battery",
             "type": "{BatteryManager}",
             "class": "BatterySupport"
+        },
+        {
+            "file": "src/Location.hx",
+            "line": 9,
+            "description": "Support check.",
+            "itemtype": "property",
+            "name": "isSupported",
+            "type": "{Bool}",
+            "class": "Location"
+        },
+        {
+            "file": "src/Location.hx",
+            "line": 17,
+            "description": "Locaion options.",
+            "itemtype": "property",
+            "name": "options",
+            "type": "{PositionOptions}",
+            "class": "Location"
+        },
+        {
+            "file": "src/Location.hx",
+            "line": 51,
+            "description": "Function to get current position.",
+            "itemtype": "method",
+            "name": "getCurrentPosition",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "",
+                    "type": "Function"
+                },
+                {
+                    "name": "errorCallback",
+                    "description": "",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Location"
+        },
+        {
+            "file": "src/Location.hx",
+            "line": 64,
+            "description": "Function to monitor position updates.",
+            "itemtype": "method",
+            "name": "monitor",
+            "params": [
+                {
+                    "name": "updateCallback",
+                    "description": "",
+                    "type": "Function"
+                },
+                {
+                    "name": "errorCallback",
+                    "description": "",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Location"
+        },
+        {
+            "file": "src/Location.hx",
+            "line": 78,
+            "description": "Function to clear position monitoring.",
+            "itemtype": "method",
+            "name": "clearMonitor",
+            "class": "Location"
         },
         {
             "file": "src/Motion.hx",

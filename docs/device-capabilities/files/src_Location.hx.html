@@ -2,7 +2,7 @@
 <html lang="en" class="yui-overrride">
 <head>
     <meta charset="utf-8">
-    <title>src/Vibration.hx - device-capabilities.js</title>
+    <title>src/Location.hx - device-capabilities.js</title>
     <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet' type='text/css'>
@@ -79,14 +79,17 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/Vibration.hx</h1>
+<h1 class="file-heading">File: src/Location.hx</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import js.html.Navigator;
 import js.Browser;
+import js.html.PositionError;
+import js.html.PositionOptions;
+import js.html.Position;
+import js.html.Navigator;
 
-@:expose @:keep class Vibration {
+@:expose @:keep class Location {
 
     /**
 	* Support check.
@@ -96,51 +99,84 @@ import js.Browser;
 	*/
     public var isSupported:Bool;
 
+    /**
+	* Locaion options.
+	*
+	* @property options
+	* @type {PositionOptions}
+	*/
+    var options:PositionOptions;
+
     var _navigator:Navigator;
+    var _monitorId:Int;
 
     /**
-	* Class to vibrate the device if supported.
+	* Class to get user location.
 	*
-	* @class Vibration
+	* @class Location
 	* @constructor
 	* @example
-	* 		var vibration = new Vibration();
-	* 		vibration.start(2000);
+	* 		var location = new Location();
+	*       location.getCurrentPosition(onLocation, onError);
+	*
+	*       function onLocation(position:Position) {
+	*           trace(position.coords.latitude, position.coords.longitude);
+	*       }
+	*
+	*       function onError(msg) {
+	*           trace(msg);
+	*       }
 	*/
-    public function new() {
+    public function new(?enableHighAccuracy:Bool = false, ?timeout:Int = 5000, ?maximumAge:Int = 0) {
+        options = { enableHighAccuracy: enableHighAccuracy, timeout: timeout, maximumAge: maximumAge };
         _navigator = Browser.navigator;
-        isSupported = (Browser.window != null &amp;&amp; _navigator.vibrate != null);
+        isSupported = (Browser.window != null &amp;&amp; _navigator.geolocation != null);
     }
 
     /**
-	* Function to start vibration.
+	* Function to get current position.
 	*
-	* @method start
-	* @param {Int} [duration = 1000]
+	* @method getCurrentPosition
+	* @param {Function} callback
+	* @param {Function} [errorCallback]
 	*/
-    public function start(?duration:Int = 1000) {
-        if (isSupported) _navigator.vibrate(duration);
+    public function getCurrentPosition(callback:Position -&gt; Void, ?errorCallback:String -&gt; Void) {
+        _navigator.geolocation.getCurrentPosition(callback, function(error:PositionError) {
+            if (errorCallback != null) _error(error.code, errorCallback);
+        }, options);
     }
 
     /**
-	* Function to start vibration pattern.
+	* Function to monitor position updates.
 	*
-	* @method startPattern
-	* @param {Array&lt;Int&gt;} pattern
-	* @example
-	*       vibration.startPattern([200, 100, 300, 50, 200]);
+	* @method monitor
+	* @param {Function} updateCallback
+	* @param {Function} [errorCallback]
 	*/
-    public function startPattern(pattern:Array&lt;Int&gt;) {
-        if (isSupported) _navigator.vibrate(pattern);
+    public function monitor(updateCallback:Position -&gt; Void, ?errorCallback:String -&gt; Void) {
+        if (_monitorId != null) _navigator.geolocation.clearWatch(_monitorId);
+        _monitorId = _navigator.geolocation.watchPosition(updateCallback, function(error:PositionError) {
+            if (errorCallback != null) _error(error.code, errorCallback);
+        }, options);
     }
 
     /**
-	* Function to stop vibration.
+	* Function to clear position monitoring.
 	*
-	* @method stop
+	* @method clearMonitor
 	*/
-    public function stop() {
-        if (isSupported) _navigator.vibrate(0);
+    public function clearMonitor() {
+        if (_monitorId != null) _navigator.geolocation.clearWatch(_monitorId);
+        _monitorId = null;
+    }
+
+    inline function _error(code:Int, errorCallback:String -&gt; Void) {
+        switch(code) {
+            case PositionError.PERMISSION_DENIED: errorCallback(&quot;User denied location request.&quot;);
+            case PositionError.POSITION_UNAVAILABLE: errorCallback(&quot;Location information is unavailable.&quot;);
+            case PositionError.TIMEOUT: errorCallback(&quot;The request to get user location timed out.&quot;);
+            default: errorCallback(&quot;An unknown error occurred.&quot;);
+        }
     }
 }
     </pre>

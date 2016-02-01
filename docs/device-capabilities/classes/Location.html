@@ -2,7 +2,7 @@
 <html lang="en" class="yui-overrride">
 <head>
     <meta charset="utf-8">
-    <title>Vibration - device-capabilities.js</title>
+    <title>Location - device-capabilities.js</title>
     <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet' type='text/css'>
@@ -79,12 +79,12 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>Vibration</h1>
+<h1>Location</h1>
 <div class="meta">
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_Vibration.hx.html#l16"><code>src&#x2F;Vibration.hx:16</code></a>
+            Defined in: <a href="../files/src_Location.hx.html#l28"><code>src&#x2F;Location.hx:28</code></a>
         </div>
 
 
@@ -93,19 +93,19 @@
 
 <h3>Summary</h3>
 <div class="intro">
-    <p>Class to vibrate the device if supported.</p>
+    <p>Class to get user location.</p>
 
 </div>
 
     <div class="constructor">
         <h2>Constructor</h2>
-<div id="method_Vibration" class="method item">
-  <h3 class="blue-method-name">Vibration</h3>
+<div id="method_Location" class="method item">
+  <h3 class="blue-method-name">Location</h3>
 
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_Vibration.hx.html#l16"><code>src&#x2F;Vibration.hx:16</code></a>
+      <a href="../files/src_Location.hx.html#l28"><code>src&#x2F;Location.hx:28</code></a>
   </p>
 
 
@@ -114,7 +114,7 @@
 
   <h3>Syntax</h3>
   <div class="blue-method-syntax">
-  <h3 class="name"><code>Vibration</code></h3>
+  <h3 class="name"><code>Location</code></h3>
 
         <span class="paren">()</span>
 
@@ -137,8 +137,16 @@
             <h4>Example:</h4>
 
             <div class="example-content">
-<pre class="code prettyprint"><code>    var vibration = new Vibration();
-    vibration.start(2000);</code></pre>
+<pre class="code prettyprint"><code>    var location = new Location();
+  location.getCurrentPosition(onLocation, onError);
+
+  function onLocation(position:Position) {
+      trace(position.coords.latitude, position.coords.longitude);
+  }
+
+  function onError(msg) {
+      trace(msg);
+  }</code></pre>
 
             </div>
         </div>
@@ -163,15 +171,15 @@
 
                     <ul class="index-list methods">
                             <li class="index-item method">
-                                <a href="#method_start">start</a>
+                                <a href="#method_clearMonitor">clearMonitor</a>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_startPattern">startPattern</a>
+                                <a href="#method_getCurrentPosition">getCurrentPosition</a>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_stop">stop</a>
+                                <a href="#method_monitor">monitor</a>
 
                             </li>
                     </ul>
@@ -185,6 +193,10 @@
                                 <a href="#property_isSupported">isSupported</a>
 
                             </li>
+                            <li class="index-item property">
+                                <a href="#property_options">options</a>
+
+                            </li>
                     </ul>
                 </div>
 
@@ -194,13 +206,13 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_start" class="method item">
-  <h3 class="blue-method-name">start</h3>
+<div id="method_clearMonitor" class="method item">
+  <h3 class="blue-method-name">clearMonitor</h3>
 
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_Vibration.hx.html#l30"><code>src&#x2F;Vibration.hx:30</code></a>
+      <a href="../files/src_Location.hx.html#l78"><code>src&#x2F;Location.hx:78</code></a>
   </p>
 
 
@@ -209,12 +221,52 @@
 
   <h3>Syntax</h3>
   <div class="blue-method-syntax">
-  <h3 class="name"><code>start</code></h3>
+  <h3 class="name"><code>clearMonitor</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+  </div>
+    <div class="description">
+      <h3>Summary</h3>
+        <p>Function to clear position monitoring.</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_getCurrentPosition" class="method item">
+  <h3 class="blue-method-name">getCurrentPosition</h3>
+
+  <div class="meta method-meta">
+      <p>
+          Defined in
+      <a href="../files/src_Location.hx.html#l51"><code>src&#x2F;Location.hx:51</code></a>
+  </p>
+
+
+
+  </div>
+
+  <h3>Syntax</h3>
+  <div class="blue-method-syntax">
+  <h3 class="name"><code>getCurrentPosition</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code class="optional">[duration = 1000]</code>
+                        <code>callback</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[errorCallback]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -229,7 +281,7 @@
   </div>
     <div class="description">
       <h3>Summary</h3>
-        <p>Function to start vibration.</p>
+        <p>Function to get current position.</p>
 
     </div>
 
@@ -238,8 +290,18 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name optional">[duration = 1000]</code>
-                        <span class="type">Int</span>
+                        <code class="param-name">callback</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[errorCallback]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
@@ -254,13 +316,13 @@
 
 
 </div>
-<div id="method_startPattern" class="method item">
-  <h3 class="blue-method-name">startPattern</h3>
+<div id="method_monitor" class="method item">
+  <h3 class="blue-method-name">monitor</h3>
 
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_Vibration.hx.html#l40"><code>src&#x2F;Vibration.hx:40</code></a>
+      <a href="../files/src_Location.hx.html#l64"><code>src&#x2F;Location.hx:64</code></a>
   </p>
 
 
@@ -269,12 +331,15 @@
 
   <h3>Syntax</h3>
   <div class="blue-method-syntax">
-  <h3 class="name"><code>startPattern</code></h3>
+  <h3 class="name"><code>monitor</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>pattern</code>
+                        <code>updateCallback</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[errorCallback]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -289,7 +354,7 @@
   </div>
     <div class="description">
       <h3>Summary</h3>
-        <p>Function to start vibration pattern.</p>
+        <p>Function to monitor position updates.</p>
 
     </div>
 
@@ -298,8 +363,19 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">pattern</code>
-                        <span class="type">Array<Int></span>
+                        <code class="param-name">updateCallback</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[errorCallback]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
@@ -309,51 +385,6 @@
                 </li>
             </ul>
         </div>
-
-
-        <div class="example">
-            <h4>Example:</h4>
-
-            <div class="example-content">
-<pre class="code prettyprint"><code>  vibration.startPattern([200, 100, 300, 50, 200]);</code></pre>
-
-            </div>
-        </div>
-
-</div>
-<div id="method_stop" class="method item">
-  <h3 class="blue-method-name">stop</h3>
-
-  <div class="meta method-meta">
-      <p>
-          Defined in
-      <a href="../files/src_Vibration.hx.html#l52"><code>src&#x2F;Vibration.hx:52</code></a>
-  </p>
-
-
-
-  </div>
-
-  <h3>Syntax</h3>
-  <div class="blue-method-syntax">
-  <h3 class="name"><code>stop</code></h3>
-
-        <span class="paren">()</span>
-
-
-
-
-
-
-
-
-  </div>
-    <div class="description">
-      <h3>Summary</h3>
-        <p>Function to stop vibration.</p>
-
-    </div>
-
 
 
 
@@ -369,7 +400,7 @@
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/src_Vibration.hx.html#l6"><code>src&#x2F;Vibration.hx:6</code></a>
+                          <a href="../files/src_Location.hx.html#l9"><code>src&#x2F;Location.hx:9</code></a>
                       </p>
                     
                     
@@ -389,6 +420,39 @@
                         <div class="description">
                           <h3>Summary</h3>
                             <p>Support check.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    
+                    </div>
+                    <div id="property_options" class="property item">
+                    
+                      <h3 class="blue-method-name">options</h3>
+                      <div class="meta method-meta">
+                          <p>
+                              Defined in
+                          <a href="../files/src_Location.hx.html#l17"><code>src&#x2F;Location.hx:17</code></a>
+                      </p>
+                    
+                    
+                      </div>
+                    
+                      <h3>Syntax</h3>
+                      <div class="blue-method-syntax">
+                        <h3 class="name"><code>options</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions" class="crosslink external" target="_blank">PositionOptions</a></span>
+                    
+                    
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                          <h3>Summary</h3>
+                            <p>Locaion options.</p>
                     
                         </div>
                     
