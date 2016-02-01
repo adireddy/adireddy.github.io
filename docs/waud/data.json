@@ -2,7 +2,7 @@
     "project": {
         "name": "waud.js",
         "description": "Web Audio Library",
-        "version": "0.4.3",
+        "version": "0.4.4",
         "url": "https://github.com/adireddy/waud"
     },
     "files": {
@@ -79,7 +79,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "src/AudioManager.hx",
-            "line": 53,
+            "line": 46,
             "description": "Audio Manager class instantiated in {{#crossLink \"Waud/init:method\"}}Waud.init{{/crossLink}} method.",
             "is_constructor": 1,
             "example": [
@@ -172,7 +172,7 @@
     "classitems": [
         {
             "file": "src/AudioManager.hx",
-            "line": 7,
+            "line": 9,
             "description": "Audio Types.",
             "itemtype": "property",
             "name": "types",
@@ -183,7 +183,7 @@
         },
         {
             "file": "src/AudioManager.hx",
-            "line": 16,
+            "line": 18,
             "description": "Audio Context instance.",
             "itemtype": "property",
             "name": "audioContext",
@@ -194,7 +194,7 @@
         },
         {
             "file": "src/AudioManager.hx",
-            "line": 25,
+            "line": 27,
             "description": "Audio buffer list.",
             "itemtype": "property",
             "name": "bufferList",
@@ -205,18 +205,7 @@
         },
         {
             "file": "src/AudioManager.hx",
-            "line": 34,
-            "description": "Reference to playing sounds.",
-            "itemtype": "property",
-            "name": "playingSounds",
-            "access": "protected",
-            "tagname": "",
-            "type": "{Map}",
-            "class": "AudioManager"
-        },
-        {
-            "file": "src/AudioManager.hx",
-            "line": 43,
+            "line": 36,
             "description": "Audio Context Class determined based on the browser type. Refer {{#crossLink \"AudioManager/checkWebAudioAPISupport:method\"}}{{/crossLink}} method.",
             "itemtype": "property",
             "name": "AudioContextClass",
@@ -228,7 +217,7 @@
         },
         {
             "file": "src/AudioManager.hx",
-            "line": 73,
+            "line": 65,
             "description": "Function to check web audio api support.\n\nUsed by {{#crossLink \"Waud/init:method\"}}Waud.init{{/crossLink}} method.",
             "itemtype": "method",
             "name": "checkWebAudioAPISupport",
@@ -236,7 +225,7 @@
         },
         {
             "file": "src/AudioManager.hx",
-            "line": 92,
+            "line": 84,
             "description": "Function to unlock audio on `touchend` event.\n\nUsed by {{#crossLink \"Waud/enableTouchUnlock:method\"}}Waud.enableTouchUnlock{{/crossLink}} method.",
             "itemtype": "method",
             "name": "unlockAudio",
@@ -244,7 +233,7 @@
         },
         {
             "file": "src/AudioManager.hx",
-            "line": 116,
+            "line": 118,
             "description": "Function to create audio context.\n\nUsed by {{#crossLink \"Waud/init:method\"}}Waud.init{{/crossLink}} method.",
             "itemtype": "method",
             "name": "createAudioContext",
@@ -255,7 +244,7 @@
         },
         {
             "file": "src/AudioManager.hx",
-            "line": 136,
+            "line": 138,
             "description": "Function to close audio context and reset all variables.\n\nUsed by {{#crossLink \"Waud/destroy:method\"}}Waud.destroy{{/crossLink}} method.",
             "itemtype": "method",
             "name": "destroy",
@@ -263,7 +252,7 @@
         },
         {
             "file": "src/AudioManager.hx",
-            "line": 153,
+            "line": 154,
             "description": "This function suspends the progression of time in the audio context, temporarily halting audio hardware access and reducing CPU/battery usage in the process.\nThis is useful if you want an application to power down the audio hardware when it will not be using an audio context for a while.",
             "itemtype": "method",
             "name": "suspendContext",
@@ -274,7 +263,7 @@
         },
         {
             "file": "src/AudioManager.hx",
-            "line": 167,
+            "line": 168,
             "description": "This function resumes the progression of time in an audio context that has previously been suspended.",
             "itemtype": "method",
             "name": "resumeContext",
@@ -905,7 +894,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 188,
+            "line": 187,
             "description": "Function to check if the sound is playing or not.",
             "itemtype": "method",
             "name": "isPlaying",
@@ -920,7 +909,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 201,
+            "line": 200,
             "description": "Function to loop or unloop sound.",
             "itemtype": "method",
             "name": "loop",
@@ -938,7 +927,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 214,
+            "line": 213,
             "description": "Function to stop sound.",
             "itemtype": "method",
             "name": "stop",
@@ -949,7 +938,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 226,
+            "line": 225,
             "description": "Function to pause sound.",
             "itemtype": "method",
             "name": "pause",
@@ -960,7 +949,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 238,
+            "line": 237,
             "description": "Function to add callback that triggers when the sound finishes playing.",
             "itemtype": "method",
             "name": "onEnd",
@@ -982,7 +971,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 253,
+            "line": 252,
             "description": "Function to add callback that triggers when the sound is loaded.",
             "itemtype": "method",
             "name": "onLoad",
@@ -1004,7 +993,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 268,
+            "line": 267,
             "description": "Function to add callback that triggers when the sound fails to load or if it fails to decode when using web audio.",
             "itemtype": "method",
             "name": "onError",
@@ -1026,7 +1015,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 283,
+            "line": 282,
             "description": "Function to destroy sound.",
             "itemtype": "method",
             "name": "destroy",
