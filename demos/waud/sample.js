@@ -1233,19 +1233,11 @@ WebAudioAPISound.prototype = $extend(BaseSound.prototype,{
 	,stop: function() {
 		this._pauseTime = 0;
 		if(this._snd == null || !this._isLoaded || !this._isPlaying) return;
-		this._isPlaying = false;
-		var _g = 0;
-		var _g1 = this._srcNodes;
-		while(_g < _g1.length) {
-			var src = _g1[_g];
-			++_g;
-			if(Reflect.field(src,"stop") != null) src.stop(0); else this.src.noteOff(0);
-		}
+		this.destroy();
 	}
 	,pause: function() {
 		if(this._snd == null || !this._isLoaded || !this._isPlaying) return;
-		this._isPlaying = false;
-		if(Reflect.field(this._snd,"stop") != null) this._snd.stop(0); else this._snd.noteOff(0);
+		this.destroy();
 		this._pauseTime += this._manager.audioContext.currentTime - this._playStartTime;
 	}
 	,onEnd: function(callback) {
@@ -1266,7 +1258,11 @@ WebAudioAPISound.prototype = $extend(BaseSound.prototype,{
 		while(_g < _g1.length) {
 			var src = _g1[_g];
 			++_g;
-			if(Reflect.field(src,"stop") != null) src.stop(0); else this.src.noteOff(0);
+			if(Reflect.field(src,"stop") != null) src.stop(0); else if(Reflect.field(src,"noteOff") != null) try {
+				this.src.noteOff(0);
+			} catch( e ) {
+				if (e instanceof js__$Boot_HaxeError) e = e.val;
+			}
 			src.disconnect();
 			src = null;
 		}
@@ -1278,6 +1274,8 @@ WebAudioAPISound.prototype = $extend(BaseSound.prototype,{
 			gain.disconnect();
 			gain = null;
 		}
+		this._srcNodes = [];
+		this._gainNodes = [];
 		this._isPlaying = false;
 	}
 });

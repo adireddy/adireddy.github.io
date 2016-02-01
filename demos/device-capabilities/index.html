@@ -18,10 +18,19 @@
 		var batterySupport = new BatterySupport(onReady);
 		var vibration = new Vibration();
 		var motion = new Motion();
+        var loc = new Location();
+        var speech = new Speech();
+
+        /*if (speech.isSupported) {
+            var grammar = "#JSGF V1.0; grammar colors; public <color> = aqua | azure | beige | bisque | black | [LOTS MORE COLOURS] ;"
+            speech.addGrammar(grammar);
+        }*/
 
 		function init() {
 			document.getElementById("ua").innerHTML = navigator.userAgent;
 			document.getElementById("supportInfo").innerHTML += "<br/>Vibration Support: " + vibration.isSupported;
+            document.getElementById("supportInfo").innerHTML += "<br/>Location Support: " + loc.isSupported;
+            document.getElementById("supportInfo").innerHTML += "<br/>Speech Support: " + speech.isSupported;
 		}
 
 		function onReady() {
@@ -46,6 +55,39 @@
 			document.getElementById("shakeStatus").innerText = "SHAKE DETECTED " + Math.round(Math.random() * 100);
 		}
 
+        function getLocation() {
+            loc.getCurrentPosition(onLocation, onLocationError);
+            document.getElementById("locationInfo").innerText = "waiting for location...";
+        }
+
+        function monitorLocation() {
+            loc.monitor(onLocation, onLocationError);
+            document.getElementById("locationInfo").innerText = "waiting for location..."
+        }
+
+        function clearLocation() {
+            loc.clearMonitor();
+            document.getElementById("locationInfo").innerText = "";
+        }
+
+        function onLocation(pos) {
+            document.getElementById("locationInfo").innerText = "LONGITUDE: " + pos.coords.longitude + " LATITUDE: " + pos.coords.latitude;
+        }
+
+        function onLocationError(msg) {
+            document.getElementById("locationInfo").innerText = msg;
+        }
+
+        function monitorSpeech() {
+            speech.startRecognition(function(results) {
+                document.getElementById("speechInfo").innerText = results[0][0].transcript + "\n";
+                document.getElementById("speechInfo").innerText += "Confidence: " + results[0][0].confidence;
+            }, function() {
+                document.getElementById("speechInfo").innerText = "";
+            });
+            document.getElementById("speechInfo").innerText = "waiting...";
+        }
+
 	</script>
 
 </head>
@@ -66,7 +108,6 @@
 
 	<div class="mui--appbar-height"></div>
 	<br />
-	<br />
 	<div id="ua" class="mui--text-caption"></div>
     <div id="supportInfo" class="mui--text-caption"></div>
 	<br />
@@ -84,11 +125,23 @@
 	<button class="mui-btn mui-btn--small mui-btn--raised mui-btn--accent" id="shakeStatus">WAITING...   </button>
 	<br />
 	<br />
-	<div id="battery" class="mui--text-title">Battery Info</div>
-	<div id="batteryInfo" class="mui--text-caption"></div>
+    <div id="location" class="mui--text-title">Location Info</div>
+    <button class="mui-btn mui-btn--small mui-btn--raised mui-btn--primary" onclick="getLocation();">Current Location</button>
+    <button class="mui-btn mui-btn--small mui-btn--raised mui-btn--primary" onclick="monitorLocation();">Monitor Location</button>
+    <button class="mui-btn mui-btn--small mui-btn--raised mui-btn--accent" onclick="clearLocation();">Clear</button>
+    <div id="locationInfo" class="mui--text-caption"></div>
 	<br />
-	<br />
-	<br />
+    <br />
+    <div id="speech" class="mui--text-title">Speech</div>
+    <button class="mui-btn mui-btn--small mui-btn--raised mui-btn--primary" onclick="monitorSpeech();">Start</button>
+    <!--<button class="mui-btn mui-btn--small mui-btn--raised mui-btn--primary" onclick="stopSpeechMonitoring();">Stop</button>-->
+    <div id="speechInfo" class="mui--text-caption"></div>
+    <br />
+    <br />
+    <div id="battery" class="mui--text-title">Battery Info</div>
+    <div id="batteryInfo" class="mui--text-caption"></div>
+    <br />
+    <br />
 </div>
 
 <footer>
