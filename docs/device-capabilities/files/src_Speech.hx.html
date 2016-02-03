@@ -2,7 +2,7 @@
 <html lang="en" class="yui-overrride">
 <head>
     <meta charset="utf-8">
-    <title>src/Vibration.hx - device-capabilities.js</title>
+    <title>src/Speech.hx - device-capabilities.js</title>
     <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet' type='text/css'>
@@ -79,69 +79,94 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/Vibration.hx</h1>
+<h1 class="file-heading">File: src/Speech.hx</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import js.html.Navigator;
 import js.Browser;
+import js.html.SpeechRecognitionEvent;
+import js.html.SpeechGrammarList;
+import js.html.SpeechRecognition;
 
-@:expose @:keep class Vibration {
+@:expose @:keep class Speech {
 
-	/**
+    public static var language:String = &quot;en-GB&quot;;
+    public static var maxAlternatives:Int = 1;
+    public static var interimResults:Bool = false;
+
+    /**
 	* Support check.
 	*
 	* @property isSupported
 	* @type {Bool}
 	*/
-	public var isSupported:Bool;
+    public var isSupported:Bool;
 
-	var _navigator:Navigator;
+    public var recognition:SpeechRecognition;
+    public var grammarList:SpeechGrammarList;
 
-	/**
-	* Class to vibrate the device.
+    /**
+	* Class for speech recognition.
 	*
 	* @class Vibration
 	* @constructor
 	* @example
-	* 		var vibration = new Vibration();
-	* 		vibration.start(2000);
-	*/
-	public function new() {
-		_navigator = Browser.navigator;
-		isSupported = (Browser.window != null &amp;&amp; _navigator.vibrate != null);
-	}
-
-	/**
-	* Function to start vibration.
+	* 		var speech = new Speech();
+	* 		vibration.startRecognition(onResult);
 	*
-	* @method start
-	* @param {Int} [duration = 1000]
+	*       function onResult(results) {
+	* 	        trace(results[0][0].transcript);
+	*       }
 	*/
-	public function start(?duration:Int = 1000) {
-		if (isSupported) _navigator.vibrate(duration);
-	}
+    public function new() {
+        if (Reflect.field(Browser.window, &quot;SpeechRecognition&quot;) != null) recognition = Type.createInstance(Reflect.field(Browser.window, &quot;SpeechRecognition&quot;), []);
+        else if (Reflect.field(Browser.window, &quot;webkitSpeechRecognition&quot;) != null) recognition = Type.createInstance(Reflect.field(Browser.window, &quot;webkitSpeechRecognition&quot;), []);
 
-	/**
-	* Function to start vibration pattern.
-	*
-	* @method startPattern
-	* @param {Array&lt;Int&gt;} pattern
-	* @example
-	*       vibration.startPattern([200, 100, 300, 50, 200]);
-	*/
-	public function startPattern(pattern:Array&lt;Int&gt;) {
-		if (isSupported) _navigator.vibrate(pattern);
-	}
+        if (Reflect.field(Browser.window, &quot;SpeechGrammarList&quot;) != null) grammarList = Type.createInstance(Reflect.field(Browser.window, &quot;SpeechGrammarList&quot;), []);
+        else if (Reflect.field(Browser.window, &quot;webkitSpeechGrammarList&quot;) != null) grammarList = Type.createInstance(Reflect.field(Browser.window, &quot;webkitSpeechGrammarList&quot;), []);
 
-	/**
-	* Function to stop vibration.
+        isSupported = (recognition != null &amp;&amp; grammarList != null);
+    }
+
+    /**
+	* Function to add grammar string.
 	*
-	* @method stop
+	* @method addGrammar
+	* @param {String} grammar
 	*/
-	public function stop() {
-		if (isSupported) _navigator.vibrate(0);
-	}
+    public function addGrammar(grammar:String) {
+        grammarList.addFromString(grammar, 1);
+    }
+
+    /**
+	* Function to start speech recognition.
+	*
+	* @method startRecognition
+	* @param {Function} callback
+	* @param {Function} [endCallback]
+	* @param {Function} [noMatchCallback]
+	* @param {Function} [errorCallback]
+	*/
+    public function startRecognition(callback:Dynamic -&gt; Void, ?endCallback:Void -&gt; Void, ?noMatchCallback:Void -&gt; Void, ?errorCallback:Void -&gt; Void) {
+        recognition.grammars = grammarList;
+        recognition.lang = language;
+        recognition.interimResults = interimResults;
+        recognition.maxAlternatives = maxAlternatives;
+        recognition.start();
+        recognition.onresult = function(event:SpeechRecognitionEvent) {
+            callback(event.results);
+        };
+        recognition.onspeechend = function() {
+            recognition.stop();
+            if (endCallback != null) endCallback();
+        };
+        recognition.onnomatch = function(event) {
+            if (noMatchCallback != null) noMatchCallback();
+        };
+        recognition.onerror = function(event) {
+            if (errorCallback != null) errorCallback();
+        };
+    }
 }
     </pre>
 </div>

@@ -33,6 +33,13 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/Speech.hx": {
+            "name": "src/Speech.hx",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "src/Vibration.hx": {
             "name": "src/Vibration.hx",
             "modules": {},
@@ -103,10 +110,10 @@
             "extension_for": [],
             "file": "src/Vibration.hx",
             "line": 16,
-            "description": "Class to vibrate the device if supported.",
+            "description": "Class to vibrate the device.",
             "is_constructor": 1,
             "example": [
-                "\n\t\tvar vibration = new Vibration();\n\t\tvibration.start(2000);"
+                "\n\t\tvar speech = new Speech();\n\t\tvibration.startRecognition(onResult);\n\n      function onResult(results) {\n\t        trace(results[0][0].transcript);\n      }"
             ]
         }
     },
@@ -234,6 +241,63 @@
             "itemtype": "method",
             "name": "stopShake",
             "class": "Motion"
+        },
+        {
+            "file": "src/Speech.hx",
+            "line": 12,
+            "description": "Support check.",
+            "itemtype": "property",
+            "name": "isSupported",
+            "type": "{Bool}",
+            "class": "Vibration"
+        },
+        {
+            "file": "src/Speech.hx",
+            "line": 46,
+            "description": "Function to add grammar string.",
+            "itemtype": "method",
+            "name": "addGrammar",
+            "params": [
+                {
+                    "name": "grammar",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "Vibration"
+        },
+        {
+            "file": "src/Speech.hx",
+            "line": 56,
+            "description": "Function to start speech recognition.",
+            "itemtype": "method",
+            "name": "startRecognition",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "",
+                    "type": "Function"
+                },
+                {
+                    "name": "endCallback",
+                    "description": "",
+                    "type": "Function",
+                    "optional": true
+                },
+                {
+                    "name": "noMatchCallback",
+                    "description": "",
+                    "type": "Function",
+                    "optional": true
+                },
+                {
+                    "name": "errorCallback",
+                    "description": "",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Vibration"
         },
         {
             "file": "src/Vibration.hx",
