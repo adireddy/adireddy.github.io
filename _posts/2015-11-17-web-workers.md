@@ -13,11 +13,11 @@ featured: true
 
 I recently started exploring web workers in JavaScript and found them really useful to help boost the general performance of web apps.
 
-###The Problem###
+### The Problem
 
 JavaScript apps are single threaded and can be unresponsive or degrade performance if the app has code that blocks for a long duration. The consequences can be unpleasant page freezes where the user can’t interact with your application.
 
-###Advantages of Web workers###
+### Advantages of Web workers
 
 Web workers handle pure data, which makes them especially suitable for JavaScript code that takes a long time to execute.
 
@@ -28,7 +28,7 @@ Web workers handle pure data, which makes them especially suitable for JavaScrip
 - Parallel processing for better application performance.
 - Web workers live in a restricted and thread-safe environment.
 
-###Browser Support###
+### Browser Support
 
 Basic web worker support is good across all browsers but I do not recommend using shared web workers as the support is very limited.
 
@@ -41,7 +41,7 @@ Basic web worker support is good across all browsers but I do not recommend usin
 
 You can check upto date support at [mozilla.org](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers) and [caniuse.com](http://caniuse.com/#search=web%20worker).
 
-###Limitations###
+### Limitations
 
 Worker thread **DO NOT** have access to:
 
@@ -53,11 +53,11 @@ Worker thread **DO NOT** have access to:
 
 Also note that all of your worker scripts must be served from the same domain and protocol as the script that is attempting to create the worker.
 
-###Ideal Candidates/Use cases###
+###Ideal Candidates/Use cases
 
 The most important thing is to identify and isolate hot spots in your code so that they can me moved to web workers for parallel execution provided they do not have any limitations mentioned above.
 
-###Example###
+### Example
 
 The following is a sample web worker which loads and parses JSON file.
 
@@ -149,7 +149,7 @@ Note that web workers are not automatically garbage collected and will live unti
 
 You can also terminate the worker by calling `close()` method on itself.
 
-###References###
+### References
 
 - [w3.org](http://www.w3.org/TR/workers/)
 - [w3schools](http://www.w3schools.com/html/html5_webworkers.asp)
