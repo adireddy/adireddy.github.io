@@ -5,30 +5,30 @@ disqus_shortname: adireddy
 share:            true
 dropcap:			true
 # Change url to your domain. Leave localhost server or blank when working locally.
-# or use the hint from http://jekyllrb.com/docs/github-pages/ to keep this the same 
+# or use the hint from http://jekyllrb.com/docs/github-pages/ to keep this the same
 # whether working locally or remotely. Start Jekyll with: jekyll serve --baseurl ''
 url:        	  ''
 
 # Owner/author information
 owner:
   name:           Adi Reddy Mora
-  avatar:         adi.jpg
+  avatar:         me.jpg
   email:          adiinteractive@gmail.com
   # Use the coder's toolbox at http://coderstoolbox.net/string/#!encoding=xml&action=encode&charset=us_ascii to encode your description into XML string
   description:    Technology Enthusiast, Cross-platform Developer
   # Social networking links used in footer. Update and remove as you like.
   twitter:        adireddy
   #facebook:       adireddymora
-  github:         adireddy      
+  github:         adireddy
   #instagram:      adireddymora
   # For Google Authorship https://plus.google.com/authorship
   #google_plus:    https://plus.google.com/u/0/+AdiReddyMora/
 
 # Analytics and webmaster tools stuff goes here
 google_analytics:   UA-31531781-3
-google_verify:      
+google_verify:
 # https://ssl.bing.com/webmaster/configure/verify/ownership Option 2 content= goes here
-bing_verify:         
+bing_verify:
 
 # Links to include in footer navigation
 # For external links add external: true
@@ -65,7 +65,7 @@ kramdown:
   enable_coderay: false
 
   coderay:
-    coderay_line_numbers: 
+    coderay_line_numbers:
     coderay_line_numbers_start: 1
     coderay_tab_width: 4
     coderay_bold_every: 10
