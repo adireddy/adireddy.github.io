@@ -18,7 +18,7 @@
             <a href="https://github.com/adireddy/waud" target="_blank"><img src="../assets/css/logo.png" alt="waud.js"></a>
         </div>
         <div class="yui3-u-1-4 version project-version">
-            API Docs for v0.4.6
+            API Docs for v0.4.7
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -130,6 +130,8 @@ class AudioManager {
 	*/
 	static var AudioContextClass:Dynamic;
 
+	static inline var AUDIO_CONTEXT:String = &quot;this.audioContext&quot;;
+
 	/**
 	* Audio Manager class instantiated in {{#crossLink &quot;Waud/init:method&quot;}}Waud.init{{/crossLink}} method.
 	*
@@ -215,7 +217,7 @@ class AudioManager {
 			try {
 				if (AudioContextClass != null) audioContext = cast Type.createInstance(AudioContextClass, []);
 			}
-			catch(e:Dynamic) {
+			catch (e:Dynamic) {
 				audioContext = null;
 			}
 		}
@@ -230,8 +232,8 @@ class AudioManager {
 	* @method destroy
 	*/
 	public function destroy() {
-		if (audioContext != null &amp;&amp; untyped __js__(&quot;this.audioContext&quot;).close != null &amp;&amp; untyped __js__(&quot;this.audioContext&quot;).close != &quot;&quot;) {
-			untyped __js__(&quot;this.audioContext&quot;).close();
+		if (audioContext != null &amp;&amp; untyped __js__(AUDIO_CONTEXT).close != null &amp;&amp; untyped __js__(AUDIO_CONTEXT).close != &quot;&quot;) {
+			untyped __js__(AUDIO_CONTEXT).close();
 		}
 		audioContext = null;
 		bufferList = null;
@@ -248,7 +250,7 @@ class AudioManager {
 	*/
 	public function suspendContext() {
 		if (audioContext != null) {
-			if (untyped __js__(&quot;this.audioContext&quot;).suspend != null) untyped __js__(&quot;this.audioContext&quot;).suspend();
+			if (untyped __js__(AUDIO_CONTEXT).suspend != null) untyped __js__(AUDIO_CONTEXT).suspend();
 		}
 	}
 
@@ -261,7 +263,7 @@ class AudioManager {
 	*/
 	public function resumeContext() {
 		if (audioContext != null) {
-			if (untyped __js__(&quot;this.audioContext&quot;).resume != null) untyped __js__(&quot;this.audioContext&quot;).resume();
+			if (untyped __js__(AUDIO_CONTEXT).resume != null) untyped __js__(AUDIO_CONTEXT).resume();
 		}
 	}
 }

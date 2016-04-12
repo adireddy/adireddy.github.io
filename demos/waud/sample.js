@@ -251,11 +251,9 @@ HTML5Sound.prototype = $extend(BaseSound.prototype,{
 		return filename.split(".").pop();
 	}
 	,setVolume: function(val) {
+		if(val >= 0 && val <= 1) this._options.volume = val;
 		if(!this._isLoaded) return;
-		if(val >= 0 && val <= 1) {
-			this._snd.volume = val;
-			this._options.volume = val;
-		}
+		this._snd.volume = this._options.volume;
 	}
 	,getVolume: function() {
 		return this._options.volume;
@@ -399,7 +397,7 @@ pixi_plugins_app_Application.prototype = {
 		renderingOptions.preserveDrawingBuffer = this.preserveDrawingBuffer;
 		if(rendererType == "auto") this.renderer = PIXI.autoDetectRenderer(this.width,this.height,renderingOptions); else if(rendererType == "canvas") this.renderer = new PIXI.CanvasRenderer(this.width,this.height,renderingOptions); else this.renderer = new PIXI.WebGLRenderer(this.width,this.height,renderingOptions);
 		if(this.roundPixels) this.renderer.roundPixels = true;
-		window.document.body.appendChild(this.renderer.view);
+		if(parentDom == null) window.document.body.appendChild(this.renderer.view); else parentDom.appendChild(this.renderer.view);
 		this.resumeRendering();
 		this.addStats();
 	}
@@ -981,11 +979,11 @@ var WaudSound = $hx_exports.WaudSound = function(url,options) {
 WaudSound.__name__ = true;
 WaudSound.__interfaces__ = [IWaudSound];
 WaudSound.prototype = {
-	_loadSpriteJson: function(url) {
+	_loadSpriteJson: function(jsonUrl) {
 		var _g = this;
 		var xobj = new XMLHttpRequest();
 		xobj.overrideMimeType("application/json");
-		xobj.open("GET",url,true);
+		xobj.open("GET",jsonUrl,true);
 		xobj.onreadystatechange = function() {
 			if(xobj.readyState == 4 && xobj.status == 200) {
 				_g._spriteData = JSON.parse(xobj.response);
@@ -994,9 +992,9 @@ WaudSound.prototype = {
 		};
 		xobj.send(null);
 	}
-	,_init: function(url) {
-		this.url = url;
-		if(Waud.isWebAudioSupported && Waud.useWebAudio && (this._options == null || this._options.webaudio == null || this._options.webaudio)) this._snd = new WebAudioAPISound(url,this._options); else if(Waud.isHTML5AudioSupported) this._snd = new HTML5Sound(url,this._options); else {
+	,_init: function(soundUrl) {
+		this.url = soundUrl;
+		if(Waud.isWebAudioSupported && Waud.useWebAudio && (this._options == null || this._options.webaudio == null || this._options.webaudio)) this._snd = new WebAudioAPISound(this.url,this._options); else if(Waud.isHTML5AudioSupported) this._snd = new HTML5Sound(this.url,this._options); else {
 			console.log("no audio support in this browser");
 			return;
 		}
@@ -1208,6 +1206,7 @@ WebAudioAPISound.prototype = $extend(BaseSound.prototype,{
 				}
 			};
 		}
+		this._gainNode.gain.value = this._options.volume;
 		return HxOverrides.indexOf(this._srcNodes,this._snd,0);
 	}
 	,isPlaying: function() {
@@ -1218,8 +1217,8 @@ WebAudioAPISound.prototype = $extend(BaseSound.prototype,{
 		this._snd.loop = val;
 	}
 	,setVolume: function(val) {
-		if(this._gainNode == null || !this._isLoaded) return;
 		this._options.volume = val;
+		if(this._gainNode == null || !this._isLoaded) return;
 		this._gainNode.gain.value = this._options.volume;
 	}
 	,getVolume: function() {
@@ -1709,12 +1708,20 @@ Perf.FPS_TXT_CLR = "#000000";
 Perf.MS_TXT_CLR = "#000000";
 Perf.MEM_TXT_CLR = "#FFFFFF";
 Perf.INFO_TXT_CLR = "#000000";
+Waud.PROBABLY = "probably";
+Waud.MAYBE = "maybe";
 Waud.useWebAudio = true;
 Waud.defaults = { autoplay : false, loop : false, preload : true, webaudio : true, volume : 1};
 Waud.preferredSampleRate = 44100;
 Waud.isMuted = false;
 WaudFocusManager.FOCUS_STATE = "focus";
 WaudFocusManager.BLUR_STATE = "blur";
+WaudFocusManager.ON_FOCUS = "onfocus";
+WaudFocusManager.ON_BLUR = "onblur";
+WaudFocusManager.PAGE_SHOW = "pageshow";
+WaudFocusManager.PAGE_HIDE = "pagehide";
+WaudFocusManager.WINDOW = "window";
+WaudFocusManager.DOCUMENT = "document";
 Main.main();
 })(typeof console != "undefined" ? console : {log:function(){}}, typeof window != "undefined" ? window : exports);
 

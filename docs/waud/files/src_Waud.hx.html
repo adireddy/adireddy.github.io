@@ -18,7 +18,7 @@
             <a href="https://github.com/adireddy/waud" target="_blank"><img src="../assets/css/logo.png" alt="waud.js"></a>
         </div>
         <div class="yui3-u-1-4 version project-version">
-            API Docs for v0.4.6
+            API Docs for v0.4.7
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -96,6 +96,9 @@ import js.Browser;
 * @class Waud
 */
 @:expose @:keep class Waud {
+
+	static inline var PROBABLY:String = &quot;probably&quot;;
+	static inline var MAYBE:String = &quot;maybe&quot;;
 
 	/**
 	* Tells whether to use web audio api or not.
@@ -258,7 +261,8 @@ import js.Browser;
 	/**
 	* To initialise the library, make sure you call this first.
 	*
-	* You can also pass an optional parent DOM element to it where all the HTML5 sounds will be appended and also used for touch events to unlock audio on iOS devices.
+	* You can also pass an optional parent DOM element to it where all the HTML5 sounds will be appended
+	* and also used for touch events to unlock audio on iOS devices.
 	*
 	* @static
 	* @method init
@@ -348,8 +352,8 @@ import js.Browser;
 	public static function stop() {
 		if (sounds != null) for (sound in sounds) sound.stop();
 	}
-    
-    /**
+
+	/**
 	* Helper function to pause all the sounds.
 	*
 	* @static
@@ -407,7 +411,7 @@ import js.Browser;
 	*/
 	public static function isOGGSupported():Bool {
 		var canPlay = __audioElement.canPlayType(&#x27;audio/ogg; codecs=&quot;vorbis&quot;&#x27;);
-		return (isHTML5AudioSupported &amp;&amp; canPlay != null &amp;&amp; (canPlay == &quot;probably&quot; || canPlay == &quot;maybe&quot;));
+		return (isHTML5AudioSupported &amp;&amp; canPlay != null &amp;&amp; (canPlay == PROBABLY || canPlay == MAYBE));
 	}
 
 	/**
@@ -421,7 +425,7 @@ import js.Browser;
 	*/
 	public static function isWAVSupported():Bool {
 		var canPlay = __audioElement.canPlayType(&#x27;audio/wav; codecs=&quot;1&quot;&#x27;);
-		return (isHTML5AudioSupported &amp;&amp; canPlay != null &amp;&amp; (canPlay == &quot;probably&quot; || canPlay == &quot;maybe&quot;));
+		return (isHTML5AudioSupported &amp;&amp; canPlay != null &amp;&amp; (canPlay == PROBABLY || canPlay == MAYBE));
 	}
 
 	/**
@@ -435,7 +439,7 @@ import js.Browser;
 	*/
 	public static function isMP3Supported():Bool {
 		var canPlay = __audioElement.canPlayType(&#x27;audio/mpeg;&#x27;);
-		return (isHTML5AudioSupported &amp;&amp; canPlay != null &amp;&amp; (canPlay == &quot;probably&quot; || canPlay == &quot;maybe&quot;));
+		return (isHTML5AudioSupported &amp;&amp; canPlay != null &amp;&amp; (canPlay == PROBABLY || canPlay == MAYBE));
 	}
 
 	/**
@@ -449,7 +453,7 @@ import js.Browser;
 	*/
 	public static function isAACSupported():Bool {
 		var canPlay = __audioElement.canPlayType(&#x27;audio/aac;&#x27;);
-		return (isHTML5AudioSupported &amp;&amp; canPlay != null &amp;&amp; (canPlay == &quot;probably&quot; || canPlay == &quot;maybe&quot;));
+		return (isHTML5AudioSupported &amp;&amp; canPlay != null &amp;&amp; (canPlay == PROBABLY || canPlay == MAYBE));
 	}
 
 	/**
@@ -463,7 +467,7 @@ import js.Browser;
 	*/
 	public static function isM4ASupported():Bool {
 		var canPlay = __audioElement.canPlayType(&#x27;audio/x-m4a;&#x27;);
-		return (isHTML5AudioSupported &amp;&amp; canPlay != null &amp;&amp; (canPlay == &quot;probably&quot; || canPlay == &quot;maybe&quot;));
+		return (isHTML5AudioSupported &amp;&amp; canPlay != null &amp;&amp; (canPlay == PROBABLY || canPlay == MAYBE));
 	}
 
 	/**
