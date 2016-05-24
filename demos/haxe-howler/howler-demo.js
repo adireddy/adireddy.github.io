@@ -37,11 +37,25 @@ msignal_Signal.prototype = {
 	add: function(listener) {
 		return this.registerListener(listener);
 	}
+	,addOnce: function(listener) {
+		return this.registerListener(listener,true);
+	}
+	,addWithPriority: function(listener,priority) {
+		if(priority == null) priority = 0;
+		return this.registerListener(listener,false,priority);
+	}
+	,addOnceWithPriority: function(listener,priority) {
+		if(priority == null) priority = 0;
+		return this.registerListener(listener,true,priority);
+	}
 	,remove: function(listener) {
 		var slot = this.slots.find(listener);
 		if(slot == null) return null;
 		this.slots = this.slots.filterNot(listener);
 		return slot;
+	}
+	,removeAll: function() {
+		this.slots = msignal_SlotList.NIL;
 	}
 	,registerListener: function(listener,once,priority) {
 		if(priority == null) priority = 0;
@@ -66,7 +80,29 @@ msignal_Signal.prototype = {
 		if(once == null) once = false;
 		return null;
 	}
+	,get_numListeners: function() {
+		return this.slots.get_length();
+	}
 };
+var msignal_Signal0 = function() {
+	msignal_Signal.call(this);
+};
+msignal_Signal0.__name__ = true;
+msignal_Signal0.__super__ = msignal_Signal;
+msignal_Signal0.prototype = $extend(msignal_Signal.prototype,{
+	dispatch: function() {
+		var slotsToProcess = this.slots;
+		while(slotsToProcess.nonEmpty) {
+			slotsToProcess.head.execute();
+			slotsToProcess = slotsToProcess.tail;
+		}
+	}
+	,createSlot: function(listener,once,priority) {
+		if(priority == null) priority = 0;
+		if(once == null) once = false;
+		return new msignal_Slot0(this,listener,once,priority);
+	}
+});
 var msignal_Signal1 = function(type) {
 	msignal_Signal.call(this,[type]);
 };
@@ -84,6 +120,25 @@ msignal_Signal1.prototype = $extend(msignal_Signal.prototype,{
 		if(priority == null) priority = 0;
 		if(once == null) once = false;
 		return new msignal_Slot1(this,listener,once,priority);
+	}
+});
+var msignal_Signal2 = function(type1,type2) {
+	msignal_Signal.call(this,[type1,type2]);
+};
+msignal_Signal2.__name__ = true;
+msignal_Signal2.__super__ = msignal_Signal;
+msignal_Signal2.prototype = $extend(msignal_Signal.prototype,{
+	dispatch: function(value1,value2) {
+		var slotsToProcess = this.slots;
+		while(slotsToProcess.nonEmpty) {
+			slotsToProcess.head.execute(value1,value2);
+			slotsToProcess = slotsToProcess.tail;
+		}
+	}
+	,createSlot: function(listener,once,priority) {
+		if(priority == null) priority = 0;
+		if(once == null) once = false;
+		return new msignal_Slot2(this,listener,once,priority);
 	}
 });
 var msignal_Slot = function(signal,listener,once,priority) {
@@ -105,6 +160,20 @@ msignal_Slot.prototype = {
 		return this.listener = value;
 	}
 };
+var msignal_Slot0 = function(signal,listener,once,priority) {
+	if(priority == null) priority = 0;
+	if(once == null) once = false;
+	msignal_Slot.call(this,signal,listener,once,priority);
+};
+msignal_Slot0.__name__ = true;
+msignal_Slot0.__super__ = msignal_Slot;
+msignal_Slot0.prototype = $extend(msignal_Slot.prototype,{
+	execute: function() {
+		if(!this.enabled) return;
+		if(this.once) this.remove();
+		this.listener();
+	}
+});
 var msignal_Slot1 = function(signal,listener,once,priority) {
 	if(priority == null) priority = 0;
 	if(once == null) once = false;
@@ -120,6 +189,22 @@ msignal_Slot1.prototype = $extend(msignal_Slot.prototype,{
 		this.listener(value1);
 	}
 });
+var msignal_Slot2 = function(signal,listener,once,priority) {
+	if(priority == null) priority = 0;
+	if(once == null) once = false;
+	msignal_Slot.call(this,signal,listener,once,priority);
+};
+msignal_Slot2.__name__ = true;
+msignal_Slot2.__super__ = msignal_Slot;
+msignal_Slot2.prototype = $extend(msignal_Slot.prototype,{
+	execute: function(value1,value2) {
+		if(!this.enabled) return;
+		if(this.once) this.remove();
+		if(this.param1 != null) value1 = this.param1;
+		if(this.param2 != null) value2 = this.param2;
+		this.listener(value1,value2);
+	}
+});
 var msignal_SlotList = function(head,tail) {
 	this.nonEmpty = false;
 	if(head == null && tail == null) {
@@ -133,7 +218,18 @@ var msignal_SlotList = function(head,tail) {
 };
 msignal_SlotList.__name__ = true;
 msignal_SlotList.prototype = {
-	prepend: function(slot) {
+	get_length: function() {
+		if(!this.nonEmpty) return 0;
+		if(this.tail == msignal_SlotList.NIL) return 1;
+		var result = 0;
+		var p = this;
+		while(p.nonEmpty) {
+			++result;
+			p = p.tail;
+		}
+		return result;
+	}
+	,prepend: function(slot) {
 		return new msignal_SlotList(slot,this);
 	}
 	,insertWithPriority: function(slot) {
@@ -261,6 +357,7 @@ pixi_Button.prototype = $extend(PIXI.Container.prototype,{
 	}
 });
 var pixi_plugins_app_Application = function() {
+	this._animationFrameId = null;
 	this.pixelRatio = 1;
 	this.set_skipFrame(false);
 	this.autoResize = true;
@@ -288,13 +385,15 @@ pixi_plugins_app_Application.prototype = {
 		}
 		return this.skipFrame = val;
 	}
-	,start: function(rendererType,parentDom) {
+	,start: function(rendererType,parentDom,canvasElement) {
 		if(rendererType == null) rendererType = "auto";
-		var _this = window.document;
-		this.canvas = _this.createElement("canvas");
-		this.canvas.style.width = this.width + "px";
-		this.canvas.style.height = this.height + "px";
-		this.canvas.style.position = "absolute";
+		if(canvasElement == null) {
+			var _this = window.document;
+			this.canvas = _this.createElement("canvas");
+			this.canvas.style.width = this.width + "px";
+			this.canvas.style.height = this.height + "px";
+			this.canvas.style.position = "absolute";
+		} else this.canvas = canvasElement;
 		if(parentDom == null) window.document.body.appendChild(this.canvas); else parentDom.appendChild(this.canvas);
 		this.stage = new PIXI.Container();
 		var renderingOptions = { };
@@ -309,9 +408,12 @@ pixi_plugins_app_Application.prototype = {
 		renderingOptions.preserveDrawingBuffer = this.preserveDrawingBuffer;
 		if(rendererType == "auto") this.renderer = PIXI.autoDetectRenderer(this.width,this.height,renderingOptions); else if(rendererType == "canvas") this.renderer = new PIXI.CanvasRenderer(this.width,this.height,renderingOptions); else this.renderer = new PIXI.WebGLRenderer(this.width,this.height,renderingOptions);
 		if(this.roundPixels) this.renderer.roundPixels = true;
-		window.document.body.appendChild(this.renderer.view);
+		if(parentDom == null) window.document.body.appendChild(this.renderer.view); else parentDom.appendChild(this.renderer.view);
+		this.resumeRendering();
+	}
+	,resumeRendering: function() {
 		if(this.autoResize) window.onresize = $bind(this,this._onWindowResize);
-		window.requestAnimationFrame($bind(this,this._onRequestAnimationFrame));
+		if(this._animationFrameId == null) this._animationFrameId = window.requestAnimationFrame($bind(this,this._onRequestAnimationFrame));
 	}
 	,_onWindowResize: function(event) {
 		this.width = window.innerWidth;
@@ -328,7 +430,7 @@ pixi_plugins_app_Application.prototype = {
 			if(this.onUpdate != null) this.onUpdate(elapsedTime);
 			this.renderer.render(this.stage);
 		}
-		window.requestAnimationFrame($bind(this,this._onRequestAnimationFrame));
+		this._animationFrameId = window.requestAnimationFrame($bind(this,this._onRequestAnimationFrame));
 	}
 };
 var samples_Main = function() {
@@ -361,6 +463,9 @@ samples_Main.prototype = $extend(pixi_plugins_app_Application.prototype,{
 		options.autoplay = false;
 		options.loop = loop;
 		options.onend = function(id) {
+			console.log(id);
+			console.log(snd.loop(id));
+			console.log(snd.volume(id));
 			snd.volume(0.5);
 			if(snd.volume(id) <= 0) snd.stop(id);
 		};
