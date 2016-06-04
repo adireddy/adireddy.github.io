@@ -18,7 +18,7 @@
             <a href="https://github.com/adireddy/waud" target="_blank"><img src="../assets/css/logo.png" alt="waud.js"></a>
         </div>
         <div class="yui3-u-1-4 version project-version">
-            API Docs for v0.4.7
+            API Docs for v0.4.8
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -273,6 +273,14 @@
                                 <a href="#method_stop">stop</a>
 
                             </li>
+                            <li class="index-item method">
+                                <a href="#method_toggleMute">toggleMute</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_togglePlay">togglePlay</a>
+
+                            </li>
                     </ul>
                 </div>
 
@@ -429,7 +437,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_WaudSound.hx.html#l286"><code>src&#x2F;WaudSound.hx:286</code></a>
+      <a href="../files/src_WaudSound.hx.html#l310"><code>src&#x2F;WaudSound.hx:310</code></a>
   </p>
 
 
@@ -535,7 +543,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_WaudSound.hx.html#l191"><code>src&#x2F;WaudSound.hx:191</code></a>
+      <a href="../files/src_WaudSound.hx.html#l215"><code>src&#x2F;WaudSound.hx:215</code></a>
   </p>
 
 
@@ -596,7 +604,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_WaudSound.hx.html#l152"><code>src&#x2F;WaudSound.hx:152</code></a>
+      <a href="../files/src_WaudSound.hx.html#l164"><code>src&#x2F;WaudSound.hx:164</code></a>
   </p>
 
 
@@ -684,7 +692,7 @@ snd.load(callback);</code></pre>
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_WaudSound.hx.html#l204"><code>src&#x2F;WaudSound.hx:204</code></a>
+      <a href="../files/src_WaudSound.hx.html#l228"><code>src&#x2F;WaudSound.hx:228</code></a>
   </p>
 
 
@@ -818,7 +826,7 @@ snd.load(callback);</code></pre>
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_WaudSound.hx.html#l241"><code>src&#x2F;WaudSound.hx:241</code></a>
+      <a href="../files/src_WaudSound.hx.html#l265"><code>src&#x2F;WaudSound.hx:265</code></a>
   </p>
 
 
@@ -904,7 +912,7 @@ snd.load(callback);</code></pre>
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_WaudSound.hx.html#l271"><code>src&#x2F;WaudSound.hx:271</code></a>
+      <a href="../files/src_WaudSound.hx.html#l295"><code>src&#x2F;WaudSound.hx:295</code></a>
   </p>
 
 
@@ -990,7 +998,7 @@ snd.load(callback);</code></pre>
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_WaudSound.hx.html#l256"><code>src&#x2F;WaudSound.hx:256</code></a>
+      <a href="../files/src_WaudSound.hx.html#l280"><code>src&#x2F;WaudSound.hx:280</code></a>
   </p>
 
 
@@ -1076,7 +1084,7 @@ snd.load(callback);</code></pre>
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_WaudSound.hx.html#l229"><code>src&#x2F;WaudSound.hx:229</code></a>
+      <a href="../files/src_WaudSound.hx.html#l253"><code>src&#x2F;WaudSound.hx:253</code></a>
   </p>
 
 
@@ -1121,7 +1129,7 @@ snd.load(callback);</code></pre>
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_WaudSound.hx.html#l168"><code>src&#x2F;WaudSound.hx:168</code></a>
+      <a href="../files/src_WaudSound.hx.html#l180"><code>src&#x2F;WaudSound.hx:180</code></a>
   </p>
 
 
@@ -1279,7 +1287,7 @@ snd.play(&quot;bell&quot;);</code></pre>
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_WaudSound.hx.html#l217"><code>src&#x2F;WaudSound.hx:217</code></a>
+      <a href="../files/src_WaudSound.hx.html#l241"><code>src&#x2F;WaudSound.hx:241</code></a>
   </p>
 
 
@@ -1313,6 +1321,96 @@ snd.play(&quot;bell&quot;);</code></pre>
 
             <div class="example-content">
 <pre class="code prettyprint"><code>snd.stop();</code></pre>
+
+            </div>
+        </div>
+
+</div>
+<div id="method_toggleMute" class="method item">
+  <h3 class="blue-method-name">toggleMute</h3>
+
+  <div class="meta method-meta">
+      <p>
+          Defined in
+      <a href="../files/src_WaudSound.hx.html#l152"><code>src&#x2F;WaudSound.hx:152</code></a>
+  </p>
+
+
+
+  </div>
+
+  <h3>Syntax</h3>
+  <div class="blue-method-syntax">
+  <h3 class="name"><code>toggleMute</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+  </div>
+    <div class="description">
+      <h3>Summary</h3>
+        <p>Function to automatically mute or unmute the sound.</p>
+
+    </div>
+
+
+
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+<pre class="code prettyprint"><code>snd.toggleMute();</code></pre>
+
+            </div>
+        </div>
+
+</div>
+<div id="method_togglePlay" class="method item">
+  <h3 class="blue-method-name">togglePlay</h3>
+
+  <div class="meta method-meta">
+      <p>
+          Defined in
+      <a href="../files/src_WaudSound.hx.html#l203"><code>src&#x2F;WaudSound.hx:203</code></a>
+  </p>
+
+
+
+  </div>
+
+  <h3>Syntax</h3>
+  <div class="blue-method-syntax">
+  <h3 class="name"><code>togglePlay</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+  </div>
+    <div class="description">
+      <h3>Summary</h3>
+        <p>Function to automatically pause or play the sound.</p>
+
+    </div>
+
+
+
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+<pre class="code prettyprint"><code>snd.togglePlay();</code></pre>
 
             </div>
         </div>

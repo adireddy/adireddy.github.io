@@ -18,7 +18,7 @@
             <a href="https://github.com/adireddy/waud" target="_blank"><img src="../assets/css/logo.png" alt="waud.js"></a>
         </div>
         <div class="yui3-u-1-4 version project-version">
-            API Docs for v0.4.7
+            API Docs for v0.4.8
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -237,6 +237,18 @@ import haxe.Json;
 	}
 
 	/**
+	* Function to automatically mute or unmute the sound.
+	*
+	* @method toggleMute
+	* @example
+	*     snd.toggleMute();
+	*/
+	public function toggleMute() {
+		if (_snd == null) return;
+		_snd.toggleMute();
+	}
+
+	/**
 	* Function to manually load the sound if &#x60;preload&#x60; was set to &#x60;false&#x60; with optional onload callback.
 	*
 	* @method load
@@ -273,6 +285,18 @@ import haxe.Json;
 			}
 		}
 		return _snd.play(spriteName, soundProps);
+	}
+
+	/**
+	* Function to automatically pause or play the sound.
+	*
+	* @method togglePlay
+	* @example
+	*     snd.togglePlay();
+	*/
+	public function togglePlay() {
+		if (_snd == null) return;
+		_snd.togglePlay();
 	}
 
 	/**
