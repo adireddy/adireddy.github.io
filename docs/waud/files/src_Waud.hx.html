@@ -18,7 +18,7 @@
             <a href="https://github.com/adireddy/waud" target="_blank"><img src="../assets/css/logo.png" alt="waud.js"></a>
         </div>
         <div class="yui3-u-1-4 version project-version">
-            API Docs for v0.4.8
+            API Docs for v0.4.9
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -99,6 +99,15 @@ import js.Browser;
 
 	static inline var PROBABLY:String = &quot;probably&quot;;
 	static inline var MAYBE:String = &quot;maybe&quot;;
+
+	/**
+	* Version number.
+	*
+	* @property version
+	* @static
+	* @type {String}
+	*/
+	public static var version:String = CompileTime.parseJsonFile(&quot;./package.json&quot;).version;
 
 	/**
 	* Tells whether to use web audio api or not.
