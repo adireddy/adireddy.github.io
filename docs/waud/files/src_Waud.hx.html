@@ -18,7 +18,7 @@
             <a href="https://github.com/adireddy/waud" target="_blank"><img src="../assets/css/logo.png" alt="waud.js"></a>
         </div>
         <div class="yui3-u-1-4 version project-version">
-            API Docs for v0.4.9
+            API Docs for v0.5.1
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -107,7 +107,7 @@ import js.Browser;
 	* @static
 	* @type {String}
 	*/
-	public static var version:String = CompileTime.parseJsonFile(&quot;./package.json&quot;).version;
+	public static var version:String = &quot;0.5.1&quot;;
 
 	/**
 	* Tells whether to use web audio api or not.
@@ -321,11 +321,11 @@ import js.Browser;
 	/**
 	* Helper function to unlock audio on iOS devices.
 	*
-	* You can pass an optional callback which will be triggered on &#x60;touchend&#x60; event.
+	* You can pass an optional callback which will be triggered after unlocking audio.
 	*
 	* @static
 	* @method enableTouchUnlock
-	* @param {Function} [callback] - Optional callback that triggers after touch unlock.
+	* @param {Function} [callback] - Optional callback that triggers after unlocking audio.
 	* @example
  	*     Waud.enableTouchUnlock(callback);
 	*/

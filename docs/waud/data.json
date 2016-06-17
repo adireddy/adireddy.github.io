@@ -2,7 +2,7 @@
     "project": {
         "name": "waud.js",
         "description": "Web Audio Library",
-        "version": "0.4.9",
+        "version": "0.5.1",
         "url": "https://github.com/adireddy/waud"
     },
     "files": {
@@ -140,7 +140,7 @@
                 }
             ],
             "example": [
-                "\n\t\t// MP3 Sound\n\t\tvar snd = new WaudSound(\"assets/loop.mp3\", { autoplay: false, loop: true, volume: 0.5, onload: _playBgSound });\n\n\t\t// Force HTML5 Audio\n\t\tvar snd = new WaudSound(\"assets/loop.mp3\", { webaudio: false });\n\n\t\t// Audio Sprite\n\t\tvar audSprite = new WaudSound(\"assets/sprite.json\");\n\t\taudSprite.play(\"glass\");"
+                "\n\t\t// MP3 Sound\n\t\tvar snd = new WaudSound(\"assets/loop.mp3\", { autoplay: false, loop: true, volume: 0.5 });\n\n\t\t// Force HTML5 Audio\n\t\tvar snd = new WaudSound(\"assets/loop.mp3\", { webaudio: false });\n\n\t\t// Audio Sprite\n\t\tvar audSprite = new WaudSound(\"assets/sprite.json\");\n\t\taudSprite.play(\"glass\");"
             ]
         },
         "WaudSoundOptions": {
@@ -494,14 +494,14 @@
         {
             "file": "src/Waud.hx",
             "line": 234,
-            "description": "Helper function to unlock audio on iOS devices.\n\nYou can pass an optional callback which will be triggered on `touchend` event.",
+            "description": "Helper function to unlock audio on iOS devices.\n\nYou can pass an optional callback which will be triggered after unlocking audio.",
             "static": 1,
             "itemtype": "method",
             "name": "enableTouchUnlock",
             "params": [
                 {
                     "name": "callback",
-                    "description": "- Optional callback that triggers after touch unlock.",
+                    "description": "- Optional callback that triggers after unlocking audio.",
                     "type": "Function",
                     "optional": true
                 }
