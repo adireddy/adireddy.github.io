@@ -679,7 +679,8 @@ samples_audio_Button.prototype = $extend(PIXI.Container.prototype,{
 		var size;
 		if(fontSize != null) size = fontSize; else size = 12;
 		var style = { };
-		style.font = size + "px Arial";
+		style.fontSize = size;
+		style.fontFamily = "Arial";
 		style.fill = "#FFFFFF";
 		this._label = new PIXI.Text("",style);
 		this._label.anchor.set(0.5);

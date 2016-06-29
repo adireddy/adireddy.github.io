@@ -247,8 +247,9 @@ samples_retina_Main.prototype = $extend(pixi_plugins_app_Application.prototype,{
 		this._img.position.set(window.innerWidth / 2,window.innerHeight / 2);
 		this.stage.addChild(this._img);
 		var style = { };
-		style.fill = "#F78181";
-		style.font = "12px Courier";
+		style.fill = 16220545;
+		style.fontSize = 12;
+		style.fontFamily = "Courier";
 		this._label = new PIXI.Text(imgPath,style);
 		this._label.position.set(0,0);
 		this.stage.addChild(this._label);

@@ -284,7 +284,7 @@ samples_bunnymark_Main.prototype = $extend(pixi_plugins_app_Application.prototyp
 		window.document.body.appendChild(this.counter);
 		this.count = this.startBunnyCount;
 		this.counter.innerHTML = this.count + " BUNNIES";
-		this.container = new PIXI.ParticleContainer(200000,[false,true,false,false,false]);
+		this.container = new PIXI.particles.ParticleContainer(200000,[false,true,false,false,false]);
 		this.stage.addChild(this.container);
 		this.wabbitTexture = PIXI.Texture.fromImage("assets/bunnymark/bunnys.png");
 		var bunny1 = new PIXI.Texture(this.wabbitTexture.baseTexture,new PIXI.Rectangle(2,47,26,37));

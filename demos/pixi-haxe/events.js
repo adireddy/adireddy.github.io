@@ -250,7 +250,8 @@ samples_events_Main.prototype = $extend(pixi_plugins_app_Application.prototype,{
 		this.stage.addChild(this._img);
 		var style = { };
 		style.fill = "#000000";
-		style.font = "12px Courier";
+		style.fontSize = 12;
+		style.fontFamily = "Courier";
 		this._label = new PIXI.Text("EVENTS",style);
 		this._label.position.set(0,0);
 		this.stage.addChild(this._label);

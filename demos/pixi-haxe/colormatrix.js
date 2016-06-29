@@ -255,7 +255,7 @@ var samples_filters_colormatrix_Main = function() {
 	this._container.filters = [this._filter];
 	this.stage.on("click",$bind(this,this._onClick));
 	this.stage.on("tap",$bind(this,this._onClick));
-	var style = { font : "bold 12pt Arial", fill : "#FFFFFF"};
+	var style = { fontSize : "12", fontFamily : "Arial", fontWeight : "bold", fill : 16777215};
 	var help = new PIXI.Text("Click to turn filters on / off.",style);
 	this.stage.addChild(help);
 };
