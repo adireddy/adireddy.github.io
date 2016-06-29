@@ -68,11 +68,11 @@ samples_webglinfo_Main.prototype = {
 			this.log("Max Texture Size",gl.getParameter(gl.MAX_TEXTURE_SIZE));
 			this.log("Max Texture Image Units",gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS));
 			this.log("Max Fragmented Uniform Vectors",gl.getParameter(gl.MAX_FRAGMENT_UNIFORM_VECTORS));
-			this.log("RGBA Bits: [" + gl.getParameter(gl.RED_BITS) + ", " + gl.getParameter(gl.GREEN_BITS) + ", " + gl.getParameter(gl.BLUE_BITS) + ", " + gl.getParameter(gl.ALPHA_BITS) + "]");
-			this.log("Depth & Stencil Bits: [" + gl.getParameter(gl.DEPTH_BITS) + ", " + gl.getParameter(gl.STENCIL_BITS) + "]");
+			this.log("RGBA Bits","[" + gl.getParameter(gl.RED_BITS) + ", " + gl.getParameter(gl.GREEN_BITS) + ", " + gl.getParameter(gl.BLUE_BITS) + ", " + gl.getParameter(gl.ALPHA_BITS) + "]");
+			this.log("Depth & Stencil Bits","[" + gl.getParameter(gl.DEPTH_BITS) + ", " + gl.getParameter(gl.STENCIL_BITS) + "]");
 			if(gl.getExtension("WEBGL_draw_buffers") != null) this.log("Max Color Buffers",gl.getParameter(gl.getExtension("WEBGL_draw_buffers").MAX_DRAW_BUFFERS_WEBGL));
 			this.log("---------------------------------------------------");
-			this.log("Supported Extensions: <br />" + gl.getSupportedExtensions().join("<br />"));
+			this.log("Supported Extensions","<br />" + gl.getSupportedExtensions().join("<br />"));
 		}
 	}
 	,log: function(msg,val) {
