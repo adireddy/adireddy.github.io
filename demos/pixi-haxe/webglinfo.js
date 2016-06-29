@@ -9,11 +9,11 @@ Reflect.field = function(o,field) {
 };
 var samples_webglinfo_Main = function() {
 	this.contextName = "";
-	var checkSupport = this.detectWebGL();
+	var checkSupport = this.detectWebGL({ stencil : true});
 	this.log("WebGL Support (no context properties set): " + (checkSupport == null?"null":"" + checkSupport));
 	if(checkSupport) this.displayWebGLProperties();
 	this.log("---------------------------------------------------");
-	checkSupport = this.detectWebGL({ failIfMajorPerformanceCaveat : true});
+	checkSupport = this.detectWebGL({ stencil : true, failIfMajorPerformanceCaveat : true});
 	this.log("WebGL Support (performance caveat set): " + (checkSupport == null?"null":"" + checkSupport));
 };
 samples_webglinfo_Main.main = function() {
@@ -36,7 +36,7 @@ samples_webglinfo_Main.prototype = {
 					if(props != null) gl = canvas.getContext(context,props); else gl = canvas.getContext(context);
 					if(gl != null && gl.getParameter != null) {
 						this.contextName = context;
-						return true;
+						return gl.getContextAttributes().stencil;
 					}
 				} catch( e ) {
 				}
