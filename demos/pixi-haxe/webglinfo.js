@@ -10,11 +10,11 @@ Reflect.field = function(o,field) {
 var samples_webglinfo_Main = function() {
 	this.contextName = "";
 	var checkSupport = this.detectWebGL({ stencil : true});
-	this.log("WebGL Support",(checkSupport == null?"null":"" + checkSupport) + " - " + this.contextName);
+	this.log("WebGL Support",(checkSupport == null?"null":"" + checkSupport) + " " + this.contextName);
 	if(checkSupport) this.displayWebGLProperties();
 	this.log("---------------------------------------------------");
 	checkSupport = this.detectWebGL({ stencil : true, failIfMajorPerformanceCaveat : true});
-	this.log("WebGL Support (performance caveat set to true)",(checkSupport == null?"null":"" + checkSupport) + " - " + this.contextName);
+	this.log("WebGL Support (performance caveat set to true)",(checkSupport == null?"null":"" + checkSupport) + " " + this.contextName);
 };
 samples_webglinfo_Main.main = function() {
 	new samples_webglinfo_Main();
