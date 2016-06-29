@@ -85,7 +85,10 @@ js_Boot.__string_rec = function(o,s) {
 };
 var samples_webglinfo_Main = function() {
 	this.contextName = "";
-	this.log("WebGL Support: " + Std.string(this.detectWebGL()));
+	this.log("WebGL Support (no context properties set): " + Std.string(this.detectWebGL()));
+	this.displayWebGLProperties();
+	this.log("---------------------------------------------------");
+	this.log("WebGL Support: " + Std.string(this.detectWebGL({ failIfMajorPerformanceCaveat : true})));
 	this.displayWebGLProperties();
 };
 samples_webglinfo_Main.__name__ = true;
@@ -93,7 +96,7 @@ samples_webglinfo_Main.main = function() {
 	new samples_webglinfo_Main();
 };
 samples_webglinfo_Main.prototype = {
-	detectWebGL: function() {
+	detectWebGL: function(props) {
 		var ctx = Reflect.field(window,"WebGLRenderingContext");
 		if(ctx != null) {
 			var canvas;
@@ -106,7 +109,7 @@ samples_webglinfo_Main.prototype = {
 				var context = supportedContextNames[_g];
 				++_g;
 				try {
-					gl = canvas.getContext(context,{ depth : true, stencil : true, failIfMajorPerformanceCaveat : true});
+					if(props != null) gl = canvas.getContext(context,props); else gl = canvas.getContext(context);
 					if(gl != null && gl.getParameter != null) {
 						this.contextName = context;
 						return true;
