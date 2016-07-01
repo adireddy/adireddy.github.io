@@ -26,7 +26,7 @@ samples_webglinfo_Main.prototype = {
 			var canvas;
 			var _this = window.document;
 			canvas = _this.createElement("canvas");
-			var supportedContextNames = ["webgl"];
+			var supportedContextNames = ["webgl","experimental-webgl"];
 			var gl;
 			var _g = 0;
 			while(_g < supportedContextNames.length) {
