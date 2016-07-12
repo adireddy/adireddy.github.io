@@ -804,13 +804,10 @@ WaudSound.prototype = {
 	}
 	,_init: function(soundUrl) {
 		this.url = soundUrl;
-		console.log(this.url);
-		console.log(Waud.isWebAudioSupported);
-		console.log(Waud.useWebAudio);
-		console.log(this._options.webaudio);
 		if(Waud.isWebAudioSupported && Waud.useWebAudio && (this._options == null || this._options.webaudio == null || this._options.webaudio)) {
 			if(this.isSpriteSound) this._loadSpriteSound(this.url); else this._snd = new WebAudioAPISound(this.url,this._options);
 		} else if(Waud.isHTML5AudioSupported) {
+			console.log(this.url + " HTML5");
 			var sound = new HTML5Sound(this.url,this._options);
 			if(this._spriteData != null && this._spriteData.sprite != null) {
 				var _g = 0;
