@@ -65,10 +65,10 @@ samples_webglinfo_Main.prototype = {
 			this.log("Antialias Support",gl.getContextAttributes().antialias);
 			this.log("Drawing Buffer",gl.drawingBufferWidth + "x" + gl.drawingBufferHeight);
 			this.log("Max Render Buffer Size",gl.getParameter(gl.MAX_RENDERBUFFER_SIZE));
-			this.log("Max Texture Size (recommended 2048x2048)",gl.getParameter(gl.MAX_TEXTURE_SIZE));
-			this.log("Max Texture Image Units",gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS));
-			this.log("Max Vertex Texture Image Units",gl.getParameter(gl.MAX_VERTEX_TEXTURE_IMAGE_UNITS));
-			this.log("Max Combined Texture Image Units (recommended 16)",gl.getParameter(gl.MAX_COMBINED_TEXTURE_IMAGE_UNITS));
+			this.log("Max Texture Size (recommended 2048)",gl.getParameter(gl.MAX_TEXTURE_SIZE));
+			this.log("Max Texture Image Units (recommended 16)",gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS));
+			this.log("Max Vertex Texture Image Units (recommended 4)",gl.getParameter(gl.MAX_VERTEX_TEXTURE_IMAGE_UNITS));
+			this.log("Max Combined Texture Image Units",gl.getParameter(gl.MAX_COMBINED_TEXTURE_IMAGE_UNITS));
 			this.log("Max Fragmented Uniform Vectors",gl.getParameter(gl.MAX_FRAGMENT_UNIFORM_VECTORS));
 			this.log("Max Vertex Attributes (recommended 16)",gl.getParameter(gl.MAX_VERTEX_ATTRIBS));
 			this.log("Max Varying Vectors (recommended 8)",gl.getParameter(gl.MAX_VARYING_VECTORS));
