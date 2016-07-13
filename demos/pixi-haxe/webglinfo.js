@@ -75,6 +75,7 @@ samples_webglinfo_Main.prototype = {
 			this.log("RGBA Bits","[" + gl.getParameter(gl.RED_BITS) + ", " + gl.getParameter(gl.GREEN_BITS) + ", " + gl.getParameter(gl.BLUE_BITS) + ", " + gl.getParameter(gl.ALPHA_BITS) + "]");
 			this.log("Depth & Stencil Bits","[" + gl.getParameter(gl.DEPTH_BITS) + ", " + gl.getParameter(gl.STENCIL_BITS) + "]");
 			if(gl.getExtension("WEBGL_draw_buffers") != null) this.log("Max Color Buffers",gl.getParameter(gl.getExtension("WEBGL_draw_buffers").MAX_DRAW_BUFFERS_WEBGL));
+			if(gl.getExtension("EXT_texture_filter_anisotropic") != null) this.log("Max Anisotropy",gl.getParameter(gl.getExtension("EXT_texture_filter_anisotropic").MAX_TEXTURE_MAX_ANISOTROPY_EXT));
 			this.log("---------------------------------------------------");
 			this.log("Supported Extensions","<br />" + gl.getSupportedExtensions().join("<br />"));
 		}
