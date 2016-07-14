@@ -546,7 +546,7 @@ var Main = function() {
 	this._addButton("Can",380,300,60,30,function() {
 		_g._audSprite.play("canopening");
 	});
-	this._addButton("Play All",420,300,60,30,$bind(this,this.playAllTheThings));
+	this._addButton("Play All",440,300,60,30,$bind(this,this.playAllTheThings));
 	label = new PIXI.Text("Test 1: ",{ font : "26px Tahoma", fill : "#FFFFFF"});
 	this._btnContainer.addChild(label);
 	label.position.y = 350;
