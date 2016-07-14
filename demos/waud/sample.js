@@ -470,13 +470,16 @@ var Main = function() {
 	this.stage.addChild(this._btnContainer);
 	var label = new PIXI.Text("MP3: ",{ font : "26px Tahoma", fill : "#FFFFFF"});
 	this._btnContainer.addChild(label);
-	this._addButton("Glass",120,0,60,30,function() {
+	this._addButton("Funk",120,0,60,30,function() {
+		_g._funkMP3.play();
+	});
+	this._addButton("Glass",180,0,60,30,function() {
 		_g._glassMP3.play();
 	});
-	this._addButton("Bell",180,0,60,30,function() {
+	this._addButton("Bell",240,0,60,30,function() {
 		_g._bellMP3.play();
 	});
-	this._addButton("Can",240,0,60,30,function() {
+	this._addButton("Can",300,0,60,30,function() {
 		_g._canMP3.play();
 	});
 	label = new PIXI.Text("AAC: ",{ font : "26px Tahoma", fill : "#FFFFFF"});
@@ -572,6 +575,7 @@ var Main = function() {
 	Waud.enableTouchUnlock($bind(this,this.touchUnlock));
 	Waud.defaults.onload = $bind(this,this._onLoad);
 	this._bgSnd = new WaudSound("assets/loop.mp3",{ loop : true, autoplay : false, volume : 1, onload : $bind(this,this._playBgSound)});
+	this._funkMP3 = new WaudSound("assets/funk100.mp3");
 	this._glassMP3 = new WaudSound("assets/glass.mp3");
 	this._bellMP3 = new WaudSound("assets/bell.mp3");
 	this._canMP3 = new WaudSound("assets/canopening.mp3");

@@ -13,6 +13,7 @@ class Main extends Application {
 	var _glassAAC:IWaudSound;
 	var _bellAAC:IWaudSound;
 	var _canAAC:IWaudSound;
+	var _funkMP3:IWaudSound;
 	var _glassMP3:IWaudSound;
 	var _bellMP3:IWaudSound;
 	var _canMP3:IWaudSound;
@@ -41,9 +42,10 @@ class Main extends Application {
 
 		var label:Text = new Text("MP3: ", { font: "26px Tahoma", fill:"#FFFFFF" });
 		_btnContainer.addChild(label);
-		_addButton("Glass", 120, 0, 60, 30, function() { _glassMP3.play(); });
-		_addButton("Bell", 180, 0, 60, 30, function() { _bellMP3.play(); });
-		_addButton("Can", 240, 0, 60, 30, function() { _canMP3.play(); });
+		_addButton("Funk", 120, 0, 60, 30, function() { _funkMP3.play(); });
+		_addButton("Glass", 180, 0, 60, 30, function() { _glassMP3.play(); });
+		_addButton("Bell", 240, 0, 60, 30, function() { _bellMP3.play(); });
+		_addButton("Can", 300, 0, 60, 30, function() { _canMP3.play(); });
 
 		label = new Text("AAC: ", { font: "26px Tahoma", fill:"#FFFFFF" });
 		_btnContainer.addChild(label);
@@ -106,6 +108,7 @@ class Main extends Application {
 		Waud.defaults.onload = _onLoad;
 		_bgSnd = new WaudSound("assets/loop.mp3", { loop:true, autoplay: false, volume: 1, onload: _playBgSound });
 
+		_funkMP3 = new WaudSound("assets/funk100.mp3");
 		_glassMP3 = new WaudSound("assets/glass.mp3");
 		_bellMP3 = new WaudSound("assets/bell.mp3");
 		_canMP3 = new WaudSound("assets/canopening.mp3");
