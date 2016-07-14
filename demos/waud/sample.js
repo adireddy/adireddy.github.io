@@ -575,7 +575,7 @@ var Main = function() {
 	Waud.enableTouchUnlock($bind(this,this.touchUnlock));
 	Waud.defaults.onload = $bind(this,this._onLoad);
 	this._bgSnd = new WaudSound("assets/loop.mp3",{ loop : true, autoplay : false, volume : 1, onload : $bind(this,this._playBgSound)});
-	this._funkMP3 = new WaudSound("assets/funk100.mp3");
+	this._funkMP3 = new WaudSound("assets/funk100.mp3",{ webaudio : false});
 	this._glassMP3 = new WaudSound("assets/glass.mp3");
 	this._bellMP3 = new WaudSound("assets/bell.mp3");
 	this._canMP3 = new WaudSound("assets/canopening.mp3");

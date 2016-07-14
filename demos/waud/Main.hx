@@ -108,7 +108,7 @@ class Main extends Application {
 		Waud.defaults.onload = _onLoad;
 		_bgSnd = new WaudSound("assets/loop.mp3", { loop:true, autoplay: false, volume: 1, onload: _playBgSound });
 
-		_funkMP3 = new WaudSound("assets/funk100.mp3");
+		_funkMP3 = new WaudSound("assets/funk100.mp3", {webaudio: false});
 		_glassMP3 = new WaudSound("assets/glass.mp3");
 		_bellMP3 = new WaudSound("assets/bell.mp3");
 		_canMP3 = new WaudSound("assets/canopening.mp3");
