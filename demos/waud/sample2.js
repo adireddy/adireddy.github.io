@@ -792,7 +792,7 @@ WaudSound.prototype = {
 	_loadSpriteJson: function(jsonUrl) {
 		var _g = this;
 		var xobj = new XMLHttpRequest();
-		xobj.overrideMimeType("application/json");
+		xobj.responseType = "json";
 		xobj.open("GET",jsonUrl,true);
 		xobj.onreadystatechange = function() {
 			if(xobj.readyState == 4 && xobj.status == 200) {
