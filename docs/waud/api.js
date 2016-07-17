@@ -3,6 +3,7 @@ YUI.add("yuidoc-meta", function(Y) {
     "classes": [
         "AudioManager",
         "Waud",
+        "WaudBase64Pack",
         "WaudFocusManager",
         "WaudSound",
         "WaudSoundOptions",

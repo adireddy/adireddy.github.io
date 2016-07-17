@@ -18,7 +18,7 @@
             <a href="https://github.com/adireddy/waud" target="_blank"><img src="../assets/css/logo.png" alt="waud.js"></a>
         </div>
         <div class="yui3-u-1-4 version project-version">
-            API Docs for v0.5.1
+            API Docs for v0.6.0
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,6 +41,7 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AudioManager.html">AudioManager</a></li>
                                 <li><a href="../classes/Waud.html">Waud</a></li>
+                                <li><a href="../classes/WaudBase64Pack.html">WaudBase64Pack</a></li>
                                 <li><a href="../classes/WaudFocusManager.html">WaudFocusManager</a></li>
                                 <li><a href="../classes/WaudSound.html">WaudSound</a></li>
                                 <li><a href="../classes/WaudSoundOptions.html">WaudSoundOptions</a></li>
@@ -94,22 +95,23 @@ interface IWaudSound {
 	var url:String;
 	var isSpriteSound:Bool;
 	var duration(get, null):Float;
+	var spriteName:String;
 	function load(?callback:IWaudSound -&gt; Void):IWaudSound;
 	function play(?spriteName:String, ?soundProps:AudioSpriteSoundProperties):Int;
-	function togglePlay():Void;
-	function stop():Void;
-	function pause():Void;
+	function togglePlay(?spriteName:String):Void;
+	function stop(?spriteName:String):Void;
+	function pause(?spriteName:String):Void;
 	function setTime(time:Float):Void;
 	function getTime():Float;
-	function onEnd(callback:IWaudSound -&gt; Void):IWaudSound;
+	function onEnd(callback:IWaudSound -&gt; Void, ?spriteName:String):IWaudSound;
 	function onLoad(callback:IWaudSound -&gt; Void):IWaudSound;
 	function onError(callback:IWaudSound -&gt; Void):IWaudSound;
-	function mute(val:Bool):Void;
-	function toggleMute():Void;
+	function mute(val:Bool, ?spriteName:String):Void;
+	function toggleMute(?spriteName:String):Void;
 	function loop(val:Bool):Void;
-	function setVolume(val:Float):Void;
-	function getVolume():Float;
-	function isPlaying():Bool;
+	function setVolume(val:Float, ?spriteName:String):Void;
+	function getVolume(?spriteName:String):Float;
+	function isPlaying(?spriteName:String):Bool;
 	function destroy():Void;
 }
     </pre>

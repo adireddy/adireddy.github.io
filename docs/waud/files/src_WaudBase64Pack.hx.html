@@ -2,7 +2,7 @@
 <html lang="en" class="yui-overrride">
 <head>
     <meta charset="utf-8">
-    <title>src/WaudSoundOptions.hx - waud.js</title>
+    <title>src/WaudBase64Pack.hx - waud.js</title>
     <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet' type='text/css'>
@@ -82,87 +82,100 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/WaudSoundOptions.hx</h1>
+<h1 class="file-heading">File: src/WaudBase64Pack.hx</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-/**
-* Sound Options.
-*
-* @class WaudSoundOptions
-*/
-typedef WaudSoundOptions = {
-	/**
-	* Auto play sound.
-	* @property autoplay
-	* @type {Bool}
-	* @default false
-	*/
-	@:optional var autoplay:Bool;
+import haxe.Json;
+import js.html.XMLHttpRequest;
+
+@:expose @:keep class WaudBase64Pack {
+
+	var _sounds:Map&lt;String, IWaudSound&gt;;
+	var _onLoaded:Map&lt;String, IWaudSound&gt; -&gt; Void;
+	var _onError:Void -&gt; Void;
+	var _soundCount:Int;
+	var _loadCount:Int;
 
 	/**
-	* Loop sound.
-	* @property loop
-	* @type {Bool}
-	* @default false
-	*/
-	@:optional var loop:Bool;
-
-	/**
-	* Sound volume between 0 and 1.
-	* @property volume
-	* @type {Float}
-	* @default 1
-	*/
-	@:optional var volume:Float;
-
-	/**
-	* Callback function when the sound is loaded with sound instance as parameter.
-	* @property onload
-	* @type {Function}
-	* @default null
-	*/
-	@:optional var onload:IWaudSound -&gt; Void;
-
-	/**
-	* Callback function when the sound playback ends with sound instance as parameter.
-	* @property onend
-	* @type {Function}
-	* @default null
-	*/
-	@:optional var onend:IWaudSound -&gt; Void;
-
-	/**
-	* Callback function when there is an error in loading/decoding with sound instance as parameter.
-	* @property onerror
-	* @type {Function}
-	* @default null
-	*/
-	@:optional var onerror:IWaudSound -&gt; Void;
-
-	/**
-	* Whether to preload the sound or not.
+	* Class to load multiple Base64 packed sounds in JSON.
 	*
-	* Set it to &#x60;true&#x60; to automatically load the sound when instantiated.
+	* @class WaudBase64Pack
+	* @constructor
+	* @param {String} url - Base64 packed JSON file.
+	* @param {IWaudSound&gt; -&gt; Void} [onLoaded] - on load callback.
+	* @param {Void&gt; -&gt; Void} [onError] - on error callback.
+	* @example
+	* 		var base64pack = WaudBase64Pack(&quot;assets/bundle.json&quot;, _onLoad);
 	*
-	* Set it to &#x60;false&#x60; to load the sound manually using &#x60;snd.load()&#x60; method.
-	*
-	* @property preload
-	* @type {Bool}
-	* @default true
+	* 		function _onLoad(snds:Map&lt;String, IWaudSound&gt;) {
+	* 			snds.get(&quot;assets/beep.mp3&quot;).play();
+	* 		}
 	*/
-	@:optional var preload:Bool;
+	public function new(url:String, ?onLoaded:Map&lt;String, IWaudSound&gt; -&gt; Void, ?onError:Void -&gt; Void) {
+		if (Waud.audioManager == null) {
+			trace(&quot;initialise Waud using Waud.init() before loading sounds&quot;);
+			return;
+		}
+
+		if (url.indexOf(&quot;.json&quot;) &gt; 0) {
+			_soundCount = 0;
+			_loadCount = 0;
+			_onLoaded = onLoaded;
+			_onError = onError;
+			_sounds = new Map();
+			_loadBase64Json(url);
+		}
+	}
 
 	/**
-	* Whether to use web audio api or not.
+	* Function to load Base64 JSON.
 	*
-	* Set it to &#x60;false&#x60; to force html5 audio even when web audio is available.
-	*
-	* @property webaudio
-	* @type {Bool}
-	* @default true
+	* @private
+	* @method _loadBase64Json
+	* @param {String} url - Base64 JSON path.
 	*/
-	@:optional var webaudio:Bool;
+	function _loadBase64Json(base64Url:String) {
+		var xobj = new XMLHttpRequest();
+		xobj.open(&quot;GET&quot;, base64Url, true);
+		xobj.onreadystatechange = function() {
+			if (xobj.readyState == 4 &amp;&amp; xobj.status == 200) {
+				var res = Json.parse(xobj.responseText);
+				for (n in Reflect.fields(res)) {
+					_soundCount++;
+					_createSound(n, Reflect.field(res, n));
+				}
+			}
+		};
+		xobj.send(null);
+	}
+
+	/**
+	* Function to create base64 sound.
+	*
+	* @private
+	* @method _createSound
+	* @param {String} id - sound id.
+	* @param {String} dataURI - sound data uri.
+	*/
+	function _createSound(id:String, dataURI:String) {
+		var snd = new WaudSound(dataURI, {
+			onload:function(s:IWaudSound) {
+				_loadCount++;
+				_sounds.set(id, s);
+				Waud.sounds.set(id, s);
+				if (_loadCount == _soundCount &amp;&amp; _onLoaded != null) _onLoaded(_sounds);
+			},
+			onerror:function(s:IWaudSound) {
+				_loadCount++;
+				_sounds.set(id, null);
+				if (_loadCount == _soundCount &amp;&amp; _onLoaded != null) {
+					_onLoaded(_sounds);
+					if (_onError != null) _onError();
+				}
+			}
+		});
+	}
 }
     </pre>
 </div>
