@@ -199,7 +199,7 @@
             <h4>Example:</h4>
 
             <div class="example-content">
-<pre class="code prettyprint"><code>    var base64pack = WaudBase64Pack(&quot;assets/bundle.json&quot;, _onLoad);
+<pre class="code prettyprint"><code>    var base64pack = new WaudBase64Pack(&quot;assets/sounds.json&quot;, _onLoad);
 
     function _onLoad(snds:Map&lt;String, IWaudSound&gt;) {
         snds.get(&quot;assets/beep.mp3&quot;).play();

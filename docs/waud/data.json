@@ -139,7 +139,7 @@
                 }
             ],
             "example": [
-                "\n\t\tvar base64pack = WaudBase64Pack(\"assets/bundle.json\", _onLoad);\n\n\t\tfunction _onLoad(snds:Map<String, IWaudSound>) {\n\t\t\tsnds.get(\"assets/beep.mp3\").play();\n\t\t}"
+                "\n\t\tvar base64pack = new WaudBase64Pack(\"assets/sounds.json\", _onLoad);\n\n\t\tfunction _onLoad(snds:Map<String, IWaudSound>) {\n\t\t\tsnds.get(\"assets/beep.mp3\").play();\n\t\t}"
             ]
         },
         "WaudFocusManager": {
