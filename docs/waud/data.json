@@ -184,7 +184,7 @@
                 }
             ],
             "example": [
-                "\n\t\t// MP3 Sound\n\t\tvar snd = new WaudSound(\"assets/loop.mp3\", { autoplay: false, loop: true, volume: 0.5 });\n\n\t\t// Force HTML5 Audio\n\t\tvar snd = new WaudSound(\"assets/loop.mp3\", { webaudio: false });\n\n\t\t// Data URI\n\t\t//Note that the data URI used below is a sample string and not a valid sound\n\t\tvar base64Snd = new WaudSound(\"data:audio/mpeg;base64,//uQxAAAAAAAAAAAAASW5mbwAAAA8AAABEAABwpgADBwsLDxISF\");\n\t\tbase64Snd.play();\n\n\t\t// Audio Sprite\n\t\tvar audSprite = new WaudSound(\"assets/sprite.json\");\n\t\taudSprite.play(\"glass\");"
+                "\n\t\t// MP3 Sound\n\t\tvar snd = new WaudSound(\"assets/loop.mp3\", { autoplay: false, loop: true, volume: 0.5 });\n\n\t\t// Force HTML5 Audio\n\t\tvar snd = new WaudSound(\"assets/loop.mp3\", { webaudio: false });\n\n\t\t// Data URI\n\t\t// Note that the data URI used below is a sample string and not a valid sound\n\t\tvar base64Snd = new WaudSound(\"data:audio/mpeg;base64,//uQxAAAAAAAAAAAAASW5mbwAAAA8AAABEAABwpgADBwsLDxISF\");\n\t\tbase64Snd.play();\n\n\t\t// Audio Sprite\n\t\tvar audSprite = new WaudSound(\"assets/sprite.json\");\n\t\taudSprite.play(\"glass\");"
             ]
         },
         "WaudSoundOptions": {
