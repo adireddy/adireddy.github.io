@@ -18,7 +18,7 @@
             <a href="https://github.com/adireddy/waud" target="_blank"><img src="../assets/css/logo.png" alt="waud.js"></a>
         </div>
         <div class="yui3-u-1-4 version project-version">
-            API Docs for v0.6.1
+            API Docs for v0.6.2
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -157,6 +157,11 @@ import haxe.Json;
 	*
 	* 		// Force HTML5 Audio
 	* 		var snd = new WaudSound(&quot;assets/loop.mp3&quot;, { webaudio: false });
+	*
+	* 		// Data URI
+	* 		//Note that the data URI used below is a sample string and not a valid sound
+	* 		var base64Snd = new WaudSound(&quot;data:audio/mpeg;base64,//uQxAAAAAAAAAAAAASW5mbwAAAA8AAABEAABwpgADBwsLDxISF&quot;);
+	* 		base64Snd.play();
 	*
 	* 		// Audio Sprite
 	* 		var audSprite = new WaudSound(&quot;assets/sprite.json&quot;);
