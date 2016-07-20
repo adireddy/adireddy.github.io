@@ -117,7 +117,7 @@
             "extension_for": [],
             "file": "src/WaudBase64Pack.hx",
             "line": 12,
-            "description": "Class to load multiple Base64 packed sounds in JSON.",
+            "description": "Class to load multiple base64 packed sounds from JSON.",
             "is_constructor": 1,
             "params": [
                 {
@@ -1207,7 +1207,7 @@
         {
             "file": "src/WaudSoundOptions.hx",
             "line": 15,
-            "description": "Auto stop sound if already playing.",
+            "description": "Auto stop sound when `play` method is called on the sound when it's already playing",
             "itemtype": "property",
             "name": "autostop",
             "type": "{Bool}",
