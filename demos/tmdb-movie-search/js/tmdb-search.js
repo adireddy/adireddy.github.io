@@ -1698,6 +1698,7 @@ org_tmdb_components_search_SearchModel.prototype = {
 	}
 	,processSearchResults: function(response) {
 		var res = JSON.parse(response);
+		this.movies = new haxe_ds_IntMap();
 		var _g = 0;
 		var _g1 = Reflect.fields(res.results);
 		while(_g < _g1.length) {
@@ -1708,7 +1709,7 @@ org_tmdb_components_search_SearchModel.prototype = {
 		}
 	}
 	,reset: function() {
-		this.movies = null;
+		this.init();
 	}
 	,__class__: org_tmdb_components_search_SearchModel
 };
@@ -1731,7 +1732,7 @@ org_tmdb_components_search_SearchView.prototype = {
 		if(this._searchString != "") {
 			this.showProgress();
 			this._delay = haxe_Timer.delay($bind(this,this._delaySearch),1000);
-		}
+		} else this.hideProgress();
 	}
 	,_delaySearch: function() {
 		this.search.dispatch(this._searchString);
