@@ -2,7 +2,7 @@
     "project": {
         "name": "waud.js",
         "description": "Web Audio Library",
-        "version": "0.6.3",
+        "version": "0.6.4",
         "url": "https://github.com/adireddy/waud"
     },
     "files": {
@@ -1002,6 +1002,21 @@
         {
             "file": "src/WaudSound.hx",
             "line": 259,
+            "description": "Function to check if the sound is ready to be played.",
+            "itemtype": "method",
+            "name": "isReady",
+            "return": {
+                "description": "true or false",
+                "type": "Bool"
+            },
+            "example": [
+                "\n    snd.isReady();"
+            ],
+            "class": "WaudSound"
+        },
+        {
+            "file": "src/WaudSound.hx",
+            "line": 274,
             "description": "Function to play the sound with optional sprite name when using audio sprite.",
             "itemtype": "method",
             "name": "play",
@@ -1024,7 +1039,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 290,
+            "line": 305,
             "description": "Function to automatically pause or play the sound.",
             "itemtype": "method",
             "name": "togglePlay",
@@ -1035,7 +1050,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 307,
+            "line": 322,
             "description": "Function to check if the sound is playing or not.",
             "itemtype": "method",
             "name": "isPlaying",
@@ -1050,7 +1065,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 325,
+            "line": 340,
             "description": "Function to loop or unloop sound.",
             "itemtype": "method",
             "name": "loop",
@@ -1068,7 +1083,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 338,
+            "line": 353,
             "description": "Function to stop sound.",
             "itemtype": "method",
             "name": "stop",
@@ -1079,7 +1094,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 358,
+            "line": 373,
             "description": "Function to pause sound.",
             "itemtype": "method",
             "name": "pause",
@@ -1090,7 +1105,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 378,
+            "line": 393,
             "description": "Function to set playback position in seconds.\n\n**Not supported for audio sprites yet.**",
             "itemtype": "method",
             "name": "setTime",
@@ -1108,7 +1123,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 393,
+            "line": 408,
             "description": "Function to get the current playback position in seconds.\n\n**Not supported for audio sprites yet.**",
             "itemtype": "method",
             "name": "getTime",
@@ -1119,7 +1134,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 407,
+            "line": 422,
             "description": "Function to add callback that triggers when the sound finishes playing.",
             "itemtype": "method",
             "name": "onEnd",
@@ -1141,7 +1156,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 427,
+            "line": 442,
             "description": "Function to add callback that triggers when the sound is loaded.",
             "itemtype": "method",
             "name": "onLoad",
@@ -1163,7 +1178,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 442,
+            "line": 457,
             "description": "Function to add callback that triggers when the sound fails to load or if it fails to decode when using web audio.",
             "itemtype": "method",
             "name": "onError",
@@ -1185,7 +1200,7 @@
         },
         {
             "file": "src/WaudSound.hx",
-            "line": 457,
+            "line": 472,
             "description": "Function to destroy sound.",
             "itemtype": "method",
             "name": "destroy",

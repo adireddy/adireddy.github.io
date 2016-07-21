@@ -18,7 +18,7 @@
             <a href="https://github.com/adireddy/waud" target="_blank"><img src="../assets/css/logo.png" alt="waud.js"></a>
         </div>
         <div class="yui3-u-1-4 version project-version">
-            API Docs for v0.6.3
+            API Docs for v0.6.4
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -342,6 +342,21 @@ import haxe.Json;
 		if (_snd == null || isSpriteSound) return null;
 		_snd.load(callback);
 		return this;
+	}
+
+	/**
+	* Function to check if the sound is ready to be played.
+	*
+	* @method isReady
+	* @return {Bool} true or false
+	* @example
+	*     snd.isReady();
+	*/
+	public function isReady():Bool {
+		if (isSpriteSound) {
+			for (snd in _spriteSounds) return snd.isReady();
+		}
+		return _snd.isReady();
 	}
 
 	/**
