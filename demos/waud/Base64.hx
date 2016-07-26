@@ -1,4 +1,3 @@
-package ;
 import js.Browser;
 import pixi.core.Pixi;
 import pixi.core.text.Text;

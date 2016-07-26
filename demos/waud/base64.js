@@ -767,6 +767,7 @@ WaudBase64Pack.prototype = {
 		var xobj = new XMLHttpRequest();
 		xobj.open("GET",base64Url,true);
 		if(this._onProgress != null) xobj.onprogress = function(e) {
+			console.log(e);
 			if(e.loaded != null && e.total != null) _g._onProgress(e.loaded / e.total * 100);
 		};
 		xobj.onreadystatechange = function() {
