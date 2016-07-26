@@ -791,7 +791,10 @@ WaudBase64Pack.prototype = {
 			_g._loadCount++;
 			_g._sounds.set(id,s);
 			Waud.sounds.set(id,s);
-			if(_g._loadCount == _g._soundCount && _g._onLoaded != null) _g._onLoaded(_g._sounds);
+			if(_g._loadCount == _g._soundCount) {
+				if(_g._onLoaded != null) _g._onLoaded(_g._sounds);
+				if(_g._onProgress != null) _g._onProgress(100);
+			}
 		}, onerror : function(s1) {
 			_g._loadCount++;
 			_g._sounds.set(id,null);
