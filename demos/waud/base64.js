@@ -768,7 +768,7 @@ WaudBase64Pack.prototype = {
 		xobj.open("GET",base64Url,true);
 		if(this._onProgress != null) xobj.onprogress = function(e) {
 			console.log(e);
-			if(e.loaded != null && e.total != null) _g._onProgress(e.loaded / e.total * 100);
+			if(e.lengthComputable) _g._onProgress(e.loaded / e.total * 100);
 		};
 		xobj.onreadystatechange = function() {
 			if(xobj.readyState == 4 && xobj.status == 200) {
@@ -798,6 +798,7 @@ WaudBase64Pack.prototype = {
 			if(_g._loadCount == _g._soundCount && _g._onLoaded != null) {
 				_g._onLoaded(_g._sounds);
 				if(_g._onError != null) _g._onError();
+				if(_g._onProgress != null) _g._onProgress(100);
 			}
 		}});
 	}
