@@ -18,7 +18,7 @@
             <a href="https://github.com/adireddy/waud" target="_blank"><img src="../assets/css/logo.png" alt="waud.js"></a>
         </div>
         <div class="yui3-u-1-4 version project-version">
-            API Docs for v0.6.4
+            API Docs for v0.6.5
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -87,7 +87,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_WaudBase64Pack.hx.html#l12"><code>src&#x2F;WaudBase64Pack.hx:12</code></a>
+            Defined in: <a href="../files/src_WaudBase64Pack.hx.html#l15"><code>src&#x2F;WaudBase64Pack.hx:15</code></a>
         </div>
 
 
@@ -108,7 +108,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_WaudBase64Pack.hx.html#l12"><code>src&#x2F;WaudBase64Pack.hx:12</code></a>
+      <a href="../files/src_WaudBase64Pack.hx.html#l15"><code>src&#x2F;WaudBase64Pack.hx:15</code></a>
   </p>
 
 
@@ -126,6 +126,9 @@
                 </li>
                 <li class="arg">
                         <code class="optional">[onLoaded]</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[onProgress]</code>
                 </li>
                 <li class="arg">
                         <code class="optional">[onError]</code>
@@ -178,6 +181,20 @@
 
                 </li>
                 <li class="param">
+                        <code class="param-name optional">[onProgress]</code>
+                        <span class="type">Float -> Void</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>on progress callback.</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
                         <code class="param-name optional">[onError]</code>
                         <span class="type">Void> -> Void</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
@@ -199,10 +216,18 @@
             <h4>Example:</h4>
 
             <div class="example-content">
-<pre class="code prettyprint"><code>    var base64pack = new WaudBase64Pack(&quot;assets/sounds.json&quot;, _onLoad);
+<pre class="code prettyprint"><code>    var base64pack = new WaudBase64Pack(&quot;assets/sounds.json&quot;, _onLoad, _onProgress, _onError);
 
     function _onLoad(snds:Map&lt;String, IWaudSound&gt;) {
         snds.get(&quot;assets/beep.mp3&quot;).play();
+    }
+
+    function _onProgress(val:Float) {
+        trace(&quot;loaded %: &quot; + val);
+    }
+
+    function _onError() {
+        trace(&quot;error loading base64 json file&quot;);
     }</code></pre>
 
             </div>
@@ -250,7 +275,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_WaudBase64Pack.hx.html#l65"><code>src&#x2F;WaudBase64Pack.hx:65</code></a>
+      <a href="../files/src_WaudBase64Pack.hx.html#l86"><code>src&#x2F;WaudBase64Pack.hx:86</code></a>
   </p>
 
 
@@ -329,7 +354,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/src_WaudBase64Pack.hx.html#l43"><code>src&#x2F;WaudBase64Pack.hx:43</code></a>
+      <a href="../files/src_WaudBase64Pack.hx.html#l57"><code>src&#x2F;WaudBase64Pack.hx:57</code></a>
   </p>
 
 

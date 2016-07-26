@@ -2,7 +2,7 @@
     "project": {
         "name": "waud.js",
         "description": "Web Audio Library",
-        "version": "0.6.4",
+        "version": "0.6.5",
         "url": "https://github.com/adireddy/waud"
     },
     "files": {
@@ -116,7 +116,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "src/WaudBase64Pack.hx",
-            "line": 12,
+            "line": 15,
             "description": "Class to load multiple base64 packed sounds from JSON.",
             "is_constructor": 1,
             "params": [
@@ -132,6 +132,12 @@
                     "optional": true
                 },
                 {
+                    "name": "onProgress",
+                    "description": "- on progress callback.",
+                    "type": "Float -> Void",
+                    "optional": true
+                },
+                {
                     "name": "onError",
                     "description": "- on error callback.",
                     "type": "Void> -> Void",
@@ -139,7 +145,7 @@
                 }
             ],
             "example": [
-                "\n\t\tvar base64pack = new WaudBase64Pack(\"assets/sounds.json\", _onLoad);\n\n\t\tfunction _onLoad(snds:Map<String, IWaudSound>) {\n\t\t\tsnds.get(\"assets/beep.mp3\").play();\n\t\t}"
+                "\n\t\tvar base64pack = new WaudBase64Pack(\"assets/sounds.json\", _onLoad, _onProgress, _onError);\n\n\t\tfunction _onLoad(snds:Map<String, IWaudSound>) {\n\t\t\tsnds.get(\"assets/beep.mp3\").play();\n\t\t}\n\n\t\tfunction _onProgress(val:Float) {\n\t\t\ttrace(\"loaded %: \" + val);\n\t\t}\n\n\t\tfunction _onError() {\n\t\t\ttrace(\"error loading base64 json file\");\n\t\t}"
             ]
         },
         "WaudFocusManager": {
@@ -726,7 +732,7 @@
         },
         {
             "file": "src/WaudBase64Pack.hx",
-            "line": 43,
+            "line": 57,
             "description": "Function to load Base64 JSON.",
             "access": "private",
             "tagname": "",
@@ -743,7 +749,7 @@
         },
         {
             "file": "src/WaudBase64Pack.hx",
-            "line": 65,
+            "line": 86,
             "description": "Function to create base64 sound.",
             "access": "private",
             "tagname": "",
