@@ -32,11 +32,12 @@ class Base64 extends Application {
 
 		_base64sounds = new Text("Base64 Sounds: ", { font: "20px Tahoma", fill:"#FFFFFF" });
 		_btnContainer.addChild(_base64sounds);
-		_addButton("Bell", 0, 40, 80, 30, function() { _bell.play(); });
-		_addButton("Glass", 80, 40, 80, 30, function() { _glass.play(); });
-		_addButton("Can", 160, 40, 80, 30, function() { _canopening.play(); });
-		_addButton("Countdown", 240, 40, 80, 30, function() { _countdown.play(); });
-		_addButton("Funk", 320, 40, 80, 30, function() { _funk100.play(); });
+		_addButton("Beep", 0, 40, 80, 30, function() { _beep.play(); });
+		_addButton("Bell", 80, 40, 80, 30, function() { _bell.play(); });
+		_addButton("Glass", 160, 40, 80, 30, function() { _glass.play(); });
+		_addButton("Can", 240, 40, 80, 30, function() { _canopening.play(); });
+		_addButton("Countdown", 320, 40, 80, 30, function() { _countdown.play(); });
+		_addButton("Funk", 400, 40, 80, 30, function() { _funk100.play(); });
 
 		_progress = new Text("", { font: "20px Tahoma", fill:"#FFFFFF" });
 		stage.addChild(_progress);
