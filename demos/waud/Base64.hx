@@ -9,7 +9,6 @@ class Base64 extends Application {
 	var _btnContainer:Container;
 
 	var _snd:WaudBase64Pack;
-	var _bsnd:WaudBase64Pack;
 	var _base64sounds:Text;
 	var _progress:Text;
 	var _beep:IWaudSound;
@@ -47,7 +46,6 @@ class Base64 extends Application {
 		Waud.autoMute();
 		Waud.enableTouchUnlock(touchUnlock);
 		_snd = new WaudBase64Pack("assets/sounds.json", _onLoad, _onProgress);
-		_bsnd = new WaudBase64Pack("assets/bsounds.json", _onBLoad, _onBProgress);
 
 		_resize();
 	}
@@ -57,10 +55,6 @@ class Base64 extends Application {
 		trace("assets/sounds.json: " + val);
 	}
 
-	function _onBProgress(val:Float) {
-		trace("assets/bsounds.json: " + val);
-	}
-
 	function _onLoad(snds:Map<String, IWaudSound>) {
 		_beep = snds.get("test/beep.mp3");
 		_bell = snds.get("test/bell.mp3");
@@ -68,10 +62,6 @@ class Base64 extends Application {
 		_canopening = snds.get("test/canopening.mp3");
 		_countdown = snds.get("test/countdown.mp3");
 		_funk100 = snds.get("test/funk100.mp3");
-	}
-
-	function _onBLoad(snds:Map<String, IWaudSound>) {
-		//snds.get("test/audio/ballCalls/1.mp3").play();
 	}
 
 	function touchUnlock() {
