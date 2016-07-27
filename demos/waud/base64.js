@@ -161,22 +161,19 @@ var Base64 = function() {
 	this.stage.addChild(this._btnContainer);
 	this._base64sounds = new PIXI.Text("Base64 Sounds: ",{ font : "20px Tahoma", fill : "#FFFFFF"});
 	this._btnContainer.addChild(this._base64sounds);
-	this._addButton("Beep",0,40,80,30,function() {
-		_g._beep.play();
-	});
-	this._addButton("Bell",80,40,80,30,function() {
+	this._addButton("Bell",0,40,80,30,function() {
 		_g._bell.play();
 	});
-	this._addButton("Glass",160,40,80,30,function() {
+	this._addButton("Glass",80,40,80,30,function() {
 		_g._glass.play();
 	});
-	this._addButton("Can",240,40,80,30,function() {
+	this._addButton("Can",160,40,80,30,function() {
 		_g._canopening.play();
 	});
-	this._addButton("Countdown",320,40,80,30,function() {
+	this._addButton("Countdown",240,40,80,30,function() {
 		_g._countdown.play();
 	});
-	this._addButton("Funk",400,40,80,30,function() {
+	this._addButton("Funk",320,40,80,30,function() {
 		_g._funk100.play();
 	});
 	this._progress = new PIXI.Text("",{ font : "20px Tahoma", fill : "#FFFFFF"});
@@ -1924,7 +1921,7 @@ var __map_reserved = {}
 msignal_SlotList.NIL = new msignal_SlotList(null,null);
 Waud.PROBABLY = "probably";
 Waud.MAYBE = "maybe";
-Waud.version = "0.6.5";
+Waud.version = "0.6.6";
 Waud.useWebAudio = true;
 Waud.defaults = { autoplay : false, autostop : true, loop : false, preload : true, webaudio : true, volume : 1};
 Waud.preferredSampleRate = 44100;
