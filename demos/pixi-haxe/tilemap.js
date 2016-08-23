@@ -147,6 +147,16 @@ Reflect.field = function(o,field) {
 Reflect.callMethod = function(o,func,args) {
 	return func.apply(o,args);
 };
+var haxe_Timer = function(time_ms) {
+	var me = this;
+	this.id = setInterval(function() {
+		me.run();
+	},time_ms);
+};
+haxe_Timer.prototype = {
+	run: function() {
+	}
+};
 var pixi_plugins_app_Application = function() {
 	this._animationFrameId = null;
 	this.pixelRatio = 1;
@@ -227,48 +237,58 @@ pixi_plugins_app_Application.prototype = {
 		if(window.Perf != null) new Perf().addInfo(["UNKNOWN","WEBGL","CANVAS"][this.renderer.type] + " - " + this.pixelRatio);
 	}
 };
-var samples_loader_Main = function() {
+var samples_tilemap_Main = function() {
 	pixi_plugins_app_Application.call(this);
 	this._init();
 };
-samples_loader_Main.main = function() {
-	new samples_loader_Main();
+samples_tilemap_Main.main = function() {
+	new samples_tilemap_Main();
 };
-samples_loader_Main.__super__ = pixi_plugins_app_Application;
-samples_loader_Main.prototype = $extend(pixi_plugins_app_Application.prototype,{
+samples_tilemap_Main.__super__ = pixi_plugins_app_Application;
+samples_tilemap_Main.prototype = $extend(pixi_plugins_app_Application.prototype,{
 	_init: function() {
-		pixi_plugins_app_Application.prototype.start.call(this);
-		this._baseURL = "assets/loader/";
+		this.onUpdate = $bind(this,this._onUpdate);
+		pixi_plugins_app_Application.prototype.start.call(this,"auto");
 		this._loader = new PIXI.loaders.Loader();
-		this._loader.baseUrl = this._baseURL;
-		var _g = 1;
-		while(_g < 10) {
-			var i = _g++;
-			this._loader.add("img" + i,i + ".png");
-		}
-		this._loader.on("progress",$bind(this,this._onLoadProgress));
-		this._loader.once("complete",$bind(this,this._onLoadComplete));
+		this._loader.baseUrl = "assets/tilemap/";
+		this._loader.add("atlas","atlas.json");
+		this._loader.add("button","button.png");
 		this._loader.load($bind(this,this._onLoaded));
 	}
-	,_onLoadProgress: function() {
-		console.log("Loaded: " + Math.round(this._loader.progress));
-	}
-	,_onLoadComplete: function(a,b) {
-		console.log(a);
-		console.log(b);
-	}
 	,_onLoaded: function() {
-		var _container = new PIXI.Container();
-		this.stage.addChild(_container);
-		var _g = 1;
-		while(_g < 11) {
+		var _g = this;
+		this._tilemap = new PIXI.tilemap.CompositeRectTileLayer();
+		this._tilemap.initialize(0,[this._loader.resources.atlas_image.texture],true);
+		this.stage.addChild(this._tilemap);
+		this._frame = 0;
+		var timer = new haxe_Timer(400);
+		timer.run = function() {
+			if(_g._frame == 0) _g._frame = 1; else _g._frame = 0;
+			_g.buildTilemap(_g._frame);
+		};
+	}
+	,buildTilemap: function(frame) {
+		this._tilemap.clear();
+		var resources = this._loader.resources;
+		var size = 32;
+		var _g = 0;
+		while(_g < 7) {
 			var i = _g++;
-			this._img = new PIXI.Sprite(PIXI.Texture.fromImage(this._baseURL + i + ".png"));
-			this._img.name = "img" + i;
-			if(i < 6) this._img.position.set(128 * (i - 1),0); else this._img.position.set(128 * (i - 6),128);
-			_container.addChild(this._img);
+			var _g1 = 0;
+			while(_g1 < 7) {
+				var j = _g1++;
+				this._tilemap.addFrame("grass.png",i * size,j * size);
+				if(i % 2 == 1 && j % 2 == 1) this._tilemap.addFrame("tough.png",i * size,j * size);
+			}
 		}
-		_container.position.set((window.innerWidth - _container.width) / 2,(window.innerHeight - _container.height) / 2);
+		var textures = resources.atlas.textures;
+		this._tilemap.addFrame(Reflect.field(textures,"brick.png"),2 * size,2 * size);
+		this._tilemap.addFrame(Reflect.field(textures,"brick_wall.png"),2 * size,3 * size);
+		console.log("frame : " + frame);
+		this._tilemap.addFrame(frame == 0?Reflect.field(textures,"chest.png"):Reflect.field(textures,"red_chest.png"),4 * size,4 * size);
+		this._tilemap.addFrame(resources.button.texture,6 * size,2 * size);
+	}
+	,_onUpdate: function(elapsedTime) {
 	}
 });
 var $_, $fid = 0;
@@ -286,7 +306,7 @@ Perf.MS_TXT_CLR = "#000000";
 Perf.MEM_TXT_CLR = "#FFFFFF";
 Perf.INFO_TXT_CLR = "#000000";
 Perf.DELAY_TIME = 4000;
-samples_loader_Main.main();
+samples_tilemap_Main.main();
 })(typeof console != "undefined" ? console : {log:function(){}}, typeof window != "undefined" ? window : exports);
 
-//# sourceMappingURL=loader.js.map
+//# sourceMappingURL=tilemap.js.map
