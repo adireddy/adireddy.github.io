@@ -1062,10 +1062,6 @@ arm_cohere_components_bunnymark_BunnymarkController.prototype = $extend(arm_cohe
 	,__class__: arm_cohere_components_bunnymark_BunnymarkController
 });
 var arm_cohere_components_bunnymark_BunnymarkView = function(mainView,viewName) {
-	this._count = 0;
-	this._gravity = 0.5;
-	this._bunnyTextures = [];
-	this._bunnys = [];
 	arm_cohere_core_components_ComponentView.call(this,mainView,viewName);
 };
 $hxClasses["arm.cohere.components.bunnymark.BunnymarkView"] = arm_cohere_components_bunnymark_BunnymarkView;
@@ -1076,6 +1072,10 @@ arm_cohere_components_bunnymark_BunnymarkView.prototype = $extend(arm_cohere_cor
 		this.loader.addAsset("bunnymark_bunnys","bunnymark/bunnys.png");
 	}
 	,start: function() {
+		this._bunnys = [];
+		this._bunnyTextures = [];
+		this._gravity = 0.5;
+		this._count = 0;
 		this._maxX = window.innerWidth;
 		this._maxY = window.innerHeight;
 		this._counter = new PIXI.Text("0 BUNNIES (touch/click to add)",{ fill : "#105CB6", font : "bold 12px Courier"});
@@ -1741,9 +1741,9 @@ arm_cohere_controller_Controller.prototype = {
 		var _g = 0;
 		var _g1 = this._componentViews;
 		while(_g < _g1.length) {
-			var view = _g1[_g];
+			var componentView = _g1[_g];
 			++_g;
-			view.addAssetsToLoad();
+			componentView.addAssetsToLoad();
 		}
 		this._loader.start($bind(this,this._onPreloadingComplete));
 	}
@@ -1817,9 +1817,9 @@ arm_cohere_controller_Controller.prototype = {
 		var _g = 0;
 		var _g1 = this._componentViews;
 		while(_g < _g1.length) {
-			var view = _g1[_g];
+			var componentView = _g1[_g];
 			++_g;
-			view.applyIndex();
+			componentView.applyIndex();
 		}
 	}
 	,_setupComponent: function(modelClass,viewClass,controllerClass) {
@@ -2069,12 +2069,14 @@ arm_cohere_model_Model.prototype = {
 	,init: function() {
 	}
 	,set_preloaderReady: function(val) {
-		if(val) this.addAssets.dispatch();
-		return this.preloaderReady = val;
+		this.preloaderReady = val;
+		if(this.preloaderReady) this.addAssets.dispatch();
+		return this.preloaderReady;
 	}
 	,set_fps: function(val) {
-		this.updateFps.dispatch(val);
-		return this.fps = val;
+		this.fps = val;
+		this.updateFps.dispatch(this.fps);
+		return this.fps;
 	}
 	,__class__: arm_cohere_model_Model
 	,__properties__: {set_currentDemo:"set_currentDemo",get_currentDemoChanged:"get_currentDemoChanged",set_fps:"set_fps",set_preloaderReady:"set_preloaderReady"}
@@ -21480,7 +21482,7 @@ var Class = $hxClasses.Class = { __name__ : ["Class"]};
 var Enum = { };
 var __map_reserved = {}
 msignal_SlotList.NIL = new msignal_SlotList(null,null);
-AssetsList.LIST = ["assets/@1x/.DS_Store","assets/@2x/.DS_Store","assets/sounds/bg.mp3","assets/sounds/loop.mp3","assets/sounds/sound1.wav","assets/sounds/sound2.wav","assets/sounds/sound3.wav","assets/sounds/sound4.wav","assets/@1x/alphamask/bkg.jpg","assets/@1x/alphamask/cells.png","assets/@1x/alphamask/flowerTop.png","assets/@1x/bunnymark/.DS_Store","assets/@1x/bunnymark/bunnys.png","assets/@1x/common/button.png","assets/@1x/filters/BGrotate.jpg","assets/@1x/filters/depth_blur_BG.jpg","assets/@1x/filters/depth_blur_dudes.jpg","assets/@1x/filters/depth_blur_moby.jpg","assets/@1x/filters/LightRotate1.png","assets/@1x/filters/LightRotate2.png","assets/@1x/filters/panda.png","assets/@1x/filters/SceneRotate.jpg","assets/@1x/fonts/desyrel.png","assets/@1x/fonts/desyrel.ttf","assets/@1x/fonts/desyrel.xml","assets/@1x/graphics/spinObj_01.png","assets/@1x/graphics/spinObj_02.png","assets/@1x/graphics/spinObj_03.png","assets/@1x/graphics/spinObj_04.png","assets/@1x/graphics/spinObj_05.png","assets/@1x/graphics/spinObj_06.png","assets/@1x/graphics/spinObj_07.png","assets/@1x/graphics/spinObj_08.png","assets/@1x/movieclip/.DS_Store","assets/@1x/movieclip/SpriteSheet.json","assets/@1x/movieclip/SpriteSheet.png","assets/@1x/nape/.DS_Store","assets/@1x/nape/ball.png","assets/@1x/preloader/logo.png","assets/@1x/rendertexture/spinObj_01.png","assets/@1x/rendertexture/spinObj_02.png","assets/@1x/rendertexture/spinObj_03.png","assets/@1x/rendertexture/spinObj_04.png","assets/@1x/rendertexture/spinObj_05.png","assets/@1x/rendertexture/spinObj_06.png","assets/@1x/rendertexture/spinObj_07.png","assets/@1x/rendertexture/spinObj_08.png","assets/@1x/retina/img.jpg","assets/@1x/rope/snake.png","assets/@1x/spine/.DS_Store","assets/@1x/spine/dragon.atlas","assets/@1x/spine/dragon.json","assets/@1x/spine/dragon.png","assets/@1x/spine/dragon2.png","assets/@1x/spine/goblins.atlas","assets/@1x/spine/goblins.json","assets/@1x/spine/goblins.png","assets/@1x/spine/iP4_BGtile.jpg","assets/@1x/spine/iP4_ground.png","assets/@1x/spine/Pixie.atlas","assets/@1x/spine/Pixie.json","assets/@1x/spine/Pixie.png","assets/@1x/spine/spineboy.atlas","assets/@1x/spine/spineboy.json","assets/@1x/spine/spineboy.png","assets/@1x/spritesheet/.DS_Store","assets/@1x/spritesheet/fighter.json","assets/@1x/spritesheet/fighter.png","assets/@1x/spritesheet/SpriteSheet.json","assets/@1x/spritesheet/SpriteSheet.png","assets/@1x/tiling/p2.jpeg","assets/@2x/preloader/logo.png","assets/@2x/retina/img.jpg",""];
+AssetsList.LIST = ["assets/.DS_Store","assets/@1x/.DS_Store","assets/@2x/.DS_Store","assets/sounds/bg.mp3","assets/sounds/loop.mp3","assets/sounds/sound1.wav","assets/sounds/sound2.wav","assets/sounds/sound3.wav","assets/sounds/sound4.wav","assets/@1x/alphamask/bkg.jpg","assets/@1x/alphamask/cells.png","assets/@1x/alphamask/flowerTop.png","assets/@1x/bunnymark/.DS_Store","assets/@1x/bunnymark/bunnys.png","assets/@1x/common/button.png","assets/@1x/filters/BGrotate.jpg","assets/@1x/filters/depth_blur_BG.jpg","assets/@1x/filters/depth_blur_dudes.jpg","assets/@1x/filters/depth_blur_moby.jpg","assets/@1x/filters/LightRotate1.png","assets/@1x/filters/LightRotate2.png","assets/@1x/filters/panda.png","assets/@1x/filters/SceneRotate.jpg","assets/@1x/fonts/desyrel.png","assets/@1x/fonts/desyrel.ttf","assets/@1x/fonts/desyrel.xml","assets/@1x/graphics/spinObj_01.png","assets/@1x/graphics/spinObj_02.png","assets/@1x/graphics/spinObj_03.png","assets/@1x/graphics/spinObj_04.png","assets/@1x/graphics/spinObj_05.png","assets/@1x/graphics/spinObj_06.png","assets/@1x/graphics/spinObj_07.png","assets/@1x/graphics/spinObj_08.png","assets/@1x/movieclip/.DS_Store","assets/@1x/movieclip/SpriteSheet.json","assets/@1x/movieclip/SpriteSheet.png","assets/@1x/nape/.DS_Store","assets/@1x/nape/ball.png","assets/@1x/preloader/logo.png","assets/@1x/rendertexture/spinObj_01.png","assets/@1x/rendertexture/spinObj_02.png","assets/@1x/rendertexture/spinObj_03.png","assets/@1x/rendertexture/spinObj_04.png","assets/@1x/rendertexture/spinObj_05.png","assets/@1x/rendertexture/spinObj_06.png","assets/@1x/rendertexture/spinObj_07.png","assets/@1x/rendertexture/spinObj_08.png","assets/@1x/retina/img.jpg","assets/@1x/rope/snake.png","assets/@1x/spine/.DS_Store","assets/@1x/spine/dragon.atlas","assets/@1x/spine/dragon.json","assets/@1x/spine/dragon.png","assets/@1x/spine/dragon2.png","assets/@1x/spine/goblins.atlas","assets/@1x/spine/goblins.json","assets/@1x/spine/goblins.png","assets/@1x/spine/iP4_BGtile.jpg","assets/@1x/spine/iP4_ground.png","assets/@1x/spine/Pixie.atlas","assets/@1x/spine/Pixie.json","assets/@1x/spine/Pixie.png","assets/@1x/spine/spineboy.atlas","assets/@1x/spine/spineboy.json","assets/@1x/spine/spineboy.png","assets/@1x/spritesheet/.DS_Store","assets/@1x/spritesheet/fighter.json","assets/@1x/spritesheet/fighter.png","assets/@1x/spritesheet/SpriteSheet.json","assets/@1x/spritesheet/SpriteSheet.png","assets/@1x/tiling/p2.jpeg","assets/@2x/preloader/logo.png","assets/@2x/retina/img.jpg",""];
 CompileTimeClassList.__meta__ = { obj : { classLists : [["null,true,arm.cohere.core.components.ComponentModel",""],["null,true,arm.cohere.core.components.ComponentView","arm.cohere.components.bg.BgView,arm.cohere.components.bitmapfont.BitmapfontView,arm.cohere.components.bunnymark.BunnymarkView,arm.cohere.components.graphics.GraphicsView,arm.cohere.components.menu.MenuView,arm.cohere.components.physics.PhysicsView,arm.cohere.components.preloader.PreloaderView,arm.cohere.components.retina.RetinaView,arm.cohere.components.rope.RopeView,arm.cohere.components.spritesheet.SpritesheetView,arm.cohere.components.tween.TweenView"],["null,true,arm.cohere.core.components.ComponentController","arm.cohere.components.bg.BgController,arm.cohere.components.bitmapfont.BitmapfontController,arm.cohere.components.bunnymark.BunnymarkController,arm.cohere.components.graphics.GraphicsController,arm.cohere.components.menu.MenuController,arm.cohere.components.physics.PhysicsController,arm.cohere.components.preloader.PreloaderController,arm.cohere.components.retina.RetinaController,arm.cohere.components.rope.RopeController,arm.cohere.components.spritesheet.SpritesheetController,arm.cohere.components.tween.TweenController"]]}};
 IWaudSound.__meta__ = { obj : { 'interface' : null}};
 Perf.MEASUREMENT_INTERVAL = 1000;
