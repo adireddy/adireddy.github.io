@@ -287,7 +287,7 @@ loader_Main.prototype = $extend(pixi_plugins_app_Application.prototype,{
 			}
 			if(e.lengthComputable) progress = e.loaded / e.total; else progress = e.loaded / totalSize;
 			if(progress > 1) progress = 1;
-			_g._label.text = "Loaded: " + Math.round(progress) * 100 + "%";
+			_g._label.text = "Loaded: " + progress * 100 + "%";
 		};
 		xobj.onreadystatechange = function() {
 			if(xobj.readyState == 4 && xobj.status == 200) {
