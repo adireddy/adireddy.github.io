@@ -283,6 +283,7 @@ loader_Main.prototype = $extend(pixi_plugins_app_Application.prototype,{
 			_g._label.text = "Loaded: " + Math.round(progress * 100) + "%";
 		};
 		xobj.onload = function() {
+			_g._label.text = "Loaded: " + "100%";
 			_g._loadTime = new Date().getTime() - _g._startTime;
 			_g._label.text += "\nLoad Time: " + _g._loadTime / 1000 + " secs";
 		};
