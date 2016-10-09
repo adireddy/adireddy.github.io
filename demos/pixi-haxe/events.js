@@ -239,7 +239,6 @@ events_Main.prototype = $extend(pixi_plugins_app_Application.prototype,{
 	_init: function() {
 		var _g = this;
 		this.backgroundColor = 16777215;
-		this.set_fps(5);
 		pixi_plugins_app_Application.prototype.start.call(this);
 		this._img = new PIXI.Sprite(PIXI.Texture.fromImage("assets/basics/bunny.png"));
 		this._img.position.set(400,300);
