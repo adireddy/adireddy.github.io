@@ -9,11 +9,11 @@ Reflect.field = function(o,field) {
 };
 var webglinfo_Main = function() {
 	this.contextName = "";
-	var checkSupport = this.detectWebGL({ stencil : true, alpha : true, premultipliedAlpha : true});
+	var checkSupport = this.detectWebGL({ stencil : true});
 	this.log("WebGL Support",(checkSupport == null?"null":"" + checkSupport) + " " + this.contextName);
 	if(checkSupport) this.displayWebGLProperties();
 	this.log("---------------------------------------------------");
-	checkSupport = this.detectWebGL({ stencil : true, alpha : true, premultipliedAlpha : true, failIfMajorPerformanceCaveat : true});
+	checkSupport = this.detectWebGL({ stencil : true, failIfMajorPerformanceCaveat : true});
 	this.log("WebGL Support (performance caveat set to true)",(checkSupport == null?"null":"" + checkSupport) + " " + this.contextName);
 };
 webglinfo_Main.main = function() {

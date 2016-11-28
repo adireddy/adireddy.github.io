@@ -19,6 +19,7 @@ var basics_Main = function() {
 	this._graphic.on("click",function(evt) {
 		console.log(evt);
 	});
+	this._graphic.alpha = 0.4;
 	this._container.addChild(this._graphic);
 	window.document.body.appendChild(this._renderer.view);
 	window.requestAnimationFrame($bind(this,this._animate));
