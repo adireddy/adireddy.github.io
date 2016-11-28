@@ -10,6 +10,7 @@ var basics_Main = function() {
 	this._bunny = new PIXI.Sprite(PIXI.Texture.fromImage("assets/basics/bunny.png"));
 	this._bunny.anchor.set(0.5);
 	this._bunny.position.set(400,300);
+	this._bunny.alpha = 0.5;
 	this._container.addChild(this._bunny);
 	this._graphic = new PIXI.Graphics();
 	this._graphic.beginFill(16711680,0.4);
@@ -19,7 +20,6 @@ var basics_Main = function() {
 	this._graphic.on("click",function(evt) {
 		console.log(evt);
 	});
-	this._graphic.alpha = 0.4;
 	this._container.addChild(this._graphic);
 	window.document.body.appendChild(this._renderer.view);
 	window.requestAnimationFrame($bind(this,this._animate));
