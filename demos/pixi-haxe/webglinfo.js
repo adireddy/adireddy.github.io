@@ -13,7 +13,7 @@ var webglinfo_Main = function() {
 	this.log("WebGL Support",(checkSupport == null?"null":"" + checkSupport) + " " + this.contextName);
 	if(checkSupport) this.displayWebGLProperties();
 	this.log("---------------------------------------------------");
-	checkSupport = this.detectWebGL({ stencil : true, failIfMajorPerformanceCaveat : true});
+	checkSupport = this.detectWebGL({ stencil : true, alpha : true, failIfMajorPerformanceCaveat : true});
 	this.log("WebGL Support (performance caveat set to true)",(checkSupport == null?"null":"" + checkSupport) + " " + this.contextName);
 };
 webglinfo_Main.main = function() {
