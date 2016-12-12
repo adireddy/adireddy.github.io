@@ -1,0 +1,30 @@
+{
+    "landscape": [
+	{
+	    "width": 480,
+	    "height": 320
+	},
+	{
+	    "width": 728,
+	    "height": 392
+	},
+	{
+	    "width": 1024,
+	    "height": 648
+	}
+    ],
+    "portrait": [
+	{
+	    "width": 320,
+	    "height": 480
+	},
+	{
+	    "width": 392,
+	    "height": 728
+	},
+	{
+	    "width": 648,
+	    "height": 1024
+	}
+    ]
+}
