@@ -2426,15 +2426,11 @@ matchit_components_tiles_TilesView.prototype = $extend(matchit_core_components_C
 		this._movesCountTxt = new PIXI.Text("",style1);
 		this._movesCountTxt.anchor.set(0,1);
 		this._container.addChild(this._movesCountTxt);
-		this._movesTimeTxt = new PIXI.Text("",style1);
-		this._movesTimeTxt.anchor.set(1,0);
-		this._container.addChild(this._movesTimeTxt);
 		this._bestTxt = new PIXI.Text("",style1);
-		this._bestTxt.anchor.set(0.5,1);
+		this._bestTxt.anchor.set(1,0);
 		this._container.addChild(this._bestTxt);
 		matchit_Main.resize.add($bind(this,this._resize));
 		this._ls = js_Browser.getLocalStorage();
-		if(this._ls.getItem("best") != null) this._bestTxt.text = this._ls.getItem("best");
 	}
 	,addAssetsToLoad: function() {
 		this.loader.addAudioAsset("audio_applause","audio/applause.mp3");
@@ -2464,8 +2460,7 @@ matchit_components_tiles_TilesView.prototype = $extend(matchit_core_components_C
 	,drawTiles: function(drawCount) {
 		this._tileCount = drawCount;
 		if(!this._tilesLoaded) return;
-		this._startTime = new Date().getSeconds();
-		matchit_Main.update.add($bind(this,this._update));
+		if(this._ls.getItem("best" + this._tileCount) != null) this._bestTxt.text = this._ls.getItem("best" + this._tileCount); else this._bestTxt.text = "Best: Not Available";
 		this._movesCounter = 0;
 		this._matchCount = 0;
 		this._movesTime = 0;
@@ -2511,12 +2506,11 @@ matchit_components_tiles_TilesView.prototype = $extend(matchit_core_components_C
 				if(this._matchCount == this._tileCount) {
 					this.loader.playAudio("audio_wow");
 					this.loader.playAudio("audio_applause");
-					matchit_Main.update.remove($bind(this,this._update));
 					var bestMoves = this._ls.getItem("bestMoves");
 					var bestTime = this._ls.getItem("bestTime");
 					if(bestMoves == null) bestMoves = "0";
 					if(bestTime == null) bestTime = "0";
-					if(Std.parseInt(bestMoves) < this._movesCounter && Std.parseInt(bestTime) < this._movesTime) this._ls.setItem("best","Best - " + this._movesCounter + " moves in " + this._movesTime);
+					if(Std.parseInt(bestMoves) < this._movesCounter) this._ls.setItem("best" + this._tileCount,"Best: " + this._movesCounter + " moves");
 				}
 				this.loader.playAudio("audio_nice");
 			} else {
@@ -2633,23 +2627,17 @@ matchit_components_tiles_TilesView.prototype = $extend(matchit_core_components_C
 		this._determineRowMax();
 		this._positionTiles();
 		this._tilesContainer.position.set((this.stageProperties.screenWidth - this._tilesContainer.width) / 2,(this.stageProperties.screenHeight - this._tilesContainer.height) / 2);
-		if(this._tilesContainer.position.y < 50 || this._tilesContainer.position.x < 50) {
+		if(this._tilesContainer.position.y < 40 || this._tilesContainer.position.x < 40) {
 			this._tilesContainer.scale.set(this._tilesContainer.scale.x - 0.01,this._tilesContainer.scale.y - 0.01);
 			this._resize();
-		} else if(this._tilesContainer.position.y > 80 && this._tilesContainer.position.x > 80) {
+		} else if(this._tilesContainer.position.y > 60 && this._tilesContainer.position.x > 60) {
 			this._tilesContainer.scale.set(this._tilesContainer.scale.x + 0.01,this._tilesContainer.scale.y + 0.01);
 			this._resize();
 		}
 		this._movesCountTxt.position.set(0,this.stageProperties.screenHeight);
-		this._movesTimeTxt.position.set(this.stageProperties.screenWidth,this.stageProperties.screenHeight - this._movesCountTxt.height);
-		this._bestTxt.position.set(this.stageProperties.screenWidth / 2,this.stageProperties.screenHeight);
-	}
-	,_update: function(t) {
-		this._movesTime = new Date().getSeconds() - this._startTime;
-		this._movesTimeTxt.text = matchit_core_utils_TimeUtils.convertToHHMMSS(this._movesTime);
+		this._bestTxt.position.set(this.stageProperties.screenWidth,this.stageProperties.screenHeight - this._movesCountTxt.height);
 	}
 	,reset: function() {
-		matchit_Main.update.remove($bind(this,this._update));
 		this._firstOpenTile = null;
 		this._secondOpenTile = null;
 		this._tileCount = 0;
@@ -2660,7 +2648,7 @@ matchit_components_tiles_TilesView.prototype = $extend(matchit_core_components_C
 		this._movesCounter = 0;
 		this._movesTime = 0;
 		this._movesCountTxt.text = "";
-		this._movesTimeTxt.text = "";
+		this._bestTxt.text = "";
 	}
 	,__class__: matchit_components_tiles_TilesView
 });
@@ -2992,23 +2980,6 @@ $hxClasses["matchit.core.utils.StageProperties"] = matchit_core_utils_StagePrope
 matchit_core_utils_StageProperties.__name__ = ["matchit","core","utils","StageProperties"];
 matchit_core_utils_StageProperties.prototype = {
 	__class__: matchit_core_utils_StageProperties
-};
-var matchit_core_utils_TimeUtils = function() { };
-$hxClasses["matchit.core.utils.TimeUtils"] = matchit_core_utils_TimeUtils;
-matchit_core_utils_TimeUtils.__name__ = ["matchit","core","utils","TimeUtils"];
-matchit_core_utils_TimeUtils.convertToHHMMSS = function(seconds) {
-	var s = seconds % 60;
-	var m = Math.floor(seconds % 3600 / 60);
-	var h = Math.floor(seconds / 3600);
-	var hourStr;
-	if(h == 0) hourStr = ""; else hourStr = matchit_core_utils_TimeUtils.doubleDigitFormat(h) + ":";
-	var minuteStr = matchit_core_utils_TimeUtils.doubleDigitFormat(m) + ":";
-	var secondsStr = matchit_core_utils_TimeUtils.doubleDigitFormat(s);
-	return hourStr + minuteStr + secondsStr;
-};
-matchit_core_utils_TimeUtils.doubleDigitFormat = function(num) {
-	if(num < 10) return "0" + num;
-	return "" + num;
 };
 var matchit_model_Model = function() {
 	this.addAssets = new msignal_Signal0();
