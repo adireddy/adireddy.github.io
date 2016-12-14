@@ -2060,16 +2060,19 @@ matchit_components_categories_CategoriesView.prototype = $extend(matchit_core_co
 		var _g = this;
 		var style = { };
 		style.fill = 13158;
-		style.fontSize = 16;
-		this._creditsTxt = new PIXI.Text("Icons designed by Freepik from Flaticon",style);
+		style.fontSize = 14;
+		style.fontFamily = "Tahoma";
+		this._creditsTxt = new PIXI.Text("Icons designed by Freepik from Flaticon",style,this.stageProperties.pixelRatio);
 		this._creditsTxt.anchor.set(0.5,1.2);
 		this._creditsTxt.interactive = true;
 		this._creditsTxt.click = this._creditsTxt.tap = function(evt) {
 			window.open("http://www.flaticon.com/","_blank");
 		};
+		this._container.addChild(this._creditsTxt);
 		this._select = new PIXI.Sprite(this.loader.getTexture("categories_button_select_a_category"));
-		this._select.position.y = 30;
+		this._select.position.y = 22.5;
 		this._select.anchor.x = 0.5;
+		this._container.addChild(this._select);
 		this._christmas = new PIXI.Sprite(this.loader.getTexture("categories_christmas"));
 		this._categoriesContainer.addChild(this._christmas);
 		this._emoticons = new PIXI.Sprite(this.loader.getTexture("categories_emoticons"));
@@ -2133,6 +2136,9 @@ matchit_components_categories_CategoriesView.prototype = $extend(matchit_core_co
 	,_resize: function() {
 		this._positionCategories();
 		this._categoriesContainer.position.set((this.stageProperties.screenWidth - this._categoriesContainer.width) / 2,(this.stageProperties.screenHeight - this._categoriesContainer.height) / 2);
+		this._categoriesContainer.position.y += 7.5;
+		this._creditsTxt.position.set(this.stageProperties.screenWidth / 2,this.stageProperties.screenHeight);
+		this._select.position.x = this.stageProperties.screenWidth / 2;
 	}
 	,__class__: matchit_components_categories_CategoriesView
 });
@@ -2473,13 +2479,14 @@ matchit_components_tiles_TilesView.prototype = $extend(matchit_core_components_C
 		this._tilesLoaded = false;
 		this._tilesContainer = new PIXI.Container();
 		this._container.addChild(this._tilesContainer);
-		var style1 = { };
-		style1.fill = 13158;
-		style1.fontSize = 16;
-		this._movesCountTxt = new PIXI.Text("",style1);
+		var style = { };
+		style.fill = 13158;
+		style.fontSize = 15;
+		style.fontFamily = "Tahoma";
+		this._movesCountTxt = new PIXI.Text("",style,this.stageProperties.pixelRatio);
 		this._movesCountTxt.anchor.set(0,1);
 		this._container.addChild(this._movesCountTxt);
-		this._bestTxt = new PIXI.Text("",style1);
+		this._bestTxt = new PIXI.Text("",style,this.stageProperties.pixelRatio);
 		this._bestTxt.anchor.set(1,0);
 		this._container.addChild(this._bestTxt);
 		matchit_Main.resize.add($bind(this,this._resize));
@@ -2528,9 +2535,11 @@ matchit_components_tiles_TilesView.prototype = $extend(matchit_core_components_C
 		while(_g1 < _g) {
 			var i = _g1++;
 			tileId = Std.random(this._availableTilesCount) + 1;
+			while(HxOverrides.indexOf(tileIds,tileId,0) > -1) tileId = Std.random(this._availableTilesCount) + 1;
 			tileIds.push(tileId);
 			this._createTile(tileId,scale,i);
 		}
+		console.log(tileIds);
 		var id = 0;
 		var _g11 = this._tileCount / 2 | 0;
 		var _g2 = this._tileCount;
@@ -2579,7 +2588,7 @@ matchit_components_tiles_TilesView.prototype = $extend(matchit_core_components_C
 				this.loader.playAudio("audio_nice");
 			} else {
 				this.loader.playAudio("audio_uhoh");
-				haxe_Timer.delay($bind(this,this._resetTiles),1000);
+				haxe_Timer.delay($bind(this,this._resetTiles),800);
 			}
 			if(this._clickTimer != null) this._clickTimer.stop();
 		} else this._clickTimer = haxe_Timer.delay($bind(this,this.resetTile),2000);
