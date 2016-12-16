@@ -2546,7 +2546,7 @@ matchit_components_tiles_TilesView.prototype = $extend(matchit_core_components_C
 		this._tilesContainer = new PIXI.Container();
 		this._container.addChild(this._tilesContainer);
 		var style = { };
-		style.fill = 3833643;
+		style.fill = 1462556;
 		style.fontSize = this._getTextSize();
 		style.fontFamily = "Covered By Your Grace";
 		this._movesCountTxt = new PIXI.Text("",style,this.stageProperties.pixelRatio);
@@ -2806,9 +2806,9 @@ matchit_components_tiles_TilesView.prototype = $extend(matchit_core_components_C
 		this._bestTxt.text = "";
 	}
 	,_getTextSize: function() {
-		if(this.stageProperties.bucketWidth == 1024 || this.stageProperties.bucketHeight == 1024) return 28;
-		if(this.stageProperties.bucketWidth == 728 || this.stageProperties.bucketHeight == 728) return 24;
-		return 14;
+		if(this.stageProperties.bucketWidth == 1024 || this.stageProperties.bucketHeight == 1024) return 32;
+		if(this.stageProperties.bucketWidth == 728 || this.stageProperties.bucketHeight == 728) return 26;
+		return 18;
 	}
 	,__class__: matchit_components_tiles_TilesView
 });
