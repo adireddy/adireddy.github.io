@@ -2667,7 +2667,7 @@ matchit_components_tiles_TilesView.prototype = $extend(matchit_core_components_C
 				haxe_Timer.delay($bind(this,this._resetTiles),800);
 			}
 			if(this._clickTimer != null) this._clickTimer.stop();
-		} else this._clickTimer = haxe_Timer.delay($bind(this,this.resetTile),2000);
+		}
 	}
 	,_resetTiles: function() {
 		if(this._firstOpenTile != null) this._firstOpenTile.reset();
