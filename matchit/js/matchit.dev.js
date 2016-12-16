@@ -1976,7 +1976,7 @@ matchit_components_backgrounds_BackgroundsView.prototype = $extend(matchit_core_
 		matchit_Main.resize.add($bind(this,this._resize));
 	}
 	,addAssetsToLoad: function() {
-		this.loader.addAsset("backgrounds_bg","backgrounds/bg.jpg");
+		this.loader.addAsset("backgrounds_bg","backgrounds/alchemy.jpg");
 	}
 	,showBg: function() {
 		this._bg = new PIXI.extras.TilingSprite(this.loader.getTexture("backgrounds_bg"),this.stageProperties.screenWidth,this.stageProperties.screenHeight);
@@ -2085,9 +2085,9 @@ matchit_components_categories_CategoriesView.prototype = $extend(matchit_core_co
 		this._categoriesContainer.addChild(this._christmas);
 		this._emoticons = new matchit_components_categories_Category(this.loader.getTexture("categories_emoticons"),"emoticons",this.stageProperties,0);
 		this._categoriesContainer.addChild(this._emoticons);
-		this._avatars = new matchit_components_categories_Category(this.loader.getTexture("categories_avatars"),"avatars",this.stageProperties,16523304);
+		this._avatars = new matchit_components_categories_Category(this.loader.getTexture("categories_avatars"),"avatars",this.stageProperties,6710886);
 		this._categoriesContainer.addChild(this._avatars);
-		this._pokeman = new matchit_components_categories_Category(this.loader.getTexture("categories_pokeman"),"pokeman",this.stageProperties,7024560);
+		this._pokeman = new matchit_components_categories_Category(this.loader.getTexture("categories_pokeman"),"pokeman",this.stageProperties,13897754);
 		this._categoriesContainer.addChild(this._pokeman);
 		this._social = new matchit_components_categories_Category(this.loader.getTexture("categories_social"),"social",this.stageProperties,5249686);
 		this._categoriesContainer.addChild(this._social);
