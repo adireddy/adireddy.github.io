@@ -2808,7 +2808,7 @@ matchit_components_tiles_TilesView.prototype = $extend(matchit_core_components_C
 	,_getTextSize: function() {
 		if(this.stageProperties.bucketWidth == 1024 || this.stageProperties.bucketHeight == 1024) return 32;
 		if(this.stageProperties.bucketWidth == 728 || this.stageProperties.bucketHeight == 728) return 26;
-		return 18;
+		return 20;
 	}
 	,__class__: matchit_components_tiles_TilesView
 });
