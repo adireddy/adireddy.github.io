@@ -2081,11 +2081,11 @@ matchit_components_categories_CategoriesView.prototype = $extend(matchit_core_co
 		this._select = new PIXI.Text("CHOOSE A CATEGORY",style,this.stageProperties.pixelRatio);
 		this._select.anchor.set(0.5);
 		this._container.addChild(this._select);
-		this._christmas = new matchit_components_categories_Category(this.loader.getTexture("categories_christmas"),"christmas",this.stageProperties,46228);
+		this._christmas = new matchit_components_categories_Category(this.loader.getTexture("categories_christmas"),"christmas",this.stageProperties,436620);
 		this._categoriesContainer.addChild(this._christmas);
 		this._emoticons = new matchit_components_categories_Category(this.loader.getTexture("categories_emoticons"),"emoticons",this.stageProperties,0);
 		this._categoriesContainer.addChild(this._emoticons);
-		this._avatars = new matchit_components_categories_Category(this.loader.getTexture("categories_avatars"),"avatars",this.stageProperties,6544594);
+		this._avatars = new matchit_components_categories_Category(this.loader.getTexture("categories_avatars"),"avatars",this.stageProperties,6710886);
 		this._categoriesContainer.addChild(this._avatars);
 		this._pokeman = new matchit_components_categories_Category(this.loader.getTexture("categories_pokeman"),"pokeman",this.stageProperties,13897754);
 		this._categoriesContainer.addChild(this._pokeman);
@@ -2631,7 +2631,7 @@ matchit_components_tiles_TilesView.prototype = $extend(matchit_core_components_C
 		this._tiles = Random.shuffle(this._tiles);
 		this._resize();
 		this._showAll();
-		haxe_Timer.delay($bind(this,this._hideAll),1000);
+		haxe_Timer.delay($bind(this,this._hideAll),this._getShowAllTime());
 	}
 	,_showAll: function() {
 		var _g = 0;
@@ -2797,6 +2797,19 @@ matchit_components_tiles_TilesView.prototype = $extend(matchit_core_components_C
 			return 0.4;
 		default:
 			return 1;
+		}
+	}
+	,_getShowAllTime: function() {
+		var _g = this._tileCount;
+		switch(_g) {
+		case 12:
+			return 1000;
+		case 24:
+			return 1500;
+		case 48:
+			return 2000;
+		default:
+			return 800;
 		}
 	}
 	,_resize: function() {
@@ -4528,7 +4541,6 @@ matchit_components_quickmenu_QuickMenuController.__meta__ = { fields : { view : 
 matchit_components_quickmenu_QuickMenuView.GAP = 5;
 matchit_components_tiles_TilesController.__meta__ = { fields : { view : { type : ["matchit.components.tiles.TilesView"], inject : null}}};
 matchit_components_tiles_TilesView.GAP = 15;
-matchit_components_tiles_TilesView.SHOW_ALL_TIME = 1000;
 matchit_components_tiles_TilesView.RESET_DELAY_TIME = 800;
 matchit_controller_Controller.__meta__ = { fields : { model : { type : ["matchit.model.Model"], inject : null}, view : { type : ["matchit.view.View"], inject : null}, stageProperties : { type : ["matchit.core.utils.StageProperties"], inject : null}}};
 matchit_view_View.__meta__ = { fields : { loader : { type : ["matchit.core.loader.AssetLoader"], inject : null}}};
