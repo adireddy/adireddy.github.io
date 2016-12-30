@@ -12,7 +12,7 @@ var basics_Main = function() {
 	this._bunny.position.set(400,300);
 	this._container.addChild(this._bunny);
 	this._graphic = new PIXI.Graphics();
-	this._graphic.beginFill(13158,0.5);
+	this._graphic.beginFill(16711680,0.4);
 	this._graphic.drawRect(200,150,400,300);
 	this._graphic.endFill();
 	this._graphic.interactive = true;
