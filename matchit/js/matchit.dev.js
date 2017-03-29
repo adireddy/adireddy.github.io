@@ -2804,10 +2804,10 @@ matchit_components_backgrounds_BackgroundsView.prototype = $extend(matchit_core_
 		matchit_Main.resize.add($bind(this,this._resize));
 	}
 	,addAssetsToLoad: function() {
-		this.loader.addAsset("backgrounds_blue","backgrounds/blue.jpg");
+		this.loader.addAsset("backgrounds_bg","backgrounds/bg.jpg");
 	}
 	,showBg: function() {
-		this._bg = new PIXI.extras.TilingSprite(this.loader.getTexture("backgrounds_blue"),this.stageProperties.screenWidth,this.stageProperties.screenHeight);
+		this._bg = new PIXI.extras.TilingSprite(this.loader.getTexture("backgrounds_bg"),this.stageProperties.screenWidth,this.stageProperties.screenHeight);
 		this._container.addChild(this._bg);
 	}
 	,_resize: function() {
@@ -2881,9 +2881,9 @@ matchit_components_categories_CategoriesModel.prototype = $extend(matchit_core_c
 		this.categoryColors = new haxe_ds_StringMap();
 		var _this = this.categoryColors;
 		if(__map_reserved["avatars"] != null) {
-			_this.setReserved("avatars",16495657);
+			_this.setReserved("avatars",6710886);
 		} else {
-			_this.h["avatars"] = 16495657;
+			_this.h["avatars"] = 6710886;
 		}
 		var _this1 = this.categoryColors;
 		if(__map_reserved["christmas"] != null) {
@@ -2893,9 +2893,9 @@ matchit_components_categories_CategoriesModel.prototype = $extend(matchit_core_c
 		}
 		var _this2 = this.categoryColors;
 		if(__map_reserved["emoticons"] != null) {
-			_this2.setReserved("emoticons",16761102);
+			_this2.setReserved("emoticons",0);
 		} else {
-			_this2.h["emoticons"] = 16761102;
+			_this2.h["emoticons"] = 0;
 		}
 		var _this3 = this.categoryColors;
 		if(__map_reserved["pokemon"] != null) {
@@ -2905,27 +2905,27 @@ matchit_components_categories_CategoriesModel.prototype = $extend(matchit_core_c
 		}
 		var _this4 = this.categoryColors;
 		if(__map_reserved["social"] != null) {
-			_this4.setReserved("social",16777215);
+			_this4.setReserved("social",5249686);
 		} else {
-			_this4.h["social"] = 16777215;
+			_this4.h["social"] = 5249686;
 		}
 		var _this5 = this.categoryColors;
 		if(__map_reserved["landscapes"] != null) {
-			_this5.setReserved("landscapes",15400946);
+			_this5.setReserved("landscapes",436620);
 		} else {
-			_this5.h["landscapes"] = 15400946;
+			_this5.h["landscapes"] = 436620;
 		}
 		var _this6 = this.categoryColors;
 		if(__map_reserved["wedding"] != null) {
-			_this6.setReserved("wedding",11729401);
+			_this6.setReserved("wedding",13158);
 		} else {
-			_this6.h["wedding"] = 11729401;
+			_this6.h["wedding"] = 13158;
 		}
 		var _this7 = this.categoryColors;
 		if(__map_reserved["math"] != null) {
-			_this7.setReserved("math",16767658);
+			_this7.setReserved("math",1947324);
 		} else {
-			_this7.h["math"] = 16767658;
+			_this7.h["math"] = 1947324;
 		}
 		var _this8 = this.categoryColors;
 		if(__map_reserved["space"] != null) {
@@ -2935,9 +2935,9 @@ matchit_components_categories_CategoriesModel.prototype = $extend(matchit_core_c
 		}
 		var _this9 = this.categoryColors;
 		if(__map_reserved["flowers"] != null) {
-			_this9.setReserved("flowers",16754005);
+			_this9.setReserved("flowers",16533584);
 		} else {
-			_this9.h["flowers"] = 16754005;
+			_this9.h["flowers"] = 16533584;
 		}
 		var _this10 = this.categoryColors;
 		if(__map_reserved["food"] != null) {
@@ -2947,27 +2947,27 @@ matchit_components_categories_CategoriesModel.prototype = $extend(matchit_core_c
 		}
 		var _this11 = this.categoryColors;
 		if(__map_reserved["garden"] != null) {
-			_this11.setReserved("garden",5354891);
+			_this11.setReserved("garden",16530244);
 		} else {
-			_this11.h["garden"] = 5354891;
+			_this11.h["garden"] = 16530244;
 		}
 		var _this12 = this.categoryColors;
 		if(__map_reserved["nature"] != null) {
-			_this12.setReserved("nature",7714153);
+			_this12.setReserved("nature",16530244);
 		} else {
-			_this12.h["nature"] = 7714153;
+			_this12.h["nature"] = 16530244;
 		}
 		var _this13 = this.categoryColors;
 		if(__map_reserved["birthday"] != null) {
-			_this13.setReserved("birthday",10671326);
+			_this13.setReserved("birthday",16530244);
 		} else {
-			_this13.h["birthday"] = 10671326;
+			_this13.h["birthday"] = 16530244;
 		}
 		var _this14 = this.categoryColors;
 		if(__map_reserved["dinosaurs"] != null) {
-			_this14.setReserved("dinosaurs",16771512);
+			_this14.setReserved("dinosaurs",13262899);
 		} else {
-			_this14.h["dinosaurs"] = 16771512;
+			_this14.h["dinosaurs"] = 13262899;
 		}
 	}
 	,get_categories: function() {
@@ -3012,7 +3012,6 @@ matchit_components_categories_CategoriesView.prototype = $extend(matchit_core_co
 		this._categories = [];
 		var style = new PIXI.TextStyle();
 		style.fontSize = this._getTextCreditsSize();
-		style.fill = 10066329;
 		style.fontFamily = "Pontano Sans";
 		this._creditsTxt = new PIXI.Text("Icons designed by Freepik from Flaticon",style);
 		this._creditsTxt.anchor.set(0.5,1.2);
@@ -3022,7 +3021,7 @@ matchit_components_categories_CategoriesView.prototype = $extend(matchit_core_co
 		};
 		this._container.addChild(this._creditsTxt);
 		style = new PIXI.TextStyle();
-		style.fill = 16777215;
+		style.fill = 13158;
 		style.fontSize = this._getTextTitleSize();
 		style.fontFamily = "Covered By Your Grace";
 		this._select = new PIXI.Text("CHOOSE A CATEGORY",style);
@@ -3274,7 +3273,6 @@ matchit_components_preloader_PreloaderView.prototype = $extend(matchit_core_comp
 	}
 	,_onLoaded: function() {
 		this._logo = new PIXI.Sprite(this.loader.getTexture("preloader_logo"));
-		this._logo.scale.set(0.7);
 		this._logo.anchor.set(0.5);
 		this._container.addChild(this._logo);
 		this._createLoadingBar();
@@ -3293,11 +3291,11 @@ matchit_components_preloader_PreloaderView.prototype = $extend(matchit_core_comp
 		this._container.addChild(this._loadingBarContainer);
 		this._loadingBarBG = new PIXI.Graphics();
 		this._loadingBarBG.beginFill(15358496);
-		this._loadingBarBG.drawRect(0,0,104,12);
+		this._loadingBarBG.drawRect(0,0,204,24);
 		this._loadingBarBG.endFill();
 		this._loadingBar = new PIXI.Graphics();
 		this._loadingBar.beginFill(16777215);
-		this._loadingBar.drawRect(0,0,100,10);
+		this._loadingBar.drawRect(0,0,200,20);
 		this._loadingBar.endFill();
 		this._loadingBarContainer.addChild(this._loadingBarBG);
 		this._loadingBarContainer.addChild(this._loadingBar);
@@ -3329,7 +3327,7 @@ matchit_components_preloader_PreloaderView.prototype = $extend(matchit_core_comp
 		}
 	}
 	,_animateLogo: function() {
-		motion_Actuate.tween(this._logo.scale,0.4,{ x : 1.2, y : 1.2}).ease(motion_easing_Bounce.get_easeOut());
+		motion_Actuate.tween(this._logo.scale,0.4,{ x : 2, y : 2}).ease(motion_easing_Bounce.get_easeOut());
 		motion_Actuate.tween(this._logo,0.4,{ y : this._logo.y + 25}).ease(motion_easing_Bounce.get_easeOut()).reflect();
 	}
 	,_resize: function() {
@@ -6064,21 +6062,21 @@ matchit_components_backgrounds_BackgroundsController.__meta__ = { fields : { vie
 matchit_core_components_ComponentView.__meta__ = { fields : { loader : { type : ["matchit.core.loader.AssetLoader"], inject : null}, stageProperties : { type : ["matchit.core.utils.StageProperties"], inject : null}}};
 matchit_components_categories_CategoriesController.__meta__ = { fields : { view : { type : ["matchit.components.categories.CategoriesView"], inject : null}, componentModel : { type : ["matchit.components.categories.CategoriesModel"], inject : null}}};
 matchit_core_components_ComponentModel.__meta__ = { fields : { model : { type : ["matchit.model.Model"], inject : null}}};
-matchit_components_categories_CategoriesModel.AVATARS_COLOR = 16495657;
+matchit_components_categories_CategoriesModel.AVATARS_COLOR = 6710886;
 matchit_components_categories_CategoriesModel.CHRISTMAS_COLOR = 14176072;
-matchit_components_categories_CategoriesModel.EMOTICONS_COLOR = 16761102;
+matchit_components_categories_CategoriesModel.EMOTICONS_COLOR = 0;
 matchit_components_categories_CategoriesModel.POKEMON_COLOR = 13897754;
-matchit_components_categories_CategoriesModel.SOCIAL_COLOR = 16777215;
-matchit_components_categories_CategoriesModel.LANDSCAPES_COLOR = 15400946;
-matchit_components_categories_CategoriesModel.WEDDING_COLOR = 11729401;
-matchit_components_categories_CategoriesModel.MATH_COLOR = 16767658;
+matchit_components_categories_CategoriesModel.SOCIAL_COLOR = 5249686;
+matchit_components_categories_CategoriesModel.LANDSCAPES_COLOR = 436620;
+matchit_components_categories_CategoriesModel.WEDDING_COLOR = 13158;
+matchit_components_categories_CategoriesModel.MATH_COLOR = 1947324;
 matchit_components_categories_CategoriesModel.SPACE_COLOR = 13158;
-matchit_components_categories_CategoriesModel.FLOWERS_COLOR = 16754005;
+matchit_components_categories_CategoriesModel.FLOWERS_COLOR = 16533584;
 matchit_components_categories_CategoriesModel.FOOD_COLOR = 13902954;
-matchit_components_categories_CategoriesModel.GARDEN_COLOR = 5354891;
-matchit_components_categories_CategoriesModel.NATURE_COLOR = 7714153;
-matchit_components_categories_CategoriesModel.BIRTHDAY_COLOR = 10671326;
-matchit_components_categories_CategoriesModel.DINOSAURS_COLOR = 16771512;
+matchit_components_categories_CategoriesModel.GARDEN_COLOR = 16530244;
+matchit_components_categories_CategoriesModel.NATURE_COLOR = 16530244;
+matchit_components_categories_CategoriesModel.BIRTHDAY_COLOR = 16530244;
+matchit_components_categories_CategoriesModel.DINOSAURS_COLOR = 13262899;
 matchit_components_categories_CategoriesModel.AVATARS = "avatars";
 matchit_components_categories_CategoriesModel.CHRISTMAS = "christmas";
 matchit_components_categories_CategoriesModel.EMOTICONS = "emoticons";
