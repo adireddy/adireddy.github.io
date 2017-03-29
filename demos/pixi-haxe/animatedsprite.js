@@ -182,6 +182,14 @@ Reflect.field = function(o,field) {
 		return null;
 	}
 };
+var Std = function() { };
+Std.random = function(x) {
+	if(x <= 0) {
+		return 0;
+	} else {
+		return Math.floor(Math.random() * x);
+	}
+};
 var pixi_plugins_app_Application = function() {
 	this._animationFrameId = null;
 	this.pixelRatio = 1;
@@ -262,29 +270,49 @@ pixi_plugins_app_Application.prototype = {
 		}
 	}
 };
-var bitmapfont_Main = function() {
+var animatedsprite_Main = function() {
 	pixi_plugins_app_Application.call(this);
 	this._init();
 };
-bitmapfont_Main.main = function() {
-	new bitmapfont_Main();
+animatedsprite_Main.main = function() {
+	new animatedsprite_Main();
 };
-bitmapfont_Main.__super__ = pixi_plugins_app_Application;
-bitmapfont_Main.prototype = $extend(pixi_plugins_app_Application.prototype,{
+animatedsprite_Main.__super__ = pixi_plugins_app_Application;
+animatedsprite_Main.prototype = $extend(pixi_plugins_app_Application.prototype,{
 	_init: function() {
 		this.position = "fixed";
-		this.autoResize = true;
-		this.backgroundColor = 13158;
-		pixi_plugins_app_Application.prototype.start.call(this);
-		var fontloader = new PIXI.loaders.Loader();
-		fontloader.add("font","./assets/fonts/desyrel.xml");
-		fontloader.load($bind(this,this._onLoaded));
+		this.backgroundColor = 16777215;
+		pixi_plugins_app_Application.prototype.start.call(this,"auto");
+		var mcloader = new PIXI.loaders.Loader();
+		mcloader.add("mc","assets/movieclip/SpriteSheet.json");
+		mcloader.load($bind(this,this._onLoaded));
 	}
 	,_onLoaded: function() {
-		var bitmapFontText = new PIXI.extras.BitmapText("bitmap fonts are\n now supported!",{ font : "60px Desyrel"});
-		bitmapFontText.position.x = (window.innerWidth - bitmapFontText.width) / 2;
-		bitmapFontText.position.y = (window.innerHeight - bitmapFontText.height) / 2;
-		this.stage.addChild(bitmapFontText);
+		var explosionTextures = [];
+		var texture;
+		var _g = 0;
+		while(_g < 26) {
+			var i = _g++;
+			texture = PIXI.Texture.fromFrame("Explosion_Sequence_A " + (i + 1) + ".png");
+			explosionTextures.push(texture);
+		}
+		var explosion;
+		var _g1 = 0;
+		while(_g1 < 80) {
+			var i1 = _g1++;
+			explosion = new PIXI.extras.AnimatedSprite(explosionTextures);
+			var tmp = Math.random();
+			explosion.position.x = tmp * window.innerWidth;
+			var tmp1 = Math.random();
+			explosion.position.y = tmp1 * window.innerHeight;
+			explosion.anchor.set(0.5,0.5);
+			explosion.rotation = Math.random() * Math.PI;
+			var tmp2 = Math.random() * 0.5;
+			explosion.scale.x = explosion.scale.y = 0.75 + tmp2;
+			explosion.gotoAndPlay(Std.random(27));
+			explosion.animationSpeed = 0.8;
+			this.stage.addChild(explosion);
+		}
 	}
 });
 var $_, $fid = 0;
@@ -302,7 +330,7 @@ Perf.MS_TXT_CLR = "#000000";
 Perf.MEM_TXT_CLR = "#FFFFFF";
 Perf.INFO_TXT_CLR = "#000000";
 Perf.DELAY_TIME = 4000;
-bitmapfont_Main.main();
+animatedsprite_Main.main();
 })(typeof exports != "undefined" ? exports : typeof window != "undefined" ? window : typeof self != "undefined" ? self : this);
 
-//# sourceMappingURL=bitmapfont.js.map
+//# sourceMappingURL=animatedsprite.js.map
