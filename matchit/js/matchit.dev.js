@@ -3274,7 +3274,7 @@ matchit_components_preloader_PreloaderView.prototype = $extend(matchit_core_comp
 	}
 	,_onLoaded: function() {
 		this._logo = new PIXI.Sprite(this.loader.getTexture("preloader_logo"));
-		this._logo.scale.set(0.5);
+		this._logo.scale.set(0.7);
 		this._logo.anchor.set(0.5);
 		this._container.addChild(this._logo);
 		this._createLoadingBar();
@@ -3329,7 +3329,7 @@ matchit_components_preloader_PreloaderView.prototype = $extend(matchit_core_comp
 		}
 	}
 	,_animateLogo: function() {
-		motion_Actuate.tween(this._logo.scale,0.4,{ x : 1, y : 1}).ease(motion_easing_Bounce.get_easeOut());
+		motion_Actuate.tween(this._logo.scale,0.4,{ x : 1.2, y : 1.2}).ease(motion_easing_Bounce.get_easeOut());
 		motion_Actuate.tween(this._logo,0.4,{ y : this._logo.y + 25}).ease(motion_easing_Bounce.get_easeOut()).reflect();
 	}
 	,_resize: function() {
