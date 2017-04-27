@@ -224,6 +224,8 @@ pixi_plugins_app_Application.prototype = {
 			window.onresize = $bind(this,this._onWindowResize);
 		}
 		var renderingOptions = { };
+		renderingOptions.width = this.width;
+		renderingOptions.height = this.height;
 		renderingOptions.view = this.canvas;
 		renderingOptions.backgroundColor = this.backgroundColor;
 		renderingOptions.resolution = this.pixelRatio;
@@ -235,11 +237,12 @@ pixi_plugins_app_Application.prototype = {
 		renderingOptions.preserveDrawingBuffer = this.preserveDrawingBuffer;
 		renderingOptions.roundPixels = this.roundPixels;
 		if(rendererType == null) {
-			this.app = new PIXI.Application(this.width,this.height,renderingOptions);
+			this.app = new PIXI.Application(renderingOptions);
 		} else if(rendererType == "canvas") {
-			this.app = new PIXI.Application(this.width,this.height,renderingOptions,true);
+			renderingOptions.noWebGL = true;
+			this.app = new PIXI.Application(renderingOptions);
 		} else {
-			this.app = new PIXI.Application(this.width,this.height,renderingOptions);
+			this.app = new PIXI.Application(renderingOptions);
 		}
 		this.stage = this.app.stage;
 		this.renderer = this.app.renderer;
@@ -294,7 +297,7 @@ tilemap_Main.prototype = $extend(pixi_plugins_app_Application.prototype,{
 	,_onLoaded: function() {
 		var _gthis = this;
 		this._tilemap = new PIXI.tilemap.CompositeRectTileLayer();
-		this._tilemap.initialize(0,[this._loader.resources.atlas_image.texture],true);
+		this._tilemap.initialize(0,[this._loader.resources["atlas_image"].texture],true);
 		this.stage.addChild(this._tilemap);
 		this._frame = 0;
 		var timer = new haxe_Timer(400);
@@ -319,12 +322,12 @@ tilemap_Main.prototype = $extend(pixi_plugins_app_Application.prototype,{
 				}
 			}
 		}
-		var textures = resources.atlas.textures;
+		var textures = resources["atlas"].textures;
 		this._tilemap.addFrame(Reflect.field(textures,"brick.png"),2 * size,2 * size);
 		this._tilemap.addFrame(Reflect.field(textures,"brick_wall.png"),2 * size,3 * size);
 		console.log("frame : " + frame);
 		this._tilemap.addFrame(frame == 0 ? Reflect.field(textures,"chest.png") : Reflect.field(textures,"red_chest.png"),4 * size,4 * size);
-		this._tilemap.addFrame(resources.button.texture,6 * size,2 * size);
+		this._tilemap.addFrame(resources["button"].texture,6 * size,2 * size);
 	}
 	,_onUpdate: function(elapsedTime) {
 	}
