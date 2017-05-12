@@ -267,7 +267,7 @@ pixi_plugins_app_Application.prototype = {
 };
 var scaletest_Main = function() {
 	this._ex = 1;
-	this._baseSize = 480;
+	this._baseSize = 320;
 	this._pr = Math.min(Math.floor(window.devicePixelRatio),2);
 	pixi_plugins_app_Application.call(this);
 	this._init();
@@ -279,6 +279,14 @@ scaletest_Main.__super__ = pixi_plugins_app_Application;
 scaletest_Main.prototype = $extend(pixi_plugins_app_Application.prototype,{
 	_init: function() {
 		this._scale = this._getScale(this._baseSize);
+		this._scale2 = this._getScale2(this._baseSize);
+		this._switchedScale = false;
+		if(this._scale > 8) {
+			this._scale = 8;
+		}
+		if(this._scale2 > 8) {
+			this._scale2 = 8;
+		}
 		this.position = "fixed";
 		this.backgroundColor = 16777215;
 		this.pixelRatio = this._pr;
@@ -296,10 +304,19 @@ scaletest_Main.prototype = $extend(pixi_plugins_app_Application.prototype,{
 		this._loader.add("ex2/scale-" + this._scale + "/symbols/images/symbols.png");
 		this._loader.add("ex3/scale-" + this._scale + "/background/images/background.png");
 		this._loader.add("ex3/scale-" + this._scale + "/symbols/images/symbols.png");
-		this._loader.on("progress",$bind(this,this._onLoadProgress));
+		this._loader.add("ex4/scale-" + this._scale + "/symbols/images/symbols.png");
+		this._loader.add("ex5/scale-" + this._scale + "/symbols/images/symbols.png");
+		if(this._scale != this._scale2) {
+			this._loader.add("ex1/scale-" + this._scale2 + "/background/images/background.png");
+			this._loader.add("ex1/scale-" + this._scale2 + "/symbols/images/symbols.png");
+			this._loader.add("ex2/scale-" + this._scale2 + "/background/images/background.png");
+			this._loader.add("ex2/scale-" + this._scale2 + "/symbols/images/symbols.png");
+			this._loader.add("ex3/scale-" + this._scale2 + "/background/images/background.png");
+			this._loader.add("ex3/scale-" + this._scale2 + "/symbols/images/symbols.png");
+			this._loader.add("ex4/scale-" + this._scale2 + "/symbols/images/symbols.png");
+			this._loader.add("ex5/scale-" + this._scale2 + "/symbols/images/symbols.png");
+		}
 		this._loader.load($bind(this,this._onLoaded));
-	}
-	,_onLoadProgress: function() {
 	}
 	,_onLoaded: function() {
 		var bgPath = "ex" + this._ex + "/scale-" + this._scale + "/background/images/background.png";
@@ -325,27 +342,48 @@ scaletest_Main.prototype = $extend(pixi_plugins_app_Application.prototype,{
 		this.stage.interactive = true;
 		this.stage.click = this.stage.tap = $bind(this,this._changeTextures);
 		this._onResize();
-		var posX = window.innerWidth - this._reels.width - 40;
-		var posY = window.innerHeight - this._reels.height - 48;
-		while(posX > 100 && posY > 100) {
-			this._reels.scale.set(this._reels.scale.x + 0.1);
-			this._bg.scale.set(this._bg.scale.x + 0.1);
-			posX = window.innerWidth - this._reels.width - 30;
-			posY = window.innerHeight - this._reels.height - 48;
-		}
 	}
 	,_changeTextures: function(e) {
-		if(this._ex < 3) {
-			this._ex++;
+		this._label.text = "Scale: " + this._scale + " DPR: " + this._pr;
+		if(e.data.global.y < window.innerHeight / 2) {
+			if(this._ex < 5) {
+				this._ex++;
+			} else {
+				this._ex = 1;
+			}
+			var bgPath = "ex" + this._ex + "/scale-" + this._scale + "/background/images/background.png";
+			var reelspath = "ex" + this._ex + "/scale-" + this._scale + "/symbols/images/symbols.png";
+			if(this._ex < 4) {
+				this._bg.texture = this._loader.resources[bgPath].texture;
+			}
+			this._reels.texture = this._loader.resources[reelspath].texture;
 		} else {
-			this._ex = 1;
+			var bgPath1 = "";
+			var reelspath1 = "";
+			if(!this._switchedScale) {
+				this._switchedScale = true;
+				bgPath1 = "ex" + this._ex + "/scale-" + this._scale2 + "/background/images/background.png";
+				reelspath1 = "ex" + this._ex + "/scale-" + this._scale2 + "/symbols/images/symbols.png";
+				this._label.text = "Scale: " + this._scale2 + " DPR: " + this._pr;
+			} else {
+				this._switchedScale = false;
+				bgPath1 = "ex" + this._ex + "/scale-" + this._scale + "/background/images/background.png";
+				reelspath1 = "ex" + this._ex + "/scale-" + this._scale + "/symbols/images/symbols.png";
+			}
+			if(this._ex < 4) {
+				this._bg.texture = this._loader.resources[bgPath1].texture;
+			}
+			this._reels.texture = this._loader.resources[reelspath1].texture;
 		}
-		var bgPath = "ex" + this._ex + "/scale-" + this._scale + "/background/images/background.png";
-		var reelspath = "ex" + this._ex + "/scale-" + this._scale + "/symbols/images/symbols.png";
-		this._bg.texture = this._loader.resources[bgPath].texture;
-		this._reels.texture = this._loader.resources[reelspath].texture;
+		this._bg.visible = this._ex < 4;
+		this._onResize();
 	}
 	,_getScale: function(base) {
+		var px = Math.max(window.screen.width,window.screen.height);
+		var pr = Math.min(Math.floor(window.devicePixelRatio),2);
+		return Math.ceil(px / base * pr);
+	}
+	,_getScale2: function(base) {
 		var px = Math.max(window.screen.width,window.screen.height);
 		var pr = Math.min(Math.floor(window.devicePixelRatio),2);
 		return Math.round(px / base * pr);
@@ -353,6 +391,14 @@ scaletest_Main.prototype = $extend(pixi_plugins_app_Application.prototype,{
 	,_onResize: function() {
 		this._bg.position.set(window.innerWidth / 2,window.innerHeight / 2);
 		this._reels.position.set(window.innerWidth / 2,window.innerHeight / 2);
+		if(this._ex < 4) {
+			this._reels.width = window.innerWidth - 24 * this._scale;
+			this._reels.scale.y = this._reels.scale.x;
+			this._bg.scale.set(this._reels.scale.x);
+		} else {
+			this._reels.height = window.innerHeight - 24 * this._scale;
+			this._reels.scale.x = this._reels.scale.y;
+		}
 	}
 });
 var $_, $fid = 0;
