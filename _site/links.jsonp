@@ -1,0 +1,78 @@
+callback([
+
+  {
+    "text": "The Benefits of Transpiling to JavaScript",
+    "href": "/haxe/javascript/benefits-of-transpiling-to-js"
+  } ,
+
+  {
+    "text": "Haxe/OpenFL will soon be integrated with Flash CC IDE",
+    "href": "/haxe/openfl/flash%20cc/openfl-in-flash-cc"
+  } ,
+
+  {
+    "text": "Haxe \"never\" and \"inline\" keywords",
+    "href": "/haxe/keywords/never-inline-keywords"
+  } ,
+
+  {
+    "text": "Why Haxe?",
+    "href": "/haxe/javascript/externs/why-haxe"
+  } ,
+
+  {
+    "text": "Haxe at Work",
+    "href": "/haxe/work/haxe-at-work"
+  } ,
+
+  {
+    "text": "Haxe String Interpolation and StringTools",
+    "href": "/haxe/string/interpolation/stringtools/haxe-string-interpolation-stringutils"
+  } ,
+
+  {
+    "text": "Haxe default Access Modifiers and Return Value Type",
+    "href": "/haxe/haxe-access-modifiers-return-types"
+  } ,
+
+  {
+    "text": "Haxe Static Extensions",
+    "href": "/haxe/static/extensions/using/haxe-static-extensions"
+  } ,
+
+  {
+    "text": "Haxe pixi.js externs API (using chxdoc)",
+    "href": "/haxe/api/documentation/chxdoc/haxe-pixi-externs-api"
+  } ,
+
+  {
+    "text": "Haxe Nape &amp; Pixi.js Demo",
+    "href": "/haxe/nape/pixi.js/haxe-pixi-nape-demo"
+  } ,
+
+  {
+    "text": "Haxe Documentation Generators",
+    "href": "/haxe/documentation/haxe-documentation-generators"
+  } ,
+
+  {
+    "text": "Haxe Compiler Metadata",
+    "href": "/haxe/compiler/metadata/haxe-compiler-metadata"
+  } ,
+
+  {
+    "text": "Haxe Getters and Setters",
+    "href": "/haxe/getters/setters/haxe-getters-and-setters"
+  } ,
+
+  {
+    "text": "Web Workers",
+    "href": "/haxe/web/workers/multi-threading/javascript/web-workers"
+  } ,
+
+  {
+    "text": "Haxe Checkstyle Code Climate Integration",
+    "href": "/haxe/checkstyle/static%20analysis/code%20climate/analysis/code-climate-haxe-checkstyle"
+  } 
+
+])

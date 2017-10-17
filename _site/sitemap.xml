@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc></loc>
+    </url>
+    
+    
+    <url>
+        <loc>/404</loc>
+    </url>
+    
+    <url>
+        <loc>/about/index.html</loc>
+    </url>
+    
+    <url>
+        <loc>/categories/index.html</loc>
+    </url>
+    
+    <url>
+        <loc>/featured/</loc>
+    </url>
+    
+    <url>
+        <loc>/feed.xml</loc>
+    </url>
+    
+    <url>
+        <loc>/quotes/</loc>
+    </url>
+    
+    <url>
+        <loc>/</loc>
+    </url>
+    
+    <url>
+        <loc>/links.jsonp</loc>
+    </url>
+    
+    <url>
+        <loc>/search.json</loc>
+    </url>
+    
+    <url>
+        <loc>/sitemap.xml</loc>
+    </url>
+    
+    <url>
+        <loc>/tags/index.html</loc>
+    </url>
+    
+    <url>
+        <loc>/page2/</loc>
+    </url>
+    
+    <url>
+        <loc>/page3/</loc>
+    </url>
+    
+
+    
+    <url>
+        <loc>/haxe/checkstyle/static%20analysis/code%20climate/analysis/code-climate-haxe-checkstyle</loc>
+    </url>
+    
+    <url>
+        <loc>/haxe/web/workers/multi-threading/javascript/web-workers</loc>
+    </url>
+    
+    <url>
+        <loc>/haxe/getters/setters/haxe-getters-and-setters</loc>
+    </url>
+    
+    <url>
+        <loc>/haxe/compiler/metadata/haxe-compiler-metadata</loc>
+    </url>
+    
+    <url>
+        <loc>/haxe/documentation/haxe-documentation-generators</loc>
+    </url>
+    
+    <url>
+        <loc>/haxe/nape/pixi.js/haxe-pixi-nape-demo</loc>
+    </url>
+    
+    <url>
+        <loc>/haxe/api/documentation/chxdoc/haxe-pixi-externs-api</loc>
+    </url>
+    
+    <url>
+        <loc>/haxe/static/extensions/using/haxe-static-extensions</loc>
+    </url>
+    
+    <url>
+        <loc>/haxe/haxe-access-modifiers-return-types</loc>
+    </url>
+    
+    <url>
+        <loc>/haxe/string/interpolation/stringtools/haxe-string-interpolation-stringutils</loc>
+    </url>
+    
+    <url>
+        <loc>/haxe/work/haxe-at-work</loc>
+    </url>
+    
+    <url>
+        <loc>/haxe/javascript/externs/why-haxe</loc>
+    </url>
+    
+    <url>
+        <loc>/haxe/keywords/never-inline-keywords</loc>
+    </url>
+    
+    <url>
+        <loc>/haxe/openfl/flash%20cc/openfl-in-flash-cc</loc>
+    </url>
+    
+    <url>
+        <loc>/haxe/javascript/benefits-of-transpiling-to-js</loc>
+    </url>
+    
+</urlset>

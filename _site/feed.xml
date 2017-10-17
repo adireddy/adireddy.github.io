@@ -1,0 +1,1051 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+
+
+
+<title type="text">Adi Reddy Mora</title>
+<generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
+<link rel="self" type="application/atom+xml" href="/feed.xml" />
+<link rel="alternate" type="text/html" href="/" />
+<updated>2016-03-29T20:38:05+00:00</updated>
+<id>/</id>
+<author>
+  <name>Adi Reddy Mora</name>
+  <uri>/</uri>
+  <email>adiinteractive@gmail.com</email>
+</author>
+
+
+<entry>
+  <title type="html"><![CDATA[Haxe Checkstyle Code Climate Integration]]></title>
+  <link rel="alternate" type="text/html" href="/haxe/checkstyle/static%20analysis/code%20climate/analysis/code-climate-haxe-checkstyle"/>
+  <id>/haxe/checkstyle/static%20analysis/code%20climate/analysis/code-climate-haxe-checkstyle</id>
+  <published>2016-03-29T00:00:00+00:00</published>
+  <updated>2016-03-29T00:00:00-00:00</updated>
+  
+  <author>
+    <name>Adi Reddy Mora</name>
+    <uri></uri>
+    <email>adiinteractive@gmail.com</email>
+  </author>
+  <category scheme="/tags/#haxe" term="haxe" /><category scheme="/tags/#checkstyle" term="checkstyle" /><category scheme="/tags/#static%20analysis" term="static analysis" /><category scheme="/tags/#code%20climate" term="code climate" /><category scheme="/tags/#analysis" term="analysis" />
+  <content type="html">
+  
+    &lt;p&gt;I am happy to announce the partnership with Code Climate to bring static analysis via Haxe Checkstyle to all Haxe users.&lt;/p&gt;
+
+&lt;p&gt;Now you can to analyze Haxe projects on &lt;a href=&quot;http://codeclimate.com&quot;&gt;codeclimate.com&lt;/a&gt;, as well as run custom static analysis for Haxe on your command line with their new CLI tool.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/codeclimate-platform.png&quot; alt=&quot;codeclimate&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If you are not familiar with Code Climate, it’s a static analysis tool for monitoring the health of your code.
+It supports a whole host of languages and frameworks – and it’s all open source!&lt;/p&gt;
+
+&lt;p&gt;It lets you configure your analysis via a .codeclimate.yml file in the root of your repository.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://docs.codeclimate.com/docs/haxe-checkstyle&quot;&gt;Click here&lt;/a&gt; for more information.&lt;/p&gt;
+
+  
+  &lt;p&gt;&lt;a href=&quot;/haxe/checkstyle/static%20analysis/code%20climate/analysis/code-climate-haxe-checkstyle&quot;&gt;Haxe Checkstyle Code Climate Integration&lt;/a&gt; was originally published by Adi Reddy Mora at &lt;a href=&quot;&quot;&gt;Adi Reddy Mora&lt;/a&gt; on March 29, 2016.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Web Workers]]></title>
+  <link rel="alternate" type="text/html" href="/haxe/web/workers/multi-threading/javascript/web-workers"/>
+  <id>/haxe/web/workers/multi-threading/javascript/web-workers</id>
+  <published>2015-11-17T00:00:00+00:00</published>
+  <updated>2015-11-17T00:00:00-00:00</updated>
+  
+  <author>
+    <name>Adi Reddy Mora</name>
+    <uri></uri>
+    <email>adiinteractive@gmail.com</email>
+  </author>
+  <category scheme="/tags/#haxe" term="haxe" /><category scheme="/tags/#web" term="web" /><category scheme="/tags/#workers" term="workers" /><category scheme="/tags/#multi-threading" term="multi-threading" /><category scheme="/tags/#javascript" term="javascript" />
+  <content type="html">
+  
+    &lt;p&gt;I recently started exploring web workers in JavaScript and found them really useful to help boost the general performance of web apps.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-problem&quot;&gt;The Problem&lt;/h3&gt;
+
+&lt;p&gt;JavaScript apps are single threaded and can be unresponsive or degrade performance if the app has code that blocks for a long duration. The consequences can be unpleasant page freezes where the user can’t interact with your application.&lt;/p&gt;
+
+&lt;h3 id=&quot;advantages-of-web-workers&quot;&gt;Advantages of Web workers&lt;/h3&gt;
+
+&lt;p&gt;Web workers handle pure data, which makes them especially suitable for JavaScript code that takes a long time to execute.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;To summarize:&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Web workers operate independently of the main browser UI thread.&lt;/li&gt;
+  &lt;li&gt;Ideal for running computationally expensive tasks in background threads without affecting the UI thread.&lt;/li&gt;
+  &lt;li&gt;Parallel processing for better application performance.&lt;/li&gt;
+  &lt;li&gt;Web workers live in a restricted and thread-safe environment.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;browser-support&quot;&gt;Browser Support&lt;/h3&gt;
+
+&lt;p&gt;Basic web worker support is good across all browsers but I do not recommend using shared web workers as the support is very limited.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Basic web worker support:&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Safari Mobile 5.1&lt;/li&gt;
+  &lt;li&gt;Android 4.4&lt;/li&gt;
+  &lt;li&gt;Chrome 4&lt;/li&gt;
+  &lt;li&gt;IE 10&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You can check upto date support at &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers&quot;&gt;mozilla.org&lt;/a&gt; and &lt;a href=&quot;http://caniuse.com/#search=web%20worker&quot;&gt;caniuse.com&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;limitations&quot;&gt;Limitations&lt;/h3&gt;
+
+&lt;p&gt;Worker thread &lt;strong&gt;DO NOT&lt;/strong&gt; have access to:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;DOM&lt;/li&gt;
+  &lt;li&gt;Window object&lt;/li&gt;
+  &lt;li&gt;Document object&lt;/li&gt;
+  &lt;li&gt;Parent object&lt;/li&gt;
+  &lt;li&gt;Global variables or functions in main page&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Also note that all of your worker scripts must be served from the same domain and protocol as the script that is attempting to create the worker.&lt;/p&gt;
+
+&lt;p&gt;###Ideal Candidates/Use cases&lt;/p&gt;
+
+&lt;p&gt;The most important thing is to identify and isolate hot spots in your code so that they can me moved to web workers for parallel execution provided they do not have any limitations mentioned above.&lt;/p&gt;
+
+&lt;h3 id=&quot;example&quot;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;The following is a sample web worker which loads and parses JSON file.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;package webworkers;
+
+import haxe.Json;
+import js.html.XMLHttpRequest;
+
+class LoadJson {
+
+	var _data:Dynamic;
+
+	public static function __init__() {
+		untyped __js__(&quot;self.onmessage = webworkers_LoadJson.prototype._messageHandler&quot;);
+	}
+
+	function _messageHandler(event) {
+		switch(event.data) {
+			case &quot;load&quot;:
+				var request = new XMLHttpRequest();
+				request.onreadystatechange = function() {
+					if (request.readyState == 4) {
+						if (request.status == 200) {
+							_data = Json.parse(request.responseText);
+							untyped __js__(&quot;self&quot;).postMessage(&quot;LOADED&quot;);
+						}
+					}
+				}
+
+				request.open(&quot;GET&quot;, &quot;../resources/checkstyle-config.json&quot;, true);
+				request.send(null);
+
+			default:
+				for (i in 0 ... _data.checks.length) {
+					if (_data.checks[i].type == event.data) {
+						untyped __js__(&quot;self&quot;).postMessage(_data.checks[i]);
+						break;
+					}
+				}
+		}
+	}
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Add the following to your &lt;strong&gt;build.hxml&lt;/strong&gt; to generate worker script file:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;webworkers.LoadJson
+-js js/LoadJson.js&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;The following sample shows how to load and communicate with the worker script.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;package webworkers;
+
+import js.html.Worker;
+
+class Main {
+
+	var _worker:Worker;
+
+	public function new() {
+		_worker = new js.html.Worker(&quot;js/LoadJson.js&quot;);
+		_worker.onmessage = _processWorkerJsonData;
+		_worker.postMessage(&quot;load&quot;);
+	}
+
+	function _processWorkerJsonData(e) {
+		switch (e.data) {
+			case &quot;LOADED&quot;:
+				_worker.postMessage(&quot;AccessOrder&quot;);
+
+			default:
+				trace(e.data);
+		}
+	}
+
+	static function main() {
+		new Main();
+	}
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Note that web workers are not automatically garbage collected and will live until you manually terminate them.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;_worker.terminate();&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;You can also terminate the worker by calling &lt;code class=&quot;highlighter-rouge&quot;&gt;close()&lt;/code&gt; method on itself.&lt;/p&gt;
+
+&lt;h3 id=&quot;references&quot;&gt;References&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.w3.org/TR/workers/&quot;&gt;w3.org&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.w3schools.com/html/html5_webworkers.asp&quot;&gt;w3schools&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers&quot;&gt;mozilla.org&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You can check my &lt;a href=&quot;https://github.com/adireddy/playground/tree/master/src/webworkers&quot;&gt;repo&lt;/a&gt; for more samples.&lt;/p&gt;
+
+&lt;p&gt;Any questions or comments, please post them in the comments section below. Thanks for reading.&lt;/p&gt;
+
+  
+  &lt;p&gt;&lt;a href=&quot;/haxe/web/workers/multi-threading/javascript/web-workers&quot;&gt;Web Workers&lt;/a&gt; was originally published by Adi Reddy Mora at &lt;a href=&quot;&quot;&gt;Adi Reddy Mora&lt;/a&gt; on November 17, 2015.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Haxe Getters and Setters]]></title>
+  <link rel="alternate" type="text/html" href="/haxe/getters/setters/haxe-getters-and-setters"/>
+  <id>/haxe/getters/setters/haxe-getters-and-setters</id>
+  <published>2015-01-17T00:00:00+00:00</published>
+  <updated>2015-01-17T00:00:00-00:00</updated>
+  
+  <author>
+    <name>Adi Reddy Mora</name>
+    <uri></uri>
+    <email>adiinteractive@gmail.com</email>
+  </author>
+  <category scheme="/tags/#haxe" term="haxe" /><category scheme="/tags/#getters" term="getters" /><category scheme="/tags/#setters" term="setters" />
+  <content type="html">
+  
+    &lt;p&gt;Haxe has a unique way of using getter/setter functions and it can be sometimes confusing for developers coming from other languages.&lt;/p&gt;
+
+&lt;p&gt;I recommend to read the official &lt;a href=&quot;http://haxe.org/manual/class-field-property-rules.html&quot;&gt;documentation&lt;/a&gt; as well.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;strong&gt;Getter and Setter&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;You can define a variable to have getter and setter functions using &lt;code class=&quot;highlighter-rouge&quot;&gt;get&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;set&lt;/code&gt; keywords as shown below.&lt;/p&gt;
+
+&lt;p&gt;The functions names should be prefixed with &lt;code class=&quot;highlighter-rouge&quot;&gt;get_&lt;/code&gt; variable name and &lt;code class=&quot;highlighter-rouge&quot;&gt;set_&lt;/code&gt; variable name.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;public var amount(get, set):Float;
+var _amount:Float = 100;
+
+function get_amount():Float {
+	return _amount * 10;
+}
+
+function set_amount(value:Float) {
+	return _amount = value;
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;The most important thing to note here is you cannot access the physical variable inside your getter and setter functions. You get the error &lt;code class=&quot;highlighter-rouge&quot;&gt;This field cannot be accessed because it is not a real variable&lt;/code&gt; if you try to access &lt;code class=&quot;highlighter-rouge&quot;&gt;amount&lt;/code&gt; inside &lt;code class=&quot;highlighter-rouge&quot;&gt;get_amount&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;set_amount&lt;/code&gt; functions.&lt;/p&gt;
+
+&lt;p&gt;To access physical variable you need to add metadata &lt;code class=&quot;highlighter-rouge&quot;&gt;@:isVar&lt;/code&gt; in front of the variable &lt;code class=&quot;highlighter-rouge&quot;&gt;amount&lt;/code&gt;.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;@:isVar public var amount(get, set):Float;
+
+function get_amount():Float {
+	return amount;
+}
+
+function set_amount(value:Float) {
+	return amount = value;
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;strong&gt;Getter (read-only) or Setter (write-only)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;By using &lt;code class=&quot;highlighter-rouge&quot;&gt;null&lt;/code&gt; in place of &lt;code class=&quot;highlighter-rouge&quot;&gt;set&lt;/code&gt; you can mark the variable read-only with getter function as shown below.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;public var language(get, null):String;
+
+function get_language():String {
+	return language;
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Similarly by using &lt;code class=&quot;highlighter-rouge&quot;&gt;null&lt;/code&gt; in place of &lt;code class=&quot;highlighter-rouge&quot;&gt;get&lt;/code&gt; you can mark the variable write-only with  setter function as shown below.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;public var language(null, set):String;
+
+function set_language(value:String):String {
+	return language = value;
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;The variable can still be accessed for reading and writing within the class but not from outside.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;strong&gt;Setter with default Getter&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;By using &lt;code class=&quot;highlighter-rouge&quot;&gt;default&lt;/code&gt; in place of &lt;code class=&quot;highlighter-rouge&quot;&gt;get&lt;/code&gt; you can mark the variable to return it’s value when accessed and still have a setter function.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;public var language(default, set):String;
+
+function set_language(value):String {
+	return language = value;
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;strong&gt;Quick Reference&lt;/strong&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;//Read and write access from anywhere but only exception is the physical variable cannot be accessed within getter and setter functions without metadata @:isVar
+public var x(get, set):Float;
+
+//Can be read from anywhere, modified only within the class
+public var x(default, null):Float;
+
+//Can be set from anywhere, modified only within the class
+public var x(null, default):Float;
+
+//Read-only from anywhere even within the same class
+public var x(get, never):Float;
+
+//Read and write access from anywhere, but the setter needs a method
+public var x(default, set):Float;
+
+//not allowed - unsupported property combination
+public var x(get, default):Float;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+  
+  &lt;p&gt;&lt;a href=&quot;/haxe/getters/setters/haxe-getters-and-setters&quot;&gt;Haxe Getters and Setters&lt;/a&gt; was originally published by Adi Reddy Mora at &lt;a href=&quot;&quot;&gt;Adi Reddy Mora&lt;/a&gt; on January 17, 2015.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Haxe Compiler Metadata]]></title>
+  <link rel="alternate" type="text/html" href="/haxe/compiler/metadata/haxe-compiler-metadata"/>
+  <id>/haxe/compiler/metadata/haxe-compiler-metadata</id>
+  <published>2015-01-10T00:00:00+00:00</published>
+  <updated>2015-01-10T00:00:00-00:00</updated>
+  
+  <author>
+    <name>Adi Reddy Mora</name>
+    <uri></uri>
+    <email>adiinteractive@gmail.com</email>
+  </author>
+  <category scheme="/tags/#haxe" term="haxe" /><category scheme="/tags/#compiler" term="compiler" /><category scheme="/tags/#metadata" term="metadata" />
+  <content type="html">
+  
+    &lt;p&gt;Haxe compiler metadata can be really handy to get specific behavior or to tweak the language based on your needs.&lt;/p&gt;
+
+&lt;p&gt;You can get the full list of supported compiler flags by running &lt;code class=&quot;highlighter-rouge&quot;&gt;haxe --help-metas&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;It’s a big list and the following are some of my favourites.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;@:overload&lt;/code&gt; - I use this a lot when writing externs where you can overload fucntion paramater declarations and return type. The first one that is matched will be used.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;@:overload(function(shape:Rectangle):GraphicsData {})
+@:overload(function(shape:Ellipse):GraphicsData {})
+@:overload(function(shape:Polygon):GraphicsData {})
+function drawShape(shape:Circle):GraphicsData;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;@:final&lt;/code&gt; - When you want to mark the class as final.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;@:final
+class MyClass {}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;If you try to extend &lt;code class=&quot;highlighter-rouge&quot;&gt;MyClass&lt;/code&gt; you will get compile time error &lt;code class=&quot;highlighter-rouge&quot;&gt;Cannot extend a final class&lt;/code&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;@:optional&lt;/code&gt; - When you want to declare optional fields in &lt;code class=&quot;highlighter-rouge&quot;&gt;typedef&lt;/code&gt;.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;typedef TextField = {
+	var text:String;
+	@:optional var font:String;
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;@:publicFields&lt;/code&gt; - When you want to change the default visibility of the whole class and it’s sub classes from &lt;code class=&quot;highlighter-rouge&quot;&gt;private&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;public&lt;/code&gt;. I find this useful for static classes.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;@:publicFields
+class MyClass {
+	static inline var width:Float = 1024;
+	static inline var height:Float = 768;
+	static inline var ratio:Float = 1;
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;@:keep&lt;/code&gt; - Unused variables and functions will be removed with dead code elimination &lt;code class=&quot;highlighter-rouge&quot;&gt;-dce full&lt;/code&gt;. You can force to keep them using this metadata.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;@:keep public function getChildByName(name:String):DisplayObject {
+	return _container.getChildByName(name);
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;All of the above are generic metadata and can be used across platforms and there are many more generic and platform specific metadata you may find useful for your specific needs so explore and please post in the comments section if you find anything interesting.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Update (14 Jan 2015)&lt;/strong&gt;: Another JavaScript specific metadata which I find useful is &lt;code class=&quot;highlighter-rouge&quot;&gt;@:expose&lt;/code&gt;. It can be used on any class to make it available/accessible from the window object. This is useful when you want to expose any of your haxe classes to another library via window object.&lt;/p&gt;
+
+  
+  &lt;p&gt;&lt;a href=&quot;/haxe/compiler/metadata/haxe-compiler-metadata&quot;&gt;Haxe Compiler Metadata&lt;/a&gt; was originally published by Adi Reddy Mora at &lt;a href=&quot;&quot;&gt;Adi Reddy Mora&lt;/a&gt; on January 10, 2015.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Haxe Documentation Generators]]></title>
+  <link rel="alternate" type="text/html" href="/haxe/documentation/haxe-documentation-generators"/>
+  <id>/haxe/documentation/haxe-documentation generators</id>
+  <published>2014-12-10T00:00:00+00:00</published>
+  <updated>2014-12-10T00:00:00-00:00</updated>
+  
+  <author>
+    <name>Adi Reddy Mora</name>
+    <uri></uri>
+    <email>adiinteractive@gmail.com</email>
+  </author>
+  <category scheme="/tags/#haxe" term="haxe" /><category scheme="/tags/#documentation" term="documentation" /><category scheme="/tags/#chxdoc" term="chxdoc" /><category scheme="/tags/#YUIDoc" term="YUIDoc" /><category scheme="/tags/#api" term="api" /><category scheme="/tags/#pixi.js" term="pixi.js" />
+  <content type="html">
+  
+    &lt;p&gt;A quick intro to a couple of documentation generators I have tried recently &lt;a href=&quot;https://github.com/ibilon/chxdoc&quot;&gt;chxdoc&lt;/a&gt; and &lt;a href=&quot;http://yui.github.io/yuidoc/&quot;&gt;yuidoc&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Note that yuidoc is Javascript Documentation Tool which also works with Haxe.&lt;/p&gt;
+
+&lt;h3 id=&quot;chxdoc&quot;&gt;chxdoc&lt;/h3&gt;
+&lt;p&gt;Make sure you have chxdoc installed.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;haxelib install chxdoc&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;chxdoc generates Java like documentation based on the XML output generated by haxe compiler using &lt;code class=&quot;highlighter-rouge&quot;&gt;xml&lt;/code&gt; compiler parameter as shown below.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;haxe -xml docs.xml --macro include(&#39;pixi&#39;)&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;By default, compiler generates the xml documentation for haxe package and you can use macros to include custom packages like &lt;code class=&quot;highlighter-rouge&quot;&gt;pixi&lt;/code&gt; in the above sample.&lt;/p&gt;
+
+&lt;p&gt;When you have the xml documentation ready you can run &lt;a href=&quot;https://github.com/ibilon/chxdoc&quot;&gt;chxdoc&lt;/a&gt; command and the following is the one I used to generate &lt;a href=&quot;http://adireddy.github.io/docs/haxe-pixi/&quot;&gt;pixi.js haxe externs documentation&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;haxelib run chxdoc -o output_folder -f docs.xml --deny=haxe.*,/ --title=&#39;Externs of pixi.js for Haxe&#39; --subtitle=&#39;&amp;lt;a href=&#39;http://adireddy.github.io/haxe-pixi&#39; target=&#39;_blank&#39;&amp;gt;haxe-pixi&amp;lt;/a&amp;gt;&#39;&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;output_folder - The folder path where you want the documentation to be generated&lt;/li&gt;
+  &lt;li&gt;–deny - You can specify the &lt;code class=&quot;highlighter-rouge&quot;&gt;,&lt;/code&gt; separated list of all the packages you want to exclude from the documentation (haxe package and &lt;code class=&quot;highlighter-rouge&quot;&gt;/&lt;/code&gt; denotes root classes in the above sample).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I hope all the other options are self explanatory.&lt;/p&gt;
+
+&lt;p&gt;You can also use &lt;code class=&quot;highlighter-rouge&quot;&gt;--developer=true&lt;/code&gt; to generate developer documentation with all the private data documented.&lt;/p&gt;
+
+&lt;h3 id=&quot;yuidoc&quot;&gt;YUIDoc&lt;/h3&gt;
+
+&lt;p&gt;YUIDoc is much more simpler to use and I only tried it because &lt;a href=&quot;http://www.goodboydigital.com/pixijs/docs/&quot;&gt;pixi.js&lt;/a&gt; is using it for their documentation.&lt;/p&gt;
+
+&lt;p&gt;It’s is Node.js application and you should install it using node package manager &lt;code class=&quot;highlighter-rouge&quot;&gt;npm -g install yuidocjs&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;I have created &lt;code class=&quot;highlighter-rouge&quot;&gt;yuidoc.json&lt;/code&gt; file to store the configuration.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-haxe&quot;&gt;{
+     &quot;name&quot;: &quot;haxe-pixi&quot;,
+     &quot;description&quot;: &quot;Haxe Pixi Externs&quot;,
+     &quot;version&quot;: &quot;2.1.9&quot;,
+     &quot;url&quot;: &quot;https://github.com/adireddy/haxe-pixi&quot;,
+     &quot;options&quot;: {
+         &quot;linkNatives&quot;: &quot;true&quot;,
+         &quot;attributesEmit&quot;: &quot;true&quot;,
+         &quot;selleck&quot;: &quot;true&quot;,
+         &quot;ignorePaths&quot;: [ &quot;demos&quot; ],
+         &quot;paths&quot;: &quot;*/hx&quot;,
+         &quot;outdir&quot;: &quot;yui&quot;
+     }
+ }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Finally run the following command to generate the documentation.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;yuidoc -e .hx .&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Here is the link to &lt;a href=&quot;http://adireddy.github.io/docs/haxe-pixi/yui/&quot;&gt;haxe pixi externs&lt;/a&gt; YUIDoc documentation.&lt;/p&gt;
+
+&lt;p&gt;Any comments/queries, please post them in the comments section.&lt;/p&gt;
+
+  
+  &lt;p&gt;&lt;a href=&quot;/haxe/documentation/haxe-documentation-generators&quot;&gt;Haxe Documentation Generators&lt;/a&gt; was originally published by Adi Reddy Mora at &lt;a href=&quot;&quot;&gt;Adi Reddy Mora&lt;/a&gt; on December 10, 2014.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Haxe Nape &amp; Pixi.js Demo]]></title>
+  <link rel="alternate" type="text/html" href="/haxe/nape/pixi.js/haxe-pixi-nape-demo"/>
+  <id>/haxe/nape/pixi.js/haxe-pixi-nape-demo</id>
+  <published>2014-12-05T00:00:00+00:00</published>
+  <updated>2014-12-05T00:00:00-00:00</updated>
+  
+  <author>
+    <name>Adi Reddy Mora</name>
+    <uri></uri>
+    <email>adiinteractive@gmail.com</email>
+  </author>
+  <category scheme="/tags/#haxe" term="haxe" /><category scheme="/tags/#pixi.js" term="pixi.js" /><category scheme="/tags/#nape" term="nape" /><category scheme="/tags/#physics" term="physics" />
+  <content type="html">
+  
+    &lt;p&gt;A quick basic physics demo using haxe, pixi.js and nape just to make sure the combination works and well it works :)&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://adireddy.github.io/demos/haxe-pixi/nape.html&quot;&gt;Click here for the demo&lt;/a&gt; and source code below.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;package samples.nape;
+
+import pixi.renderers.IRenderer;
+import pixi.display.Sprite;
+import pixi.display.Stage;
+import pixi.textures.Texture;
+import pixi.utils.Detector;
+import js.Browser;
+import haxe.Timer;
+
+import nape.geom.Vec2;
+import nape.phys.Body;
+import nape.phys.BodyType;
+import nape.shape.Circle;
+import nape.shape.Polygon;
+import nape.space.Space;
+import nape.phys.Material;
+
+class Main {
+
+	var _renderer:IRenderer;
+	var _stage:Stage;
+
+	var _floor:Body;
+	var _space:Space;
+	var _balls:Array&amp;lt;Sprite&amp;gt;;
+	var _pballs:Array&amp;lt;Body&amp;gt;;
+
+	public function new() {
+		_stage = new Stage(0x00FFFF);
+
+		_renderer = Detector.autoDetectRenderer(800, 600);
+		Browser.document.body.appendChild(_renderer.view);
+
+		_balls = [];
+		_pballs = [];
+		_setUpPhysics();
+		var timer:Timer = new Timer(1000);
+		timer.run = _addBall;
+
+		Browser.window.requestAnimationFrame(cast animate);
+	}
+
+	function _setUpPhysics() {
+		var gravity = Vec2.weak(0, 600);
+		_space = new Space(gravity);
+
+		_floor = new Body(BodyType.STATIC);
+		_floor.setShapeMaterials(Material.wood());
+		_floor.shapes.add(new Polygon(Polygon.rect(0, 595, 800, 1)));
+		_floor.space = _space;
+	}
+
+	function _addBall() {
+		var ball:Sprite = new Sprite(Texture.fromImage(&quot;assets/nape/ball.png&quot;));
+		ball.anchor.set(0.5, 0.5);
+		_balls.push(ball);
+		_stage.addChild(ball);
+
+		var pball:Body = new Body(BodyType.DYNAMIC);
+		pball.shapes.add(new Circle(10));
+		pball.position.setxy(Std.random(800), 0);
+		pball.angularVel = 0;
+		pball.allowRotation = true;
+
+		pball.setShapeMaterials(Material.rubber());
+		pball.space = _space;
+		_pballs.push(pball);
+	}
+
+	function animate() {
+		Browser.window.requestAnimationFrame(cast animate);
+
+		_space.step(1 / 60);
+
+		for(i in 0 ... _pballs.length) {
+			_balls[i].position.x = _pballs[i].position.x;
+			_balls[i].position.y = _pballs[i].position.y;
+			_balls[i].rotation = _pballs[i].rotation;
+		}
+
+		_renderer.render(_stage);
+	}
+
+	static function main() {
+		new Main();
+	}
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+  
+  &lt;p&gt;&lt;a href=&quot;/haxe/nape/pixi.js/haxe-pixi-nape-demo&quot;&gt;Haxe Nape &amp; Pixi.js Demo&lt;/a&gt; was originally published by Adi Reddy Mora at &lt;a href=&quot;&quot;&gt;Adi Reddy Mora&lt;/a&gt; on December 05, 2014.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Haxe pixi.js externs API (using chxdoc)]]></title>
+  <link rel="alternate" type="text/html" href="/haxe/api/documentation/chxdoc/haxe-pixi-externs-api"/>
+  <id>/haxe/api/documentation/chxdoc/haxe-pixi-externs-api</id>
+  <published>2014-12-04T00:00:00+00:00</published>
+  <updated>2014-12-04T00:00:00-00:00</updated>
+  
+  <author>
+    <name>Adi Reddy Mora</name>
+    <uri></uri>
+    <email>adiinteractive@gmail.com</email>
+  </author>
+  <category scheme="/tags/#haxe" term="haxe" /><category scheme="/tags/#pixi.js" term="pixi.js" /><category scheme="/tags/#externs" term="externs" /><category scheme="/tags/#api" term="api" /><category scheme="/tags/#documentation" term="documentation" /><category scheme="/tags/#chxdoc" term="chxdoc" />
+  <content type="html">
+  
+    &lt;p&gt;I was playing with documentation generator library &lt;a href=&quot;https://github.com/ibilon/chxdoc&quot;&gt;chxdoc&lt;/a&gt; this week and amazingly it covered all the basics I needed for generating API documentation.&lt;/p&gt;
+
+&lt;p&gt;With a bit of template customization, I have generated API documentation for my &lt;a href=&quot;http://adireddy.github.io/docs/haxe-pixi/&quot;&gt;pixi.js haxe externs&lt;/a&gt; and it looked pretty good.&lt;/p&gt;
+
+&lt;p&gt;Even though most of the contents of this API are same as &lt;a href=&quot;http://www.goodboydigital.com/pixijs/docs/&quot;&gt;pixi.js&lt;/a&gt; API, I think it is a good reference to check the haxe equivalent data types of variables, function parameters and return types. You can also use this to quickly check if any of the functionality is missing in the extern classes.&lt;/p&gt;
+
+&lt;p&gt;I will explain more on how to use chxdoc library in my next post.&lt;/p&gt;
+
+  
+  &lt;p&gt;&lt;a href=&quot;/haxe/api/documentation/chxdoc/haxe-pixi-externs-api&quot;&gt;Haxe pixi.js externs API (using chxdoc)&lt;/a&gt; was originally published by Adi Reddy Mora at &lt;a href=&quot;&quot;&gt;Adi Reddy Mora&lt;/a&gt; on December 04, 2014.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Haxe Static Extensions]]></title>
+  <link rel="alternate" type="text/html" href="/haxe/static/extensions/using/haxe-static-extensions"/>
+  <id>/haxe/static/extensions/using/haxe-static-extensions</id>
+  <published>2014-11-27T00:00:00+00:00</published>
+  <updated>2014-11-27T00:00:00-00:00</updated>
+  
+  <author>
+    <name>Adi Reddy Mora</name>
+    <uri></uri>
+    <email>adiinteractive@gmail.com</email>
+  </author>
+  <category scheme="/tags/#haxe" term="haxe" /><category scheme="/tags/#static" term="static" /><category scheme="/tags/#extensions" term="extensions" /><category scheme="/tags/#using" term="using" /><category scheme="/tags/#keyword" term="keyword" />
+  <content type="html">
+  
+    &lt;p&gt;Static extensions in Haxe can be used to mimic multiple inheritance similar to mixins in Javascript. It’s a powerful feature and should be used carefully.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://api.haxe.org/StringTools.html&quot;&gt;StringTools&lt;/a&gt; class is a good example of station extension. Refer to my &lt;a href=&quot;http://adireddy.github.io/2014/11/17/haxe-string-interpolation-stringutils/&quot;&gt;earlier post&lt;/a&gt; for more info on that.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Quick Example:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;package ;
+
+class ArrayUtils {
+	public static inline function last&amp;lt;T&amp;gt;(a:Array&amp;lt;T&amp;gt;):T {
+		return a[a.length - 1];
+	}
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;using&lt;/code&gt; keyword brings the defined class into the context.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;package ;
+
+using ArrayUtils;
+
+class Example {
+
+	public function new() {
+		var arr:Array&amp;lt;Int&amp;gt; = [100, 200, 500];
+		trace(arr.last()); //500
+	}
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;strong&gt;Another example with multiple static extensions:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;package ;
+
+class ArrayUtils2 {
+	public static inline function first&amp;lt;T&amp;gt;(a:Array&amp;lt;T&amp;gt;):T {
+		return a[0];
+	}
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;package ;
+
+using ArrayUtils;
+using ArrayUtils2;
+
+class Example {
+
+	public function new() {
+		var arr:Array&amp;lt;Int&amp;gt; = [100, 200, 500];
+		trace(arr.last());  //500
+		trace(arr.first()); //100
+	}
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;A few things to note:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;If the same method is defined in multiple static extension classes, &lt;code class=&quot;highlighter-rouge&quot;&gt;using&lt;/code&gt; expressions are checked from bottom to top. For example if the method &lt;code class=&quot;highlighter-rouge&quot;&gt;last&lt;/code&gt; is also defined in &lt;code class=&quot;highlighter-rouge&quot;&gt;ArrayUtils2&lt;/code&gt; then it will take precedence as &lt;code class=&quot;highlighter-rouge&quot;&gt;ArrayUtils2&lt;/code&gt; is the bottom class in the above example.&lt;/li&gt;
+  &lt;li&gt;Built in class fields would take priority over the static extension fields. For example if you define &lt;code class=&quot;highlighter-rouge&quot;&gt;toString&lt;/code&gt; method in &lt;code class=&quot;highlighter-rouge&quot;&gt;ArrayUtils&lt;/code&gt; class above it wouldn’t work as &lt;code class=&quot;highlighter-rouge&quot;&gt;toString&lt;/code&gt; is a built in array method and it takes precedence.&lt;/li&gt;
+  &lt;li&gt;Compiler metadata &lt;code class=&quot;highlighter-rouge&quot;&gt;@:noUsing&lt;/code&gt; can be used in static extension class if you want to omit any field being included in the context. Check the example below.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;package ;
+
+class ArrayUtils {
+	public static inline function last&amp;lt;T&amp;gt;(a:Array&amp;lt;T&amp;gt;):T {
+		return a[a.length - 1];
+	}
+
+	@:noUsing
+	public static inline function second&amp;lt;T&amp;gt;(a:Array&amp;lt;T&amp;gt;):T {
+		return a[1];
+	}
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;You can’t use the method &lt;code class=&quot;highlighter-rouge&quot;&gt;second&lt;/code&gt; as the compiler will not include it in the context when used.&lt;/p&gt;
+
+  
+  &lt;p&gt;&lt;a href=&quot;/haxe/static/extensions/using/haxe-static-extensions&quot;&gt;Haxe Static Extensions&lt;/a&gt; was originally published by Adi Reddy Mora at &lt;a href=&quot;&quot;&gt;Adi Reddy Mora&lt;/a&gt; on November 27, 2014.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Haxe default Access Modifiers and Return Value Type]]></title>
+  <link rel="alternate" type="text/html" href="/haxe/haxe-access-modifiers-return-types"/>
+  <id>/haxe/haxe-access-modifiers-return-types</id>
+  <published>2014-11-20T00:00:00+00:00</published>
+  <updated>2014-12-10T00:00:00-00:00</updated>
+  
+  <author>
+    <name>Adi Reddy Mora</name>
+    <uri></uri>
+    <email>adiinteractive@gmail.com</email>
+  </author>
+  <category scheme="/tags/#haxe" term="haxe" /><category scheme="/tags/#access%20modifiers" term="access modifiers" /><category scheme="/tags/#return%20types" term="return types" />
+  <content type="html">
+  
+    &lt;p&gt;Any developers out there coming from ActionScript or Java background like me, the default access modifiers and function return type in Haxe are a bit different. So let’s have a quick look at them in classes, interfaces and externs.&lt;/p&gt;
+
+&lt;h2 id=&quot;classes&quot;&gt;Classes:&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Default access modifier is &lt;code class=&quot;highlighter-rouge&quot;&gt;private&lt;/code&gt; if none specified.&lt;/li&gt;
+  &lt;li&gt;Default function return value type is &lt;code class=&quot;highlighter-rouge&quot;&gt;Void&lt;/code&gt; if there is no return expression or if the return expression has no argument.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;package ;
+class Test {
+
+	//private variable
+	var _count:Int;
+	
+	//constructor
+	public function new() {
+	
+	}
+	
+	//private function
+	//no return expression, so return value type is Void
+	function _increaseCount() {
+		_count++;
+	}
+	
+	//private function
+	//return expression has no argument, so return value type is Void
+	function _resetCount() {
+		if (_count &amp;lt; 10) return;
+		_count = 0;
+	}
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;interfaces-and-externs&quot;&gt;Interfaces and Externs:&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Default access modifier is &lt;code class=&quot;highlighter-rouge&quot;&gt;public&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Specifying return value type is compulsory for functions. Failing so will result in compile time error &lt;code class=&quot;highlighter-rouge&quot;&gt;Type required for extern classes and interfaces&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;package ;
+interface ITest {
+
+	//public variable
+	var count:Int;
+	
+	//public function
+	function increaseCount():Void;
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;When implementing the above interface you need to specify &lt;code class=&quot;highlighter-rouge&quot;&gt;public&lt;/code&gt; access modifier to variable &lt;code class=&quot;highlighter-rouge&quot;&gt;count&lt;/code&gt; and function &lt;code class=&quot;highlighter-rouge&quot;&gt;increaseCount&lt;/code&gt; as shown below. Failing so will result in the following compile time errors.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Field count should be public as requested by ITest&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Field increaseCount should be public as requested by ITest&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;package ;
+class Test implements ITest {
+
+	public var count:Int = 10;
+	
+	public function increaseCount():Void {
+		count++;
+	}
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Interesting fact from the official documentation about &lt;code class=&quot;highlighter-rouge&quot;&gt;protected&lt;/code&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Haxe has no &lt;code class=&quot;highlighter-rouge&quot;&gt;protected&lt;/code&gt; keyword like in ActionScript, Java, etc. However, its &lt;code class=&quot;highlighter-rouge&quot;&gt;private&lt;/code&gt; behavior is equal to those language’s &lt;code class=&quot;highlighter-rouge&quot;&gt;protected&lt;/code&gt; behavior, so in reality Haxe lacks in &lt;code class=&quot;highlighter-rouge&quot;&gt;private&lt;/code&gt; behavior.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+  
+  &lt;p&gt;&lt;a href=&quot;/haxe/haxe-access-modifiers-return-types&quot;&gt;Haxe default Access Modifiers and Return Value Type&lt;/a&gt; was originally published by Adi Reddy Mora at &lt;a href=&quot;&quot;&gt;Adi Reddy Mora&lt;/a&gt; on November 20, 2014.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Haxe String Interpolation and StringTools]]></title>
+  <link rel="alternate" type="text/html" href="/haxe/string/interpolation/stringtools/haxe-string-interpolation-stringutils"/>
+  <id>/haxe/string/interpolation/stringtools/haxe-string-interpolation-stringutils</id>
+  <published>2014-11-17T00:00:00+00:00</published>
+  <updated>2014-11-17T00:00:00-00:00</updated>
+  
+  <author>
+    <name>Adi Reddy Mora</name>
+    <uri></uri>
+    <email>adiinteractive@gmail.com</email>
+  </author>
+  <category scheme="/tags/#haxe" term="haxe" /><category scheme="/tags/#string" term="string" /><category scheme="/tags/#interpolation" term="interpolation" /><category scheme="/tags/#stringtools" term="stringtools" />
+  <content type="html">
+  
+    &lt;p&gt;String interpolation is common in many programming languages including modern languages like &lt;a href=&quot;https://www.dartlang.org/articles/idiomatic-dart/#strings-and-interpolation&quot;&gt;Dart&lt;/a&gt;, &lt;a href=&quot;https://developer.apple.com/library/ios/documentation/swift/conceptual/Swift_Programming_Language/StringsAndCharacters.html&quot;&gt;Swift&lt;/a&gt;, etc and I am glad that it is also available in Haxe.&lt;/p&gt;
+
+&lt;p&gt;String interpolation provides an intuitive way of formatting strings in place of string concatenation. It is a compile-time feature and has no impact on the runtime in Haxe.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$&lt;/code&gt; sign should be used for placeholders and string should be enclosed in single-quote &lt;code class=&quot;highlighter-rouge&quot;&gt;&#39;&lt;/code&gt; character as shown in the example below.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;var winnings:Float = 10;
+var bonus:Float = 2;
+trace(&#39;Player won £$winnings&#39;); //Player won £10
+trace(&#39;Player won £${winnings + bonus} including bonus&#39;);
+//Player won £12 including bonus&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Next, &lt;strong&gt;StringTools&lt;/strong&gt; is another useful class for advanced string manipulation and formatting. It’s kept separate to keep the core String class light and this class can be used based on the application needs.&lt;/p&gt;
+
+&lt;p&gt;StringTools should be used as a static extension to the String class with &lt;code class=&quot;highlighter-rouge&quot;&gt;using&lt;/code&gt; keyword as shown below.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;using StringTools;
+
+class Main {
+    static public function main() {
+        var str = &quot;apples and bananas&quot;;
+        var newStr = str.replace(&quot;bananas&quot;, &quot;grapes&quot;);
+        trace(newStr); //apples and grapes
+        trace(newStr.endsWith(&quot;grapes&quot;)); //true
+    }
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Definition of Static Extension as per the official documentation:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;A static extension allows pseudo-extending existing types without modifying their source. In Haxe this is achieved by declaring a static method with a first argument of the extending type and then bringing the defining class into context through &lt;code class=&quot;highlighter-rouge&quot;&gt;using&lt;/code&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+  
+  &lt;p&gt;&lt;a href=&quot;/haxe/string/interpolation/stringtools/haxe-string-interpolation-stringutils&quot;&gt;Haxe String Interpolation and StringTools&lt;/a&gt; was originally published by Adi Reddy Mora at &lt;a href=&quot;&quot;&gt;Adi Reddy Mora&lt;/a&gt; on November 17, 2014.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Haxe at Work]]></title>
+  <link rel="alternate" type="text/html" href="/haxe/work/haxe-at-work"/>
+  <id>/haxe/work/haxe-at-work</id>
+  <published>2014-11-12T00:00:00+00:00</published>
+  <updated>2014-11-12T00:00:00-00:00</updated>
+  
+  <author>
+    <name>Adi Reddy Mora</name>
+    <uri></uri>
+    <email>adiinteractive@gmail.com</email>
+  </author>
+  <category scheme="/tags/#haxe" term="haxe" /><category scheme="/tags/#work" term="work" /><category scheme="/tags/#gamesys" term="gamesys" />
+  <content type="html">
+  
+    &lt;p&gt;Over the last 2-3 years I have been exploring Haxe and OpenFL personally but now I am on cloud nine because I can officially use Haxe at work.&lt;/p&gt;
+
+&lt;p&gt;I should thank my company &lt;a href=&quot;http://www.gamesyscorporate.com&quot;&gt;Gamesys&lt;/a&gt; for giving the opportunity to showcase the power of Haxe and how it can benefit the company and the developers.&lt;/p&gt;
+
+&lt;p&gt;I managed to convince the team and got them excited as well, so looking forward to develop cool stuff using Haxe :)&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;“The idea of waiting for something makes it more exciting” ― Andy Warhol&lt;/p&gt;
+&lt;/blockquote&gt;
+
+  
+  &lt;p&gt;&lt;a href=&quot;/haxe/work/haxe-at-work&quot;&gt;Haxe at Work&lt;/a&gt; was originally published by Adi Reddy Mora at &lt;a href=&quot;&quot;&gt;Adi Reddy Mora&lt;/a&gt; on November 12, 2014.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Why Haxe?]]></title>
+  <link rel="alternate" type="text/html" href="/haxe/javascript/externs/why-haxe"/>
+  <id>/haxe/javascript/externs/why-haxe</id>
+  <published>2014-11-11T00:00:00+00:00</published>
+  <updated>2014-11-11T00:00:00-00:00</updated>
+  
+  <author>
+    <name>Adi Reddy Mora</name>
+    <uri></uri>
+    <email>adiinteractive@gmail.com</email>
+  </author>
+  <category scheme="/tags/#haxe" term="haxe" /><category scheme="/tags/#javascript" term="javascript" /><category scheme="/tags/#externs" term="externs" />
+  <content type="html">
+  
+    &lt;p&gt;Haxe is simple, lightweight, easy to learn, yet a very powerful strictly typed language with lightning fast compiler.&lt;/p&gt;
+
+&lt;p&gt;If your main target is JavaScript like me, Haxe can be a better coding option than coding in JavaScript directly. Haxe will transpile your code to clean and efficient JavaScript.&lt;/p&gt;
+
+&lt;p&gt;There are a lot of useful libraries readily available at &lt;a href=&quot;http://lib.haxe.org&quot;&gt;lib.haxe.org&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I have created haxe externs for some popular JavaScript libraries and there are few libraries available from others listed below together.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://adireddy.github.io/haxe-pixi&quot;&gt;haxe-pixi&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://adireddy.github.io/haxe-howler&quot;&gt;haxe-howler&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://adireddy.github.io/haxe-buzz&quot;&gt;haxe-buzz&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/adireddy/haxe-p2&quot;&gt;haxe-p2&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/luizbills/stats.js.hx&quot;&gt;stats.js.hx&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/Blank101/haxe-phaser&quot;&gt;haxe-phaser&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/adireddy/haxe-threejs&quot;&gt;haxe-threejs&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+  
+  &lt;p&gt;&lt;a href=&quot;/haxe/javascript/externs/why-haxe&quot;&gt;Why Haxe?&lt;/a&gt; was originally published by Adi Reddy Mora at &lt;a href=&quot;&quot;&gt;Adi Reddy Mora&lt;/a&gt; on November 11, 2014.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Haxe "never" and "inline" keywords]]></title>
+  <link rel="alternate" type="text/html" href="/haxe/keywords/never-inline-keywords"/>
+  <id>/haxe/keywords/never-inline-keywords</id>
+  <published>2014-11-08T00:00:00+00:00</published>
+  <updated>2014-11-08T00:00:00-00:00</updated>
+  
+  <author>
+    <name>Adi Reddy Mora</name>
+    <uri></uri>
+    <email>adiinteractive@gmail.com</email>
+  </author>
+  <category scheme="/tags/#haxe" term="haxe" /><category scheme="/tags/#never" term="never" /><category scheme="/tags/#inline" term="inline" /><category scheme="/tags/#keywords" term="keywords" />
+  <content type="html">
+  
+    &lt;p&gt;There is no &lt;code class=&quot;highlighter-rouge&quot;&gt;const&lt;/code&gt; keyword in Haxe to define constants like in ActionScript.&lt;/p&gt;
+
+&lt;p&gt;So &lt;code class=&quot;highlighter-rouge&quot;&gt;never&lt;/code&gt; keyword can be used to define constants/read-only variables as shown below.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;public var MAX_COUNT(default, never):Int = 100;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;If you try to set the value of MAX_COUNT, compiler will throw an error saying “&lt;em&gt;Cannot access field or identifier MAX_COUNT for writing&lt;/em&gt;”.&lt;/p&gt;
+
+&lt;p&gt;For static variables and functions &lt;code class=&quot;highlighter-rouge&quot;&gt;inline&lt;/code&gt; keyword can be used as a powerful optimization tool.&lt;/p&gt;
+
+&lt;p&gt;The following is a way to define static constant/read-only variables using “inline”.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;public static inline var MAX_COUNT:Int = 100;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;inline&lt;/code&gt; should be carefully used with functions as not all functions will be ideal candidates for optimization.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;public static inline function stageCenter(sw:Float, iw:Float):Float {
+    return (sw - iw) / 2;
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;At run-time the function call&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;var pos = stageCenter(800, 100);&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;will be translated to the following by eliminating the function call.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-haxe&quot; data-lang=&quot;haxe&quot;&gt;var pos = (800 - 100) / 2;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;As per the official documentation,&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;It is not always easy to judge if a function is ideal for inline. Short functions that have no writing expressions (such as &lt;code class=&quot;highlighter-rouge&quot;&gt;a = value&lt;/code&gt;) are usually a good choice, but even more complex functions can be candidates. However, in some cases inlining can actually be detrimental to performance, e.g. because the compiler has to create temporary variables for complex expressions.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Note that &lt;code class=&quot;highlighter-rouge&quot;&gt;inline&lt;/code&gt; can be totally disabled by passing compiler argument &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--no-inline&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
+
+  
+  &lt;p&gt;&lt;a href=&quot;/haxe/keywords/never-inline-keywords&quot;&gt;Haxe "never" and "inline" keywords&lt;/a&gt; was originally published by Adi Reddy Mora at &lt;a href=&quot;&quot;&gt;Adi Reddy Mora&lt;/a&gt; on November 08, 2014.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Haxe/OpenFL will soon be integrated with Flash CC IDE]]></title>
+  <link rel="alternate" type="text/html" href="/haxe/openfl/flash%20cc/openfl-in-flash-cc"/>
+  <id>/haxe/openfl/flash%20cc/openfl-in-flash-cc</id>
+  <published>2014-11-02T00:00:00+00:00</published>
+  <updated>2014-11-02T00:00:00-00:00</updated>
+  
+  <author>
+    <name>Adi Reddy Mora</name>
+    <uri></uri>
+    <email>adiinteractive@gmail.com</email>
+  </author>
+  <category scheme="/tags/#haxe" term="haxe" /><category scheme="/tags/#openfl" term="openfl" /><category scheme="/tags/#flash" term="flash" />
+  <content type="html">
+  
+    &lt;p&gt;With the new “&lt;a href=&quot;http://www.adobe.com/uk/products/flash/features.html&quot;&gt;Custom platform support&lt;/a&gt;” in Flash Professional CC, Haxe/OpenFL will soon be available in Flash IDE which is a great news for Haxe developers.&lt;/p&gt;
+
+&lt;p&gt;Look at Joshua Granick’s &lt;a href=&quot;http://max.adobe.com/sessions/max-online/#/video/567&quot;&gt;quick demo&lt;/a&gt; showing how it works.&lt;/p&gt;
+
+&lt;p&gt;You can skip to Haxe/OpenFL demo which starts at around 25:00.&lt;/p&gt;
+
+  
+  &lt;p&gt;&lt;a href=&quot;/haxe/openfl/flash%20cc/openfl-in-flash-cc&quot;&gt;Haxe/OpenFL will soon be integrated with Flash CC IDE&lt;/a&gt; was originally published by Adi Reddy Mora at &lt;a href=&quot;&quot;&gt;Adi Reddy Mora&lt;/a&gt; on November 02, 2014.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[The Benefits of Transpiling to JavaScript]]></title>
+  <link rel="alternate" type="text/html" href="/haxe/javascript/benefits-of-transpiling-to-js"/>
+  <id>/haxe/javascript/benefits-of-transpiling-to-js</id>
+  <published>2014-10-31T00:00:00+00:00</published>
+  <updated>2014-10-31T00:00:00-00:00</updated>
+  
+  <author>
+    <name>Adi Reddy Mora</name>
+    <uri></uri>
+    <email>adiinteractive@gmail.com</email>
+  </author>
+  <category scheme="/tags/#haxe" term="haxe" /><category scheme="/tags/#javascript" term="javascript" />
+  <content type="html">
+  
+    &lt;p&gt;A beautiful article about “&lt;a href=&quot;http://io.pellucid.com/blog/the-benefits-of-transpiling-to-javascript&quot;&gt;The benefits of transpiling to JavaScript&lt;/a&gt;” by Franco Ponticelli.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;A transpiler is a type of compiler that takes the source code of a programming language as its input and outputs the source code of another programming language.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+  
+  &lt;p&gt;&lt;a href=&quot;/haxe/javascript/benefits-of-transpiling-to-js&quot;&gt;The Benefits of Transpiling to JavaScript&lt;/a&gt; was originally published by Adi Reddy Mora at &lt;a href=&quot;&quot;&gt;Adi Reddy Mora&lt;/a&gt; on October 31, 2014.&lt;/p&gt;</content>
+</entry>
+
+</feed>
